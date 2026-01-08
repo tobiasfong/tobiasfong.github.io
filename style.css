@@ -157,3 +157,24 @@ section {
 section:first-of-type {
   border-top: none;
 }
+.breadcrumb {
+  margin: 8px 0 18px;
+}
+
+.breadcrumb a {
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.project-hero {
+  padding: 18px 0 8px;
+}
+
+.meta {
+  margin: 6px 0 10px;
+  font-size: 14px;
+  opacity: 0.75;
+}
