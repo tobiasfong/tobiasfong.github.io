@@ -178,3 +178,7 @@ section:first-of-type {
   font-size: 14px;
   opacity: 0.75;
 }
+nav a.active {
+  opacity: 1;
+  text-decoration: underline;
+}
