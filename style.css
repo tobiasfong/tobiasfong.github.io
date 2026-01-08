@@ -140,3 +140,20 @@ main {
 }
 
 p { max-width: 70ch; }
+.secondary {
+  border: 1px solid rgba(0,0,0,0.2);
+  opacity: 0.85;
+}
+header.hero {
+  padding-top: 56px;
+  padding-bottom: 8px;
+}
+
+section {
+  padding: 28px 0;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+
+section:first-of-type {
+  border-top: none;
+}
