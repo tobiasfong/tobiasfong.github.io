@@ -197,3 +197,6 @@ nav a.active {
   opacity: 1;
   text-decoration: none;
 }
+nav a.active:hover {
+  text-decoration: none;
+}
