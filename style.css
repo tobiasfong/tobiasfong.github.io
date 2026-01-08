@@ -201,7 +201,8 @@ nav a.active:hover {
   text-decoration: none;
 }
 .project-image {
-  width: 100%;
+  width: min(420px, 100%);
+  height: auto;
   margin-top: 14px;
   border-radius: 14px;
   border: 1px solid rgba(0,0,0,0.12);
