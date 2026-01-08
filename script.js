@@ -1,5 +1,3 @@
-console.log("script loaded");
-document.body.dataset.js = "on";
 const links = document.querySelectorAll('nav a[href^="/#"], nav a[href^="#"]');
 const sections = [...document.querySelectorAll("main section[id]")];
 
