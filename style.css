@@ -183,4 +183,11 @@ nav a.active {
   text-decoration: underline;
   opacity: 1;
 }
-
+nav a.active {
+  background: #111;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 10px;
+  opacity: 1;
+  text-decoration: none;
+}
