@@ -179,6 +179,8 @@ section:first-of-type {
   opacity: 0.75;
 }
 nav a.active {
-  opacity: 1;
+  font-weight: 700;
   text-decoration: underline;
+  opacity: 1;
 }
+
