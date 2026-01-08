@@ -178,16 +178,22 @@ section:first-of-type {
   font-size: 14px;
   opacity: 0.75;
 }
-nav a.active {
-  font-weight: 700;
-  text-decoration: underline;
-  opacity: 1;
-}
-nav a.active {
-  background: #111;
-  color: white;
+nav a {
+  text-decoration: none;
+  color: inherit;
+  opacity: 0.85;
   padding: 6px 10px;
   border-radius: 10px;
+}
+
+nav a:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+nav a.active {
+  background: #111;
+  color: #fff;
   opacity: 1;
   text-decoration: none;
 }
