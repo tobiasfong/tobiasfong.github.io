@@ -200,16 +200,10 @@ nav a.active {
 nav a.active:hover {
   text-decoration: none;
 }
-.card {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.card-thumb {
+.project-image {
   width: 100%;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
-  border-radius: 12px;
+  margin-top: 14px;
+  border-radius: 14px;
   border: 1px solid rgba(0,0,0,0.12);
+  display: block;
 }
