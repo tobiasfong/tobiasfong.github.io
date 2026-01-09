@@ -34,16 +34,17 @@
   margin-top: 0.75rem;
 }
 .slide-media {
-  aspect-ratio: 16 / 9; /* pick a ratio you like */
+  aspect-ratio: 16 / 9;
   width: 100%;
   overflow: hidden;
   border-radius: 16px;
+  background: #111;
 }
 
 .slide-media img {
   width: 100%;
   height: 100%;
-  object-fit: cover;      /* crops to fill */
-  object-position: center;
+  object-fit: contain; /* no crop, may show empty space */
   display: block;
 }
+
