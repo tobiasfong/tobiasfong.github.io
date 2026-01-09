@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Carousel Component</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="carousel.css" />
+  </head>
+
+  <body>
+    <nav class="container">
+      <a href="/">Home</a>
+      <a href="/projects/">Projects</a>
+      <a href="/projects/components/">Components</a>
+    </nav>
+
+    <main class="container">
+      <h1>Carousel</h1>
+      <p>This is a lightweight carousel using CSS scroll-snap, plus simple buttons.</p>
+
+      <section class="carousel" aria-label="Image carousel">
+        <div class="carousel-track" id="track">
+          <article class="slide">
+            <img src="/img/Rowlet.jpg" alt="Rowlet" width="900" height="600" loading="lazy" />
+            <p class="caption">Slide 1</p>
+          </article>
+
+          <article class="slide">
+            <img src="/img/Rowlet.jpg" alt="Rowlet" width="900" height="600" loading="lazy" />
+            <p class="caption">Slide 2</p>
+          </article>
+
+          <article class="slide">
+            <img src="/img/Rowlet.jpg" alt="Rowlet" width="900" height="600" loading="lazy" />
+            <p class="caption">Slide 3</p>
+          </article>
+        </div>
+
+        <div class="carousel-controls">
+          <button class="button secondary" type="button" data-dir="-1">Prev</button>
+          <button class="button secondary" type="button" data-dir="1">Next</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="carousel.js"></script>
+  </body>
+</html>
