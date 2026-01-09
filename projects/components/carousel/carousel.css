@@ -1,0 +1,35 @@
+.carousel {
+  margin-top: 1rem;
+}
+
+.carousel-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  border-radius: 16px;
+}
+
+.slide {
+  scroll-snap-align: start;
+  position: relative;
+}
+
+.slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.caption {
+  margin: 0;
+  padding: 0.75rem 1rem;
+}
+
+.carousel-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
