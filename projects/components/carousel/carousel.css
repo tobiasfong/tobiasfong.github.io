@@ -34,7 +34,7 @@
   margin-top: 0.75rem;
 }
 .slide-media {
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 4 / 3;
   width: 100%;
   overflow: hidden;
   border-radius: 16px;
