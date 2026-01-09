@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>実験2 | Tobias Fong</title>
     <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/projects/components/carousel/carousel.css" />
   </head>
 
   <body>
@@ -55,6 +56,31 @@
         </ul>
       </section>
 
+<section class="carousel" aria-label="Image carousel">
+    <div class="carousel-track">
+      <article class="slide">
+        <img src="/img/Rowlet.jpg" alt="Rowlet" width="900" height="600" loading="lazy" />
+        <p class="caption">Slide 1</p>
+      </article>
+
+      <article class="slide">
+        <img src="/img/Pikachu.jpg" alt="Pikachu" width="900" height="600" loading="lazy" />
+        <p class="caption">Slide 2</p>
+      </article>
+
+      <article class="slide">
+        <img src="/img/Glaceon.jpg" alt="Glaceon" width="900" height="600" loading="lazy" />
+        <p class="caption">Slide 3</p>
+      </article>
+    </div>
+
+    <div class="carousel-controls">
+      <button class="button secondary" type="button" data-dir="-1">Prev</button>
+      <button class="button secondary" type="button" data-dir="1">Next</button>
+    </div>
+  </section>
+</section>
+      
       <section>
         <h2>次にどうなるかな？</h2>
         <ul>
@@ -74,5 +100,6 @@
     <footer class="container">
       <p>© 2026 Tobias Fong</p>
     </footer>
+    <script src="/projects/components/carousel/carousel.js"></script>
   </body>
 </html>
