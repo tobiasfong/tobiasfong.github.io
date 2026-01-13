@@ -1,0 +1,38 @@
+.accordion {
+  margin-top: 1.5rem;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.accordion-title {
+  margin: 0;
+  padding: 1rem 1rem 0.5rem;
+}
+
+.accordion-item + .accordion-item {
+  border-top: 1px solid rgba(0,0,0,0.12);
+}
+
+.accordion-trigger {
+  width: 100%;
+  text-align: left;
+  padding: 1rem;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.accordion-trigger:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
+
+.accordion-panel {
+  padding: 0 1rem 1rem;
+}
+
+.accordion-panel[hidden] {
+  display: none;
+}
