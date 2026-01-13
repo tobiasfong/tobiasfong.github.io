@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Accordion Component</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="accordion.css" />
+  </head>
+
+  <body>
+    <nav class="container">
+      <a href="/">Home</a>
+      <a href="/projects/">Projects</a>
+      <a href="/projects/components/">Components</a>
+    </nav>
+
+    <main class="container">
+      <h1>Accordion</h1>
+      <p>A simple, reusable accordion. Works with multiple accordions on one page.</p>
+
+      <section class="accordion" data-accordion>
+        <h2 class="accordion-title">FAQ</h2>
+
+        <div class="accordion-item">
+          <h3>
+            <button class="accordion-trigger"
+              type="button"
+              aria-expanded="false"
+              aria-controls="acc-panel-1"
+              id="acc-trigger-1">
+              What is this component for?
+            </button>
+          </h3>
+          <div class="accordion-panel" id="acc-panel-1" role="region" aria-labelledby="acc-trigger-1" hidden>
+            <p>It lets you show and hide content without jumping users around the page.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3>
+            <button class="accordion-trigger"
+              type="button"
+              aria-expanded="false"
+              aria-controls="acc-panel-2"
+              id="acc-trigger-2">
+              Can I reuse this in any page?
+            </button>
+          </h3>
+          <div class="accordion-panel" id="acc-panel-2" role="region" aria-labelledby="acc-trigger-2" hidden>
+            <p>Yes. Link the CSS and JS, then copy the markup for each item.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3>
+            <button class="accordion-trigger"
+              type="button"
+              aria-expanded="false"
+              aria-controls="acc-panel-3"
+              id="acc-trigger-3">
+              Can I keep more than one item open?
+            </button>
+          </h3>
+          <div class="accordion-panel" id="acc-panel-3" role="region" aria-labelledby="acc-trigger-3" hidden>
+            <p>By default, this version keeps only one open at a time, which is common for FAQs.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="accordion" data-accordion>
+        <h2 class="accordion-title">Second accordion example</h2>
+
+        <div class="accordion-item">
+          <h3>
+            <button class="accordion-trigger"
+              type="button"
+              aria-expanded="false"
+              aria-controls="acc2-panel-1"
+              id="acc2-trigger-1">
+              Separate instance
+            </button>
+          </h3>
+          <div class="accordion-panel" id="acc2-panel-1" role="region" aria-labelledby="acc2-trigger-1" hidden>
+            <p>This proves the JS supports multiple accordions on one page.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="accordion.js"></script>
+  </body>
+</html>
