@@ -6,6 +6,7 @@
     <title>実験2 | Tobias Fong</title>
     <link rel="stylesheet" href="/style.css" />
     <link rel="stylesheet" href="/projects/components/carousel/carousel.css" />
+    <link rel="stylesheet" href="/projects/components/accordion/accordion.css" />
   </head>
 
   <body>
@@ -86,7 +87,55 @@
     </div>
   </section>
 </section>
-      
+      <section class="accordion" data-accordion>
+  <h2 class="accordion-title">Notes</h2>
+
+  <div class="accordion-item">
+    <h3>
+      <button class="accordion-trigger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="exp1-panel-1"
+        id="exp1-trigger-1">
+        この実験について
+      </button>
+    </h3>
+    <div class="accordion-panel" id="exp1-panel-1" role="region" aria-labelledby="exp1-trigger-1" hidden>
+      <p>コンポーネントを作ることは成功です。</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h3>
+      <button class="accordion-trigger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="exp1-panel-2"
+        id="exp1-trigger-2">
+        例
+      </button>
+    </h3>
+    <div class="accordion-panel" id="exp1-panel-2" role="region" aria-labelledby="exp1-trigger-2" hidden>
+      <p>また、例を見させて頂けないでしょうか。</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h3>
+      <button class="accordion-trigger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="exp1-panel-3"
+        id="exp1-trigger-3">
+        次の一歩
+      </button>
+    </h3>
+    <div class="accordion-panel" id="exp1-panel-3" role="region" aria-labelledby="exp1-trigger-3" hidden>
+      <p>もっとコンポーネントを作ろうと思います。</p>
+    </div>
+  </div>
+</section>
+
       <section>
         <h2>次にどうなるかな？</h2>
         <ul>
@@ -107,5 +156,6 @@
       <p>© 2026 Tobias Fong</p>
     </footer>
     <script src="/projects/components/carousel/carousel.js"></script>
+    <script src="/projects/components/accordion/accordion.js"></script>
   </body>
 </html>
