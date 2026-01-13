@@ -6,6 +6,7 @@
     <title>Experiment 1 | Tobias Fong</title>
     <link rel="stylesheet" href="/style.css" />
     <link rel="stylesheet" href="/projects/components/carousel/carousel.css" />
+    <link rel="stylesheet" href="/projects/components/accordion/accordion.css" />
   </head>
 
   <body>
@@ -81,6 +82,54 @@
   </section>
 </section>
 
+      <section class="accordion" data-accordion>
+  <h2 class="accordion-title">Notes</h2>
+
+  <div class="accordion-item">
+    <h3>
+      <button class="accordion-trigger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="exp1-panel-1"
+        id="exp1-trigger-1">
+        My exploration
+      </button>
+    </h3>
+    <div class="accordion-panel" id="exp1-panel-1" role="region" aria-labelledby="exp1-trigger-1" hidden>
+      <p>I am exploring various components and how they look.</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h3>
+      <button class="accordion-trigger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="exp1-panel-2"
+        id="exp1-trigger-2">
+        Another example
+      </button>
+    </h3>
+    <div class="accordion-panel" id="exp1-panel-2" role="region" aria-labelledby="exp1-trigger-2" hidden>
+      <p>This is another example of how the accordion component works.</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h3>
+      <button class="accordion-trigger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="exp1-panel-3"
+        id="exp1-trigger-3">
+        What's next
+      </button>
+    </h3>
+    <div class="accordion-panel" id="exp1-panel-3" role="region" aria-labelledby="exp1-trigger-3" hidden>
+      <p>I will be adding more types of components as I do my best to learn coding.</p>
+    </div>
+  </div>
+</section>
 
       <section>
         <h2>Challenges</h2>
@@ -110,5 +159,6 @@
       <p>© 2026 Tobias Fong</p>
     </footer>
     <script src="/projects/components/carousel/carousel.js"></script>
+    <script src="/projects/components/accordion/accordion.js"></script>
   </body>
 </html>
