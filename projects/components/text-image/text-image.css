@@ -31,9 +31,9 @@
   overflow: hidden;
   background: #fff;
 
-  aspect-ratio: 4 / 3;            /* the consistent window */
   display: grid;
-  place-items: center;            /* centers the image if it does not fill */
+  place-items: center;  /* This centers the image vertically and horizontally */
+  aspect-ratio: 1 / 1;  /* Keep the aspect ratio you prefer */
 }
 
 .text-image__media img {
@@ -41,8 +41,8 @@
   height: 100%;
   display: block;
 
-  object-fit: contain;            /* no crop */
-  object-position: center;
+  object-fit: contain;  /* Prevent cropping */
+  object-position: center; /* Ensure the image is centered both vertically and horizontally */
 }
 
 .text-image__caption {
