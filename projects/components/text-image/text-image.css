@@ -1,0 +1,75 @@
+.text-image {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 1.5rem;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 16px;
+}
+
+.text-image__text > *:first-child {
+  margin-top: 0;
+}
+
+.text-image__text > *:last-child {
+  margin-bottom: 0;
+}
+
+.text-image__media {
+  margin: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+}
+
+/* Consistent image window */
+.text-image__media img {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 4 / 3; /* change to 16/9 if you prefer */
+  object-fit: cover;   /* use contain if you want no crop */
+  object-position: center;
+}
+
+.text-image__caption {
+  padding: 0.75rem 1rem;
+  margin: 0;
+}
+
+/* Reverse layout */
+.text-image--reverse {
+  grid-template-columns: 0.9fr 1.1fr;
+}
+
+.text-image--reverse .text-image__text {
+  order: 2;
+}
+
+.text-image--reverse .text-image__media {
+  order: 1;
+}
+
+/* Tighter variant */
+.text-image--tight {
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.text-image--tight .text-image__media img {
+  aspect-ratio: 1 / 1;
+}
+
+/* Mobile stacking */
+@media (max-width: 800px) {
+  .text-image {
+    grid-template-columns: 1fr;
+  }
+
+  .text-image--reverse .text-image__text,
+  .text-image--reverse .text-image__media {
+    order: initial;
+  }
+}
