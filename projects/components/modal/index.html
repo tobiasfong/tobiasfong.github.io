@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Modal Component</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="modal.css" />
+  </head>
+
+  <body>
+    <nav class="container">
+      <a href="/">Home</a>
+      <a href="/projects/">Projects</a>
+      <a href="/projects/components/">Components</a>
+    </nav>
+
+    <main class="container">
+      <h1>Modal</h1>
+      <p>A basic, reusable modal component. It’s simple to implement with just CSS and JS.</p>
+
+      <!-- Trigger the modal -->
+      <button class="button" id="openModalBtn">Open Modal</button>
+
+      <!-- Modal structure -->
+      <div class="modal" id="modal">
+        <div class="modal-content">
+          <button class="close-btn" id="closeModalBtn">&times;</button>
+          <h2>Modal Title</h2>
+          <p>This is a simple modal component. You can place any content here, like forms or images.</p>
+          <p><a href="/projects/">Go back to Projects</a></p>
+        </div>
+      </div>
+    </main>
+
+    <script src="modal.js"></script>
+  </body>
+</html>
