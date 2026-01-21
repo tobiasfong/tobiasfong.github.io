@@ -1,18 +1,18 @@
 /* Modal background overlay */
 .modal {
-  display: none;          /* Hidden by default */
-  position: fixed;        /* Fixed at the top of the page */
+  display: none;            /* Hidden by default */
+  position: fixed;          /* Fixed at the top of the page */
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background */
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;   /* Stack modals vertically */
+  align-items: flex-start;      /* Align them at the top */
   z-index: 1000; /* Makes sure modal is on top of other content */
+  overflow-y: auto; /* Ensure scrolling if needed */
 }
 
-/* Modal content container */
 .modal-content {
   background-color: #fff;
   padding: 20px;
@@ -20,6 +20,8 @@
   width: 90%;
   max-width: 500px;  /* Maximum width */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;   /* Space between stacked modals */
+  margin-bottom: 20px; /* Space between stacked modals */
 }
 
 /* Close button */
