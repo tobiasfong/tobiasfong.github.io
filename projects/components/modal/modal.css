@@ -41,3 +41,21 @@
 .modal p {
   margin-bottom: 1.5rem;
 }
+/* Modal image container */
+.modal-image {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.modal-image img {
+  max-width: 100%;     /* Image never exceeds modal width */
+  height: auto;        /* Maintain aspect ratio */
+  border-radius: 8px;  /* Rounded corners for the image */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Light shadow for depth */
+}
+
+.modal-image figcaption {
+  font-size: 1rem;
+  color: #555;
+  margin-top: 0.5rem;
+}
