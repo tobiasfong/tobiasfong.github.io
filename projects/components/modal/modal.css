@@ -48,14 +48,25 @@
 }
 
 .modal-image img {
-  max-width: 100%;     /* Image never exceeds modal width */
-  height: auto;        /* Maintain aspect ratio */
-  border-radius: 8px;  /* Rounded corners for the image */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Light shadow for depth */
+  max-width: 100%;      /* Ensure image is responsive */
+  max-height: 80vh;     /* Limit the height of the image (80% of viewport height) */
+  object-fit: contain;  /* Ensure the image scales correctly inside the modal */
+  display: block;
 }
 
 .modal-image figcaption {
   font-size: 1rem;
   color: #555;
   margin-top: 0.5rem;
+}
+.modal-content {
+  border: 2px solid red; /* Add this to see if modal content is visible */
+}
+.modal {
+  overflow: auto; /* Ensure modal content can scroll if needed */
+}
+
+.modal-content {
+  max-height: 90vh;  /* Prevents the modal from growing too large */
+  overflow: auto;    /* Allows the modal to scroll if content is too tall */
 }
