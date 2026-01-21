@@ -1,27 +1,26 @@
 /* Modal background overlay */
 .modal {
-  display: none;            /* Hidden by default */
-  position: fixed;          /* Fixed at the top of the page */
-  top: 0;
-  left: 0;
+  display: none;           /* Hidden by default */
+  position: fixed;         /* Fixed position on the screen */
+  top: 50%;                /* Center the modal vertically */
+  left: 50%;               /* Center the modal horizontally */
+  transform: translate(-50%, -50%); /* Offset by 50% of the width/height to center perfectly */
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background */
-  justify-content: flex-start;   /* Stack modals vertically */
-  align-items: flex-start;      /* Align them at the top */
-  z-index: 1000; /* Makes sure modal is on top of other content */
-  overflow-y: auto; /* Ensure scrolling if needed */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensures the modal appears on top of other content */
 }
 
+/* Modal content container */
 .modal-content {
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
   width: 90%;
-  max-width: 500px;  /* Maximum width */
+  max-width: 500px;  /* Max width for the modal */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  margin-top: 20px;   /* Space between stacked modals */
-  margin-bottom: 20px; /* Space between stacked modals */
 }
 
 /* Close button */
@@ -71,4 +70,16 @@
 .modal-content {
   max-height: 90vh;  /* Prevents the modal from growing too large */
   overflow: auto;    /* Allows the modal to scroll if content is too tall */
+}
+/* Container for the buttons */
+.modal-buttons-container {
+  display: flex;
+  flex-direction: column;  /* Stack buttons vertically */
+  gap: 10px;               /* Adds space between the buttons */
+}
+
+/* Optionally, style the buttons */
+.modal-buttons-container .button {
+  width: 100%;             /* Make buttons fill the container */
+  max-width: 250px;        /* Optional: limit max width of buttons */
 }
