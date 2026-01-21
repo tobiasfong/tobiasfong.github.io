@@ -3,7 +3,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const openModalBtn = document.getElementById("openModalBtn");
   const closeModalBtn = document.getElementById("closeModalBtn");
 
-  console.log("Script loaded and elements found:", modal, openModalBtn, closeModalBtn);
+  // Check if all elements are found, else log a clear error message
+  if (!modal || !openModalBtn || !closeModalBtn) {
+    console.error("One or more elements not found: modal, openModalBtn, closeModalBtn.");
+    return; // Stop the script if elements aren't found
+  }
 
   // Open the modal
   openModalBtn.addEventListener("click", () => {
