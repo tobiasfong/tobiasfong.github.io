@@ -1,31 +1,46 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const modal = document.getElementById("modal");
-  const openModalBtn = document.getElementById("openModalBtn");
-  const closeModalBtn = document.getElementById("closeModalBtn");
+  // First modal
+  const modal1 = document.getElementById("modal-1");
+  const openModalBtn1 = document.getElementById("openModalBtn-1");
+  const closeModalBtn1 = document.getElementById("closeModalBtn-1");
 
-  // Check if all elements are found, else log a clear error message
-  if (!modal || !openModalBtn || !closeModalBtn) {
-    console.error("One or more elements not found: modal, openModalBtn, closeModalBtn.");
-    return; // Stop the script if elements aren't found
+  // Second modal
+  const modal2 = document.getElementById("modal-2");
+  const openModalBtn2 = document.getElementById("openModalBtn-2");
+  const closeModalBtn2 = document.getElementById("closeModalBtn-2");
+
+  // Check if elements exist
+  if (!modal1 || !openModalBtn1 || !closeModalBtn1 || !modal2 || !openModalBtn2 || !closeModalBtn2) {
+    console.error("One or more modal elements are missing.");
+    return;
   }
 
-  // Open the modal
-  openModalBtn.addEventListener("click", () => {
-    console.log("Open modal button clicked");
-    modal.style.display = "flex";  // Show the modal
+  // Open first modal
+  openModalBtn1.addEventListener("click", () => {
+    modal1.style.display = "flex";  // Show the first modal
   });
 
-  // Close the modal when the "X" button is clicked
-  closeModalBtn.addEventListener("click", () => {
-    console.log("Close modal button clicked");
-    modal.style.display = "none";  // Hide the modal
+  // Close first modal
+  closeModalBtn1.addEventListener("click", () => {
+    modal1.style.display = "none";  // Hide the first modal
+  });
+
+  // Open second modal
+  openModalBtn2.addEventListener("click", () => {
+    modal2.style.display = "flex";  // Show the second modal
+  });
+
+  // Close second modal
+  closeModalBtn2.addEventListener("click", () => {
+    modal2.style.display = "none";  // Hide the second modal
   });
 
   // Close the modal if the user clicks outside of the modal content
   window.addEventListener("click", (e) => {
-    if (e.target === modal) {
-      console.log("Clicked outside the modal");
-      modal.style.display = "none";  // Hide modal when clicking outside
+    if (e.target === modal1) {
+      modal1.style.display = "none";  // Hide first modal if clicking outside
+    } else if (e.target === modal2) {
+      modal2.style.display = "none";  // Hide second modal if clicking outside
     }
   });
 });
