@@ -60,9 +60,6 @@
   color: #555;
   margin-top: 0.5rem;
 }
-.modal-content {
-  border: 2px solid red; /* Add this to see if modal content is visible */
-}
 .modal {
   overflow: auto; /* Ensure modal content can scroll if needed */
 }
