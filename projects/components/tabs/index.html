@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tabs Component</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="tabs.css" />
+  </head>
+
+  <body>
+    <nav class="container">
+      <a href="/">Home</a>
+      <a href="/projects/">Projects</a>
+      <a href="/projects/components/">Components</a>
+    </nav>
+
+    <main class="container">
+      <h1>Tabs Component</h1>
+      <p>A simple tab component that switches between different sections of content.</p>
+
+      <!-- Tab buttons -->
+      <div class="tabs">
+        <button class="tab-button" id="tab-1">Tab 1</button>
+        <button class="tab-button" id="tab-2">Tab 2</button>
+        <button class="tab-button" id="tab-3">Tab 3</button>
+      </div>
+
+      <!-- Tab content -->
+      <div class="tab-content">
+        <div id="content-1" class="tab-panel">
+          <h2>Tab 1 Content</h2>
+          <p>This is the content for Tab 1.</p>
+        </div>
+
+        <div id="content-2" class="tab-panel" hidden>
+          <h2>Tab 2 Content</h2>
+          <p>This is the content for Tab 2.</p>
+        </div>
+
+        <div id="content-3" class="tab-panel" hidden>
+          <h2>Tab 3 Content</h2>
+          <p>This is the content for Tab 3.</p>
+        </div>
+      </div>
+    </main>
+
+    <script src="tabs.js"></script>
+  </body>
+</html>
