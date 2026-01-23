@@ -32,3 +32,17 @@
 .tab-content .tab-panel.active {
   display: block;
 }
+/* Add space between sections */
+section {
+  margin-bottom: 2rem; /* Space between sections (tabs, modals, etc.) */
+}
+
+/* Add margin-bottom to the tab content container */
+.tab-content {
+  margin-top: 2rem; /* Space between tabs and the next content */
+}
+
+/* You can also add margin to the modal */
+.modal {
+  margin-top: 3rem; /* Space from the top of the page */
+}
