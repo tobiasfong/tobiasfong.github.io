@@ -32,36 +32,3 @@
 .tab-content .tab-panel.active {
   display: block;
 }
-/* Add space between sections */
-section {
-  margin-bottom: 2rem; /* Space between sections (tabs, modals, etc.) */
-}
-
-/* Add margin-bottom to the tab content container */
-.tab-content {
-  margin-top: 2rem; /* Space between tabs and the next content */
-}
-/* Container for the tab buttons */
-.tabs {
-  display: flex;
-  justify-content: flex-start;  /* Align tabs to the left */
-  gap: 10px;                   /* Adds space between buttons */
-  margin-bottom: 20px;          /* Adds space between tabs and content below */
-}
-
-/* Individual tab button styling */
-.tab-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-bottom: 5px;           /* Optional: Adds space below each button */
-}
-
-/* Adds space between the tab content */
-.tab-content {
-  margin-top: 2rem;             /* Adds space between tabs and the content below */
-}
