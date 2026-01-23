@@ -229,3 +229,20 @@ body, main {
 section {
   margin-bottom: 20px;     /* Adds space between sections */
 }
+/* Add space between the tab buttons and modal open buttons */
+.tabs {
+  margin-bottom: 20px;  /* Adds space below the tabs section */
+}
+
+.modal-buttons-container {
+  margin-top: 20px;    /* Adds space above the modal open buttons */
+  display: flex;
+  flex-direction: column;  /* Stack buttons vertically */
+  gap: 10px;               /* Adds space between buttons */
+}
+
+/* Optional: Add margin to individual buttons for further control */
+.modal-buttons-container .button {
+  width: 100%;             /* Make buttons fill the container */
+  max-width: 250px;        /* Optional: limit max width of buttons */
+}
