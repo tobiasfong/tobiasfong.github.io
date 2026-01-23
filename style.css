@@ -221,3 +221,11 @@ nav a.active:hover {
   border-radius: 12px;
   border: 1px solid rgba(0,0,0,0.12);
 }
+body, main {
+  margin: 20px;            /* Adds space around the content */
+}
+
+/* Optional: Add spacing between sections */
+section {
+  margin-bottom: 20px;     /* Adds space between sections */
+}
