@@ -80,3 +80,7 @@
   width: 100%;             /* Make buttons fill the container */
   max-width: 250px;        /* Optional: limit max width of buttons */
 }
+/* Add space between the modal buttons and the tabs section */
+.modal-buttons-container {
+  margin-bottom: 20px;   /* Adds space below the modal buttons */
+}
