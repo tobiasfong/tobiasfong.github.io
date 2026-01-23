@@ -32,3 +32,11 @@
 .tab-content .tab-panel.active {
   display: block;
 }
+/* Add space between tabs and the previous section (modal buttons) */
+.tabs {
+  margin-top: 20px;     /* Adds space above the tabs section */
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-bottom: 20px;  /* Adds space below the tabs section */
+}
