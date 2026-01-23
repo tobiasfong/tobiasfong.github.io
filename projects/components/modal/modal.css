@@ -80,24 +80,3 @@
   width: 100%;             /* Make buttons fill the container */
   max-width: 250px;        /* Optional: limit max width of buttons */
 }
-/* Add space between sections */
-section {
-  margin-bottom: 2rem; /* Space between sections (tabs, modals, etc.) */
-}
-
-/* You can also add margin to the modal */
-.modal {
-  margin-top: 3rem; /* Space from the top of the page */
-}
-/* Container for the modal open buttons */
-.modal-buttons-container {
-  display: flex;
-  flex-direction: column; /* Stack buttons vertically */
-  gap: 10px;              /* Adds space between buttons */
-}
-
-/* Optional: Button styling */
-.modal-buttons-container .button {
-  width: 100%;             /* Make buttons fill the container */
-  max-width: 250px;        /* Optional: limit max width of buttons */
-}
