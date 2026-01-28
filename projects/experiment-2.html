@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/projects/components/modal/modal.css" />
     <link rel="stylesheet" href="/projects/components/tabs/tabs.css" />
     <link rel="stylesheet" href="/projects/components/translate/translate.css" />
+    <link rel="stylesheet" href="/projects/components/weather/weather.css" />
   </head>
 
   <body>
@@ -38,7 +39,22 @@
         これは日本語のページです。実験です。
         </p>
       </header>
+<section>
 
+  <h2>天気のAPI実験</h2>
+  <p>
+    おはようございます！今日の天気はどうですか？
+  </p>
+
+  <div class="weather-card">
+    <h2>東京</h2>
+    <p class="weather-temp" id="temperature">–</p>
+    <p class="weather-desc" id="description">Loading…</p>
+  </div>
+</section>
+
+<script src="/projects/components/weather/weather.js"></script>
+      
       <section>
         <h2>目的</h2>
         <p>僕は、日本語ができることを、証明したいです。その故に、この実験的なウェブサイトを作ってみます。</p>
@@ -301,5 +317,6 @@ API の利用は課金状況に依存するため、現在は費用の都合に�
     <script src="/projects/components/modal/modal.js"></script>
     <script src="/projects/components/tabs/tabs.js"></script>
     <script src="/projects/components/translate/translate.js"></script>
+    <script src="/projects/components/weather/weather.js"></script>
   </body>
 </html>
