@@ -6,23 +6,74 @@ const descEl = document.getElementById("description");
 const iconEl = document.getElementById("icon");
 
 const cities = {
-  tokyo: { lat: 35.6895, lon: 139.6917, name: "Tokyo" },
-  singapore: { lat: 1.3521, lon: 103.8198, name: "Singapore" },
-  minneapolis: { lat: 44.9778, lon: -93.2650, name: "Minneapolis" }
+  tokyo: {
+    lat: 35.6895,
+    lon: 139.6917,
+    name: { en: "Tokyo", ja: "東京" }
+  },
+  singapore: {
+    lat: 1.3521,
+    lon: 103.8198,
+    name: { en: "Singapore", ja: "シンガポール" }
+  },
+  minneapolis: {
+    lat: 44.9778,
+    lon: -93.2650,
+    name: { en: "Minneapolis", ja: "ミニアポリス" }
+  }
 };
 
 const weatherMap = {
-  0: { text: "Clear sky", icon: "☀️" },
-  1: { text: "Mainly clear", icon: "🌤️" },
-  2: { text: "Partly cloudy", icon: "⛅" },
-  3: { text: "Overcast", icon: "☁️" },
-  45: { text: "Fog", icon: "🌫️" },
-  48: { text: "Rime fog", icon: "🌫️" },
-  51: { text: "Drizzle", icon: "🌦️" },
-  61: { text: "Rain", icon: "🌧️" },
-  71: { text: "Snow", icon: "❄️" },
-  80: { text: "Rain showers", icon: "🌦️" },
-  95: { text: "Thunderstorm", icon: "⛈️" }
+  0: {
+    en: "Clear sky",
+    ja: "快晴",
+    icon: "☀️"
+  },
+  1: {
+    en: "Mainly clear",
+    ja: "晴れ",
+    icon: "🌤️"
+  },
+  2: {
+    en: "Partly cloudy",
+    ja: "くもり時々晴れ",
+    icon: "⛅"
+  },
+  3: {
+    en: "Overcast",
+    ja: "くもり",
+    icon: "☁️"
+  },
+  45: {
+    en: "Fog",
+    ja: "霧",
+    icon: "🌫️"
+  },
+  51: {
+    en: "Drizzle",
+    ja: "霧雨",
+    icon: "🌦️"
+  },
+  61: {
+    en: "Rain",
+    ja: "雨",
+    icon: "🌧️"
+  },
+  71: {
+    en: "Snow",
+    ja: "雪",
+    icon: "❄️"
+  },
+  80: {
+    en: "Rain showers",
+    ja: "にわか雨",
+    icon: "🌦️"
+  },
+  95: {
+    en: "Thunderstorm",
+    ja: "雷雨",
+    icon: "⛈️"
+  }
 };
 
 async function loadWeather(cityKey) {
@@ -49,7 +100,7 @@ async function loadWeather(cityKey) {
       };
 
     tempEl.textContent = `${Math.round(current.temperature_2m)}°C`;
-    descEl.textContent = weather.text;
+    descEl.textContent = isJapanese ? weather.ja : weather.en;
     iconEl.textContent = weather.icon;
   } catch (err) {
     descEl.textContent = "Unable to load weather.";
@@ -63,3 +114,6 @@ citySelect.addEventListener("change", () => {
 
 // Load default city
 loadWeather(citySelect.value);
+cityTitle.textContent = isJapanese
+  ? city.name.ja
+  : city.name.en;
