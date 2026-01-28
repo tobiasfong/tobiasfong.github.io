@@ -1,3 +1,5 @@
+const pageLang = document.documentElement.lang || "en";
+const isJapanese = pageLang.startsWith("ja");
 const citySelect = document.getElementById("citySelect");
 const tempEl = document.getElementById("temperature");
 const descEl = document.getElementById("description");
