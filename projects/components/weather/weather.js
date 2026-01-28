@@ -84,16 +84,19 @@ const weatherMap = {
 };
 
 async function loadWeather(cityKey) {
-  const city = cities[cityKey];
-
   setLoading(true);
 
   try {
-    const res = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,weather_code`
-    );
+    const city = cities[cityKey];
+    if (!city) throw new Error(`Unknown city key: ${cityKey}`);
 
-    if (!res.ok) throw new Error("API error");
+    const url =
+      `https://api.open-meteo.com/v1/forecast` +
+      `?latitude=${city.lat}&longitude=${city.lon}` +
+      `&current=temperature_2m,weather_code`;
+
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`API error: ${res.status}`);
 
     const data = await res.json();
     const current = data.current;
@@ -108,15 +111,14 @@ async function loadWeather(cityKey) {
     tempEl.textContent = `${Math.round(current.temperature_2m)}°C`;
     descEl.textContent = isJapanese ? weather.ja : weather.en;
     iconEl.textContent = weather.icon;
-
-    setLoading(false);
   } catch (err) {
+    console.error(err);
     tempEl.textContent = "–";
     descEl.textContent = isJapanese
       ? "天気情報を取得できませんでした"
       : "Unable to load weather.";
     iconEl.textContent = "⚠️";
-
+  } finally {
     setLoading(false);
   }
 }
