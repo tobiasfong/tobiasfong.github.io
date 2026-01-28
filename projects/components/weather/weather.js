@@ -4,6 +4,13 @@ const citySelect = document.getElementById("citySelect");
 const tempEl = document.getElementById("temperature");
 const descEl = document.getElementById("description");
 const iconEl = document.getElementById("icon");
+const cardEl = document.querySelector(".weather-card");
+
+function setLoading(isLoading) {
+  if (!cardEl) return;
+  cardEl.classList.toggle("is-loading", isLoading);
+  cardEl.setAttribute("aria-busy", isLoading ? "true" : "false");
+}
 
 const cities = {
   tokyo: {
@@ -79,9 +86,7 @@ const weatherMap = {
 async function loadWeather(cityKey) {
   const city = cities[cityKey];
 
-  descEl.textContent = "Loading…";
-  tempEl.textContent = "–";
-  iconEl.textContent = "⏳";
+  setLoading(true);
 
   try {
     const res = await fetch(
@@ -95,9 +100,26 @@ async function loadWeather(cityKey) {
 
     const weather =
       weatherMap[current.weather_code] || {
-        text: "Unknown",
+        en: "Unknown",
+        ja: "不明",
         icon: "❓"
       };
+
+    tempEl.textContent = `${Math.round(current.temperature_2m)}°C`;
+    descEl.textContent = isJapanese ? weather.ja : weather.en;
+    iconEl.textContent = weather.icon;
+
+    setLoading(false);
+  } catch (err) {
+    tempEl.textContent = "–";
+    descEl.textContent = isJapanese
+      ? "天気情報を取得できませんでした"
+      : "Unable to load weather.";
+    iconEl.textContent = "⚠️";
+
+    setLoading(false);
+  }
+}
 
     tempEl.textContent = `${Math.round(current.temperature_2m)}°C`;
     descEl.textContent = isJapanese ? weather.ja : weather.en;
