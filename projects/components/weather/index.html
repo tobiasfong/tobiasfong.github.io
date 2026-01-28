@@ -31,11 +31,23 @@
     <option value="minneapolis">Minneapolis</option>
   </select>
 
-  <div class="weather-display">
-    <div class="weather-icon" id="icon">⛅</div>
+  <div class="weather-display" id="weatherDisplay">
+  <div class="weather-icon" id="icon" aria-hidden="true">⛅</div>
+
+  <div class="weather-values">
     <p class="weather-temp" id="temperature">–</p>
-    <p class="weather-desc" id="description">Select a city</p>
+    <p class="weather-desc" id="description">Loading…</p>
+
+    <!-- Skeleton placeholders -->
+    <div class="weather-skeleton" aria-hidden="true">
+      <div class="skeleton skeleton-icon"></div>
+      <div class="skeleton-lines">
+        <div class="skeleton skeleton-temp"></div>
+        <div class="skeleton skeleton-text"></div>
+      </div>
+    </div>
   </div>
+</div>
 </section>
     </main>
 
