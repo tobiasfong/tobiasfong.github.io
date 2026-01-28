@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/projects/components/modal/modal.css" />
     <link rel="stylesheet" href="/projects/components/tabs/tabs.css" />
     <link rel="stylesheet" href="/projects/components/translate/translate.css" />
+    <link rel="stylesheet" href="/projects/components/weather/weather.css" />
   </head>
 
   <body>
@@ -38,6 +39,20 @@
           I'm not slacking off, I really am working. I'm a humanities major and I'm having difficulty learning coding from scratch.
         </p>
       </header>
+
+      <section>
+  <h2>Weather API Experiment</h2>
+  <p>Good morning! How is the weather today?
+  </p>
+
+  <div class="weather-card">
+    <h2>Tokyo</h2>
+    <p class="weather-temp" id="temperature">–</p>
+    <p class="weather-desc" id="description">Loading…</p>
+  </div>
+</section>
+
+<script src="/projects/components/weather/weather.js"></script>
 
       <section>
         <h2>Aims</h2>
@@ -305,5 +320,6 @@
     <script src="/projects/components/modal/modal.js"></script>
     <script src="/projects/components/tabs/tabs.js"></script>
     <script src="/projects/components/translate/translate.js"></script>
+    <script src="/projects/components/weather/weather.js"></script>
   </body>
 </html>
