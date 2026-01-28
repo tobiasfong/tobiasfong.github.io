@@ -39,21 +39,31 @@
         これは日本語のページです。実験です。
         </p>
       </header>
-<section>
 
+ <section>
   <h2>天気のAPI実験</h2>
   <p>
     おはようございます！今日の天気はどうですか？
   </p>
 
-  <div class="weather-card">
-    <h2>東京</h2>
-    <p class="weather-temp" id="temperature">–</p>
-    <p class="weather-desc" id="description">Loading…</p>
-  </div>
+  <section class="weather-card" aria-live="polite">
+    <h2>Weather</h2>
+
+    <label for="citySelect">City</label>
+    <select id="citySelect">
+      <option value="tokyo">東京</option>
+      <option value="singapore">シンガポール</option>
+      <option value="minneapolis">ミニエアポリス</option>
+    </select>
+
+    <div class="weather-display">
+      <div class="weather-icon" id="icon">⛅</div>
+      <p class="weather-temp" id="temperature">–</p>
+      <p class="weather-desc" id="description">Loading…</p>
+    </div>
+  </section>
 </section>
 
-<script src="/projects/components/weather/weather.js"></script>
       
       <section>
         <h2>目的</h2>
