@@ -235,27 +235,27 @@
   </p>
 
   <section class="translate" aria-label="Translator">
-    <label class="translate-label" for="sourceText">Text</label>
+    <label class="translate-label" for="sourceText">本文</label>
     <textarea
       id="sourceText"
       class="translate-input"
       rows="6"
-      placeholder="Type English or Japanese here"
+      placeholder="英語または日本語を入力してください"
     ></textarea>
 
     <div class="translate-controls">
       <button class="button secondary" type="button" id="swapBtn">
-        Swap EN ⇄ JA
+        交換 英語 ⇄ 日本語
       </button>
 
       <select id="mode" class="translate-select">
-        <option value="auto">Auto detect</option>
-        <option value="en2ja">English → Japanese</option>
-        <option value="ja2en">Japanese → English</option>
+        <option value="auto">自動検出</option>
+        <option value="en2ja">英語 → 日本語</option>
+        <option value="ja2en">日本語 → 英語</option>
       </select>
 
       <button class="button" type="button" id="translateBtn">
-        Translate
+        翻訳
       </button>
     </div>
 
@@ -265,7 +265,7 @@
       class="translate-output"
       rows="6"
       readonly
-      placeholder="Translation output"
+      placeholder="翻訳成果"
     ></textarea>
 
     <p class="translate-status" id="status" aria-live="polite"></p>
