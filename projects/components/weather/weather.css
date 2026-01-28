@@ -32,3 +32,71 @@
   font-size: 3rem;
   line-height: 1;
 }
+/* Skeleton shimmer animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #eee 25%, #f6f6f6 50%, #eee 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+  border-radius: 10px;
+}
+
+/* Layout for skeleton inside weather card */
+.weather-values {
+  position: relative;
+  flex: 1;
+}
+
+.weather-skeleton {
+  display: none;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.25rem;
+}
+
+.skeleton-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 999px;
+}
+
+.skeleton-lines {
+  flex: 1;
+}
+
+.skeleton-temp {
+  height: 2.5rem;
+  width: 45%;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-text {
+  height: 1rem;
+  width: 70%;
+}
+
+/* When loading: show skeleton, hide real values */
+.weather-card.is-loading #icon,
+.weather-card.is-loading #temperature,
+.weather-card.is-loading #description {
+  visibility: hidden;
+}
+
+.weather-card.is-loading .weather-skeleton {
+  display: flex;
+}
+
+/* Optional: reduce motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}
