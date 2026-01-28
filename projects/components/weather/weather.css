@@ -16,3 +16,19 @@
 .weather-desc {
   opacity: 0.85;
 }
+.weather-card select {
+  margin: 0.5rem 0 1rem;
+  padding: 0.4rem 0.6rem;
+  font-size: 1rem;
+}
+
+.weather-display {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.weather-icon {
+  font-size: 3rem;
+  line-height: 1;
+}
