@@ -1,4 +1,5 @@
-const WORKER_URL = "https://YOUR-WORKER.SUBDOMAIN.workers.dev/translate";
+const WORKER_URL =
+  "https://tobias-translate.tobiasfong.workers.dev/translate";
 
 const sourceText = document.getElementById("sourceText");
 const resultText = document.getElementById("resultText");
