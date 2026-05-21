@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="/projects/components/text-image/text-image.css" />
     <link rel="stylesheet" href="/projects/components/modal/modal.css" />
     <link rel="stylesheet" href="/projects/components/tabs/tabs.css" />
+    <link rel="stylesheet" href="/projects/components/translate/translate.css" />
+    <link rel="stylesheet" href="/projects/components/weather/weather.css" />
   </head>
 
   <body>
@@ -38,6 +40,31 @@
         </p>
       </header>
 
+ <section>
+  <h2>天気のAPI実験</h2>
+  <p>
+    おはようございます！今日の天気はどうですか？
+  </p>
+
+  <section class="weather-card" aria-live="polite">
+    <h2>天気</h2>
+
+    <label for="citySelect">都市</label>
+    <select id="citySelect">
+      <option value="tokyo">東京</option>
+      <option value="singapore">シンガポール</option>
+      <option value="minneapolis">ミニアポリス</option>
+    </select>
+
+    <div class="weather-display">
+      <div class="weather-icon" id="icon">⛅</div>
+      <p class="weather-temp" id="temperature">–</p>
+      <p class="weather-desc" id="description">Loading…</p>
+    </div>
+  </section>
+</section>
+
+      
       <section>
         <h2>目的</h2>
         <p>僕は、日本語ができることを、証明したいです。その故に、この実験的なウェブサイトを作ってみます。</p>
@@ -225,7 +252,57 @@
   <img src="/img/HappyRowlet.jpeg" alt="Rowlet" />
   </div>
 </div>
-      
+
+      <section class="translate-demo">
+  <h2>翻訳実験（英語 ⇄ 日本語）</h2>
+  <p class="lead">
+  本実験では Cloudflare Worker を介した翻訳 API を使用しています。
+デモが正常に動作しない場合は、実装上の問題ではなく、API の課金状況による制限が原因です。
+  </p>
+
+  <section class="translate" aria-label="Translator">
+    <label class="translate-label" for="sourceText">本文</label>
+    <textarea
+      id="sourceText"
+      class="translate-input"
+      rows="6"
+      placeholder="英語または日本語を入力してください"
+    ></textarea>
+
+    <div class="translate-controls">
+      <button class="button secondary" type="button" id="swapBtn">
+        交換 英語 ⇄ 日本語
+      </button>
+
+      <select id="mode" class="translate-select">
+        <option value="auto">自動検出</option>
+        <option value="en2ja">英語 → 日本語</option>
+        <option value="ja2en">日本語 → 英語</option>
+      </select>
+
+      <button class="button" type="button" id="translateBtn">
+        翻訳
+      </button>
+    </div>
+
+    <label class="translate-label" for="resultText">結果</label>
+    <textarea
+      id="resultText"
+      class="translate-output"
+      rows="6"
+      readonly
+      placeholder="翻訳結果"
+    ></textarea>
+
+    <p class="translate-status" id="status" aria-live="polite"></p>
+  </section>
+</section>
+
+      <p class="note">
+このデモでは、Cloudflare Worker を介したライブの AI 翻訳 API を使用しています。
+API の利用は課金状況に依存するため、現在は費用の都合によりご利用いただけません。
+</p>
+
       <section>
         <h2>次にどうなるかな？</h2>
         <ul>
@@ -249,5 +326,7 @@
     <script src="/projects/components/accordion/accordion.js"></script>
     <script src="/projects/components/modal/modal.js"></script>
     <script src="/projects/components/tabs/tabs.js"></script>
+    <script src="/projects/components/translate/translate.js"></script>
+    <script src="/projects/components/weather/weather.js"></script>
   </body>
 </html>

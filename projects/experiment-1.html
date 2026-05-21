@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="/projects/components/text-image/text-image.css" />
     <link rel="stylesheet" href="/projects/components/modal/modal.css" />
     <link rel="stylesheet" href="/projects/components/tabs/tabs.css" />
+    <link rel="stylesheet" href="/projects/components/translate/translate.css" />
+    <link rel="stylesheet" href="/projects/components/weather/weather.css" />
   </head>
 
   <body>
@@ -37,6 +39,30 @@
           I'm not slacking off, I really am working. I'm a humanities major and I'm having difficulty learning coding from scratch.
         </p>
       </header>
+
+      <section>
+  <h2>Weather API Experiment</h2>
+  <p>
+    Good morning! How is the weather today?
+  </p>
+
+  <section class="weather-card" aria-live="polite">
+    <h2>Weather</h2>
+
+    <label for="citySelect">City</label>
+    <select id="citySelect">
+      <option value="tokyo">Tokyo</option>
+      <option value="singapore">Singapore</option>
+      <option value="minneapolis">Minneapolis</option>
+    </select>
+
+    <div class="weather-display">
+      <div class="weather-icon" id="icon">⛅</div>
+      <p class="weather-temp" id="temperature">–</p>
+      <p class="weather-desc" id="description">Loading…</p>
+    </div>
+  </section>
+</section>
 
       <section>
         <h2>Aims</h2>
@@ -222,6 +248,56 @@
   </div>
 </div>
 
+      <section class="translate-demo">
+  <h2>Translation Experiment (EN ⇄ JA)</h2>
+  <p class="lead">
+    This experiment integrates a Cloudflare Worker–backed translation API.
+    If the demo does not return results, it is due to API billing constraints,
+    not the absence of implementation.
+  </p>
+
+  <section class="translate" aria-label="Translator">
+    <label class="translate-label" for="sourceText">Text</label>
+    <textarea
+      id="sourceText"
+      class="translate-input"
+      rows="6"
+      placeholder="Type English or Japanese here"
+    ></textarea>
+
+    <div class="translate-controls">
+      <button class="button secondary" type="button" id="swapBtn">
+        Swap EN ⇄ JA
+      </button>
+
+      <select id="mode" class="translate-select">
+        <option value="auto">Auto detect</option>
+        <option value="en2ja">English → Japanese</option>
+        <option value="ja2en">Japanese → English</option>
+      </select>
+
+      <button class="button" type="button" id="translateBtn">
+        Translate
+      </button>
+    </div>
+
+    <label class="translate-label" for="resultText">Result</label>
+    <textarea
+      id="resultText"
+      class="translate-output"
+      rows="6"
+      readonly
+      placeholder="Translation output"
+    ></textarea>
+
+    <p class="translate-status" id="status" aria-live="polite"></p>
+  </section>
+</section>
+      <p class="note">
+  This demo uses a live AI translation API via a Cloudflare Worker.
+  Availability depends on API billing status. Unfortunately, I am unable to afford it at the moment.
+</p>
+
       <section>
         <h2>Challenges</h2>
         <ul>
@@ -253,5 +329,7 @@
     <script src="/projects/components/accordion/accordion.js"></script>
     <script src="/projects/components/modal/modal.js"></script>
     <script src="/projects/components/tabs/tabs.js"></script>
+    <script src="/projects/components/translate/translate.js"></script>
+    <script src="/projects/components/weather/weather.js"></script>
   </body>
 </html>
