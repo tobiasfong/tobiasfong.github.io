@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Lies Within — Patina Osaka</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#1a1410;overflow:hidden;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:grab}
+  body:active{cursor:grabbing}
+  canvas{display:block}
+
+  /* Vignette overlay — frames the scene cinematically */
+  #vignette{position:fixed;inset:0;pointer-events:none;z-index:1;
+    background:radial-gradient(ellipse at center,transparent 45%,rgba(10,8,5,.55) 100%)}
+
+  /* Fade-in on load */
+  #fade{position:fixed;inset:0;background:#1a1410;z-index:100;pointer-events:none;
+    transition:opacity 2.5s ease-out}
+  #fade.done{opacity:0}
+
+  /* Title overlay — removed per creative direction */
+
+  /* Bottom UI — minimal, borderless, fixed bottom-center */
+  #ui{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);z-index:10;text-align:center}
+  #open-btn{padding:16px 56px;font-size:13px;font-weight:400;letter-spacing:5px;
+    text-transform:uppercase;background:transparent;color:#c9a96e;
+    border:1px solid rgba(201,169,110,.3);border-radius:2px;cursor:pointer;
+    transition:all .4s ease;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    background:rgba(20,16,12,.4)}
+  #open-btn:hover{color:#f0e6d2;border-color:rgba(201,169,110,.6);
+    background:rgba(201,169,110,.1);letter-spacing:7px}
+  #hint{color:#665544;font-size:11px;margin-top:12px;letter-spacing:2px;
+    font-weight:300;opacity:.6;transition:opacity .6s ease}
+
+  /* Back navigation */
+  #back-nav{position:fixed;top:20px;left:24px;z-index:10}
+  #back-nav a{color:#c9a96e;text-decoration:none;font-size:11px;letter-spacing:3px;
+    text-transform:uppercase;opacity:.55;transition:opacity .3s ease;
+    background:rgba(20,16,12,.4);padding:8px 14px;border-radius:2px;
+    border:1px solid rgba(201,169,110,.15);backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px)}
+  #back-nav a:hover{opacity:1;border-color:rgba(201,169,110,.4)}
+</style>
+</head>
+<body>
+<div id="fade"></div>
+<div id="vignette"></div>
+<div id="back-nav"><a href="/projects/">← Projects</a></div>
+<div id="ui">
+  <button id="open-btn">Reveal</button>
+  <div id="hint">Drag to explore</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+try {
+
+/* ═══════════════════════════════════════════
+   SCENE, CAMERA, RENDERER
+   ═══════════════════════════════════════════ */
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x14100c);
+const camera = new THREE.PerspectiveCamera(36, innerWidth/innerHeight, 0.1, 100);
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.1;
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.physicallyCorrectLights = true;
+document.body.appendChild(renderer.domElement);
+
+/* ═══════════════════════════════════════════
+   PROCEDURAL TEXTURES
+   ═══════════════════════════════════════════ */
+function mkTex(size, fn) {
+  const c = document.createElement('canvas');
+  c.width = c.height = size;
+  fn(c.getContext('2d'), size);
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  return t;
+}
+
+// Leather: warm red-brown — multi-octave grain, no harsh static
+const texLeatherCol = mkTex(512, (ctx, s) => {
+  ctx.fillStyle = '#8B3A2A';
+  ctx.fillRect(0,0,s,s);
+  const d = ctx.getImageData(0,0,s,s);
+  for (let i=0;i<d.data.length;i+=4) {
+    const px=(i/4)%s, py=((i/4)/s)|0;
+    // Layered grain: coarse directional + medium swirl + fine noise
+    const coarse = Math.sin(py*.18+Math.sin(px*.04)*5)*14;
+    const medium = Math.sin(px*.12+py*.06)*Math.cos(py*.09)*8;
+    const fine = (Math.random()-.5)*8;
+    const v = coarse + medium + fine;
+    d.data[i]=Math.max(0,Math.min(255,d.data[i]+v));
+    d.data[i+1]=Math.max(0,Math.min(255,d.data[i+1]+v*.6));
+    d.data[i+2]=Math.max(0,Math.min(255,d.data[i+2]+v*.3));
+  }
+  ctx.putImageData(d,0,0);
+});
+const texLeatherBump = mkTex(512, (ctx, s) => {
+  ctx.fillStyle='#808080'; ctx.fillRect(0,0,s,s);
+  const d=ctx.getImageData(0,0,s,s);
+  for(let i=0;i<d.data.length;i+=4){
+    const px=(i/4)%s,py=((i/4)/s)|0;
+    const coarse=Math.sin(py*.2+Math.sin(px*.05)*4)*20;
+    const medium=Math.sin(px*.3+py*.15)*12;
+    const fine=(Math.random()-.5)*6;
+    const v=128+coarse+medium+fine;
+    d.data[i]=d.data[i+1]=d.data[i+2]=Math.max(0,Math.min(255,v));
+  }
+  ctx.putImageData(d,0,0);
+});
+
+// Indigo fabric — visible warp/weft weave pattern
+const texFabricCol = mkTex(512, (ctx, s) => {
+  ctx.fillStyle='#2E3854'; ctx.fillRect(0,0,s,s);
+  const d=ctx.getImageData(0,0,s,s);
+  for(let i=0;i<d.data.length;i+=4){
+    const px=(i/4)%s,py=((i/4)/s)|0;
+    // Warp/weft crosshatch weave
+    const warp = Math.sin(px*1.2)*Math.sin(py*0.15)*6;
+    const weft = Math.sin(py*1.2)*Math.sin(px*0.15)*6;
+    const v = warp + weft + (Math.random()-.5)*4;
+    d.data[i]=Math.max(0,Math.min(255,d.data[i]+v*.4));
+    d.data[i+1]=Math.max(0,Math.min(255,d.data[i+1]+v*.5));
+    d.data[i+2]=Math.max(0,Math.min(255,d.data[i+2]+v*.9));
+  }
+  ctx.putImageData(d,0,0);
+});
+const texFabricBump = mkTex(512, (ctx, s) => {
+  ctx.fillStyle='#808080'; ctx.fillRect(0,0,s,s);
+  const d=ctx.getImageData(0,0,s,s);
+  for(let i=0;i<d.data.length;i+=4){
+    const px=(i/4)%s,py=((i/4)/s)|0;
+    const weave=Math.sin(px*1.2)*Math.cos(py*1.2)*16;
+    const fine=(Math.random()-.5)*4;
+    const v=128+weave+fine;
+    d.data[i]=d.data[i+1]=d.data[i+2]=Math.max(0,Math.min(255,v));
+  }
+  ctx.putImageData(d,0,0);
+});
+
+// Gold bump — brushed metal micro-grain
+const texGoldBump = mkTex(256, (ctx, s) => {
+  ctx.fillStyle='#808080'; ctx.fillRect(0,0,s,s);
+  const d=ctx.getImageData(0,0,s,s);
+  for(let i=0;i<d.data.length;i+=4){
+    const px=(i/4)%s,py=((i/4)/s)|0;
+    // Brushed direction + fine grain
+    const brush=Math.sin(px*1.5+py*.2)*8+Math.sin(px*.08)*Math.sin(py*.08)*12;
+    const fine=(Math.random()-.5)*5;
+    const v=128+brush+fine;
+    d.data[i]=d.data[i+1]=d.data[i+2]=Math.max(0,Math.min(255,v));
+  }
+  ctx.putImageData(d,0,0);
+});
+
+// Interior — deep black void
+const texSilk = mkTex(256, (ctx, s) => {
+  ctx.fillStyle='#050505';ctx.fillRect(0,0,s,s);
+  const d=ctx.getImageData(0,0,s,s);
+  for(let i=0;i<d.data.length;i+=4){
+    const v=(Math.random()-.5)*3;
+    d.data[i]=Math.max(0,Math.min(255,5+v));
+    d.data[i+1]=Math.max(0,Math.min(255,5+v));
+    d.data[i+2]=Math.max(0,Math.min(255,6+v));
+  }
+  ctx.putImageData(d,0,0);
+});
+
+// Wood — concentric rings with grain
+const texWood = mkTex(512, (ctx, s) => {
+  ctx.fillStyle='#3D2B1F';ctx.fillRect(0,0,s,s);
+  const d=ctx.getImageData(0,0,s,s);
+  for(let i=0;i<d.data.length;i+=4){
+    const px=(i/4)%s,py=((i/4)/s)|0;
+    const dist=Math.sqrt((px-s/2)**2+(py-s/2)**2);
+    const rings=Math.sin(dist*.06)*12;
+    const grain=Math.sin(py*.02+Math.sin(px*.008)*6)*8;
+    const v=rings+grain+(Math.random()-.5)*4;
+    d.data[i]=Math.max(0,Math.min(255,d.data[i]+v));
+    d.data[i+1]=Math.max(0,Math.min(255,d.data[i+1]+v*.7));
+    d.data[i+2]=Math.max(0,Math.min(255,d.data[i+2]+v*.4));
+  }
+  ctx.putImageData(d,0,0);
+});
+
+// Book — deep washi green matching Patina Passport cover
+const texBookCopper = mkTex(512, (ctx, s) => {
+  ctx.fillStyle='#2E3D2E';ctx.fillRect(0,0,s,s);
+  const d=ctx.getImageData(0,0,s,s);
+  for(let i=0;i<d.data.length;i+=4){
+    const px=(i/4)%s,py=((i/4)/s)|0;
+    // Washi fiber texture — scattered dark flecks and soft grain
+    const fiber1=Math.sin(px*.3+py*1.8)*Math.sin(py*.2+px*.05)*5;
+    const fiber2=Math.cos(px*.7-py*.4)*3;
+    // Organic mottling — subtle light/dark variation across surface
+    const mottle=Math.sin(px*.02+py*.015)*6+Math.sin((px*py)*.0001)*4;
+    // Fine paper grain
+    const grain=(Math.random()-.5)*6;
+    // Dark fiber flecks — sparse, short strokes
+    const fleck=Math.random()>0.97?(Math.random()-.5)*25:0;
+    const v=fiber1+fiber2+mottle+grain+fleck;
+    d.data[i]=Math.max(0,Math.min(255,d.data[i]+v*.7));      // R — subdued
+    d.data[i+1]=Math.max(0,Math.min(255,d.data[i+1]+v));     // G — dominant
+    d.data[i+2]=Math.max(0,Math.min(255,d.data[i+2]+v*.7));  // B — subdued
+  }
+  ctx.putImageData(d,0,0);
+});
+const texBookCopperBump = mkTex(512, (ctx, s) => {
+  ctx.fillStyle='#808080';ctx.fillRect(0,0,s,s);
+  const d=ctx.getImageData(0,0,s,s);
+  for(let i=0;i<d.data.length;i+=4){
+    const px=(i/4)%s,py=((i/4)/s)|0;
+    const fiber=Math.sin(px*.3+py*1.8)*Math.sin(py*.2)*10;
+    const mottle=Math.sin(px*.02+py*.015)*8;
+    const grain=(Math.random()-.5)*5;
+    const fleck=Math.random()>0.97?(Math.random()-.5)*20:0;
+    const v=128+fiber+mottle+grain+fleck;
+    d.data[i]=d.data[i+1]=d.data[i+2]=Math.max(0,Math.min(255,v));
+  }
+  ctx.putImageData(d,0,0);
+});
+
+/* ═══════════════════════════════════════════
+   MATERIALS
+   ═══════════════════════════════════════════ */
+const matLeather = new THREE.MeshStandardMaterial({
+  map:texLeatherCol, bumpMap:texLeatherBump, bumpScale:0.7,
+  roughness:0.58, metalness:0.08
+});
+const matFabric = new THREE.MeshStandardMaterial({
+  map:texFabricCol, bumpMap:texFabricBump, bumpScale:0.5,
+  roughness:0.72, metalness:0.05
+});
+const matGold = new THREE.MeshStandardMaterial({
+  color:0xC9A05A, bumpMap:texGoldBump, bumpScale:0.25,
+  roughness:0.25, metalness:0.85
+});
+const matGoldShiny = new THREE.MeshStandardMaterial({
+  color:0xD4B060, bumpMap:texGoldBump, bumpScale:0.12,
+  roughness:0.15, metalness:0.92
+});
+const matSilk = new THREE.MeshStandardMaterial({
+  map:texSilk, color:0x080808, roughness:0.95, metalness:0.0, side:THREE.BackSide
+});
+const matSilkFront = new THREE.MeshStandardMaterial({
+  map:texSilk, color:0x080808, roughness:0.95, metalness:0.0
+});
+const matTable = new THREE.MeshStandardMaterial({
+  map:texWood, roughness:0.85, metalness:0.0
+});
+const matBook = new THREE.MeshStandardMaterial({
+  map:texBookCopper, bumpMap:texBookCopperBump, bumpScale:0.35,
+  color:0x344834, roughness:0.75, metalness:0.02
+});
+const matPages = new THREE.MeshStandardMaterial({
+  color:0xF0EAD0, roughness:0.92, metalness:0.0
+});
+const matBookGold = new THREE.MeshStandardMaterial({
+  color:0xBB943E, roughness:0.28, metalness:0.7
+});
+const matDarkLacquer = new THREE.MeshStandardMaterial({
+  color:0x1a1a22, roughness:0.4, metalness:0.15
+});
+
+/* ═══════════════════════════════════════════
+   LIGHTS — warm studio
+   ═══════════════════════════════════════════ */
+scene.add(new THREE.AmbientLight(0xfff0e0, 0.5));
+const keyL = new THREE.DirectionalLight(0xffeedd, 2.0);
+keyL.position.set(3,6,4); keyL.castShadow=true;
+keyL.shadow.mapSize.set(2048,2048);
+keyL.shadow.camera.near=0.5;keyL.shadow.camera.far=20;
+keyL.shadow.camera.left=-5;keyL.shadow.camera.right=5;
+keyL.shadow.camera.top=5;keyL.shadow.camera.bottom=-5;
+keyL.shadow.bias=-0.0005;
+scene.add(keyL);
+const fillL = new THREE.DirectionalLight(0xaabbdd,0.7);
+fillL.position.set(-4,3,-2);
+scene.add(fillL);
+const rimL=new THREE.PointLight(0xffdcaa,1.2,15);rimL.position.set(-2,4,-5);scene.add(rimL);
+const topL=new THREE.PointLight(0xfff5e6,1.5,12);topL.position.set(0,7,0);scene.add(topL);
+const warmU=new THREE.PointLight(0x8B4020,0.4,5);warmU.position.set(0,-1,0);scene.add(warmU);
+const gAcc1 = new THREE.PointLight(0xffd080,0.6,8);
+gAcc1.position.set(2,2,3); scene.add(gAcc1);
+const gAcc2 = new THREE.PointLight(0xffd080,0.4,8);
+gAcc2.position.set(-3,1,2); scene.add(gAcc2);
+
+/* ═══════════════════════════════════════════
+   CONSTANTS & GROUPS
+   32-plate SUJI BACHI KABUTO — the most iconic
+   and visually striking samurai helmet type.
+   Proportions from Metropolitan Museum references:
+   height:width ≈ 1.1:1 (slightly taller than wide).
+   ═══════════════════════════════════════════ */
+const SEG = 96;
+const DOME_R = 2.2;        // dome radius
+const DOME_SQUASH = 0.82;  // slightly oblate but much rounder than before
+const PLATES = 32;          // suji bachi standard — 32 riveted plates
+const SHIKORO_TIERS = 4;   // neck guard lame count
+
+const lidGroup = new THREE.Group();
+const baseGroup = new THREE.Group();
+const bookGroup = new THREE.Group();
+const helmet = new THREE.Group();
+
+const DOME_H = DOME_R * DOME_SQUASH; // actual dome height
+
+// Helper: get position on the dome surface at a latitude parameter
+// t: 0 = pole (top), 1 = equator
+function domePos(t, isTop) {
+  const theta = t * Math.PI * 0.5;
+  const r = DOME_R * Math.sin(theta);
+  const y = DOME_H * Math.cos(theta);
+  return { r: r, y: isTop ? y : -y };
+}
+
+/* ═══════════════════════════════════════════
+   HACHI (dome) — 32-plate suji bachi construction
+   Main iron bowl with prominent raised suji ridges
+   between each plate, rivets hammered flush.
+   ═══════════════════════════════════════════ */
+function buildHachi(group, isTop) {
+  const thetaStart = isTop ? 0 : Math.PI/2;
+
+  // Main dome shell — dark iron base
+  const shellGeo = new THREE.SphereGeometry(DOME_R, SEG, 36, 0, Math.PI*2, thetaStart, Math.PI/2);
+  const shell = new THREE.Mesh(shellGeo, matDarkLacquer);
+  shell.scale.y = DOME_SQUASH;
+  shell.castShadow = true;
+  shell.receiveShadow = true;
+  group.add(shell);
+
+  // Individual plates — alternating leather and fabric between ridges
+  // Each plate is a wedge section of a slightly larger sphere, well clear of base shell
+  const plateInset = 0.032;  // gap on each side of ridge for clean separation
+  for (let i = 0; i < PLATES; i++) {
+    const a0 = (i / PLATES) * Math.PI * 2 + plateInset;
+    const a1 = ((i + 1) / PLATES) * Math.PI * 2 - plateInset;
+    const plateGeo = new THREE.SphereGeometry(
+      DOME_R + 0.025, SEG, 24,           // offset enough to avoid z-fighting
+      a0, a1 - a0,
+      thetaStart + 0.05, Math.PI/2 - 0.08  // inset from pole and equator
+    );
+    const plateMat = i % 2 === 0 ? matLeather : matFabric;
+    const plate = new THREE.Mesh(plateGeo, plateMat);
+    plate.scale.y = DOME_SQUASH;
+    plate.castShadow = true;
+    plate.receiveShadow = true;
+    group.add(plate);
+  }
+
+  // 32 Suji ridges — raised ribs radiating from tehen to koshimaki
+  // These are the defining feature of the suji bachi style
+  for (let i = 0; i < PLATES; i++) {
+    const angle = (i / PLATES) * Math.PI * 2;
+    const pts = [];
+    for (let j = 0; j <= 30; j++) {
+      const t = j / 30;
+      const p = domePos(t, isTop);
+      pts.push(new THREE.Vector3(
+        Math.cos(angle) * (p.r + 0.025),
+        p.y,
+        Math.sin(angle) * (p.r + 0.025)
+      ));
+    }
+    const curve = new THREE.CatmullRomCurve3(pts);
+    const ridge = new THREE.Mesh(
+      new THREE.TubeGeometry(curve, 24, 0.018, 6, false), matGold
+    );
+    ridge.castShadow = true;
+    group.add(ridge);
+  }
+
+  // Flush rivets along each ridge — 5 per ridge, evenly spaced
+  for (let i = 0; i < PLATES; i++) {
+    const angle = (i / PLATES) * Math.PI * 2;
+    for (let j = 1; j <= 5; j++) {
+      const p = domePos(j / 6, isTop);
+      const rv = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.022, 0.008, 8), matGold);
+      rv.rotation.x = Math.PI/2;
+      const nr = p.r + 0.028;
+      rv.position.set(Math.cos(angle)*nr, p.y, Math.sin(angle)*nr);
+      // Orient rivet to face outward
+      rv.lookAt(Math.cos(angle)*nr*2, p.y, Math.sin(angle)*nr*2);
+      group.add(rv);
+    }
+  }
+
+  // Inner silk lining
+  const innerGeo = new THREE.SphereGeometry(DOME_R - 0.06, 48, 24, 0, Math.PI*2, thetaStart, Math.PI/2);
+  const inner = new THREE.Mesh(innerGeo, matSilk);
+  inner.scale.y = DOME_SQUASH;
+  group.add(inner);
+}
+
+buildHachi(lidGroup, true);
+buildHachi(baseGroup, false);
+
+/* ═══════════════════════════════════════════
+   KOSHIMAKI — thick iron/gold equator band
+   Structural ring joining dome to neck guard.
+   Width ~15% of dome height, prominent and bold.
+   ═══════════════════════════════════════════ */
+(function() {
+  // Main koshimaki band — thick torus at equator
+  const koshi = new THREE.Mesh(
+    new THREE.TorusGeometry(DOME_R + 0.02, 0.07, 14, SEG), matGold
+  );
+  koshi.rotation.x = Math.PI / 2;
+  koshi.position.y = 0;
+  lidGroup.add(koshi);
+
+  // Secondary inner ring
+  const inner = new THREE.Mesh(
+    new THREE.TorusGeometry(DOME_R - 0.01, 0.04, 10, SEG), matDarkLacquer
+  );
+  inner.rotation.x = Math.PI / 2;
+  inner.position.y = 0;
+  lidGroup.add(inner);
+
+  // Decorative rivets around the koshimaki
+  const rivetCount = 48;
+  for (let i = 0; i < rivetCount; i++) {
+    const a = (i / rivetCount) * Math.PI * 2;
+    const rv = new THREE.Mesh(new THREE.SphereGeometry(0.022, 8, 6), matGoldShiny);
+    rv.position.set(
+      Math.cos(a) * (DOME_R + 0.09),
+      0,
+      Math.sin(a) * (DOME_R + 0.09)
+    );
+    lidGroup.add(rv);
+  }
+
+  // Duplicate for base
+  const koshiB = koshi.clone(); baseGroup.add(koshiB);
+  const innerB = inner.clone(); baseGroup.add(innerB);
+})();
+
+/* ═══════════════════════════════════════════
+   SHIKORO — multi-tiered neck guard
+   4 semicircular lames flaring outward 20-25°.
+   Each lame slightly overlaps the one below.
+   Laced together with visible gold threading.
+   ═══════════════════════════════════════════ */
+(function() {
+  const shikoro = new THREE.Group();
+  const startY = -0.08;           // just below equator
+  const flareAngle = 0.22;        // ~22° outward flare
+  const lameHeight = 0.28;        // height of each tier
+  const lameGap = 0.04;           // gap between tiers for lacing
+
+  for (let tier = 0; tier < SHIKORO_TIERS; tier++) {
+    const y = startY - tier * (lameHeight + lameGap);
+    // Each lame is wider as it goes down (flaring)
+    const topR = DOME_R + 0.06 + tier * 0.22;
+    const botR = topR + 0.18;
+    // Only covers back 240° (not front face)
+    const arcStart = Math.PI * 0.17;
+    const arcLen = Math.PI * 1.66;
+
+    // Lame plate — curved section, double-sided so arc edges are clean
+    const lameGeo = new THREE.CylinderGeometry(
+      topR, botR, lameHeight, 48, 1, true,
+      arcStart, arcLen
+    );
+    const lameMat = (tier % 2 === 0 ? matLeather : matFabric).clone();
+    lameMat.side = THREE.DoubleSide;
+    const lame = new THREE.Mesh(lameGeo, lameMat);
+    lame.position.y = y - lameHeight/2;
+    lame.rotation.x = flareAngle * (tier * 0.3);
+    lame.castShadow = true;
+    lame.receiveShadow = true;
+    shikoro.add(lame);
+
+    // Inner side — slightly smaller, dark interior
+    const innerMat = matSilk.clone();
+    innerMat.side = THREE.DoubleSide;
+    const lameInner = new THREE.Mesh(
+      new THREE.CylinderGeometry(
+        topR - 0.025, botR - 0.025, lameHeight - 0.01, 48, 1, true,
+        arcStart, arcLen
+      ), innerMat
+    );
+    lameInner.position.y = y - lameHeight/2;
+    lameInner.rotation.x = flareAngle * (tier * 0.3);
+    shikoro.add(lameInner);
+
+    // Cap the arc endpoints with small planes so you don't see inside
+    [arcStart, arcStart + arcLen].forEach(capA => {
+      const capGeo = new THREE.PlaneGeometry(botR - topR + 0.06, lameHeight);
+      const cap = new THREE.Mesh(capGeo, matDarkLacquer);
+      const midR = (topR + botR) / 2;
+      cap.position.set(Math.sin(capA)*midR, y - lameHeight/2, Math.cos(capA)*midR);
+      cap.rotation.y = -capA + Math.PI/2;
+      cap.rotation.x = flareAngle * (tier * 0.3);
+      shikoro.add(cap);
+    });
+
+    // Gold trim at top edge of each lame
+    const trimPts = [];
+    for (let j = 0; j <= 40; j++) {
+      const a = arcStart + (j / 40) * arcLen;
+      trimPts.push(new THREE.Vector3(
+        Math.sin(a) * topR, y, Math.cos(a) * topR
+      ));
+    }
+    const trimCurve = new THREE.CatmullRomCurve3(trimPts);
+    const trim = new THREE.Mesh(
+      new THREE.TubeGeometry(trimCurve, 32, 0.016, 6, false), matGold
+    );
+    trim.castShadow = true;
+    shikoro.add(trim);
+
+    // Gold trim at bottom edge
+    const botPts = [];
+    for (let j = 0; j <= 40; j++) {
+      const a = arcStart + (j / 40) * arcLen;
+      botPts.push(new THREE.Vector3(
+        Math.sin(a) * botR, y - lameHeight, Math.cos(a) * botR
+      ));
+    }
+    const botCurve = new THREE.CatmullRomCurve3(botPts);
+    shikoro.add(new THREE.Mesh(
+      new THREE.TubeGeometry(botCurve, 32, 0.012, 6, false), matGold
+    ));
+
+    // Lacing holes — visible cross-lacing between tiers
+    if (tier < SHIKORO_TIERS - 1) {
+      const laceR = (topR + botR) / 2;
+      const laceCount = 24;
+      for (let l = 0; l < laceCount; l++) {
+        const a = arcStart + ((l + 0.5) / laceCount) * arcLen;
+        // Vertical lace stitch
+        const lace = new THREE.Mesh(
+          new THREE.BoxGeometry(0.015, lameGap + 0.06, 0.008), matGold
+        );
+        lace.position.set(Math.sin(a)*laceR, y - lameHeight - lameGap/2, Math.cos(a)*laceR);
+        lace.rotation.y = -a;
+        shikoro.add(lace);
+        // Cross stitch
+        const cross = new THREE.Mesh(
+          new THREE.BoxGeometry(0.04, 0.008, 0.008), matGold
+        );
+        cross.position.set(Math.sin(a)*laceR, y - lameHeight - lameGap/2, Math.cos(a)*laceR);
+        cross.rotation.y = -a;
+        shikoro.add(cross);
+      }
+    }
+  }
+
+  baseGroup.add(shikoro);
+})();
+
+/* ═══════════════════════════════════════════
+   MABISASHI — front visor/brim
+   Slightly dished, projects forward with gilt fukurin rim
+   ═══════════════════════════════════════════ */
+function buildMabisashi(group, isTop) {
+  const sign = isTop ? 1 : -1;
+  const shape = new THREE.Shape();
+  shape.moveTo(-1.4, 0);
+  shape.quadraticCurveTo(-0.85, 0.8, 0, 0.95);
+  shape.quadraticCurveTo(0.85, 0.8, 1.4, 0);
+  shape.lineTo(1.15, -0.1);
+  shape.quadraticCurveTo(0.65, 0.55, 0, 0.68);
+  shape.quadraticCurveTo(-0.65, 0.55, -1.15, -0.1);
+  shape.lineTo(-1.4, 0);
+
+  const geo = new THREE.ExtrudeGeometry(shape, {
+    depth: 0.07, bevelEnabled: true,
+    bevelThickness: 0.018, bevelSize: 0.015, bevelSegments: 3
+  });
+  const visor = new THREE.Mesh(geo, matDarkLacquer);
+  visor.rotation.x = Math.PI/2 + sign * -0.15;
+  visor.rotation.y = Math.PI;
+  visor.position.set(0, sign * 0.02, DOME_R * 0.9);
+  visor.castShadow = true;
+  group.add(visor);
+
+  // Gold fukurin rim — thicker for suji bachi
+  const rimPts = [];
+  for (let i = 0; i <= 40; i++) {
+    const t = i / 40;
+    const x = -1.4 + t * 2.8;
+    const z = Math.sqrt(Math.max(0, 1 - (x/1.4)*(x/1.4))) * 0.95;
+    rimPts.push(new THREE.Vector3(x, 0, z));
+  }
+  const rimCurve = new THREE.CatmullRomCurve3(rimPts);
+  const rim = new THREE.Mesh(
+    new THREE.TubeGeometry(rimCurve, 30, 0.028, 8, false), matGoldShiny
+  );
+  rim.rotation.x = sign * -0.15;
+  rim.position.set(0, sign * 0.015, DOME_R * 0.9 + 0.025);
+  group.add(rim);
+
+  // Rivets attaching visor to koshimaki
+  for (let i = -3; i <= 3; i++) {
+    const rv = new THREE.Mesh(new THREE.SphereGeometry(0.025, 8, 6), matGoldShiny);
+    rv.position.set(i * 0.18, sign * 0.04, DOME_R * 0.88);
+    group.add(rv);
+  }
+}
+
+buildMabisashi(lidGroup, true);
+buildMabisashi(baseGroup, false);
+
+/* ═══════════════════════════════════════════
+   FUKIKAESHI — turned-back ear flaps at temples
+   Small ear-shaped flanges from topmost shikoro lame.
+   ═══════════════════════════════════════════ */
+(function() {
+  [-1, 1].forEach(side => {
+    const flapGroup = new THREE.Group();
+
+    // Main flap — slightly curved rectangle
+    const flapGeo = new THREE.BoxGeometry(0.6, 0.75, 0.055);
+    const flap = new THREE.Mesh(flapGeo, matLeather);
+    flap.castShadow = true;
+    flapGroup.add(flap);
+
+    // Gold border edges
+    const edgeGeo = new THREE.EdgesGeometry(flapGeo);
+    flapGroup.add(new THREE.LineSegments(
+      edgeGeo, new THREE.LineBasicMaterial({color: 0xC9A05A, linewidth: 2})
+    ));
+
+    // Mon (family crest) — decorative circle with cross
+    const mon = new THREE.Mesh(new THREE.TorusGeometry(0.1, 0.018, 8, 20), matGoldShiny);
+    mon.position.z = 0.035;
+    flapGroup.add(mon);
+    const monCenter = new THREE.Mesh(new THREE.SphereGeometry(0.04, 10, 10), matGoldShiny);
+    monCenter.position.z = 0.035;
+    flapGroup.add(monCenter);
+
+    // Corner rivets
+    [[-0.24,-0.3],[0.24,-0.3],[-0.24,0.3],[0.24,0.3]].forEach(pos => {
+      const rv = new THREE.Mesh(new THREE.SphereGeometry(0.02, 8, 6), matGoldShiny);
+      rv.position.set(pos[0], pos[1], 0.032);
+      flapGroup.add(rv);
+    });
+
+    flapGroup.position.set(side * DOME_R * 0.78, 0.12, DOME_R * 0.55);
+    flapGroup.rotation.y = side * 0.4;
+    flapGroup.rotation.z = side * -0.1;
+    lidGroup.add(flapGroup);
+  });
+})();
+
+/* ═══════════════════════════════════════════
+   TEHEN KANAMONO — chrysanthemum ornament at crown
+   Intricate soft-metal fitting over the top opening.
+   ═══════════════════════════════════════════ */
+(function() {
+  const topY = DOME_H + 0.01;
+
+  // Outer ring — tehen kanamono base
+  const baseRing = new THREE.Mesh(
+    new THREE.TorusGeometry(0.26, 0.032, 12, 28), matGoldShiny
+  );
+  baseRing.rotation.x = Math.PI/2;
+  baseRing.position.y = topY;
+  lidGroup.add(baseRing);
+
+  // Inner ring
+  const innerRing = new THREE.Mesh(
+    new THREE.TorusGeometry(0.14, 0.02, 10, 20), matGoldShiny
+  );
+  innerRing.rotation.x = Math.PI/2;
+  innerRing.position.y = topY + 0.015;
+  lidGroup.add(innerRing);
+
+  // Chrysanthemum petals — two layers
+  [0.2, 0.12].forEach((r, li) => {
+    const count = li === 0 ? 14 : 10;
+    for (let i = 0; i < count; i++) {
+      const a = (i/count)*Math.PI*2 + li*0.25;
+      const petal = new THREE.Mesh(new THREE.SphereGeometry(0.04, 8, 6), matGoldShiny);
+      petal.scale.set(1.6, 0.3, 0.7);
+      petal.position.set(Math.cos(a)*r, topY + 0.035 + li*0.02, Math.sin(a)*r);
+      petal.rotation.y = -a;
+      lidGroup.add(petal);
+    }
+  });
+
+  // Central gem/knob
+  const gem = new THREE.Mesh(new THREE.SphereGeometry(0.05, 14, 14), matGoldShiny);
+  gem.position.y = topY + 0.08;
+  lidGroup.add(gem);
+
+  // Mounting tube
+  const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.07, 14), matGold);
+  tube.position.y = topY + 0.035;
+  lidGroup.add(tube);
+})();
+
+/* ═══════════════════════════════════════════
+   MAEDATE — grand KUWAGATA crescent horns
+   Wide spread (1.5× dome width), thick and imposing.
+   The most iconic visual element of a samurai helmet.
+   ═══════════════════════════════════════════ */
+(function() {
+  const crest = new THREE.Group();
+
+  function horn(sign) {
+    const shape = new THREE.Shape();
+    // Wide, sweeping horn — thick base tapering to point
+    shape.moveTo(0, 0);
+    shape.bezierCurveTo(sign*0.6, 0.5, sign*1.4, 1.8, sign*0.5, 3.2);
+    // Inner edge — thicker horn body
+    shape.bezierCurveTo(sign*1.2, 1.7, sign*0.5, 0.5, sign*0.15, 0.1);
+    shape.lineTo(0, 0);
+    const geo = new THREE.ExtrudeGeometry(shape, {
+      depth: 0.1,
+      bevelEnabled: true,
+      bevelThickness: 0.035,
+      bevelSize: 0.03,
+      bevelSegments: 5
+    });
+    const m = new THREE.Mesh(geo, matGoldShiny);
+    m.castShadow = true;
+    crest.add(m);
+  }
+  horn(-1);
+  horn(1);
+
+  // Central blade/spike between horns
+  const spike = new THREE.Shape();
+  spike.moveTo(0, 0);
+  spike.lineTo(-0.12, 0.7);
+  spike.bezierCurveTo(-0.08, 1.3, 0, 1.7, 0, 2.2);
+  spike.bezierCurveTo(0, 1.7, 0.08, 1.3, 0.12, 0.7);
+  spike.lineTo(0, 0);
+  crest.add(new THREE.Mesh(
+    new THREE.ExtrudeGeometry(spike, {
+      depth: 0.06, bevelEnabled: true,
+      bevelThickness: 0.025, bevelSize: 0.02, bevelSegments: 4
+    }), matGoldShiny
+  ));
+
+  // Mounting base — maedate-no-taka socket
+  const mount = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.38, 0.42, 0.16, 28), matGoldShiny
+  );
+  mount.rotation.x = Math.PI/2;
+  mount.position.z = 0.05;
+  mount.castShadow = true;
+  crest.add(mount);
+
+  // Ornamental filigree rosette on mounting disc
+  for (let i = 0; i < 16; i++) {
+    const a = (i/16)*Math.PI*2;
+    const p = new THREE.Mesh(new THREE.SphereGeometry(0.035, 8, 6), matGoldShiny);
+    p.scale.set(1.4, 0.35, 1);
+    p.position.set(Math.cos(a)*0.28, Math.sin(a)*0.28, 0.13);
+    crest.add(p);
+  }
+  const centerGem = new THREE.Mesh(new THREE.SphereGeometry(0.07, 14, 14), matGoldShiny);
+  centerGem.position.z = 0.13;
+  crest.add(centerGem);
+
+  // Secondary decorative disc
+  const disc2 = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.16, 0.16, 0.06, 22), matGold
+  );
+  disc2.rotation.x = Math.PI/2;
+  disc2.position.set(0, 0.8, 0.05);
+  crest.add(disc2);
+
+  crest.position.set(0, DOME_H * 0.5, DOME_R * 0.84);
+  crest.rotation.x = -0.18;
+  lidGroup.add(crest);
+})();
+
+/* ═══════════════════════════════════════════
+   LEATHER STRAPS + BUCKLES (sides)
+   ═══════════════════════════════════════════ */
+(function() {
+  [-1, 1].forEach(side => {
+    const sg = new THREE.Group();
+
+    const curve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(0, 0.5, 0),
+      new THREE.Vector3(0.02, 0.25, 0.12),
+      new THREE.Vector3(0.02, 0, 0.14),
+      new THREE.Vector3(0.02, -0.2, 0.12),
+      new THREE.Vector3(0, -0.4, 0)
+    ]);
+    const strapShape = new THREE.Shape();
+    strapShape.moveTo(-0.13, -0.022);
+    strapShape.lineTo(0.13, -0.022);
+    strapShape.lineTo(0.13, 0.022);
+    strapShape.lineTo(-0.13, 0.022);
+    strapShape.lineTo(-0.13, -0.022);
+    const strap = new THREE.Mesh(
+      new THREE.ExtrudeGeometry(strapShape, {extrudePath:curve, steps:20, bevelEnabled:false}),
+      matLeather
+    );
+    strap.castShadow = true;
+    sg.add(strap);
+
+    // Overlapping strap
+    const overCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(0, 0.28, 0.015),
+      new THREE.Vector3(0.01, 0.1, 0.1),
+      new THREE.Vector3(0.01, -0.08, 0.1),
+      new THREE.Vector3(0, -0.18, 0.015)
+    ]);
+    const overShape = new THREE.Shape();
+    overShape.moveTo(-0.09, -0.016);
+    overShape.lineTo(0.09, -0.016);
+    overShape.lineTo(0.09, 0.016);
+    overShape.lineTo(-0.09, 0.016);
+    overShape.lineTo(-0.09, -0.016);
+    sg.add(new THREE.Mesh(
+      new THREE.ExtrudeGeometry(overShape, {extrudePath:overCurve, steps:14, bevelEnabled:false}),
+      new THREE.MeshStandardMaterial({map:texLeatherCol, bumpMap:texLeatherBump, bumpScale:0.5, roughness:0.6, metalness:0.08})
+    ));
+
+    // Buckle — rectangular D-ring style
+    const buckle = new THREE.Mesh(new THREE.TorusGeometry(0.08, 0.018, 10, 20), matGoldShiny);
+    buckle.position.set(0, 0.06, 0.1);
+    sg.add(buckle);
+    const pin = new THREE.Mesh(new THREE.CylinderGeometry(0.005, 0.005, 0.14, 6), matGoldShiny);
+    pin.rotation.z = Math.PI/2;
+    pin.position.set(0, 0.06, 0.1);
+    sg.add(pin);
+
+    // Strap keeper loops
+    for (let i = 0; i < 3; i++) {
+      const h = new THREE.Mesh(new THREE.TorusGeometry(0.015, 0.005, 6, 10), matGold);
+      h.position.set(0, -0.05-i*.06, 0.035);
+      sg.add(h);
+    }
+    // Edge stitching
+    for (let i = 0; i < 9; i++) {
+      const sy = 0.42-i*.1;
+      [-0.11, 0.11].forEach(ex => {
+        const st = new THREE.Mesh(new THREE.BoxGeometry(0.013, 0.004, 0.028), matGold);
+        st.position.set(ex, sy, 0.04);
+        sg.add(st);
+      });
+    }
+
+    sg.position.set(side * DOME_R * 0.75, 0.05, DOME_R * 0.22);
+    sg.rotation.y = side * -0.5;
+    sg.rotation.z = side * 0.15;
+    lidGroup.add(sg);
+  });
+})();
+
+/* ═══════════════════════════════════════════
+   BOOK / PASSPORT
+   ═══════════════════════════════════════════ */
+(function() {
+  // Cover — all green leather
+  const cover = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.1, 1.5), matBook);
+  cover.castShadow = true;
+  bookGroup.add(cover);
+
+  // Pages
+  bookGroup.add(new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.06, 1.4), matPages));
+
+  // Spine — same green as cover
+  const spine = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.11, 1.5), matBook);
+  spine.position.set(-0.55, 0, 0);
+  bookGroup.add(spine);
+
+  // Simple gold title lines on cover
+  [{w:.45,z:-.38,h:.08},{w:.6,z:-.2,h:.12},{w:.72,z:.05,h:.04}].forEach(o => {
+    const txt = new THREE.Mesh(new THREE.BoxGeometry(o.w, 0.006, o.h), matBookGold);
+    txt.position.set(0, 0.055, o.z);
+    bookGroup.add(txt);
+  });
+
+  bookGroup.position.y = -0.05;
+  bookGroup.rotation.y = 0.08;
+})();
+
+/* ═══════════════════════════════════════════
+   DARK INTERIOR VOID — looks like a deep hole inside
+   ═══════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════
+   TABLE
+   ═══════════════════════════════════════════ */
+const table = new THREE.Mesh(
+  new THREE.CylinderGeometry(7, 7, 0.4, 64),
+  matTable
+);
+table.position.y = -DOME_H - 1.6;  // lower to accommodate shikoro neck guard
+table.receiveShadow = true;
+scene.add(table);
+
+/* ═══════════════════════════════════════════
+   ASSEMBLE
+   ═══════════════════════════════════════════ */
+helmet.add(baseGroup);
+helmet.add(lidGroup);
+helmet.add(bookGroup);
+helmet.position.y = 0.15;
+scene.add(helmet);
+
+/* ═══════════════════════════════════════════
+   ANIMATION STATE
+   ═══════════════════════════════════════════ */
+let isOpen = false, animProg = 0, animDir = 0;
+const SPEED = 0.005;
+function easeIO(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2}
+function easeOB(t){const c=1.70158;return 1+(c+1)*Math.pow(t-1,3)+c*Math.pow(t-1,2)}
+function easeOQ(t){return 1-Math.pow(1-t,4)}
+
+/* ═══════════════════════════════════════════
+   ORBIT CONTROLS
+   ═══════════════════════════════════════════ */
+let drag=false, pm={x:0,y:0};
+let oA={x:0.4,y:0.32}, oT={x:0.4,y:0.32};
+const OR=9;
+
+renderer.domElement.addEventListener('mousedown',e=>{drag=true;pm={x:e.clientX,y:e.clientY}});
+renderer.domElement.addEventListener('mousemove',e=>{
+  if(!drag)return;
+  oT.x+=(e.clientX-pm.x)*.004;
+  oT.y=Math.max(0.05,Math.min(1.1,oT.y+(e.clientY-pm.y)*.004));
+  pm={x:e.clientX,y:e.clientY};
+});
+renderer.domElement.addEventListener('mouseup',()=>drag=false);
+renderer.domElement.addEventListener('mouseleave',()=>drag=false);
+renderer.domElement.addEventListener('touchstart',e=>{drag=true;pm={x:e.touches[0].clientX,y:e.touches[0].clientY}},{passive:true});
+renderer.domElement.addEventListener('touchmove',e=>{
+  if(!drag)return;
+  oT.x+=(e.touches[0].clientX-pm.x)*.004;
+  oT.y=Math.max(0.05,Math.min(1.1,oT.y+(e.touches[0].clientY-pm.y)*.004));
+  pm={x:e.touches[0].clientX,y:e.touches[0].clientY};
+},{passive:true});
+renderer.domElement.addEventListener('touchend',()=>drag=false);
+
+/* ═══════════════════════════════════════════
+   PARTICLES
+   ═══════════════════════════════════════════ */
+const PC=80;
+const pGeo=new THREE.BufferGeometry();
+const pPos=new Float32Array(PC*3), pVel=[];
+for(let i=0;i<PC;i++){
+  pPos[i*3]=(Math.random()-.5)*3;
+  pPos[i*3+1]=Math.random()*2;
+  pPos[i*3+2]=(Math.random()-.5)*3;
+  pVel.push({x:(Math.random()-.5)*.006,y:Math.random()*.01+.003,z:(Math.random()-.5)*.006});
+}
+pGeo.setAttribute('position',new THREE.BufferAttribute(pPos,3));
+const pMat=new THREE.PointsMaterial({color:0xD4B060,size:.025,transparent:true,opacity:0,blending:THREE.AdditiveBlending});
+const particles=new THREE.Points(pGeo,pMat);
+particles.position.y=-.3;
+scene.add(particles);
+
+/* ═══════════════════════════════════════════
+   BUTTON
+   ═══════════════════════════════════════════ */
+const btn=document.getElementById('open-btn');
+const hint=document.getElementById('hint');
+
+// Entrance fade-in
+setTimeout(()=>{
+  document.getElementById('fade').classList.add('done');
+}, 300);
+
+btn.addEventListener('click',()=>{
+  if(animDir!==0)return;
+  isOpen=!isOpen;
+  animDir=isOpen?1:-1;
+  btn.textContent=isOpen?'Return':'Reveal';
+
+  // Particle burst on reveal — reset all particles to center
+  if(isOpen){
+    const pos=pGeo.attributes.position.array;
+    for(let i=0;i<PC;i++){
+      pos[i*3]=(Math.random()-.5)*0.5;
+      pos[i*3+1]=Math.random()*0.3;
+      pos[i*3+2]=(Math.random()-.5)*0.5;
+      pVel[i]={x:(Math.random()-.5)*.015,y:Math.random()*.018+.006,z:(Math.random()-.5)*.015};
+    }
+    pGeo.attributes.position.needsUpdate=true;
+  }
+});
+
+/* ═══════════════════════════════════════════
+   RENDER LOOP
+   ═══════════════════════════════════════════ */
+const clock=new THREE.Clock();
+
+function animate(){
+  requestAnimationFrame(animate);
+  const time=clock.getElapsedTime();
+
+  // Orbit
+  oA.x+=(oT.x-oA.x)*.05;
+  oA.y+=(oT.y-oA.y)*.05;
+  if(!drag) oT.x+=.002;
+
+  camera.position.y=Math.sin(oA.y)*OR+0.6;
+  camera.lookAt(0,0.2,0);
+
+  // Animation
+  if(animDir!==0){
+    animProg+=animDir*SPEED;
+    if(animProg>=1){animProg=1;animDir=0}
+    if(animProg<=0){animProg=0;animDir=0}
+  }
+
+  const e=easeIO(animProg);
+
+  // LID: lift UP very high, tilt BACK hard, slide backward
+  // so book is completely unobstructed
+  lidGroup.position.y = e * 3.8;          // lift enough to clear, but stay in frame
+  lidGroup.position.z = e * -2.5;       // slide backward
+  lidGroup.rotation.x = e * -0.6;       // tilt back
+  lidGroup.rotation.z = e * 0.03;
+
+  // BOOK: waits for lid to clear, then rises vertically and floats forward.
+  // Lid must be ~55% open before the book starts moving at all.
+  const BOOK_DELAY = 0.55;  // book doesn't budge until lid is well clear
+  const bd = Math.max(0, (animProg - BOOK_DELAY) / (1 - BOOK_DELAY));
+  const bE = easeOQ(Math.min(bd, 1));
+  const bF = easeOB(Math.min(bd * 1.05, 1));
+
+  bookGroup.position.y = -0.05 + bF * 1.4;    // float up, centered but lower
+  bookGroup.position.z = bE * 0.0;             // stays centered, no forward drift
+
+  // Stand the book VERTICALLY — rotate +PI/2 on X
+  // so the gold title face (+Y normal) maps to +Z (front of helmet toward camera)
+  bookGroup.rotation.x = bE * Math.PI / 2;     // flat → vertical, titles face FRONT
+  bookGroup.rotation.y = 0.08 + bE * 0.12;     // slight angle for 3/4 view
+  bookGroup.rotation.z = bE * 0.05;            // very slight lean
+
+  // Gentle hover when fully open — subtle bob + slow Y orbit
+  if (animProg >= 1) {
+    bookGroup.position.y += Math.sin(time * 0.8) * 0.06;       // slow vertical bob
+    bookGroup.rotation.y = 0.2 + Math.sin(time * 0.4) * 0.1;   // gentle orbit, titles stay front-facing
+    bookGroup.rotation.z = 0.05 + Math.sin(time * 0.6) * 0.02; // micro-tilt
+  }
+
+  // Particles
+  pMat.opacity = e * 0.4;
+  const pos = pGeo.attributes.position.array;
+  for (let i = 0; i < PC; i++) {
+    if (animProg > 0.1) {
+      pos[i*3] += pVel[i].x;
+      pos[i*3+1] += pVel[i].y * e;
+      pos[i*3+2] += pVel[i].z;
+      if (pos[i*3+1] > 5) {
+        pos[i*3] = (Math.random()-.5)*2.5;
+        pos[i*3+1] = 0;
+        pos[i*3+2] = (Math.random()-.5)*2.5;
+      }
+    }
+  }
+  pGeo.attributes.position.needsUpdate = true;
+
+  // Dramatic lighting shift during reveal
+  warmU.intensity = 0.4 + e * 1.5;
+  keyL.intensity = 2.0 - e * 0.4 + (animProg >= 1 ? 0.6 : 0);  // dim during open, bright when settled
+  topL.intensity = 1.5 + e * 1.0;  // top light intensifies to spotlight the book
+  rimL.intensity = 1.2 + e * 0.8;  // rim light grows for drama
+
+  // Camera push-in on reveal — subtle zoom effect
+  const zoomFactor = 1 - e * 0.1;  // 10% closer when open
+  camera.position.x = Math.sin(oA.x) * OR * zoomFactor * Math.cos(oA.y);
+  camera.position.z = Math.cos(oA.x) * OR * zoomFactor * Math.cos(oA.y);
+
+  renderer.render(scene, camera);
+}
+
+window.addEventListener('resize', () => {
+  camera.aspect = innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+animate();
+
+} catch(err) {
+  document.body.innerHTML = '<div style="color:#c9a96e;padding:40px;font-family:monospace;white-space:pre-wrap">Error: '+err.message+'\n\n'+err.stack+'</div>';
+}
+</script>
+</body>
+</html>
