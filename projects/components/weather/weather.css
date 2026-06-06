@@ -1,25 +1,52 @@
 .weather-card {
   margin-top: 1.5rem;
   padding: 1.5rem;
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  background: #F7F7F5;
+  border: 1px solid rgba(0,0,0,0.08);
   max-width: 320px;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+.weather-card h2 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+  color: #0a0a0a;
+}
+
+.weather-card label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.weather-card select {
+  display: block;
+  margin: 0.4rem 0 1rem;
+  padding: 6px 10px;
+  font-size: 14px;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 8px;
+  background: #fff;
+  color: #0a0a0a;
+  cursor: pointer;
 }
 
 .weather-temp {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 700;
+  letter-spacing: -0.03em;
   margin: 0.25rem 0;
+  color: #0a0a0a;
 }
 
 .weather-desc {
-  opacity: 0.85;
-}
-.weather-card select {
-  margin: 0.5rem 0 1rem;
-  padding: 0.4rem 0.6rem;
-  font-size: 1rem;
+  font-size: 14px;
+  color: #414141;
 }
 
 .weather-display {
@@ -29,17 +56,13 @@
 }
 
 .weather-icon {
-  font-size: 3rem;
+  font-size: 2.5rem;
   line-height: 1;
 }
-/* Skeleton shimmer animation */
+
 @keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
 }
 
 .skeleton {
@@ -49,7 +72,6 @@
   border-radius: 10px;
 }
 
-/* Layout for skeleton inside weather card */
 .weather-values {
   position: relative;
   flex: 1;
@@ -62,28 +84,11 @@
   margin-top: 0.25rem;
 }
 
-.skeleton-icon {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 999px;
-}
+.skeleton-icon  { width: 3rem; height: 3rem; border-radius: 999px; }
+.skeleton-lines { flex: 1; }
+.skeleton-temp  { height: 2.5rem; width: 45%; margin-bottom: 0.5rem; }
+.skeleton-text  { height: 1rem; width: 70%; }
 
-.skeleton-lines {
-  flex: 1;
-}
-
-.skeleton-temp {
-  height: 2.5rem;
-  width: 45%;
-  margin-bottom: 0.5rem;
-}
-
-.skeleton-text {
-  height: 1rem;
-  width: 70%;
-}
-
-/* When loading: show skeleton, hide real values */
 .weather-card.is-loading #icon,
 .weather-card.is-loading #temperature,
 .weather-card.is-loading #description {
@@ -94,9 +99,6 @@
   display: flex;
 }
 
-/* Optional: reduce motion preference */
 @media (prefers-reduced-motion: reduce) {
-  .skeleton {
-    animation: none;
-  }
+  .skeleton { animation: none; }
 }

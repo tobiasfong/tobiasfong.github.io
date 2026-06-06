@@ -10,6 +10,11 @@
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   border-radius: 16px;
+  scrollbar-width: none;
+}
+
+.carousel-track::-webkit-scrollbar {
+  display: none;
 }
 
 .slide {
@@ -17,33 +22,31 @@
   position: relative;
 }
 
-.slide img {
-  display: block;
+.slide-media {
+  aspect-ratio: 16 / 9;
   width: 100%;
-  height: auto;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #F7F7F5;
+}
+
+.slide-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .caption {
   margin: 0;
-  padding: 0.75rem 1rem;
+  padding: 0.6rem 0.25rem;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 13px;
+  color: #888;
 }
 
 .carousel-controls {
   display: flex;
   gap: 0.5rem;
   margin-top: 0.75rem;
-}
-.slide-media {
-  aspect-ratio: 16 / 9;
-  width: 100%;
-  overflow: hidden;
-  border-radius: 16px;
-  background: #fff; /* white empty space */
-}
-
-.slide-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* keeps full image */
-  display: block;
 }

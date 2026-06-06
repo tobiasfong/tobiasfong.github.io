@@ -1,86 +1,101 @@
-/* Modal background overlay */
 .modal {
-  display: none;           /* Hidden by default */
-  position: fixed;         /* Fixed position on the screen */
-  top: 50%;                /* Center the modal vertically */
-  left: 50%;               /* Center the modal horizontally */
-  transform: translate(-50%, -50%); /* Offset by 50% of the width/height to center perfectly */
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background */
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Ensures the modal appears on top of other content */
+  overflow: auto;
 }
 
-/* Modal content container */
+.modal.is-open {
+  display: flex;
+}
+
 .modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
+  position: relative;
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 20px;
+  padding: 32px;
   width: 90%;
-  max-width: 500px;  /* Max width for the modal */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 480px;
+  max-height: 90vh;
+  overflow: auto;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.12);
 }
 
-/* Close button */
-.close-btn {
-  background: transparent;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-/* Modal text styling */
-.modal h2 {
+.modal-content h2 {
   margin-top: 0;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #0a0a0a;
 }
 
-.modal p {
-  margin-bottom: 1.5rem;
+.modal-content p {
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #414141;
+  margin-bottom: 1rem;
 }
-/* Modal image container */
+
+.close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(0,0,0,0.06);
+  border: none;
+  border-radius: 999px;
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #414141;
+  transition: background 0.15s;
+}
+
+.close-btn:hover {
+  background: rgba(0,0,0,0.12);
+}
+
 .modal-image {
   text-align: center;
   margin-top: 1rem;
 }
 
 .modal-image img {
-  max-width: 100%;      /* Ensure image is responsive */
-  max-height: 80vh;     /* Limit the height of the image (80% of viewport height) */
-  object-fit: contain;  /* Ensure the image scales correctly inside the modal */
+  max-width: 100%;
+  max-height: 60vh;
+  object-fit: contain;
   display: block;
+  margin: 0 auto;
+  border-radius: 12px;
 }
 
 .modal-image figcaption {
-  font-size: 1rem;
-  color: #555;
+  font-size: 13px;
+  color: #888;
   margin-top: 0.5rem;
-}
-.modal {
-  overflow: auto; /* Ensure modal content can scroll if needed */
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
 }
 
-.modal-content {
-  max-height: 90vh;  /* Prevents the modal from growing too large */
-  overflow: auto;    /* Allows the modal to scroll if content is too tall */
-}
-/* Container for the buttons */
 .modal-buttons-container {
   display: flex;
-  flex-direction: column;  /* Stack buttons vertically */
-  gap: 10px;               /* Adds space between the buttons */
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-/* Optionally, style the buttons */
 .modal-buttons-container .button {
-  width: 100%;             /* Make buttons fill the container */
-  max-width: 250px;        /* Optional: limit max width of buttons */
-}
-/* Add space between the modal buttons and the tabs section */
-.modal-buttons-container {
-  margin-bottom: 20px;   /* Adds space below the modal buttons */
+  max-width: 250px;
 }

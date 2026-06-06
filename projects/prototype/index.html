@@ -3,70 +3,104 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Prototype Blog | Tobias Fong</title>
+    <title>Prototype 1 | Tobias Fong</title>
     <link rel="stylesheet" href="/style.css" />
-    <link rel="stylesheet" href="./prototype.css" />
   </head>
 
   <body>
-    <nav class="container">
-      <a href="/">Home</a>
-      <a href="/projects/">Projects</a>
-      <a href="/projects/prototype/" class="active">Prototype</a>
-    </nav>
+  <nav class="project-nav">
+    <div class="project-nav-inner">
+      <a href="/" class="project-nav-logo">TF</a>
+      <div class="project-nav-links">
+        <a href="/projects/">← Projects</a>
+        <a href="/#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
 
-    <header class="container blog-header">
-      <p class="blog-kicker">Prototype Blog</p>
-      <h1>Prototype Blog</h1>
-      <p class="tagline">
-       At Aleph, we're not just engineers. We're also artists. And vice versa - we're not just artists, we're also engineers.
-        But whether we are artists or engineers, we are <i>all</i> dreamers.
+    <main class="container project-content">
+      <p class="breadcrumb">
+        <a href="/projects/">← Back to Projects</a>
       </p>
-    </header>
 
-    <main class="container blog-list">
-      <article class="post-preview">
-        <header class="post-preview__header">
-          <h2 class="post-preview__title">
-            <a href="#">A new era</a>
-          </h2>
-          <time class="post-preview__meta" datetime="2026-01-10">10 January 2026</time>
-        </header>
-        <p class="post-preview__excerpt">
-          We are in the process of entering a new era, where coding is done by AI, rather than by human hands.
-          This is not to say that human developers are no longer needed, but rather, we can focus on creativity now that we have AI to assist us with mundane tasks.
-          Nor am I claiming computer science degrees have become obsolete.
-          It simply allows us humanities majors to close the gap and be more versatile rather than living within our own bubbles.
+      <header class="project-hero">
+        <img
+          class="project-image"
+          src="/img/HappyRowlet.jpeg"
+          alt="Prototype 1"
+          loading="lazy"
+        />
+        <div class="section-kicker">Prototype</div>
+        <h1>Prototype 1</h1>
+        <p class="meta">Dec 2025 · HTML/CSS · Blog</p>
+        <p class="lead">
+          Replicating a personal blog from scratch — proving that a humanities major can build for the web.
+          Nothing to do with the game where you play as a superpowered mutant.
         </p>
-        <p class="post-preview__more">
-          <a href="#">Read more →</a>
-        </p>
-      </article>
+      </header>
 
-      <article class="post-preview">
-        <header class="post-preview__header">
-          <h2 class="post-preview__title">
-            <a href="#">Proof is in the Pudding...or Coding</a>
-          </h2>
-          <time class="post-preview__meta" datetime="2025-12-22">22 December 2025</time>
-        </header>
-        <p class="post-preview__excerpt">
-         This blog is evidence that anyone can become a coder.
-          The computer science degree will undoubtedly give you an advantage, but that doesn't mean the door to development is closed to the rest of us.
-          AI brings with it fresh and exciting opportunities, and we should learn to take advantage of it instead of fearing it.
-          Nonetheless, we must also be on our guard against complacency.
-          AI is useful, but it is not omnipotent.
-          Humans are still necessary for content creation and other tasks that require flexibility.
-          AI also requires prompts, and that's where we come in.
+      <section style="max-width: 720px; margin: 0 auto;">
+        <div class="section-kicker">About</div>
+        <h2>What is this?</h2>
+        <p>
+          At Aleph, we're not just engineers. We're also artists. And vice versa — we're not just artists,
+          we're also engineers. But whether we are artists or engineers, we are <em>all</em> dreamers.
         </p>
-        <p class="post-preview__more">
-          <a href="#">Read more →</a>
+        <p>
+          This prototype is an exercise in building a simple blog layout from scratch — no frameworks,
+          no libraries, just HTML and CSS. The goal was to prove that a humanities major with no formal
+          coding background can still ship something real.
         </p>
-      </article>
+      </section>
+
+      <section style="max-width: 720px; margin: 2rem auto 0;">
+        <div class="section-kicker">Posts</div>
+        <h2>Blog</h2>
+
+        <article style="border-top: 1px solid var(--border); padding: 1.5rem 0;">
+          <h3 style="margin-bottom: 4px;"><a href="#" style="color: var(--text); text-decoration: none;">A new era</a></h3>
+          <time style="font-size: 13px; color: var(--text-muted);">10 January 2026</time>
+          <p style="margin-top: 0.75rem; color: var(--text-body); line-height: 1.7;">
+            We are in the process of entering a new era, where coding is done by AI, rather than by human hands.
+            This is not to say that human developers are no longer needed — we can now focus on creativity
+            while AI handles the mundane tasks. It allows humanities majors to close the gap and be more
+            versatile rather than living within our own bubbles.
+          </p>
+          <a href="#" style="font-size: 13px; font-weight: 600; color: var(--text);">Read more →</a>
+        </article>
+
+        <article style="border-top: 1px solid var(--border); padding: 1.5rem 0;">
+          <h3 style="margin-bottom: 4px;"><a href="#" style="color: var(--text); text-decoration: none;">Proof is in the Pudding...or Coding</a></h3>
+          <time style="font-size: 13px; color: var(--text-muted);">22 December 2025</time>
+          <p style="margin-top: 0.75rem; color: var(--text-body); line-height: 1.7;">
+            This blog is evidence that anyone can become a coder. The computer science degree will undoubtedly
+            give you an advantage, but that doesn't mean the door to development is closed to the rest of us.
+            AI brings fresh and exciting opportunities, and we should learn to take advantage of it instead of
+            fearing it. Humans are still necessary — AI also requires prompts, and that's where we come in.
+          </p>
+          <a href="#" style="font-size: 13px; font-weight: 600; color: var(--text);">Read more →</a>
+        </article>
+      </section>
+
+      <section style="max-width: 720px; margin: 2rem auto 0;">
+        <div class="section-kicker">Tags</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.75rem;">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">Prototype</span>
+          <span class="tag">AI &amp; Creativity</span>
+          <span class="tag">Humanities</span>
+        </div>
+      </section>
     </main>
 
-    <footer class="container blog-footer">
-      <p>© 2026 Tobias Fong</p>
-    </footer>
+  <footer class="project-footer">
+    <div class="project-nav-inner">
+      <span style="font-size:12px;color:var(--text-muted);">© 2026 Tobias Fong</span>
+      <span style="font-size:12px;color:var(--text-muted);">Built with Claude</span>
+    </div>
+  </footer>
+
+    <script src="/script.js"></script>
   </body>
 </html>
