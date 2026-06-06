@@ -1,52 +1,98 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Projects | Tobias Fong</title>
-    <link rel="stylesheet" href="/style.css" />
-  </head>
-  <body>
-    <nav class="container">
-      <a href="/">Home</a>
-      <a href="/projects/" class="active">Projects</a>
-      <a href="/#contact">Contact</a>
-    </nav>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Projects | Tobias Fong</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
 
-    <main class="container">
-      <h1>Projects</h1>
-      <div class="cards">
-        <a class="card" href="/projects/experiment-1.html">
-  <img class="card-thumb" src="/img/projects/Pikachu.jpg" alt="Experiment 1 screenshot" loading="lazy" />
-  <h3>Experiment 1</h3>
-  <p>Experimenting with Github.</p>
-  <p class="tag">HTML/CSS</p>
-</a>
-
-        <a class="card" href="/projects/experiment-2.html">
-  <img class="card-thumb" src="/img/projects/Glaceon.jpg" alt="Experiment 2 screenshot" loading="lazy" />
-  <h3>実験2</h3>
-  <p>日本語ページとリンク設計の検証。</p>
-  <p class="tag">HTML/CSS</p>
-</a>
-        
-        <a class="card" href="/projects/samurai-helmet.html">
-  <h3>Samurai Helmet</h3>
-  <p>Interactive 3D suji bachi kabuto — drag to orbit, click Reveal to open.</p>
-  <p class="tag">Three.js / WebGL</p>
-</a>
-
-        <a class="card" href="/projects/prototype/">
-  <img class="card-thumb" src="/img/Rowlet2.jpeg" alt="Prototype 1 screenshot" loading="lazy" />
-  <h3>Prototype 1</h3>
-  <p>An attempt to replicate my blog from scratch.</p>
-  <p class="tag">HTML/CSS</p>
-</a>
+  <nav class="project-nav">
+    <div class="project-nav-inner">
+      <a href="/" class="project-nav-logo">TF</a>
+      <div class="project-nav-links">
+        <a href="/">Home</a>
+        <a href="/#contact">Contact</a>
       </div>
-    </main>
+    </div>
+  </nav>
 
-    <footer class="container">
-      <p>© 2026 Tobias Fong</p>
-    </footer>
-  </body>
+  <main class="container project-content">
+    <div class="project-hero">
+      <div class="section-kicker">Featured Work</div>
+      <h1>Projects</h1>
+    </div>
+
+    <div class="projects-grid">
+      <a class="projects-card" href="/projects/blog.html">
+        <img class="projects-card-img" src="https://blogger.googleusercontent.com/img/a/AVvXsEhJ3mvplYnZst8bRcA0ht9fuVe6yRvri9wXSPJqNyAner4a9xMw1Xe4PSc521jSaceASLQif5QvOqOfcrLTOZ047-Jpo9iVigPrlzrQy36XIvOU1dCMlpWwGuDAAbKPGt3pcu56AHzgMNdKOkpaczCjnUmBxZInDgKLLnpZyQ_42_aATmfmtLPvSPJu-XI=s1060" alt="Adeptus Mechanicus Knight" />
+        <div class="projects-card-body">
+          <div class="card-tags" style="display:flex;gap:6px;margin-bottom:4px;">
+            <span class="tag">Warhammer 40K</span>
+            <span class="tag">Lore</span>
+          </div>
+          <h3>Adeptus Mechanicus Knight</h3>
+          <p>A hobby blog exploring the lore, faction histories, and narrative evolution of Warhammer 40,000.</p>
+        </div>
+      </a>
+
+      <a class="projects-card" href="/projects/samurai-helmet.html">
+        <img class="projects-card-img" src="/img/samurai-helmet.png" alt="Samurai Helmet" />
+        <div class="projects-card-body">
+          <div class="card-tags" style="display:flex;gap:6px;margin-bottom:4px;">
+            <span class="tag">Three.js</span>
+            <span class="tag">3D</span>
+          </div>
+          <h3>Samurai Helmet</h3>
+          <p>Interactive 3D suji bachi kabuto. Drag to orbit, hit Reveal to open it.</p>
+        </div>
+      </a>
+
+      <a class="projects-card" href="/projects/prototype/">
+        <img class="projects-card-img" src="/img/HappyRowlet.jpeg" alt="Prototype 1" />
+        <div class="projects-card-body">
+          <div class="card-tags" style="display:flex;gap:6px;margin-bottom:4px;">
+            <span class="tag">HTML</span>
+            <span class="tag">Prototype</span>
+          </div>
+          <h3>Prototype 1</h3>
+          <p>Replicating my blog from scratch. Nothing to do with the game where you play as a superpowered mutant.</p>
+        </div>
+      </a>
+
+      <a class="projects-card" href="/projects/experiment-1.html">
+        <img class="projects-card-img" src="/img/SurprisedRowlet.jpeg" alt="Experiment 1" />
+        <div class="projects-card-body">
+          <div class="card-tags" style="display:flex;gap:6px;margin-bottom:4px;">
+            <span class="tag">HTML</span>
+            <span class="tag">Basics</span>
+          </div>
+          <h3>Experiment 1</h3>
+          <p>Where it all started — basic HTML structure and layout.</p>
+        </div>
+      </a>
+
+      <a class="projects-card" href="/projects/experiment-2.html">
+        <img class="projects-card-img" src="/img/SweatPikachu.jpeg" alt="Experiment 2" />
+        <div class="projects-card-body">
+          <div class="card-tags" style="display:flex;gap:6px;margin-bottom:4px;">
+            <span class="tag">Japanese</span>
+            <span class="tag">Bilingual</span>
+          </div>
+          <h3>Experiment 2 / 実験2</h3>
+          <p>A bilingual experiment — proving I can handle Japanese-language content on the web.</p>
+        </div>
+      </a>
+    </div>
+  </main>
+
+  <footer class="project-footer">
+    <div class="project-nav-inner">
+      <span style="font-size:12px;color:var(--text-muted);">© 2026 Tobias Fong</span>
+      <span style="font-size:12px;color:var(--text-muted);">Built with Claude</span>
+    </div>
+  </footer>
+
+</body>
 </html>

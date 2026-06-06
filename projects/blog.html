@@ -8,11 +8,15 @@
   </head>
 
   <body>
-    <nav class="container">
-      <a href="/">Home</a>
-      <a href="/projects/" class="active">Projects</a>
-      <a href="/#contact">Contact</a>
-    </nav>
+  <nav class="project-nav">
+    <div class="project-nav-inner">
+      <a href="/" class="project-nav-logo">TF</a>
+      <div class="project-nav-links">
+        <a href="/projects/">← Projects</a>
+        <a href="/#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
 
     <main class="container">
       <p class="breadcrumb">
@@ -57,9 +61,12 @@
       </section>
     </main>
 
-    <footer class="container">
-      <p>© 2026 Tobias Fong</p>
-    </footer>
+  <footer class="project-footer">
+    <div class="project-nav-inner">
+      <span style="font-size:12px;color:var(--text-muted);">© 2026 Tobias Fong</span>
+      <span style="font-size:12px;color:var(--text-muted);">Built with Claude</span>
+    </div>
+  </footer>
 
     <script src="/script.js"></script>
   </body>
