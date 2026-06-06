@@ -1,5 +1,4 @@
-const WORKER_URL =
-  "https://tobias-translate.tobiasfong.workers.dev/translate";
+const MYMEMORY_URL = "https://api.mymemory.translated.net/get";
 
 const sourceText = document.getElementById("sourceText");
 const resultText = document.getElementById("resultText");
@@ -10,6 +9,10 @@ const statusEl = document.getElementById("status");
 
 function setStatus(msg) {
   statusEl.textContent = msg;
+}
+
+function detectLang(text) {
+  return /[　-鿿豈-﫿]/.test(text) ? "ja" : "en";
 }
 
 swapBtn.addEventListener("click", () => {
@@ -26,26 +29,29 @@ translateBtn.addEventListener("click", async () => {
     return;
   }
 
+  let mode = modeSelect.value;
+  if (mode === "auto") {
+    mode = detectLang(text) === "ja" ? "ja2en" : "en2ja";
+  }
+
+  const [srcLang, tgtLang] = mode === "en2ja" ? ["en", "ja"] : ["ja", "en"];
+
   setStatus("Translating…");
   resultText.value = "";
 
   try {
-    const res = await fetch(WORKER_URL, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ text, mode: modeSelect.value })
-    });
-
+    const params = new URLSearchParams({ q: text, langpair: `${srcLang}|${tgtLang}` });
+    const res = await fetch(`${MYMEMORY_URL}?${params}`);
     const data = await res.json();
 
-    if (!res.ok) {
-      setStatus(data?.error || "Request failed.");
+    if (data.responseStatus !== 200) {
+      setStatus(data.responseDetails || "Translation failed.");
       return;
     }
 
-    resultText.value = data.translation || "";
+    resultText.value = data.responseData.translatedText;
     setStatus("Done.");
   } catch (err) {
-    setStatus("Network error. Check the Worker URL.");
+    setStatus("Network error.");
   }
 });
