@@ -461,6 +461,67 @@ h1 {
   color: var(--text-body);
 }
 
+/* ── FEATURE CARD (wide standalone) ── */
+.feature-card {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 16px;
+  padding: 28px 32px;
+  background: var(--text);
+  border-radius: 16px;
+  text-decoration: none;
+  color: #fff;
+  transition: transform 0.25s cubic-bezier(0.22,1,0.36,1),
+              box-shadow 0.25s;
+}
+
+.feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+}
+
+.feature-card-label {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 80px;
+}
+
+.feature-card-body { flex: 1; }
+
+.feature-card-body h3 {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.feature-card-body p {
+  font-size: 13px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.7);
+  max-width: 680px;
+}
+
+.feature-card-arrow {
+  font-size: 22px;
+  color: rgba(255,255,255,0.5);
+  flex-shrink: 0;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.feature-card:hover .feature-card-arrow {
+  transform: translateX(4px);
+  color: #fff;
+}
+
 /* ── FOOTER ── */
 footer {
   border-top: 1px solid var(--border);
