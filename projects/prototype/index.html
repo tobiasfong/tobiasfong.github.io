@@ -143,7 +143,7 @@
             <div class="fusion-widget-header">
               <span class="section-kicker" style="margin-bottom: 0;">Live Updates</span>
               <h3 style="font-family: Arial, sans-serif; font-size: 16px; font-weight: 700; color: var(--text); margin: 6px 0 0;">Nuclear Fusion News</h3>
-              <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Latest from <a href="https://www.iter.org/newsline" target="_blank" rel="noopener noreferrer" style="color: var(--text-muted);">ITER Newsline</a></p>
+              <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Latest from <a href="https://www.world-nuclear-news.org" target="_blank" rel="noopener noreferrer" style="color: var(--text-muted);">World Nuclear News</a></p>
             </div>
             <ul class="fusion-widget-list" id="fusion-feed">
               <li class="fusion-widget-loading">Loading latest updates…</li>
@@ -181,26 +181,65 @@
     <script>
       (async function () {
         const feed = document.getElementById('fusion-feed');
-        const RSS = 'https://www.iter.org/rss/newsline.xml';
-        const API = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS)}&count=8`;
 
-        try {
-          const res = await fetch(API);
-          const data = await res.json();
+        const SOURCES = [
+          {
+            url: 'https://world-nuclear-news.org/?rss=feed',
+            proxy: 'https://api.allorigins.win/get?url=',
+          },
+          {
+            url: 'https://www.iter.org/rss/newsline.xml',
+            proxy: 'https://api.allorigins.win/get?url=',
+          },
+        ];
 
-          if (data.status !== 'ok' || !data.items?.length) throw new Error('No items');
-
-          feed.innerHTML = data.items.map(item => {
-            const date = new Date(item.pubDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-            return `
-              <li class="fusion-widget-item">
-                <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="fusion-widget-link">${item.title}</a>
-                <time class="fusion-widget-date">${date}</time>
-              </li>`;
-          }).join('');
-        } catch (e) {
-          feed.innerHTML = '<li class="fusion-widget-loading">Could not load feed. <a href="https://www.iter.org/newsline" target="_blank" rel="noopener noreferrer">Visit ITER Newsline →</a></li>';
+        async function tryFetch(proxy, rssUrl) {
+          const res = await fetch(proxy + encodeURIComponent(rssUrl), { cache: 'no-store' });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const json = await res.json();
+          const xml = json.contents;
+          if (!xml || xml.length < 100) throw new Error('Empty response');
+          const doc = new DOMParser().parseFromString(xml, 'text/xml');
+          const items = Array.from(doc.querySelectorAll('item')).slice(0, 8);
+          if (!items.length) throw new Error('No items');
+          return items.map(item => ({
+            title: item.querySelector('title')?.textContent?.trim() || '(no title)',
+            link:  item.querySelector('link')?.textContent?.trim() ||
+                   item.querySelector('link')?.getAttribute('href') || '#',
+            date:  item.querySelector('pubDate')?.textContent?.trim() || '',
+          }));
         }
+
+        for (const src of SOURCES) {
+          try {
+            const items = await tryFetch(src.proxy, src.url);
+            feed.innerHTML = items.map(item => {
+              const d = item.date ? new Date(item.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+              return `<li class="fusion-widget-item">
+                <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="fusion-widget-link">${item.title}</a>
+                ${d ? `<time class="fusion-widget-date">${d}</time>` : ''}
+              </li>`;
+            }).join('');
+            return; // success — stop
+          } catch (e) {
+            // try next source
+          }
+        }
+
+        // All sources failed — show helpful static links
+        feed.innerHTML = `
+          <li class="fusion-widget-item">
+            <a href="https://www.world-nuclear-news.org" target="_blank" rel="noopener noreferrer" class="fusion-widget-link">World Nuclear News</a>
+            <time class="fusion-widget-date">Industry news &amp; updates</time>
+          </li>
+          <li class="fusion-widget-item">
+            <a href="https://www.iter.org/newsline" target="_blank" rel="noopener noreferrer" class="fusion-widget-link">ITER Newsline</a>
+            <time class="fusion-widget-date">International fusion project</time>
+          </li>
+          <li class="fusion-widget-item">
+            <a href="https://news.google.com/search?q=nuclear+fusion" target="_blank" rel="noopener noreferrer" class="fusion-widget-link">Google News: Nuclear Fusion</a>
+            <time class="fusion-widget-date">Aggregated coverage</time>
+          </li>`;
       })();
     </script>
   </body>
