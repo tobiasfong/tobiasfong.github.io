@@ -461,6 +461,70 @@ h1 {
   color: var(--text-body);
 }
 
+/* ── FUSION NEWS WIDGET ── */
+.fusion-widget {
+  position: sticky;
+  top: 80px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.fusion-widget-header {
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.fusion-widget-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.fusion-widget-item {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fusion-widget-item:last-child {
+  border-bottom: 0;
+}
+
+.fusion-widget-link {
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  line-height: 1.4;
+}
+
+.fusion-widget-link:hover {
+  text-decoration: underline;
+}
+
+.fusion-widget-date {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.fusion-widget-loading {
+  padding: 20px;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+@media (max-width: 768px) {
+  .fusion-widget {
+    position: static;
+  }
+}
+
 /* ── FEATURE CARD (wide standalone) ── */
 .feature-card {
   display: flex;
