@@ -143,7 +143,7 @@
             <div class="fusion-widget-header">
               <span class="section-kicker" style="margin-bottom: 0;">Live Updates</span>
               <h3 style="font-family: Arial, sans-serif; font-size: 16px; font-weight: 700; color: var(--text); margin: 6px 0 0;">Nuclear Fusion News</h3>
-              <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Via Google News · updates automatically</p>
+              <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Latest from <a href="https://www.iter.org/newsline" target="_blank" rel="noopener noreferrer" style="color: var(--text-muted);">ITER Newsline</a></p>
             </div>
             <ul class="fusion-widget-list" id="fusion-feed">
               <li class="fusion-widget-loading">Loading latest updates…</li>
@@ -181,31 +181,25 @@
     <script>
       (async function () {
         const feed = document.getElementById('fusion-feed');
-        const RSS = 'https://news.google.com/rss/search?q=nuclear+fusion+reactor&hl=en&gl=US&ceid=US:en';
-        const PROXY = `https://corsproxy.io/?${encodeURIComponent(RSS)}`;
+        const RSS = 'https://www.iter.org/rss/newsline.xml';
+        const API = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS)}&count=8`;
 
         try {
-          const res = await fetch(PROXY);
-          if (!res.ok) throw new Error('Fetch failed');
-          const text = await res.text();
-          const xml = new DOMParser().parseFromString(text, 'text/xml');
-          const items = [...xml.querySelectorAll('item')].slice(0, 8);
+          const res = await fetch(API);
+          const data = await res.json();
 
-          if (!items.length) throw new Error('No items');
+          if (data.status !== 'ok' || !data.items?.length) throw new Error('No items');
 
-          feed.innerHTML = items.map(item => {
-            const title = item.querySelector('title')?.textContent || '';
-            const link  = item.querySelector('link')?.textContent || '#';
-            const pub   = item.querySelector('pubDate')?.textContent || '';
-            const date  = pub ? new Date(pub).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+          feed.innerHTML = data.items.map(item => {
+            const date = new Date(item.pubDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
             return `
               <li class="fusion-widget-item">
-                <a href="${link}" target="_blank" rel="noopener noreferrer" class="fusion-widget-link">${title}</a>
-                ${date ? `<time class="fusion-widget-date">${date}</time>` : ''}
+                <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="fusion-widget-link">${item.title}</a>
+                <time class="fusion-widget-date">${date}</time>
               </li>`;
           }).join('');
         } catch (e) {
-          feed.innerHTML = '<li class="fusion-widget-loading">Could not load feed. <a href="https://news.google.com/search?q=nuclear+fusion+reactor" target="_blank" rel="noopener noreferrer">Search on Google News →</a></li>';
+          feed.innerHTML = '<li class="fusion-widget-loading">Could not load feed. <a href="https://www.iter.org/newsline" target="_blank" rel="noopener noreferrer">Visit ITER Newsline →</a></li>';
         }
       })();
     </script>
