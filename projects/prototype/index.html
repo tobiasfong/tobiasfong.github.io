@@ -182,22 +182,26 @@
       (async function () {
         const feed = document.getElementById('fusion-feed');
         const RSS = 'https://news.google.com/rss/search?q=nuclear+fusion+reactor&hl=en&gl=US&ceid=US:en';
-        const API = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS)}&count=8`;
+        const PROXY = `https://corsproxy.io/?${encodeURIComponent(RSS)}`;
 
         try {
-          const res = await fetch(API);
-          const data = await res.json();
+          const res = await fetch(PROXY);
+          if (!res.ok) throw new Error('Fetch failed');
+          const text = await res.text();
+          const xml = new DOMParser().parseFromString(text, 'text/xml');
+          const items = [...xml.querySelectorAll('item')].slice(0, 8);
 
-          if (data.status !== 'ok' || !data.items?.length) throw new Error('No items');
+          if (!items.length) throw new Error('No items');
 
-          feed.innerHTML = data.items.map(item => {
-            const date = new Date(item.pubDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+          feed.innerHTML = items.map(item => {
+            const title = item.querySelector('title')?.textContent || '';
+            const link  = item.querySelector('link')?.textContent || '#';
+            const pub   = item.querySelector('pubDate')?.textContent || '';
+            const date  = pub ? new Date(pub).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
             return `
               <li class="fusion-widget-item">
-                <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="fusion-widget-link">
-                  ${item.title}
-                </a>
-                <time class="fusion-widget-date">${date}</time>
+                <a href="${link}" target="_blank" rel="noopener noreferrer" class="fusion-widget-link">${title}</a>
+                ${date ? `<time class="fusion-widget-date">${date}</time>` : ''}
               </li>`;
           }).join('');
         } catch (e) {
