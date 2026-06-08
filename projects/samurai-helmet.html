@@ -868,36 +868,16 @@ buildMabisashi(baseGroup, false);
     canvas.height = img.height;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0);
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const d = imageData.data;
-    const w = canvas.width, h = canvas.height;
-    // Flood-fill from all edges — only background white gets removed,
-    // leaving Rowlet's white face feathers (enclosed by his outline) intact
-    const visited = new Uint8Array(w * h);
-    const queue = [];
-    const seed = (x, y) => {
-      if (x < 0 || x >= w || y < 0 || y >= h) return;
-      const idx = y * w + x;
-      if (visited[idx]) return;
-      const p = idx * 4;
-      if (d[p] > 200 && d[p+1] > 200 && d[p+2] > 200) queue.push(x, y);
-    };
-    for (let x = 0; x < w; x++) { seed(x, 0); seed(x, h-1); }
-    for (let y = 0; y < h; y++) { seed(0, y); seed(w-1, y); }
-    let qi = 0;
-    while (qi < queue.length) {
-      const x = queue[qi++], y = queue[qi++];
-      if (x < 0 || x >= w || y < 0 || y >= h) continue;
-      const idx = y * w + x;
-      if (visited[idx]) continue;
-      visited[idx] = 1;
-      const p = idx * 4;
-      if (d[p] <= 200 || d[p+1] <= 200 || d[p+2] <= 200) continue;
-      d[p+3] = 0;
-      queue.push(x+1, y); queue.push(x-1, y);
-      queue.push(x, y+1); queue.push(x, y-1);
-    }
-    ctx.putImageData(imageData, 0, 0);
+    try {
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const d = imageData.data;
+      // Official Pokémon art background is exactly (255,255,255).
+      // Rowlet's face feathers have subtle shading — strict threshold keeps them intact.
+      for (let i = 0; i < d.length; i += 4) {
+        if (d[i] >= 252 && d[i+1] >= 252 && d[i+2] >= 252) d[i+3] = 0;
+      }
+      ctx.putImageData(imageData, 0, 0);
+    } catch(e) { /* if processing fails, use image as-is */ }
     const cleanTex = new THREE.CanvasTexture(canvas);
     const aspect = img.width / img.height;
     const h = 2.2;
