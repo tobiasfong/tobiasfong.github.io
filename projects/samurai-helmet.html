@@ -856,27 +856,31 @@ buildMabisashi(baseGroup, false);
 })();
 
 /* ═══════════════════════════════════════════
-   BOOK / PASSPORT
+   ROWLET
    ═══════════════════════════════════════════ */
 (function() {
-  // Cover — all green leather
-  const cover = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.1, 1.5), matBook);
-  cover.castShadow = true;
-  bookGroup.add(cover);
+  // Soft golden glow disc — sits behind Rowlet
+  const glowMat = new THREE.MeshBasicMaterial({
+    color: 0xD4A840, transparent: true, opacity: 0.18, side: THREE.DoubleSide
+  });
+  const glow = new THREE.Mesh(new THREE.CircleGeometry(1.15, 48), glowMat);
+  bookGroup.add(glow);
 
-  // Pages
-  bookGroup.add(new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.06, 1.4), matPages));
+  // Outer glow ring
+  const ringMat = new THREE.MeshBasicMaterial({
+    color: 0xF0C860, transparent: true, opacity: 0.08, side: THREE.DoubleSide
+  });
+  const ring = new THREE.Mesh(new THREE.RingGeometry(1.05, 1.45, 48), ringMat);
+  bookGroup.add(ring);
 
-  // Spine — same green as cover
-  const spine = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.11, 1.5), matBook);
-  spine.position.set(-0.55, 0, 0);
-  bookGroup.add(spine);
-
-  // Simple gold title lines on cover
-  [{w:.45,z:-.38,h:.08},{w:.6,z:-.2,h:.12},{w:.72,z:.05,h:.04}].forEach(o => {
-    const txt = new THREE.Mesh(new THREE.BoxGeometry(o.w, 0.006, o.h), matBookGold);
-    txt.position.set(0, 0.055, o.z);
-    bookGroup.add(txt);
+  // Rowlet sprite — always faces camera
+  new THREE.TextureLoader().load('/img/Rowlet.jpg', function(tex) {
+    const aspect = tex.image.width / tex.image.height;
+    const h = 2.2;
+    const spriteMat = new THREE.SpriteMaterial({ map: tex, transparent: false });
+    const sprite = new THREE.Sprite(spriteMat);
+    sprite.scale.set(h * aspect, h, 1);
+    bookGroup.add(sprite);
   });
 
   bookGroup.position.y = -0.05;
