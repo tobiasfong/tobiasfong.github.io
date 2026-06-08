@@ -874,7 +874,7 @@ buildMabisashi(baseGroup, false);
       // Official Pokémon art background is exactly (255,255,255).
       // Rowlet's face feathers have subtle shading — strict threshold keeps them intact.
       for (let i = 0; i < d.length; i += 4) {
-        if (d[i] >= 252 && d[i+1] >= 252 && d[i+2] >= 252) d[i+3] = 0;
+        if (d[i] === 255 && d[i+1] === 255 && d[i+2] === 255) d[i+3] = 0;
       }
       ctx.putImageData(imageData, 0, 0);
     } catch(e) { /* if processing fails, use image as-is */ }
