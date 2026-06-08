@@ -859,20 +859,6 @@ buildMabisashi(baseGroup, false);
    ROWLET
    ═══════════════════════════════════════════ */
 (function() {
-  // Soft golden glow disc — sits behind Rowlet
-  const glowMat = new THREE.MeshBasicMaterial({
-    color: 0xD4A840, transparent: true, opacity: 0.18, side: THREE.DoubleSide
-  });
-  const glow = new THREE.Mesh(new THREE.CircleGeometry(1.15, 48), glowMat);
-  bookGroup.add(glow);
-
-  // Outer glow ring
-  const ringMat = new THREE.MeshBasicMaterial({
-    color: 0xF0C860, transparent: true, opacity: 0.08, side: THREE.DoubleSide
-  });
-  const ring = new THREE.Mesh(new THREE.RingGeometry(1.05, 1.45, 48), ringMat);
-  bookGroup.add(ring);
-
   // Rowlet sprite — always faces camera
   new THREE.TextureLoader().load('/img/rowlet-clean.png', function(tex) {
     const aspect = tex.image.width / tex.image.height;
