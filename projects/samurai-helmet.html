@@ -879,6 +879,7 @@ buildMabisashi(baseGroup, false);
       ctx.putImageData(imageData, 0, 0);
     } catch(e) { /* if processing fails, use image as-is */ }
     const cleanTex = new THREE.CanvasTexture(canvas);
+    cleanTex.encoding = THREE.sRGBEncoding;
     const aspect = img.width / img.height;
     const h = 2.2;
     const spriteMat = new THREE.SpriteMaterial({ map: cleanTex, transparent: true });
