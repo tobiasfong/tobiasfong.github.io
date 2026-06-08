@@ -869,13 +869,43 @@ buildMabisashi(baseGroup, false);
     const ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0);
     try {
+      // Scale down for fast processing
+      const MAX = 512;
+      const sc = Math.min(1, MAX / Math.max(canvas.width, canvas.height));
+      canvas.width  = Math.round(img.width  * sc);
+      canvas.height = Math.round(img.height * sc);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       const d = imageData.data;
-      // Official Pokémon art background is exactly (255,255,255).
-      // Rowlet's face feathers have subtle shading — strict threshold keeps them intact.
-      for (let i = 0; i < d.length; i += 4) {
-        if (d[i] === 255 && d[i+1] === 255 && d[i+2] === 255) d[i+3] = 0;
+      const w = canvas.width, h = canvas.height;
+      const total = w * h;
+
+      // Flood-fill from all edges using Int32Array queue (fast + memory-safe)
+      const visited = new Uint8Array(total);
+      const queue   = new Int32Array(total);
+      let head = 0, tail = 0;
+
+      const isWhite = p => d[p] >= 240 && d[p+1] >= 240 && d[p+2] >= 240;
+      const enqueue = idx => {
+        if (idx >= 0 && idx < total && !visited[idx] && isWhite(idx * 4)) {
+          visited[idx] = 1; queue[tail++] = idx;
+        }
+      };
+
+      for (let x = 0; x < w; x++) { enqueue(x); enqueue((h-1)*w + x); }
+      for (let y = 1; y < h-1; y++) { enqueue(y*w); enqueue(y*w + w-1); }
+
+      while (head < tail) {
+        const idx = queue[head++];
+        d[idx*4+3] = 0;
+        const x = idx % w, y = (idx/w)|0;
+        if (x > 0)   enqueue(idx-1);
+        if (x < w-1) enqueue(idx+1);
+        if (y > 0)   enqueue(idx-w);
+        if (y < h-1) enqueue(idx+w);
       }
+
       ctx.putImageData(imageData, 0, 0);
     } catch(e) { /* if processing fails, use image as-is */ }
     const cleanTex = new THREE.CanvasTexture(canvas);
