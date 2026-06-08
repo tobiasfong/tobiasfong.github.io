@@ -860,10 +860,25 @@ buildMabisashi(baseGroup, false);
    ═══════════════════════════════════════════ */
 (function() {
   // Rowlet sprite — always faces camera
+  // Load image, strip white background via canvas, then build sprite
   new THREE.TextureLoader().load('/img/rowlet-clean.png', function(tex) {
-    const aspect = tex.image.width / tex.image.height;
+    const img = tex.image;
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const d = imageData.data;
+    for (let i = 0; i < d.length; i += 4) {
+      // Make near-white pixels transparent
+      if (d[i] > 220 && d[i+1] > 220 && d[i+2] > 220) d[i+3] = 0;
+    }
+    ctx.putImageData(imageData, 0, 0);
+    const cleanTex = new THREE.CanvasTexture(canvas);
+    const aspect = img.width / img.height;
     const h = 2.2;
-    const spriteMat = new THREE.SpriteMaterial({ map: tex, transparent: true, blending: THREE.MultiplyBlending });
+    const spriteMat = new THREE.SpriteMaterial({ map: cleanTex, transparent: true });
     const sprite = new THREE.Sprite(spriteMat);
     sprite.scale.set(h * aspect, h, 1);
     bookGroup.add(sprite);
