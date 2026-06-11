@@ -5,6 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Prototype 1 | Tobias Fong</title>
     <link rel="stylesheet" href="/style.css" />
+    <style>
+      .rl-widget {
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+      }
+      .rl-widget-header {
+        padding: 1rem 1.25rem 0.75rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .rl-year { border-bottom: 1px solid var(--border); }
+      .rl-year:last-child { border-bottom: none; }
+      .rl-year-pill {
+        width: 100%; display: flex; align-items: center;
+        justify-content: space-between;
+        padding: 0.65rem 1.25rem;
+        background: none; border: none; cursor: pointer;
+        font-family: Arial, sans-serif; font-size: 14px;
+        font-weight: 700; color: var(--text);
+        transition: background 0.2s, color 0.2s;
+        text-align: left;
+      }
+      .rl-year-pill:hover { background: rgba(128,128,128,0.08); }
+      .rl-year-pill.rl-open { background: var(--text); color: var(--bg); }
+      .rl-arrow { font-size: 11px; transition: transform 0.3s; }
+      .rl-year-pill.rl-open .rl-arrow { transform: rotate(0deg); }
+      .rl-posts {
+        display: grid; grid-template-rows: 1fr;
+        transition: grid-template-rows 0.3s ease;
+        overflow: hidden;
+      }
+      .rl-posts.rl-collapsed { grid-template-rows: 0fr; }
+      .rl-posts > ul {
+        min-height: 0; list-style: none;
+        padding: 0.5rem 1.25rem 0.75rem; margin: 0;
+      }
+      .rl-posts > ul li { padding: 0.25rem 0; }
+      .rl-posts > ul li a {
+        font-size: 12px; color: var(--text-muted);
+        text-decoration: none; line-height: 1.4; display: block;
+        padding-left: 0.75rem; border-left: 2px solid var(--border);
+        transition: color 0.2s, border-color 0.2s;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      }
+      .rl-posts > ul li a:hover { color: var(--text); border-left-color: var(--text); }
+    </style>
   </head>
 
   <body>
@@ -60,8 +107,8 @@
         <div style="display: grid; grid-template-columns: 1fr 300px; gap: 3rem; align-items: start; margin-top: 1rem;">
         <div>
 
-        <article style="border-top: 1px solid var(--border); padding: 1.5rem 0;">
-          <h3 style="margin-bottom: 4px;"><a href="#" style="color: var(--text); text-decoration: none;">Singapore, Nuclear Energy, and the Hope for a Cleaner Future</a></h3>
+        <article id="post-nuclear" style="border-top: 1px solid var(--border); padding: 1.5rem 0;">
+          <h3 style="margin-bottom: 4px;"><a href="#post-nuclear" style="color: var(--text); text-decoration: none;">Singapore, Nuclear Energy, and the Hope for a Cleaner Future</a></h3>
           <time style="font-size: 13px; color: var(--text-muted);">7 June 2026</time>
           <p style="margin-top: 0.75rem; color: var(--text-body); line-height: 1.7;">
             I've been meaning to write this for a while now, since last year, because I sometimes keep close tabs on Singapore's sustainability efforts. Since, you know, I studied ecocriticism and all that. I know we can't keep relying on fossil fuels forever, and we're trying to reduce our carbon footprint.
@@ -95,8 +142,8 @@
           <a href="#" style="font-size: 13px; font-weight: 600; color: var(--text);">Read more →</a>
         </article>
 
-        <article style="border-top: 1px solid var(--border); padding: 1.5rem 0;">
-          <h3 style="margin-bottom: 4px;"><a href="#" style="color: var(--text); text-decoration: none;">I know Singapore aims to be an AI Hub...but should we let it cook?</a></h3>
+        <article id="post-ai" style="border-top: 1px solid var(--border); padding: 1.5rem 0;">
+          <h3 style="margin-bottom: 4px;"><a href="#post-ai" style="color: var(--text); text-decoration: none;">I know Singapore aims to be an AI Hub...but should we let it cook?</a></h3>
           <time style="font-size: 13px; color: var(--text-muted);">6 June 2026</time>
           <p style="margin-top: 0.75rem; color: var(--text-body); line-height: 1.7;">
             I am aware that Singapore is trying to be an AI hub, and there are news that we plan to build AI data centers on our island. However, I think there are concerns to think about, such as heat, water consumption and our tropical climate, which gets compounded when we think about climate change and global warming. Would building AI data centers not aggravate the rising temperatures of our already hot island-city? And aren't we supposed to lack water and natural resources? Ugh.
@@ -113,8 +160,8 @@
           <a href="#" style="font-size: 13px; font-weight: 600; color: var(--text);">Read more →</a>
         </article>
 
-        <article style="border-top: 1px solid var(--border); padding: 1.5rem 0;">
-          <h3 style="margin-bottom: 4px;"><a href="#" style="color: var(--text); text-decoration: none;">A new era</a></h3>
+        <article id="post-new-era" style="border-top: 1px solid var(--border); padding: 1.5rem 0;">
+          <h3 style="margin-bottom: 4px;"><a href="#post-new-era" style="color: var(--text); text-decoration: none;">A new era</a></h3>
           <time style="font-size: 13px; color: var(--text-muted);">10 January 2026</time>
           <p style="margin-top: 0.75rem; color: var(--text-body); line-height: 1.7;">
             We are in the process of entering a new era, where coding is done by AI, rather than by human hands.
@@ -125,8 +172,8 @@
           <a href="#" style="font-size: 13px; font-weight: 600; color: var(--text);">Read more →</a>
         </article>
 
-        <article style="border-top: 1px solid var(--border); padding: 1.5rem 0;">
-          <h3 style="margin-bottom: 4px;"><a href="#" style="color: var(--text); text-decoration: none;">Proof is in the Pudding...or Coding</a></h3>
+        <article id="post-pudding" style="border-top: 1px solid var(--border); padding: 1.5rem 0;">
+          <h3 style="margin-bottom: 4px;"><a href="#post-pudding" style="color: var(--text); text-decoration: none;">Proof is in the Pudding...or Coding</a></h3>
           <time style="font-size: 13px; color: var(--text-muted);">22 December 2025</time>
           <p style="margin-top: 0.75rem; color: var(--text-body); line-height: 1.7;">
             This blog is evidence that anyone can become a coder. The computer science degree will undoubtedly
@@ -139,6 +186,35 @@
         </div><!-- end posts column -->
 
         <aside>
+          <div class="rl-widget">
+            <div class="rl-widget-header">
+              <span class="section-kicker" style="margin-bottom:0;">Navigation</span>
+              <h3 style="font-family:Arial,sans-serif;font-size:16px;font-weight:700;color:var(--text);margin:6px 0 0;">Reading List</h3>
+            </div>
+            <div class="rl-year">
+              <button class="rl-year-pill rl-open" onclick="toggleYear(this)">
+                <span>2026</span><span class="rl-arrow">▾</span>
+              </button>
+              <div class="rl-posts">
+                <ul>
+                  <li><a href="#post-nuclear">Singapore, Nuclear Energy, and the Hope for a Cleaner Future</a></li>
+                  <li><a href="#post-ai">I know Singapore aims to be an AI Hub...but should we let it cook?</a></li>
+                  <li><a href="#post-new-era">A new era</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="rl-year">
+              <button class="rl-year-pill" onclick="toggleYear(this)">
+                <span>2025</span><span class="rl-arrow">▸</span>
+              </button>
+              <div class="rl-posts rl-collapsed">
+                <ul>
+                  <li><a href="#post-pudding">Proof is in the Pudding...or Coding</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
           <div class="fusion-widget">
             <div class="fusion-widget-header">
               <span class="section-kicker" style="margin-bottom: 0;">Live Updates</span>
@@ -178,6 +254,22 @@
   </footer>
 
     <script src="/script.js"></script>
+    <script>
+      function toggleYear(btn) {
+        const posts = btn.nextElementSibling;
+        const isOpen = btn.classList.contains('rl-open');
+        document.querySelectorAll('.rl-year-pill').forEach(b => {
+          b.classList.remove('rl-open');
+          b.querySelector('.rl-arrow').textContent = '▸';
+          b.nextElementSibling.classList.add('rl-collapsed');
+        });
+        if (!isOpen) {
+          btn.classList.add('rl-open');
+          btn.querySelector('.rl-arrow').textContent = '▾';
+          posts.classList.remove('rl-collapsed');
+        }
+      }
+    </script>
     <script>
       (async function () {
         const feed = document.getElementById('fusion-feed');
