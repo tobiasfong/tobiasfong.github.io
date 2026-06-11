@@ -463,8 +463,6 @@ h1 {
 
 /* ── FUSION NEWS WIDGET ── */
 .fusion-widget {
-  position: sticky;
-  top: 80px;
   background: var(--bg-alt);
   border: 1px solid var(--border);
   border-radius: 16px;
