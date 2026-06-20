@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Background Generator (MCP Server) | Tobias Fong</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+
+  <body>
+  <nav class="project-nav">
+    <div class="project-nav-inner">
+      <a href="/" class="project-nav-logo"><img src="/img/rowlet-logo.jpg" alt="Home" style="width:32px;height:32px;border-radius:50%;object-fit:cover;display:block;" /></a>
+      <div class="project-nav-links">
+        <a href="/projects/">← Projects</a>
+        <a href="/#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+    <main class="container project-content">
+      <p class="breadcrumb">
+        <a href="/projects/">← Back to Projects</a>
+      </p>
+
+      <header class="project-hero" style="text-align:center; padding: 3rem 0 2rem;">
+        <div class="section-kicker">MCP Server Project</div>
+        <h1>Background Generator</h1>
+        <p class="lead" style="max-width: 640px; margin: 0 auto 1.5rem;">
+          A local MCP server that generates Warhammer&nbsp;40,000–aesthetic backgrounds
+          for my Imperial Knight webcomic — built with Claude.
+        </p>
+        <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+          <span class="tag" style="background: var(--text); color: var(--bg);">MCP Server</span>
+          <span class="tag">Python</span>
+          <span class="tag">Stable Diffusion</span>
+          <span class="tag">ComfyUI</span>
+          <span class="tag">Built with Claude</span>
+        </div>
+      </header>
+
+      <!-- Intro / story -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">The Idea</div>
+        <h2>Why I built this</h2>
+        <p>
+          I was reading <a href="https://claude.com/blog/meet-the-winners-of-our-claude-opus-4-8-build-day-hackathon" target="_blank" rel="noopener noreferrer">this article by Anthropic</a>
+          the other day and I found myself inspired, particularly by the winners of the Hackathon.
+          They used Opus 4.8 to build a 3D reconstruction platform for architecture! A platform that
+          not only researches, but assembles a 3D model of Tang Dynasty architecture, for example. Amazing.
+        </p>
+        <p>
+          So I thought, hey, why not build something similar with Opus 4.8? Working at Aleph
+          (or AKQA Singapore, I'm still not sure what the higher-ups will decide), I was asked to
+          construct MCP server prototypes, do proof of concepts for websites and even a chatbot, and
+          I wondered if I could use this experience to build something for my own personal use.
+        </p>
+        <p>
+          What would be of use to me? Given that I'm trying to draw webcomics, I suddenly had an
+          idea — why not build an MCP server that generates Warhammer 40,000 aesthetic backgrounds for
+          my Imperial Knight webcomic/manhwa? As a one-person studio trying to draw a full webcomic,
+          there are limits to what I can achieve by myself, and maybe such an MCP server or program will
+          help me tremendously.
+        </p>
+        <p style="font-weight: 600; color: var(--text);">This is the result.</p>
+      </section>
+
+      <!-- How it works -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">How It Works</div>
+        <h2>Sketch the angle, set the mood, draw the rest</h2>
+        <p>
+          The server exposes a single tool, <code>generate_background</code>, to my AI assistant.
+          I describe a scene in plain language, and — optionally — hand it two things:
+        </p>
+        <ul style="color: var(--text-body); line-height: 1.8;">
+          <li><strong>A rough perspective sketch.</strong> A few lines marking the vanishing point and
+            walls. The model is forced to match that exact camera angle, so the background fits the panel
+            I've already composed. (This uses a technique called ControlNet.)</li>
+          <li><strong>A style reference.</strong> A cool-toned grimdark image whose palette and mood get
+            transferred onto the result — so every background feels like it belongs in the same world.
+            (This uses IP-Adapter.)</li>
+        </ul>
+        <p>
+          It hands back a finished background for me to draw characters onto. The human stays in charge of
+          characters, story, and composition; the repetitive scenery work gets offloaded.
+        </p>
+        <p style="font-size: 14px; color: var(--text-muted);">
+          <strong>Under the hood:</strong> a Python MCP server wrapping a local ComfyUI + Stable Diffusion
+          pipeline (SD 1.5 + ControlNet + IP-Adapter), running on my own GPU. No cloud, no per-image cost.
+        </p>
+      </section>
+
+      <!-- Gallery -->
+      <section style="max-width: 900px; margin: 0 auto 3rem;">
+        <div class="section-kicker">Output</div>
+        <h2>Backgrounds it generated</h2>
+        <p style="color: var(--text-body); margin-bottom: 1.5rem;">
+          Real output from the tool — empty Shorea-Hive environments, ready for characters to be drawn in.
+        </p>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+          <figure style="margin:0;">
+            <img src="/img/mcp-bg-interior.png" alt="Generated hive city interior" style="width:100%; border-radius:14px; display:block;" loading="lazy" />
+            <figcaption style="font-size:12px; color:var(--text-muted); margin-top:0.5rem;">Hive interior</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="/img/mcp-bg-cathedral.png" alt="Generated gothic cathedral spire" style="width:100%; border-radius:14px; display:block;" loading="lazy" />
+            <figcaption style="font-size:12px; color:var(--text-muted); margin-top:0.5rem;">Cathedral spire</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="/img/mcp-bg-corridor.png" alt="Generated industrial corridor" style="width:100%; border-radius:14px; display:block;" loading="lazy" />
+            <figcaption style="font-size:12px; color:var(--text-muted); margin-top:0.5rem;">Industrial corridor</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="/img/mcp-bg-combined.png" alt="Background generated from a perspective sketch" style="width:100%; border-radius:14px; display:block;" loading="lazy" />
+            <figcaption style="font-size:12px; color:var(--text-muted); margin-top:0.5rem;">From a perspective sketch</figcaption>
+          </figure>
+        </div>
+        <!-- Optional demo slot: drop in a screenshot strip or <video controls src="/img/mcp-demo.mp4"> here later -->
+      </section>
+
+      <!-- Repo link -->
+      <section style="max-width: 720px; margin: 0 auto 3rem; text-align:center;">
+        <a class="button" href="https://github.com/tobiasfong/Warhammer40000-background-mcp" target="_blank" rel="noopener noreferrer">
+          View the code on GitHub →
+        </a>
+      </section>
+
+      <!-- Instructions for others -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">Use It Yourself</div>
+        <h2>MCP server instructions</h2>
+        <p>
+          Now, this isn't limited for my use alone. If you want to make use of it, you can too! But how,
+          you ask? Well, first of all, you can ask your AI harness, be it Claude Code, Codex or Google
+          Antigravity to clone the
+          <a href="https://github.com/tobiasfong/Warhammer40000-background-mcp" target="_blank" rel="noopener noreferrer">Warhammer40000-background-mcp</a>
+          repository, then follow the steps in the README to install. It'll set it up all for you!
+        </p>
+        <p>
+          You can tell your harness to adjust. This is for all webcomic artists, not just Warhammer 40,000
+          fans. So if you would like, say, medieval fantasy, curate a set of anime aesthetic medieval
+          fantasy art from your favorite references, and store them accordingly. Then get your harness to
+          generate whatever backgrounds you need!
+        </p>
+        <p>
+          I hope this will help webcomic artists tremendously, especially those who are understaffed and
+          rushing deadlines. Now set forth, focus on storytelling and bringing your characters to life, and
+          leave the background work to… well, the background generator!
+        </p>
+      </section>
+
+    </main>
+
+  <footer class="project-footer">
+    <div class="project-nav-inner">
+      <span style="font-size:12px;color:var(--text-muted);">© 2026 Tobias Fong</span>
+      <span style="font-size:12px;color:var(--text-muted);">Built with Claude</span>
+    </div>
+  </footer>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
