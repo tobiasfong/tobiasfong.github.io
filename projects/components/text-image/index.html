@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Text + Image Component</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="text-image.css" />
+  </head>
+
+  <body>
+    <nav class="container">
+      <a href="/">Home</a>
+      <a href="/projects/">Projects</a>
+      <a href="/projects/components/">Components</a>
+    </nav>
+
+    <main class="container">
+      <h1>Text + Image</h1>
+      <p>A flexible section for editorial blocks, feature callouts, or project summaries.</p>
+
+      <section class="text-image">
+        <div class="text-image__text">
+          <h2>Default layout</h2>
+          <p class="lead">A clean two-column block that stacks on mobile.</p>
+          <p>
+            Use this when you want a short story next to an image. It works well for project pages, capability
+            pages, and landing sections.
+          </p>
+          <ul>
+            <li>Responsive: stacks on smaller screens</li>
+            <li>Consistent image window</li>
+            <li>Easy to reverse layout</li>
+          </ul>
+          <p>
+            <a class="button" href="/projects/">See Projects</a>
+            <a class="button secondary" href="/projects/components/">Back to Components</a>
+          </p>
+        </div>
+
+        <figure class="text-image__media">
+          <img src="/img/Rowlet.jpg" alt="Rowlet" loading="lazy" />
+          <figcaption class="text-image__caption">Optional caption goes here.</figcaption>
+        </figure>
+      </section>
+
+      <section class="text-image text-image--reverse">
+        <div class="text-image__text">
+          <h2>Reverse layout</h2>
+          <p>
+            Add <code>text-image--reverse</code> to flip the order so the image appears on the left on desktop.
+          </p>
+          <p>
+            This is useful when you want visual rhythm down a page, alternating image placement by section.
+          </p>
+        </div>
+
+        <figure class="text-image__media">
+          <img src="/img/projects/Pikachu.jpg" alt="Pikachu" loading="lazy" />
+          <figcaption class="text-image__caption">Another optional caption.</figcaption>
+        </figure>
+      </section>
+
+      <section class="text-image text-image--tight">
+        <div class="text-image__text">
+          <h2>Tighter variant</h2>
+          <p>
+            Add <code>text-image--tight</code> for a smaller gap and a slightly smaller image window.
+          </p>
+        </div>
+
+        <figure class="text-image__media">
+          <img src="/img/projects/Glaceon.jpg" alt="Glaceon" loading="lazy" />
+        </figure>
+      </section>
+    </main>
+  </body>
+</html>

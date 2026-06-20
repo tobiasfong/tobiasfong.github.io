@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>実験2 | Tobias Fong</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/projects/components/carousel/carousel.css" />
+    <link rel="stylesheet" href="/projects/components/accordion/accordion.css" />
+    <link rel="stylesheet" href="/projects/components/text-image/text-image.css" />
+    <link rel="stylesheet" href="/projects/components/modal/modal.css" />
+    <link rel="stylesheet" href="/projects/components/tabs/tabs.css" />
+    <link rel="stylesheet" href="/projects/components/translate/translate.css" />
+    <link rel="stylesheet" href="/projects/components/weather/weather.css" />
+  </head>
+
+  <body>
+  <nav class="project-nav">
+    <div class="project-nav-inner">
+      <a href="/" class="project-nav-logo"><img src="/img/rowlet-logo.jpg" alt="Home" style="width:32px;height:32px;border-radius:50%;object-fit:cover;display:block;" /></a>
+      <div class="project-nav-links">
+        <a href="/projects/">← プロジェクト</a>
+        <a href="/#contact">連絡先</a>
+      </div>
+    </div>
+  </nav>
+
+    <main class="container project-content">
+     <p class="breadcrumb">
+  <a href="/projects/">← 実験一覧に戻る</a>
+</p>
+
+      <header class="project-hero">
+        <img
+  class="project-image"
+  src="/img/projects/Glaceon.jpg"
+  alt="Screenshot for Experiment 2"
+  loading="lazy"
+/>
+        <h1>実験2</h1>
+        <p class="meta">2026年1月 · HTML/CSS · 1ページ</p>
+        <p class="lead">
+        これは日本語のページです。実験です。
+        </p>
+      </header>
+
+ <section>
+  <h2>天気のAPI実験</h2>
+  <p>
+    おはようございます！今日の天気はどうですか？
+  </p>
+
+  <section class="weather-card" aria-live="polite">
+    <h2>天気</h2>
+
+    <label for="citySelect">都市</label>
+    <select id="citySelect">
+      <option value="tokyo">東京</option>
+      <option value="singapore">シンガポール</option>
+      <option value="minneapolis">ミニアポリス</option>
+    </select>
+
+    <div class="weather-display">
+      <div class="weather-icon" id="icon">⛅</div>
+      <p class="weather-temp" id="temperature">–</p>
+      <p class="weather-desc" id="description">Loading…</p>
+    </div>
+  </section>
+</section>
+
+      
+      <section>
+        <h2>目的</h2>
+        <p>僕は、日本語ができることを、証明したいです。その故に、この実験的なウェブサイトを作ってみます。</p>
+      </section>
+
+      <section>
+        <h2>何で証明しなければなりません？</h2>
+        <ul>
+          <li>就職する為に、将来の雇用主に感銘を与えたいと思います。</li>
+          <li>これが成功したら、自分も役に立てると証明したいです。</li>
+          <li>自分を成長させるために。ここで立ち止まるわけにはいけませんから。</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>何を学びましたか？</h2>
+        <ul>
+          <li>色々なこと、と。</li>
+          <li>すごく勉強になりました。</li>
+        </ul>
+      </section>
+
+<section class="carousel" aria-label="Image carousel">
+    <div class="carousel-track">
+      <article class="slide">
+  <div class="slide-media">
+    <img src="/img/Rowlet.jpg" alt="Rowlet" loading="lazy" />
+  </div>
+  <p class="caption">モクロー</p>
+</article>
+
+      <article class="slide">
+        <div class="slide-media">
+        <img src="/img/projects/Pikachu.jpg" alt="Pikachu" loading="lazy" />
+        </div>
+        <p class="caption">ピカチュウ</p>
+      </article>
+
+      <article class="slide">
+        <div class="slide-media">
+        <img src="/img/projects/Glaceon.jpg" alt="Glaceon" loading="lazy" />
+        </div>
+        <p class="caption">グレイシア</p>
+      </article>
+    </div>
+
+    <div class="carousel-controls">
+      <button class="button secondary" type="button" data-dir="-1">Prev</button>
+      <button class="button secondary" type="button" data-dir="1">Next</button>
+    </div>
+  </section>
+</section>
+      <section class="accordion" data-accordion>
+  <h2 class="accordion-title">何か、やってみましょうか？</h2>
+
+  <div class="accordion-item">
+    <h3>
+      <button class="accordion-trigger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="exp1-panel-1"
+        id="exp1-trigger-1">
+        この実験について
+      </button>
+    </h3>
+    <div class="accordion-panel" id="exp1-panel-1" role="region" aria-labelledby="exp1-trigger-1" hidden>
+      <p>コンポーネントを作ることは成功です。</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h3>
+      <button class="accordion-trigger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="exp1-panel-2"
+        id="exp1-trigger-2">
+        例
+      </button>
+    </h3>
+    <div class="accordion-panel" id="exp1-panel-2" role="region" aria-labelledby="exp1-trigger-2" hidden>
+      <p>また、例を見させて頂けないでしょうか。</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h3>
+      <button class="accordion-trigger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="exp1-panel-3"
+        id="exp1-trigger-3">
+        次の一歩
+      </button>
+    </h3>
+    <div class="accordion-panel" id="exp1-panel-3" role="region" aria-labelledby="exp1-trigger-3" hidden>
+      <p>もっとコンポーネントを作ろうと思います。</p>
+    </div>
+  </div>
+</section>
+<section class="text-image">
+  <div class="text-image__text">
+    <h2>モクロー</h2>
+    <p>モクローは一番可愛いポケモンです。ポケモンサンとムーンを遊んでみましょう！それとも、ポケモン：伝説アルセウスをやってみたいですか？</p>
+  </div>
+  <figure class="text-image__media">
+    <img src="/img/Rowlet2.jpeg" alt="Experiment 2 screenshot" loading="lazy" />
+  </figure>
+</section>
+<!-- Modal Open Buttons -->
+<div class="modal-buttons-container">
+
+      <!-- First Modal Trigger Button -->
+<button class="button" id="openModalBtn-1">ここをクリックしてください。</button>
+  
+<!-- First Modal -->
+<div class="modal" id="modal-1">
+  <div class="modal-content">
+    <button class="close-btn" id="closeModalBtn-1">&times;</button>
+    <h2>また実験です</h2>
+    <p>僕は、モダールを作ることができると証明します。</p>
+  </div>
+</div>
+
+<!-- Second Modal Trigger Button -->
+<button class="button" id="openModalBtn-2">せーの！</button>
+
+<!-- Second Modal -->
+<div class="modal" id="modal-2">
+  <div class="modal-content">
+    <button class="close-btn" id="closeModalBtn-2">&times;</button>
+    <h2>捕まえた！</h2>
+    <p>可哀相なモクローが驚された！</p>
+    
+    <!-- Add image inside the modal -->
+    <figure class="modal-image">
+      <figcaption>モク？！</figcaption>
+      <img src="/img/SurprisedRowlet.jpeg" alt="Rowlet" />
+    </figure>
+    <p><a href="/projects/">Go back to Projects</a></p>
+  </div>
+</div>
+  <!-- Third Modal Trigger Button -->
+<button class="button" id="openModalBtn-3">もう一回！</button>
+
+<!-- Third Modal -->
+<div class="modal" id="modal-3">
+  <div class="modal-content">
+    <button class="close-btn" id="closeModalBtn-3">&times;</button>
+    <h2>またびっくりしました！</h2>
+    <p>今度はピカチュウです！!</p>
+    
+    <!-- Add image inside the modal -->
+    <figure class="modal-image">
+      <figcaption>ピカ…？</figcaption>
+      <img src="/img/SweatPikachu.jpeg" alt="Pikachu" />
+    </figure>
+    <p><a href="/projects/">Go back to Projects</a></p>
+  </div>
+</div>
+  </div>
+
+      <!-- Tab buttons -->
+<div class="tabs">
+  <button class="tab-button" id="tab-1">秘密です。</button>
+  <button class="tab-button" id="tab-2">それで？</button>
+  <button class="tab-button" id="tab-3">今はどうなりますか？</button>
+</div>
+
+<!-- Tab content -->
+<div class="tab-content">
+  <div id="content-1" class="tab-panel">
+    <h2>秘密</h2>
+    <p>ここにある全てのHTML、CSS、JavaScriptは全部ChatGPTが作った。</p>
+  </div>
+
+  <div id="content-2" class="tab-panel" hidden>
+    <h2>それで？</h2>
+    <p>日本文学を専攻している僕のような人間でも、コーディングの知識がなく、コンピューター科学を学んでいなくても、こんな簡単なページを作れるようになったということです。</p>
+  </div>
+
+  <div id="content-3" class="tab-panel" hidden>
+    <h2>どうなりますか？</h2>
+    <p>AIは物事の進め方に革命をもたらしました。しかし、だからといって人間が不要になったわけではありません。むしろ、僕達はAIに退屈で繰り返しの仕事（例えば、コードを書くこと）を任せ、その間に創造的なことに集中することができるようになります。そして、ポケモンを遊ぶ機会も増えていくかもしれませんね。</p>
+  <img src="/img/HappyRowlet.jpeg" alt="Rowlet" />
+  </div>
+</div>
+
+      <section class="translate-demo">
+  <h2>翻訳実験（英語 ⇄ 日本語）</h2>
+  <p class="lead">
+    英語または日本語を入力して翻訳ボタンを押してください。MyMemory APIを使用しています（無料・APIキー不要）。
+  </p>
+
+  <section class="translate" aria-label="Translator">
+    <label class="translate-label" for="sourceText">本文</label>
+    <textarea
+      id="sourceText"
+      class="translate-input"
+      rows="6"
+      placeholder="英語または日本語を入力してください"
+    ></textarea>
+
+    <div class="translate-controls">
+      <button class="button secondary" type="button" id="swapBtn">
+        交換 英語 ⇄ 日本語
+      </button>
+
+      <select id="mode" class="translate-select">
+        <option value="auto">自動検出</option>
+        <option value="en2ja">英語 → 日本語</option>
+        <option value="ja2en">日本語 → 英語</option>
+      </select>
+
+      <button class="button" type="button" id="translateBtn">
+        翻訳
+      </button>
+    </div>
+
+    <label class="translate-label" for="resultText">結果</label>
+    <textarea
+      id="resultText"
+      class="translate-output"
+      rows="6"
+      readonly
+      placeholder="翻訳結果"
+    ></textarea>
+
+    <p class="translate-status" id="status" aria-live="polite"></p>
+  </section>
+</section>
+
+
+      <section>
+        <h2>次にどうなるかな？</h2>
+        <ul>
+          <li>この先へ続けようと思います。</li>
+          <li>文学と歴史を専攻している僕でも、コンピューターのコードやhtmlなども上手に出来ます。</li>
+        </ul>
+      </section>
+
+      <section id="links">
+        <h2>リンク</h2>
+        <ul>
+          <li><a href="/#contact">問い合わせる</a></li>
+        </ul>
+      </section>
+    </main>
+
+  <footer class="project-footer">
+    <div class="project-nav-inner">
+      <span style="font-size:12px;color:var(--text-muted);">© 2026 Tobias Fong</span>
+      <span style="font-size:12px;color:var(--text-muted);">Built with Claude</span>
+    </div>
+  </footer>
+    <script src="/projects/components/carousel/carousel.js"></script>
+    <script src="/projects/components/accordion/accordion.js"></script>
+    <script src="/projects/components/modal/modal.js"></script>
+    <script src="/projects/components/tabs/tabs.js"></script>
+    <script src="/projects/components/translate/translate.js"></script>
+    <script src="/projects/components/weather/weather.js"></script>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Translate | Components</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="./translate.css" />
+  </head>
+  <body>
+    <nav class="container">
+      <a href="/">Home</a>
+      <a href="/projects/">Projects</a>
+      <a href="/projects/components/">Components</a>
+      <a href="/projects/components/translate/" class="active">Translate</a>
+    </nav>
+
+    <main class="container">
+      <h1>Translation</h1>
+      <p>English ⇄ Japanese translator (GitHub Pages UI + Cloudflare Worker).</p>
+
+      <section class="translate" aria-label="Translator">
+        <label class="translate-label" for="sourceText">Text</label>
+        <textarea id="sourceText" class="translate-input" rows="8" placeholder="Type English or Japanese here"></textarea>
+
+        <div class="translate-controls">
+          <button class="button secondary" type="button" id="swapBtn">Swap EN ⇄ JA</button>
+          <select id="mode" class="translate-select" aria-label="Translation direction">
+            <option value="auto">Auto detect</option>
+            <option value="en2ja">English to Japanese</option>
+            <option value="ja2en">Japanese to English</option>
+          </select>
+          <button class="button" type="button" id="translateBtn">Translate</button>
+        </div>
+
+        <label class="translate-label" for="resultText">Result</label>
+        <textarea id="resultText" class="translate-output" rows="8" readonly placeholder="Translation will appear here"></textarea>
+
+        <p class="translate-status" id="status" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <script src="./translate.js"></script>
+  </body>
+</html>
