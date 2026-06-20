@@ -40,29 +40,33 @@
       </header>
 
       <!-- Intro / story -->
-      <section style="max-width: 720px; margin: 0 auto 3rem;">
-        <div class="section-kicker">Background Story</div>
-        <h2>My very own Hackathon</h2>
-        <p>
-          I was reading <a href="https://claude.com/blog/meet-the-winners-of-our-claude-opus-4-8-build-day-hackathon" target="_blank" rel="noopener noreferrer">this article by Anthropic</a>
-          the other day and I found myself inspired, particularly by the winners of the Hackathon.
-          They used Opus 4.8 to build a 3D reconstruction platform for architecture! A platform that
-          not only researches, but assembles a 3D model of Tang Dynasty architecture, for example. Amazing.
-        </p>
-        <p>
-          So I thought, hey, why not build something similar with Opus 4.8? Working at Aleph
-          (or AKQA Singapore, I'm still not sure what the higher-ups will decide), I was asked to
-          construct MCP server prototypes, do proof of concepts for websites and even a chatbot, and
-          I wondered if I could use this experience to build something for my own personal use.
-        </p>
-        <p>
-          What would be of use to me? Given that I'm trying to draw webcomics, I suddenly had an
-          idea — why not build an MCP server that generates Warhammer 40,000 aesthetic backgrounds for
-          my Imperial Knight webcomic/manhwa? As a one-person studio trying to draw a full webcomic,
-          there are limits to what I can achieve by myself, and maybe such an MCP server or program will
-          help me tremendously.
-        </p>
-        <p style="font-weight: 600; color: var(--text);">This is the result.</p>
+      <section class="editorial-split">
+        <div>
+          <div class="section-kicker">Background Story</div>
+          <h2>My very own Hackathon</h2>
+        </div>
+        <div>
+          <p>
+            I was reading <a href="https://claude.com/blog/meet-the-winners-of-our-claude-opus-4-8-build-day-hackathon" target="_blank" rel="noopener noreferrer">this article by Anthropic</a>
+            the other day and I found myself inspired, particularly by the winners of the Hackathon.
+            They used Opus 4.8 to build a 3D reconstruction platform for architecture! A platform that
+            not only researches, but assembles a 3D model of Tang Dynasty architecture, for example. Amazing.
+          </p>
+          <p>
+            So I thought, hey, why not build something similar with Opus 4.8? Working at Aleph
+            (or AKQA Singapore, I'm still not sure what the higher-ups will decide), I was asked to
+            construct MCP server prototypes, do proof of concepts for websites and even a chatbot, and
+            I wondered if I could use this experience to build something for my own personal use.
+          </p>
+          <p>
+            What would be of use to me? Given that I'm trying to draw webcomics, I suddenly had an
+            idea — why not build an MCP server that generates Warhammer 40,000 aesthetic backgrounds for
+            my Imperial Knight webcomic/manhwa? As a one-person studio trying to draw a full webcomic,
+            there are limits to what I can achieve by myself, and maybe such an MCP server or program will
+            help me tremendously.
+          </p>
+          <p style="font-weight: 600; color: var(--text);">This is the result.</p>
+        </div>
       </section>
 
       <!-- How it works -->
@@ -114,23 +118,43 @@
           work alongside human colleagues (who make good use of this MCP server I built) rather than rely
           solely on my background generator.
         </p>
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
-          <figure style="margin:0;">
-            <img src="/img/mcp-bg-interior.png" alt="Generated hive city interior" style="width:100%; border-radius:14px; display:block;" loading="lazy" />
-            <figcaption style="font-size:12px; color:var(--text-muted); margin-top:0.5rem;">Hive interior</figcaption>
-          </figure>
-          <figure style="margin:0;">
-            <img src="/img/mcp-bg-cathedral.png" alt="Generated gothic cathedral spire" style="width:100%; border-radius:14px; display:block;" loading="lazy" />
-            <figcaption style="font-size:12px; color:var(--text-muted); margin-top:0.5rem;">Cathedral spire</figcaption>
-          </figure>
-          <figure style="margin:0;">
-            <img src="/img/mcp-bg-corridor.png" alt="Generated industrial corridor" style="width:100%; border-radius:14px; display:block;" loading="lazy" />
-            <figcaption style="font-size:12px; color:var(--text-muted); margin-top:0.5rem;">Industrial corridor</figcaption>
-          </figure>
-          <figure style="margin:0;">
-            <img src="/img/mcp-bg-combined.png" alt="Background generated from a perspective sketch" style="width:100%; border-radius:14px; display:block;" loading="lazy" />
-            <figcaption style="font-size:12px; color:var(--text-muted); margin-top:0.5rem;">From a perspective sketch</figcaption>
-          </figure>
+        <div class="belt">
+          <div class="belt-track">
+            <!-- set 1 -->
+            <figure>
+              <img src="/img/mcp-bg-interior.png" alt="Generated hive city interior" loading="lazy" />
+              <figcaption>Hive interior</figcaption>
+            </figure>
+            <figure>
+              <img src="/img/mcp-bg-cathedral.png" alt="Generated gothic cathedral spire" loading="lazy" />
+              <figcaption>Cathedral spire</figcaption>
+            </figure>
+            <figure>
+              <img src="/img/mcp-bg-corridor.png" alt="Generated industrial corridor" loading="lazy" />
+              <figcaption>Industrial corridor</figcaption>
+            </figure>
+            <figure>
+              <img src="/img/mcp-bg-combined.png" alt="Background generated from a perspective sketch" loading="lazy" />
+              <figcaption>From a perspective sketch</figcaption>
+            </figure>
+            <!-- set 2: duplicate for a seamless loop -->
+            <figure aria-hidden="true">
+              <img src="/img/mcp-bg-interior.png" alt="" loading="lazy" />
+              <figcaption>Hive interior</figcaption>
+            </figure>
+            <figure aria-hidden="true">
+              <img src="/img/mcp-bg-cathedral.png" alt="" loading="lazy" />
+              <figcaption>Cathedral spire</figcaption>
+            </figure>
+            <figure aria-hidden="true">
+              <img src="/img/mcp-bg-corridor.png" alt="" loading="lazy" />
+              <figcaption>Industrial corridor</figcaption>
+            </figure>
+            <figure aria-hidden="true">
+              <img src="/img/mcp-bg-combined.png" alt="" loading="lazy" />
+              <figcaption>From a perspective sketch</figcaption>
+            </figure>
+          </div>
         </div>
         <!-- Demo slot: replace this placeholder with a screenshot strip or <video controls src="/img/mcp-demo.mp4"> -->
         <div style="border: 2px dashed var(--border); border-radius: 16px; padding: 1.75rem; margin-top: 2rem; text-align: center;">
@@ -143,7 +167,8 @@
       </section>
 
       <!-- Instructions for others -->
-      <section style="max-width: 720px; margin: 0 auto 3rem;">
+      <section style="max-width: 760px; margin: 0 auto 3rem;">
+        <div class="pill-card">
         <div class="section-kicker">For everyone's use</div>
         <h2>MCP server instructions</h2>
         <p>
@@ -164,6 +189,7 @@
           rushing deadlines. Now set forth, focus on storytelling and bringing your characters to life, and
           leave the background work to… well, the background generator!
         </p>
+        </div>
       </section>
 
       <!-- Repo link — final call to action -->

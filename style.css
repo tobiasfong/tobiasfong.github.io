@@ -702,6 +702,64 @@ footer {
   margin-bottom: 1.1rem;
 }
 
+/* ── Editorial two-column split: label/title left, body right ── */
+.editorial-split {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 3rem;
+  align-items: start;
+  max-width: 1000px;
+  margin: 0 auto 3rem;
+}
+.editorial-split .section-kicker { margin-bottom: 10px; }
+.editorial-split h2 { margin: 0; }
+@media (max-width: 760px) {
+  .editorial-split { grid-template-columns: 1fr; gap: 1rem; }
+}
+
+/* ── Rounded "pill" content card ── */
+.pill-card {
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 2.5rem 2.75rem;
+  background: var(--bg);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+}
+.pill-card h2 { margin-top: 6px; }
+@media (max-width: 600px) {
+  .pill-card { padding: 1.75rem 1.5rem; border-radius: 20px; }
+}
+
+/* ── Auto-scrolling image belt (conveyor) ── */
+.belt {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.belt-track {
+  display: flex;
+  gap: 1.25rem;
+  width: max-content;
+  animation: belt-scroll 36s linear infinite;
+}
+.belt:hover .belt-track { animation-play-state: paused; }
+.belt figure { margin: 0; flex: 0 0 auto; width: 320px; }
+.belt img {
+  width: 100%; height: 200px; object-fit: cover;
+  border-radius: 14px; display: block;
+}
+.belt figcaption {
+  font-size: 12px; color: var(--text-muted); margin-top: 0.5rem;
+}
+@keyframes belt-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .belt-track { animation: none; }
+  .belt { overflow-x: auto; }
+}
+
 .project-content ul,
 .project-content ol {
   padding-left: 20px;
