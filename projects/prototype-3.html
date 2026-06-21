@@ -83,10 +83,21 @@
         <div class="section-kicker">Preview</div>
         <h2>Chapter 1 — Work in Progress</h2>
         <p style="color: var(--text-body); margin-bottom: 1.5rem;">Here's a taste of what's to come. It'll take a while, but I'll get there eventually. I hope.</p>
-        <div style="display: flex; flex-direction: column; gap: 1rem;">
-          <img src="/img/ask-page-01.png" alt="Page 1 — The Imperium spans over a million worlds." style="width:100%; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.10); display:block;" loading="lazy" />
-          <img src="/img/ask-page-02.png" alt="Page 2 — Even when looking up from the stratified levels of Shorea Hive" style="width:100%; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.10); display:block;" loading="lazy" />
-          <img src="/img/ask-page-03.png" alt="Page 3 — Mikhail looks to the sky" style="width:100%; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.10); display:block;" loading="lazy" />
+        <div class="ask-carousel belt-wrap">
+          <button class="belt-btn belt-btn--prev" aria-label="Previous page">&#8592;</button>
+          <div class="ask-carousel-window">
+            <div class="ask-carousel-track">
+              <img src="/img/ask-page-01.png" alt="Page 1 — The Imperium spans over a million worlds." loading="lazy" />
+              <img src="/img/ask-page-02.png" alt="Page 2 — Even when looking up from the stratified levels of Shorea Hive" loading="lazy" />
+              <img src="/img/ask-page-03.png" alt="Page 3 — Mikhail looks to the sky" loading="lazy" />
+            </div>
+          </div>
+          <button class="belt-btn belt-btn--next" aria-label="Next page">&#8594;</button>
+          <div class="ask-carousel-dots">
+            <span class="ask-dot ask-dot--active"></span>
+            <span class="ask-dot"></span>
+            <span class="ask-dot"></span>
+          </div>
         </div>
       </section>
 
