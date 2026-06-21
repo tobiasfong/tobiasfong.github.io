@@ -71,40 +71,6 @@ setActive();
   observer.observe(grid);
 })();
 
-// A Starry Knight page carousel
-(function () {
-  const carousel = document.querySelector('.ask-carousel');
-  if (!carousel) return;
-  const track = carousel.querySelector('.ask-carousel-track');
-  const imgs = carousel.querySelectorAll('.ask-carousel-track img');
-  const dots = carousel.querySelectorAll('.ask-dot');
-  const prev = carousel.querySelector('.belt-btn--prev');
-  const next = carousel.querySelector('.belt-btn--next');
-  const total = imgs.length;
-  let idx = 0;
-  let timer;
-
-  function goTo(n) {
-    idx = (n + total) % total;
-    track.style.transform = `translateX(-${idx * 100}%)`;
-    dots.forEach((d, i) => d.classList.toggle('ask-dot--active', i === idx));
-  }
-
-  function startAuto() {
-    timer = setInterval(() => goTo(idx + 1), 3500);
-  }
-
-  function stopAuto() { clearInterval(timer); }
-
-  prev.addEventListener('click', () => { stopAuto(); goTo(idx - 1); startAuto(); });
-  next.addEventListener('click', () => { stopAuto(); goTo(idx + 1); startAuto(); });
-  dots.forEach((d, i) => d.addEventListener('click', () => { stopAuto(); goTo(i); startAuto(); }));
-  carousel.addEventListener('mouseenter', stopAuto);
-  carousel.addEventListener('mouseleave', startAuto);
-
-  startAuto();
-})();
-
 // Belt carousel — arrow buttons + pause on hover
 (function () {
   const wrap = document.querySelector('.belt-wrap');
