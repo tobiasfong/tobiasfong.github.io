@@ -71,6 +71,42 @@ setActive();
   observer.observe(grid);
 })();
 
+// Belt carousel — arrow buttons + pause on hover
+(function () {
+  const wrap = document.querySelector('.belt-wrap');
+  if (!wrap) return;
+  const track = wrap.querySelector('.belt-track');
+  const prevBtn = wrap.querySelector('.belt-btn--prev');
+  const nextBtn = wrap.querySelector('.belt-btn--next');
+
+  const STEP = 320 + 20; // image width + gap
+  let offset = 0;
+  let manual = false; // true once user clicks an arrow
+
+  function captureOffset() {
+    // Read current animated position from computed style, then freeze it
+    const m = new DOMMatrix(getComputedStyle(track).transform);
+    offset = m.m41;
+    track.style.animation = 'none';
+    track.style.transform = `translateX(${offset}px)`;
+  }
+
+  function move(dir) {
+    if (!manual) { captureOffset(); manual = true; }
+    const half = track.scrollWidth / 2;
+    offset += dir * STEP;
+    // wrap seamlessly using the duplicated set
+    if (offset < -half) offset += half;
+    if (offset > 0) offset -= half;
+    track.style.transition = 'transform 0.35s ease';
+    track.style.transform = `translateX(${offset}px)`;
+    setTimeout(() => { track.style.transition = ''; }, 360);
+  }
+
+  prevBtn.addEventListener('click', () => move(1));
+  nextBtn.addEventListener('click', () => move(-1));
+})();
+
 // Path cards — staggered reveal with scale
 (function () {
   const grid = document.querySelector('.path-grid');
