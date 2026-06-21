@@ -88,19 +88,23 @@
           I describe a scene in plain language, and — optionally — hand it two things:
         </p>
         <ul style="color: var(--text-body); line-height: 1.8;">
-          <li><strong>A rough perspective sketch.</strong> A few lines marking the vanishing point and
-            walls. The model is forced to match that exact camera angle, so the background fits the panel
-            I've already composed. (This uses a technique called ControlNet.)</li>
+          <li><strong>A drawn character</strong> (ideally a PNG with a transparent background). The harness
+            reads the character as a spatial guide — its scale, stance, and position on the canvas
+            determine the horizon line and camera angle automatically. (This uses ControlNet.)</li>
           <li><strong>A style reference.</strong> A cool-toned grimdark image whose palette and mood get
             transferred onto the result — so every background feels like it belongs in the same world.
             (This uses IP-Adapter.)</li>
         </ul>
         <p>
-          Rather than a finished background for me to draw characters onto, I provide the character first —
-          ideally a PNG with a transparent background — and the harness generates a finished background
-          around them, planned to match their scale, perspective, and camera angle. I then import it as a
-          layer into my working file and paint the rest. The human stays in charge of characters, story,
-          and composition; the repetitive scenery work gets offloaded.
+          The harness will generate a finished background around the provided characters, planned to match
+          their scale, perspective and camera angle. I then import it as a layer into my working file and
+          polish the details, e.g. shadows, environmental interactions (snow on the characters if they're
+          on an ice planet).
+        </p>
+        <p>
+          Ideally, this workflow maintains what I envision to be a human-AI teamwork. The human creatives
+          remain in charge of characters, story and composition, while delegating the repetitive and
+          tedious background work to the AI.
         </p>
         <p style="font-size: 14px; color: var(--text-muted);">
           <strong>Under the hood:</strong> a Python MCP server wrapping a local ComfyUI + Stable Diffusion
