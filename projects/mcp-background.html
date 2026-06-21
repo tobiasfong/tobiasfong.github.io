@@ -96,8 +96,11 @@
             (This uses IP-Adapter.)</li>
         </ul>
         <p>
-          It hands back a finished background for me to draw characters onto. The human stays in charge of
-          characters, story, and composition; the repetitive scenery work gets offloaded.
+          Rather than a finished background for me to draw characters onto, I provide the character first —
+          ideally a PNG with a transparent background — and the harness generates a finished background
+          around them, planned to match their scale, perspective, and camera angle. I then import it as a
+          layer into my working file and paint the rest. The human stays in charge of characters, story,
+          and composition; the repetitive scenery work gets offloaded.
         </p>
         <p style="font-size: 14px; color: var(--text-muted);">
           <strong>Under the hood:</strong> a Python MCP server wrapping a local ComfyUI + Stable Diffusion
@@ -144,8 +147,8 @@
               <figcaption>Industrial corridor</figcaption>
             </figure>
             <figure>
-              <img src="/img/mcp-bg-combined.png" alt="Background generated from a perspective sketch" loading="lazy" />
-              <figcaption>From a perspective sketch</figcaption>
+              <img src="/img/mcp-bg-warglaive.png" alt="Icy mountain vista generated for an Armiger Warglaive scene" loading="lazy" />
+              <figcaption>Ice world — Armiger Warglaive ✦</figcaption>
             </figure>
             <figure>
               <img src="/img/mcp-bg-hero.png" alt="Jungle world — anime-style sunlit forest" loading="lazy" />
@@ -165,8 +168,8 @@
               <figcaption>Industrial corridor</figcaption>
             </figure>
             <figure aria-hidden="true">
-              <img src="/img/mcp-bg-combined.png" alt="" loading="lazy" />
-              <figcaption>From a perspective sketch</figcaption>
+              <img src="/img/mcp-bg-warglaive.png" alt="" loading="lazy" />
+              <figcaption>Ice world — Armiger Warglaive ✦</figcaption>
             </figure>
             <figure aria-hidden="true">
               <img src="/img/mcp-bg-hero.png" alt="" loading="lazy" />
@@ -199,8 +202,9 @@
         <p>
           You can tell your harness to adjust. This is for all webcomic artists, not just Warhammer 40,000
           fans. So if you would like, say, medieval fantasy, curate a set of anime aesthetic medieval
-          fantasy art from your favorite references, and store them accordingly. Then get your harness to
-          generate whatever backgrounds you need!
+          fantasy art from your favorite references, and store them accordingly. Draw your character and
+          feed him/her to your harness so that they can plan around the perspectives, angles and scale that
+          are appropriate for your characters. Then get your harness to generate whatever backgrounds you need!
         </p>
         <p>
           I hope this will help webcomic artists tremendously, especially those who are understaffed and
