@@ -221,6 +221,61 @@
         </div>
       </section>
 
+      <!-- Why use this -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">Why use this?</div>
+        <h2>Why wouldn't I just use a LoRA or AI image generator?</h2>
+        <p>
+          You can, but an MCP server comes with advantages that an AI image generator or LoRA doesn't.
+          In the first place, my MCP server comes with instructions in the README to install a couple of
+          LoRA, including Solstice and Counterfeit for that coveted manhwa/webtoon aesthetic, so you're
+          getting an additional layer on top of that.
+        </p>
+        <p style="font-weight: 600; color: var(--text);">So, what are the benefits of this additional layer?</p>
+        <ol style="color: var(--text-body); line-height: 1.8;">
+          <li style="margin-bottom: 1rem;">
+            <strong>An improved workflow.</strong> If you're using an AI image generator, you have to
+            context-switch, whether it's opening a browser, typing a prompt, downloading or importing the
+            generated image. Even if you have a saved session, a long-term project will stretch the context
+            limits of that chat. However, an MCP server allows you to do everything within your AI harness
+            (Claude Code, Codex, Antigravity). You can hop in anytime, have the flexibility to backtrack
+            mid-conversation, and even have your file consistently saved in the right folder.
+          </li>
+          <li style="margin-bottom: 1rem;">
+            <strong>Your context will always be saved.</strong> Most of the time, an AI image generator
+            starts from scratch every session, and you'll have to iterate your prompts and reinstruct the
+            LoRA on what image you want. Your AI harness — connected to the MCP server, which ensures a
+            consistent configuration — already has all that memorized, down to your prompts and habits, and
+            knows what you want, thus reducing the number of iterations required. Furthermore, this
+            minimizes any drift or hallucination.
+          </li>
+          <li style="margin-bottom: 1rem;">
+            <strong>The character-first workflow.</strong> My MCP server is unique in that I have a
+            personalized pipeline where I feed him my drawn character, and he will plan the background
+            according to his scale and perspective. Essentially, I packaged character-conditioned generation
+            into a single-command, character-first pipeline designed to relieve some of the burden from
+            webtoon studio teams and solo webcomic artists. Particularly the latter. It also emphasizes my
+            philosophy — AI as a partner, not replacement. I need to do the work and draw my characters
+            first, for the background to be generated. Of course, you can still use my MCP server to generate
+            backgrounds without feeding him any characters (and he'll probably hallucinate and insert a
+            random character inside for you…), but it'll be much harder for you to get the scale and
+            perspective you want.
+          </li>
+          <li style="margin-bottom: 1rem;">
+            <strong>Your background will be reproducible.</strong> If you like a result and want a variation,
+            that image is saved. You can ask the MCP server to refer to that image and get a consistent
+            variation, which is harder to guarantee in a web user interface.
+          </li>
+          <li>
+            <strong>The images are free.</strong> No credits, no subscription, no API costs. Everything runs
+            on your own GPU.
+          </li>
+        </ol>
+        <p>
+          If you're still not convinced, that's totally fine. I understand that my background is shady… eh?
+        </p>
+      </section>
+
       <!-- Instructions for others -->
       <section style="display:flex; justify-content:center; margin: 0 auto 3rem;">
         <div class="pill-card" style="max-width:640px; width:100%;">
