@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.wrangler/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Env / secrets
+.dev.vars
+.env
+.env.*
