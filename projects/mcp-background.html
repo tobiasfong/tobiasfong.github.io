@@ -45,7 +45,7 @@
           </p>
           <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
             <span class="tag" style="background: var(--text); color: var(--bg);">MCP Server</span>
-            <span class="tag">v1.1</span>
+            <span class="tag">v1.1.1</span>
             <span class="tag">Python</span>
             <span class="tag">Stable Diffusion</span>
             <span class="tag">ComfyUI</span>
@@ -235,11 +235,30 @@
       <!-- Changelog / release notes -->
       <section style="max-width: 720px; margin: 0 auto 3rem;">
         <div class="section-kicker">Release Notes</div>
-        <h2>What's new in v1.1</h2>
+        <h2>What's new</h2>
         <p style="color: var(--text-body); line-height: 1.7;">
           The first major iteration since launch — focused on a more authentic manhwa look and solving
           cross-panel consistency.
         </p>
+
+        <div class="pill-card" style="margin-top: 1.5rem;">
+          <h3 style="margin-top:0; display:flex; align-items:baseline; gap:0.6rem;">
+            <span style="font-family:var(--mono,monospace); color:var(--text);">v1.1.1</span>
+            <span style="font-size:13px; font-weight:500; color:var(--text-muted);">World Builder tuning &amp; fixes</span>
+          </h3>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:-0.4rem;">June 27, 2026</p>
+          <ul style="color: var(--text-body); line-height: 1.8;">
+            <li><strong>🎚️ Tuned — World Builder consistency.</strong> Default <code>location_denoise</code>
+              raised to <code>0.65</code> (from <code>0.55</code>), validated by a 0.35–0.75 sweep: lower
+              values hug the canon for a relight, the mid-band shifts lighting or time of day, and
+              <code>0.65</code> gives a fresh angle with richer variation while staying on-location.</li>
+            <li><strong>🛠️ Fixed — same-seed overwrites.</strong> Outputs sharing a seed no longer overwrite
+              each other; files are now numerically suffixed.</li>
+            <li><strong>🛠️ Fixed — stray figures in World Builder mode.</strong> A figure-suppression negative
+              is now applied automatically when a location is used, so img2img no longer drops an
+              uninvited character into the scene.</li>
+          </ul>
+        </div>
 
         <div class="pill-card" style="margin-top: 1.5rem;">
           <h3 style="margin-top:0; display:flex; align-items:baseline; gap:0.6rem;">
