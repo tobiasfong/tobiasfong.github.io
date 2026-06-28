@@ -45,7 +45,7 @@
           </p>
           <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
             <span class="tag" style="background: var(--text); color: var(--bg);">MCP Server</span>
-            <span class="tag">v1.1.1</span>
+            <span class="tag">v1.2.0</span>
             <span class="tag">Python</span>
             <span class="tag">Stable Diffusion</span>
             <span class="tag">ComfyUI</span>
@@ -240,6 +240,27 @@
           The first major iteration since launch — focused on a more authentic manhwa look and solving
           cross-panel consistency.
         </p>
+
+        <div class="pill-card" style="margin-top: 1.5rem;">
+          <h3 style="margin-top:0; display:flex; align-items:baseline; gap:0.6rem;">
+            <span style="font-family:var(--mono,monospace); color:var(--text);">v1.2.0</span>
+            <span style="font-size:13px; font-weight:500; color:var(--text-muted);">Multi-project support</span>
+          </h3>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:-0.4rem;">June 28, 2026</p>
+          <ul style="color: var(--text-body); line-height: 1.8;">
+            <li><strong>✨ Added — run multiple comics from one server.</strong> A new <code>project</code>
+              argument on <code>generate_background</code>, <code>register_location</code>, and
+              <code>list_world</code> namespaces each comic's World Builder canon and output folder — so the
+              same location id (e.g. <code>academy</code>) in two different comics no longer collides.</li>
+            <li><strong>🗂️ Per-project storage.</strong> Canon is saved to <code>world/&lt;project&gt;/</code>
+              and renders to <code>output/&lt;project&gt;/</code>. Your shared sketch library
+              (<code>references/</code>) stays common across projects, not namespaced.</li>
+            <li><strong>🧰 Added — <code>list_projects</code> tool.</strong> See every comic the server knows
+              about. The default project is set via <code>WEBCOMIC_BG_PROJECT</code> (or <code>"default"</code>).</li>
+            <li><strong>🎬 Why it matters.</strong> Run two comics — say <em>A Starry Knight</em> and
+              <em>Reincarnator × Regressor</em> — from a single server, each with its own consistent world.</li>
+          </ul>
+        </div>
 
         <div class="pill-card" style="margin-top: 1.5rem;">
           <h3 style="margin-top:0; display:flex; align-items:baseline; gap:0.6rem;">
