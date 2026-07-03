@@ -310,15 +310,14 @@
           </ul>
         </div>
 
-        <details class="release-archive">
-          <summary>Earlier releases (v1.3.0 and before)</summary>
+        <p class="release-archive-label">Earlier releases</p>
 
-        <div class="pill-card" style="margin-top: 1.5rem;">
-          <h3 style="margin-top:0; display:flex; align-items:baseline; gap:0.6rem;">
-            <span style="font-family:var(--mono,monospace); color:var(--text);">v1.3.0</span>
-            <span style="font-size:13px; font-weight:500; color:var(--text-muted);">Metropolis mode</span>
-          </h3>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:-0.4rem;">June 30, 2026</p>
+        <details class="release-item">
+          <summary>
+            <span class="release-ver">v1.3.0</span>
+            <span class="release-name">Metropolis mode</span>
+            <span class="release-date">June 30, 2026</span>
+          </summary>
           <ul style="color: var(--text-body); line-height: 1.8;">
             <li><strong>✨ Added — <code>generate_city_scene</code> ("Metropolis mode").</strong> A
               procedurally generated, seeded 3D gothic city is rendered headlessly — via a small software
@@ -336,14 +335,14 @@
               and the daylight cathedral and blood-moon skyline are the <em>same</em> 3D city, recoloured
               with palettes derived from different reference images.</li>
           </ul>
-        </div>
+        </details>
 
-        <div class="pill-card" style="margin-top: 1.5rem;">
-          <h3 style="margin-top:0; display:flex; align-items:baseline; gap:0.6rem;">
-            <span style="font-family:var(--mono,monospace); color:var(--text);">v1.2.0</span>
-            <span style="font-size:13px; font-weight:500; color:var(--text-muted);">Multi-project support</span>
-          </h3>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:-0.4rem;">June 28, 2026</p>
+        <details class="release-item">
+          <summary>
+            <span class="release-ver">v1.2.0</span>
+            <span class="release-name">Multi-project support</span>
+            <span class="release-date">June 28, 2026</span>
+          </summary>
           <ul style="color: var(--text-body); line-height: 1.8;">
             <li><strong>✨ Added — run multiple comics from one server.</strong> A new <code>project</code>
               argument on <code>generate_background</code>, <code>register_location</code>, and
@@ -357,14 +356,14 @@
             <li><strong>🎬 Why it matters.</strong> Run two comics — say <em>A Starry Knight</em> and
               <em>Reincarnator × Regressor</em> — from a single server, each with its own consistent world.</li>
           </ul>
-        </div>
+        </details>
 
-        <div class="pill-card" style="margin-top: 1.5rem;">
-          <h3 style="margin-top:0; display:flex; align-items:baseline; gap:0.6rem;">
-            <span style="font-family:var(--mono,monospace); color:var(--text);">v1.1.1</span>
-            <span style="font-size:13px; font-weight:500; color:var(--text-muted);">World Builder tuning &amp; fixes</span>
-          </h3>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:-0.4rem;">June 27, 2026</p>
+        <details class="release-item">
+          <summary>
+            <span class="release-ver">v1.1.1</span>
+            <span class="release-name">World Builder tuning &amp; fixes</span>
+            <span class="release-date">June 27, 2026</span>
+          </summary>
           <ul style="color: var(--text-body); line-height: 1.8;">
             <li><strong>🎚️ Tuned — World Builder consistency.</strong> Default <code>location_denoise</code>
               raised to <code>0.65</code> (from <code>0.55</code>), validated by a 0.35–0.75 sweep: lower
@@ -376,14 +375,14 @@
               is now applied automatically when a location is used, so img2img no longer drops an
               uninvited character into the scene.</li>
           </ul>
-        </div>
+        </details>
 
-        <div class="pill-card" style="margin-top: 1.5rem;">
-          <h3 style="margin-top:0; display:flex; align-items:baseline; gap:0.6rem;">
-            <span style="font-family:var(--mono,monospace); color:var(--text);">v1.1.0</span>
-            <span style="font-size:13px; font-weight:500; color:var(--text-muted);">World Builder &amp; model-native aesthetic</span>
-          </h3>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:-0.4rem;">June 25, 2026</p>
+        <details class="release-item">
+          <summary>
+            <span class="release-ver">v1.1.0</span>
+            <span class="release-name">World Builder &amp; model-native aesthetic</span>
+            <span class="release-date">June 25, 2026</span>
+          </summary>
           <ul style="color: var(--text-body); line-height: 1.8;">
             <li><strong>✨ Added — World Builder.</strong> Register an approved background as canon for a
               location; future panels of that place are generated against the saved image so your setting
@@ -402,7 +401,6 @@
               and a depth-map pass for subtle parallax. (The previously-planned 3D Blender tool was dropped —
               World Builder delivers the consistency it promised without hand-building a 3D city.)</li>
           </ul>
-        </div>
         </details>
       </section>
 

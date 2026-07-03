@@ -757,26 +757,43 @@ footer {
 .belt-btn--prev { left: 6px; }
 .belt-btn--next { right: 6px; }
 
-/* ── Release-notes archive (collapsible) ── */
-.release-archive { margin-top: 1.5rem; border-top: 1px solid var(--border); }
-.release-archive > summary {
-  cursor: pointer;
-  padding: 1rem 0 0.25rem;
+/* ── Release-notes archive (per-version accordions) ── */
+.release-archive-label {
+  font-size: 13px;
   font-weight: 600;
-  color: var(--text);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 2rem;
+}
+.release-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-top: 0.75rem;
+  padding: 0 1.25rem;
+  background: var(--bg);
+}
+.release-item > summary {
+  cursor: pointer;
+  padding: 0.85rem 0;
   list-style: none;
   display: flex;
-  align-items: center;
-  gap: 0.55rem;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
 }
-.release-archive > summary::-webkit-details-marker { display: none; }
-.release-archive > summary::before {
+.release-item > summary::-webkit-details-marker { display: none; }
+.release-item > summary::before {
   content: "▸";
   color: var(--text-muted);
   font-size: 0.85em;
 }
-.release-archive[open] > summary::before { content: "▾"; }
-.release-archive > summary:hover { color: var(--text-muted); }
+.release-item[open] > summary::before { content: "▾"; }
+.release-item[open] > summary { border-bottom: 1px solid var(--border); }
+.release-item .release-ver { font-family: var(--mono, monospace); color: var(--text); font-weight: 600; }
+.release-item .release-name { color: var(--text-body); font-size: 14px; }
+.release-item .release-date { color: var(--text-muted); font-size: 12px; margin-left: auto; }
+.release-item ul { padding: 0.75rem 0 1rem 1.15rem; }
 
 .belt {
   overflow: hidden;
