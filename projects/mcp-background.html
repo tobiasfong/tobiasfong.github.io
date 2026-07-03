@@ -45,7 +45,7 @@
           </p>
           <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
             <span class="tag" style="background: var(--text); color: var(--bg);">MCP Server</span>
-            <span class="tag">v1.3.0</span>
+            <span class="tag">v1.4.0</span>
             <span class="tag">Python</span>
             <span class="tag">Stable Diffusion</span>
             <span class="tag">ComfyUI</span>
@@ -219,6 +219,10 @@
               <img src="/img/mcp-bg-hive-metropolis.png" alt="Furnace-lit gothic hive-city vista" loading="lazy" />
               <figcaption>Hive metropolis</figcaption>
             </figure>
+            <figure>
+              <img src="/img/mcp-bg-moonlit-district.png" alt="Moonlit gothic district rendered from a persistent 3D city" loading="lazy" />
+              <figcaption>Moonlit district — from the persistent city</figcaption>
+            </figure>
             <!-- set 2: duplicate for a seamless loop -->
             <figure aria-hidden="true">
               <img src="/img/mcp-bg-cathedral-night.png" alt="" loading="lazy" />
@@ -256,6 +260,10 @@
               <img src="/img/mcp-bg-hive-metropolis.png" alt="" loading="lazy" />
               <figcaption>Hive metropolis</figcaption>
             </figure>
+            <figure aria-hidden="true">
+              <img src="/img/mcp-bg-moonlit-district.png" alt="" loading="lazy" />
+              <figcaption>Moonlit district — from the persistent city</figcaption>
+            </figure>
           </div>
         </div>
         <button class="belt-btn belt-btn--next" aria-label="Next image">&#8594;</button>
@@ -275,9 +283,35 @@
         <div class="section-kicker">Release Notes</div>
         <h2>What's new</h2>
         <p style="color: var(--text-body); line-height: 1.7;">
-          The first major iteration since launch — focused on a more authentic manhwa look and solving
-          cross-panel consistency.
+          This tool has moved fast since launch — from a truer manhwa look, to cross-panel consistency, to
+          persistent, growable 3D cities. The newest release is below; earlier ones live in the archive.
         </p>
+
+        <div class="pill-card" style="margin-top: 1.5rem;">
+          <h3 style="margin-top:0; display:flex; align-items:baseline; gap:0.6rem;">
+            <span style="font-family:var(--mono,monospace); color:var(--text);">v1.4.0</span>
+            <span style="font-size:13px; font-weight:500; color:var(--text-muted);">Persistent, growable city plans</span>
+          </h3>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:-0.4rem;">June 30, 2026</p>
+          <ul style="color: var(--text-body); line-height: 1.8;">
+            <li><strong>✨ Added — persistent city plans.</strong> Each comic project now owns a growable 3D
+              city, stored as an editable <code>city_plan.json</code>. Start with a single neighborhood and
+              grow it into a full metropolis over the course of your story.</li>
+            <li><strong>🧱 Districts that never drift.</strong> Add districts as your story visits them
+              (slums, docks, heights); every established district always re-renders identically, so appending
+              new areas never disturbs what's already canon — the "Word document" mechanic, structurally
+              guaranteed.</li>
+            <li><strong>🧰 New tools — <code>add_city_district</code> &amp; <code>list_city</code>.</strong>
+              Bolt on districts and inspect the plan. Plan-mode rendering
+              (<code>generate_city_scene(use_plan=True, focus="…")</code>) re-aims any camera preset at any
+              district of the persistent city.</li>
+            <li><strong>🌙 See it above.</strong> The moonlit cathedral district in the carousel is rendered
+              from a persistent, incrementally-grown 3-district city.</li>
+          </ul>
+        </div>
+
+        <details class="release-archive">
+          <summary>Earlier releases (v1.3.0 and before)</summary>
 
         <div class="pill-card" style="margin-top: 1.5rem;">
           <h3 style="margin-top:0; display:flex; align-items:baseline; gap:0.6rem;">
@@ -369,6 +403,7 @@
               World Builder delivers the consistency it promised without hand-building a 3D city.)</li>
           </ul>
         </div>
+        </details>
       </section>
 
       <!-- Why use this -->
@@ -419,8 +454,10 @@
             it as an incremental process — start small, perhaps with a room or single house, and slowly
             add more locations. Enough to fill a neighborhood. Then a district. Then eventually a full city.
             Plus, I've added a new feature — Metropolis Mode — that builds an entire city as a 3D model
-            behind the scenes, then renders it into consistent backgrounds from any angle. Just as your story grows,
-            so does your world — and what better tool to build your world than with my MCP server?
+            behind the scenes, then renders it into consistent backgrounds from any angle. Now Metropolis
+            Mode and World Builder work hand in hand to bring that 3D landscape to life in your comic panels!
+            Just as your story grows, so does your world — and what better tool to build your world than with
+            my MCP server?
           </li>
           <li style="margin-bottom: 1rem;">
             <strong>The images are free.</strong> No credits, no subscription, no API costs. Everything runs
@@ -434,7 +471,8 @@
             City from <em>The Lord of Mysteries</em>. Initially, this took the form of World Builder, but when
             Fable 5 was finally released to the public, I used the opportunity to bring that vision to life.
             It might not be perfect, but the results are impressive, considering this is a one-man plus AI
-            show, done without the full team and budget of a professional studio. Furthermore, you're not
+            show, done without the full team and budget of a professional studio. Fable 5 also helped me
+            expand on the World Builder to make 3D modeling and 2D comic artwork a reality! Furthermore, you're not
             restricted to using an MCP server I created. After downloading it, it becomes your own, and you
             can ask your AI harness to customize the tools and functions within to whatever suits you more —
             whether it's swapping the LoRA for one trained on more realistic images, or personal tweaks for
