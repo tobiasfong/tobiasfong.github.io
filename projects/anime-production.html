@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Anime Production Skill | Tobias Fong</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="icon" type="image/jpeg" href="/img/rowlet-logo.jpg" />
+</head>
+
+  <body>
+  <nav class="project-nav">
+    <div class="project-nav-inner">
+      <a href="/" class="project-nav-logo"><img src="/img/rowlet-logo.jpg" alt="Home" style="width:32px;height:32px;border-radius:50%;object-fit:cover;display:block;" /></a>
+      <div class="project-nav-links">
+        <a href="/projects/">← Projects</a>
+        <a href="/#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+    <main class="container project-content">
+      <p class="breadcrumb">
+        <a href="/projects/">← Back to Projects</a>
+      </p>
+
+      <header class="project-hero" style="text-align:center; padding: 3rem 0 2rem;">
+        <div class="section-kicker">Agent Skill · Anime Production</div>
+        <h1>Anime Production Skill</h1>
+        <p class="lead" style="max-width: 640px; margin: 0 auto 1.5rem;">
+          An anime teaser, ad &amp; MV maker for AI coding agents — it turns finished illustrations and a
+          music track into vertical 9:16 anime videos, rendered locally with Remotion.
+        </p>
+        <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+          <span class="tag" style="background: var(--text); color: var(--bg);">Agent Skill</span>
+          <span class="tag">Remotion</span>
+          <span class="tag">React</span>
+          <span class="tag">Multi-agent</span>
+          <span class="tag">MIT</span>
+        </div>
+      </header>
+
+      <!-- Demo teaser -->
+      <section style="max-width: 900px; margin: 0 auto 3rem;">
+        <div class="section-kicker" style="text-align:center;">The Result</div>
+        <h2 style="text-align:center;">A 37-second teaser, start to finish</h2>
+        <p style="color: var(--text-body); line-height: 1.7; text-align:center; max-width: 640px; margin: 0 auto 1.5rem;">
+          The first proof of the pipeline — a teaser MV for <em>Reincarnator × Regressor</em>. Eight
+          parallax-animated illustrations and bilingual cover cards, scored with an original track.
+          (Sound on — tap to play.)
+        </p>
+        <figure style="margin: 0; display:flex; justify-content:center;">
+          <video
+            src="/img/rxr-teaser.mp4"
+            poster="/img/rxr-teaser-poster.jpg"
+            controls
+            playsinline
+            preload="metadata"
+            style="width:100%; max-width:340px; border-radius:16px; box-shadow: 0 12px 40px rgba(0,0,0,0.18); display:block;"
+          ></video>
+        </figure>
+        <p style="font-size:13px; color:var(--text-muted); margin-top:1rem; text-align:center;">
+          Story · Illustrations · Lyrics: Tanaka Tomoyuki &nbsp;·&nbsp; Animation: Claude Code &nbsp;·&nbsp;
+          Music: Suno (「セカンドチャンス」)
+        </p>
+      </section>
+
+      <!-- What it is -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">What It Is</div>
+        <h2>A skill that any coding agent can run</h2>
+        <p>
+          The Anime Production Skill is a self-contained agent skill — a set of instructions plus a bundled
+          rendering engine that an AI coding agent reads and executes on its own. Point your harness at it,
+          hand it your finished illustrations or comic pages and a music track, and it renders a vertical
+          (9:16) anime teaser, advertisement, or music video — the kind you'd scroll past on YouTube Shorts
+          or TikTok to discover a new series.
+        </p>
+        <p>
+          It was built and tested with <strong>Claude Code</strong>, but it isn't tied to any one harness.
+          The instructions are plain markdown (<code>AGENTS.md</code> → <code>SKILL.md</code>) and the engine
+          is plain Remotion/React with no harness-specific dependencies — so it works just as well with
+          <strong>OpenAI Codex, Google Antigravity, Gemini CLI, Cursor,</strong> or any AGENTS.md-aware agent.
+        </p>
+        <p style="font-size: 14px; color: var(--text-muted);">
+          <strong>Under the hood:</strong> a Remotion (React) video pipeline rendered entirely on your own
+          machine — no cloud service, no watermark, no per-render cost.
+        </p>
+      </section>
+
+      <!-- Features -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">Features</div>
+        <h2>What it can do</h2>
+        <ul style="color: var(--text-body); line-height: 1.9;">
+          <li><strong>Ken Burns camera motion</strong> — slow pans and zooms that give still art a cinematic drift.</li>
+          <li><strong>Crossfades &amp; transitions</strong> between illustrations for a smooth, edited feel.</li>
+          <li><strong>Particle effects</strong> — shooting stars, embers, drifting petals, and more.</li>
+          <li><strong>Animated video panels</strong> — drop in the depth-parallax clips from the background generator as moving panels.</li>
+          <li><strong>Bilingual (EN/JP) credit overlays</strong> — title cards and credits in both languages.</li>
+          <li><strong>"Showcase" mode</strong> — a Kadokawa-ad-style clean white treatment for cover shots.</li>
+          <li><strong>BGM with fade-out</strong> — sync a music track, ending on a clean fade.</li>
+          <li><strong>Zero watermark</strong> — the render is yours, clean, at full quality.</li>
+        </ul>
+      </section>
+
+      <!-- The story -->
+      <section class="editorial-split">
+        <div>
+          <div class="section-kicker">The Story</div>
+          <h2>From empty shell to actually runnable</h2>
+        </div>
+        <div style="padding-top: 2rem;">
+          <p>
+            The original "skill" I found on mcpmarket.com was an empty shell — a markdown file that listed
+            tools which were never installed, referencing a setup guide that doesn't exist publicly. Download
+            it and your agent has instructions to nowhere.
+          </p>
+          <p>
+            So I rebuilt it into the version that actually works: full, agent-executable setup docs — including
+            every debugging gotcha I hit along the way — bundled together with the complete engine source. The
+            result is a package where an AI agent goes from <em>nothing installed</em> to a
+            <em>rendered video</em>, autonomously, without me babysitting each step.
+          </p>
+          <p style="font-weight: 600; color: var(--text);">
+            The teaser above is the proof it runs.
+          </p>
+        </div>
+      </section>
+
+      <!-- Ecosystem -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">Ecosystem</div>
+        <h2>Part of a webcomic production toolkit</h2>
+        <p>
+          This skill is the companion piece to my
+          <a href="/projects/mcp-background.html">Webcomic Background Generator</a> MCP server. The two are
+          built to work together: the background generator's depth-parallax clips drop straight into this
+          pipeline as animated panels, so a finished illustration becomes a moving shot in a promo video with
+          no extra work. Draw and colour your pages, generate consistent backgrounds, then turn the whole
+          thing into a teaser to market your series — one connected workflow, all running locally.
+        </p>
+      </section>
+
+      <!-- Get it -->
+      <section style="display:flex; justify-content:center; margin: 0 auto 3rem;">
+        <div class="pill-card" style="max-width:640px; width:100%;">
+          <div class="section-kicker">For everyone's use</div>
+          <h2>Get the skill</h2>
+          <p>
+            It's open source (MIT) and built to be portable. Ask your AI harness — Claude Code, Codex, Google
+            Antigravity, Gemini CLI, Cursor, or any AGENTS.md-compatible agent — to clone the
+            <a href="https://github.com/tobiasfong/anime-production-skill" target="_blank" rel="noopener noreferrer">anime-production-skill</a>
+            repository and follow the setup docs. It'll install the engine and render your first video for you.
+          </p>
+          <p>
+            Bring your own illustrations and a music track, and let your harness handle the animation. Focus
+            on the art and the story; leave the video editing to the skill.
+          </p>
+          <a class="button" href="https://github.com/tobiasfong/anime-production-skill" target="_blank" rel="noopener noreferrer">
+            View the code on GitHub →
+          </a>
+        </div>
+      </section>
+
+    </main>
+
+  <footer class="project-footer">
+    <div class="project-nav-inner">
+      <span style="font-size:12px;color:var(--text-muted);">© 2026 Tobias Fong</span>
+      <span style="font-size:12px;color:var(--text-muted);">Built with Claude</span>
+    </div>
+  </footer>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
