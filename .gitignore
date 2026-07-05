@@ -13,3 +13,6 @@ Thumbs.db
 .dev.vars
 .env
 .env.*
+
+# Video assets live in GitHub Releases (media-v1), not the repo — keeps git lean
+*.mp4
