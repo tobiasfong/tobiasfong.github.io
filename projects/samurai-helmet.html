@@ -866,9 +866,30 @@ buildMabisashi(baseGroup, false);
    ═══════════════════════════════════════════ */
 const rowletEyes = [];
 (function() {
-  const matRwBody  = new THREE.MeshStandardMaterial({color:0xC49B6E, roughness:0.85});
+  // Face & belly are PAINTED into the body texture — markings hug the
+  // surface instead of bulging out of it like stuck-on lenses.
+  // Equirect mapping: u=0.25 faces +Z (front); v spans pole to pole.
+  const texRowlet = mkTex(1024, (ctx, s) => {
+    ctx.fillStyle = '#C49B6E';
+    ctx.fillRect(0, 0, s, s);
+    const px = d => d / 360 * s;   // horizontal px per degree of longitude
+    const py = d => d / 180 * s;   // vertical px per degree of latitude
+    const cx = s * 0.25;           // front-centre column
+    ctx.fillStyle = '#F6EEDC';
+    // Cream belly — big soft ellipse up the front
+    ctx.beginPath();
+    ctx.ellipse(cx, py(114), px(48), py(48), 0, 0, Math.PI * 2);
+    ctx.fill();
+    // Facial disc — two overlapping circles (the classic Rowlet "goggles")
+    [-15.7, 15.7].forEach(dphi => {
+      ctx.beginPath();
+      ctx.ellipse(cx + px(dphi), py(74), px(30), py(30), 0, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  });
+
+  const matRwBody  = new THREE.MeshStandardMaterial({map:texRowlet, roughness:0.85});
   const matRwWing  = new THREE.MeshStandardMaterial({color:0xA37E52, roughness:0.85});
-  const matRwCream = new THREE.MeshStandardMaterial({color:0xF6EEDC, roughness:0.9});
   const matRwLeaf  = new THREE.MeshStandardMaterial({color:0x5FA84E, roughness:0.7});
   const matRwLeafD = new THREE.MeshStandardMaterial({color:0x4A8C3E, roughness:0.75});
   const matRwEye   = new THREE.MeshStandardMaterial({color:0x17130F, roughness:0.25});
@@ -885,39 +906,37 @@ const rowletEyes = [];
     return m;
   }
 
-  // Body — head and body are one round blob, per the concept sheet
+  // Body — head and body are one round blob, per the concept sheet.
+  // (In three.js sphere UVs, u=0.25 faces +Z, so the painted front
+  // already points at the camera — no rotation needed.)
   blob(matRwBody, 1, 1.04, 0.95, 0, 0, 0);
 
-  // White facial disc — two overlapping lenses hugging the front
-  blob(matRwCream, 0.5, 0.52, 0.18, -0.26, 0.28, 0.80);
-  blob(matRwCream, 0.5, 0.52, 0.18,  0.26, 0.28, 0.80);
-  // Cream belly
-  blob(matRwCream, 0.72, 0.6, 0.5, 0, -0.42, 0.44);
-
   // Eyes — stored for the blink cycle in the render loop
-  rowletEyes.push(blob(matRwEye, 0.17, 0.17, 0.09, -0.3, 0.28, 0.94));
-  rowletEyes.push(blob(matRwEye, 0.17, 0.17, 0.09,  0.3, 0.28, 0.94));
+  rowletEyes.push(blob(matRwEye, 0.17, 0.17, 0.09, -0.3, 0.28, 0.92));
+  rowletEyes.push(blob(matRwEye, 0.17, 0.17, 0.09,  0.3, 0.28, 0.92));
   // Eye glints — big upper-inner + small lower-outer, per the art
-  blob(matRwGlint, 0.05, 0.05, 0.03, -0.25, 0.34, 1.02);
-  blob(matRwGlint, 0.05, 0.05, 0.03,  0.35, 0.34, 1.02);
-  blob(matRwGlint, 0.024, 0.024, 0.018, -0.34, 0.22, 1.01);
-  blob(matRwGlint, 0.024, 0.024, 0.018,  0.26, 0.22, 1.01);
+  blob(matRwGlint, 0.05, 0.05, 0.03, -0.25, 0.34, 1.0);
+  blob(matRwGlint, 0.05, 0.05, 0.03,  0.35, 0.34, 1.0);
+  blob(matRwGlint, 0.024, 0.024, 0.018, -0.34, 0.22, 0.99);
+  blob(matRwGlint, 0.024, 0.024, 0.018,  0.26, 0.22, 0.99);
 
   // Beak — tiny cone between the eyes, tipped slightly down
-  const beak = new THREE.Mesh(new THREE.ConeGeometry(0.085, 0.18, 12), matRwBeak);
+  const beak = new THREE.Mesh(new THREE.ConeGeometry(0.095, 0.2, 12), matRwBeak);
   beak.rotation.x = Math.PI/2 + 0.35;
-  beak.position.set(0, 0.09, 0.94);
+  beak.position.set(0, 0.07, 0.97);
   beak.castShadow = true;
   rowlet.add(beak);
 
-  // Leaf bowtie — two leaves + knot at the face/chest junction
-  const bowL = blob(matRwLeaf, 0.3, 0.13, 0.07, -0.22, -0.12, 0.85); bowL.rotation.z =  0.5;
-  const bowR = blob(matRwLeaf, 0.3, 0.13, 0.07,  0.22, -0.12, 0.85); bowR.rotation.z = -0.5;
-  blob(matRwLeaf, 0.09, 0.09, 0.07, 0, -0.12, 0.88);
+  // Leaf bowtie — two leaves + knot, sitting ON the body surface
+  const bowL = blob(matRwLeaf, 0.3, 0.13, 0.07, -0.22, -0.14, 0.90); bowL.rotation.z =  0.5;
+  const bowR = blob(matRwLeaf, 0.3, 0.13, 0.07,  0.22, -0.14, 0.90); bowR.rotation.z = -0.5;
+  blob(matRwLeaf, 0.09, 0.09, 0.07, 0, -0.14, 0.945);
 
-  // Wings — tucked at the sides
-  const wingL = blob(matRwWing, 0.2, 0.58, 0.42, -0.88, -0.1, 0.02); wingL.rotation.z =  0.18;
-  const wingR = blob(matRwWing, 0.2, 0.58, 0.42,  0.88, -0.1, 0.02); wingR.rotation.z = -0.18;
+  // Wings — tucked flat against the flanks, angled along the body curve
+  const wingL = blob(matRwWing, 0.15, 0.56, 0.4, -0.84, -0.12, 0.02);
+  wingL.rotation.set(0, -0.3, 0.18);
+  const wingR = blob(matRwWing, 0.15, 0.56, 0.4,  0.84, -0.12, 0.02);
+  wingR.rotation.set(0, 0.3, -0.18);
 
   // Tail leaves — three, fanned at the lower back
   [[0, 0], [-0.24, 0.45], [0.24, -0.45]].forEach(([dx, ry]) => {
