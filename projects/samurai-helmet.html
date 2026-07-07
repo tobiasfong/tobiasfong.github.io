@@ -886,6 +886,14 @@ const rowletEyes = [];
       ctx.ellipse(cx + px(dphi), py(74), px(30), py(30), 0, 0, Math.PI * 2);
       ctx.fill();
     });
+    // Brown widow's-peak — the V of plumage dipping down between the eyes
+    ctx.fillStyle = '#C49B6E';
+    ctx.beginPath();
+    ctx.moveTo(cx - px(15), py(38));
+    ctx.quadraticCurveTo(cx - px(5), py(52), cx, py(76));
+    ctx.quadraticCurveTo(cx + px(5), py(52), cx + px(15), py(38));
+    ctx.closePath();
+    ctx.fill();
   });
 
   const matRwBody  = new THREE.MeshStandardMaterial({map:texRowlet, roughness:0.85});
@@ -894,7 +902,7 @@ const rowletEyes = [];
   const matRwLeafD = new THREE.MeshStandardMaterial({color:0x4A8C3E, roughness:0.75});
   const matRwEye   = new THREE.MeshStandardMaterial({color:0x17130F, roughness:0.25});
   const matRwGlint = new THREE.MeshStandardMaterial({color:0xFFFFFF, roughness:0.15});
-  const matRwBeak  = new THREE.MeshStandardMaterial({color:0xE3AB6E, roughness:0.7});
+  const matRwOrange = new THREE.MeshStandardMaterial({color:0xE0832F, roughness:0.55});
 
   const rowlet = new THREE.Group();
   function blob(mat, sx, sy, sz, x, y, z) {
@@ -911,21 +919,22 @@ const rowletEyes = [];
   // already points at the camera — no rotation needed.)
   blob(matRwBody, 1, 1.04, 0.95, 0, 0, 0);
 
-  // Eyes — stored for the blink cycle in the render loop
-  rowletEyes.push(blob(matRwEye, 0.17, 0.17, 0.09, -0.3, 0.28, 0.92));
-  rowletEyes.push(blob(matRwEye, 0.17, 0.17, 0.09,  0.3, 0.28, 0.92));
-  // Eye glints — big upper-inner + small lower-outer, per the art
-  blob(matRwGlint, 0.05, 0.05, 0.03, -0.25, 0.34, 1.0);
-  blob(matRwGlint, 0.05, 0.05, 0.03,  0.35, 0.34, 1.0);
-  blob(matRwGlint, 0.024, 0.024, 0.018, -0.34, 0.22, 0.99);
-  blob(matRwGlint, 0.024, 0.024, 0.018,  0.26, 0.22, 0.99);
+  // Eyes — big, and spread to make room for the beak between them
+  rowletEyes.push(blob(matRwEye, 0.19, 0.19, 0.1, -0.32, 0.26, 0.90));
+  rowletEyes.push(blob(matRwEye, 0.19, 0.19, 0.1,  0.32, 0.26, 0.90));
+  // Eye glints — light from the same direction on both eyes
+  blob(matRwGlint, 0.055, 0.055, 0.03, -0.26, 0.33, 0.99);
+  blob(matRwGlint, 0.055, 0.055, 0.03,  0.38, 0.33, 0.99);
+  blob(matRwGlint, 0.026, 0.026, 0.018, -0.37, 0.19, 0.98);
+  blob(matRwGlint, 0.026, 0.026, 0.018,  0.27, 0.19, 0.98);
 
-  // Beak — tiny cone between the eyes, tipped slightly down
-  const beak = new THREE.Mesh(new THREE.ConeGeometry(0.095, 0.2, 12), matRwBeak);
-  beak.rotation.x = Math.PI/2 + 0.35;
-  beak.position.set(0, 0.07, 0.97);
-  beak.castShadow = true;
-  rowlet.add(beak);
+  // Beak — the big white teardrop between the eyes, orange tip below
+  blob(matRwGlint, 0.15, 0.24, 0.12, 0, 0.22, 0.90);
+  const beakTip = new THREE.Mesh(new THREE.ConeGeometry(0.08, 0.13, 12), matRwOrange);
+  beakTip.rotation.x = Math.PI - 0.2;   // point down, tipped slightly out
+  beakTip.position.set(0, -0.03, 0.96);
+  beakTip.castShadow = true;
+  rowlet.add(beakTip);
 
   // Leaf bowtie — two leaves + knot, sitting ON the body surface
   const bowL = blob(matRwLeaf, 0.3, 0.13, 0.07, -0.22, -0.14, 0.90); bowL.rotation.z =  0.5;
@@ -944,9 +953,12 @@ const rowletEyes = [];
     leaf.rotation.set(0.35, ry, 0);
   });
 
-  // Feet
-  blob(matRwBeak, 0.11, 0.08, 0.16, -0.22, -1.0, 0.16);
-  blob(matRwBeak, 0.11, 0.08, 0.16,  0.22, -1.0, 0.16);
+  // Feet — orange pads with two stubby toes each
+  [-0.22, 0.22].forEach(fx => {
+    blob(matRwOrange, 0.1, 0.07, 0.13, fx, -1.0, 0.14);
+    blob(matRwOrange, 0.045, 0.05, 0.1, fx - 0.05, -1.02, 0.24);
+    blob(matRwOrange, 0.045, 0.05, 0.1, fx + 0.05, -1.02, 0.24);
+  });
 
   rowlet.scale.setScalar(1.05);
 
@@ -1143,7 +1155,7 @@ function animate(){
   // Rowlet blink — a quick 0.2s blink every ~4.3s
   const bt = time % 4.3;
   const blink = bt > 4.1 ? Math.sin(((bt - 4.1) / 0.2) * Math.PI) : 0;
-  rowletEyes.forEach(ey => { ey.scale.y = 0.17 * (1 - 0.88 * blink); });
+  rowletEyes.forEach(ey => { ey.scale.y = 0.19 * (1 - 0.88 * blink); });
 
   // Dramatic lighting shift during reveal
   warmU.intensity = 0.4 + e * 1.5;
