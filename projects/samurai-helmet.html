@@ -857,67 +857,86 @@ buildMabisashi(baseGroup, false);
 })();
 
 /* ═══════════════════════════════════════════
-   ROWLET
+   ROWLET — procedural 3D model
+   Built entirely from primitives; he is, after
+   all, a sphere with a bowtie. He lies asleep
+   on his back inside the helmet — the reveal's
+   90° rotation (which once stood a book upright)
+   now wakes the owl to face the camera.
    ═══════════════════════════════════════════ */
+const rowletEyes = [];
 (function() {
-  // Rowlet sprite — always faces camera
-  // Load image, strip white background via canvas, then build sprite
-  new THREE.TextureLoader().load('/img/rowlet-clean.png', function(tex) {
-    const img = tex.image;
-    const canvas = document.createElement('canvas');
-    canvas.width = img.width;
-    canvas.height = img.height;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0);
-    try {
-      // Scale down for fast processing
-      const MAX = 512;
-      const sc = Math.min(1, MAX / Math.max(canvas.width, canvas.height));
-      canvas.width  = Math.round(img.width  * sc);
-      canvas.height = Math.round(img.height * sc);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  const matRwBody  = new THREE.MeshStandardMaterial({color:0xC49B6E, roughness:0.85});
+  const matRwWing  = new THREE.MeshStandardMaterial({color:0xA37E52, roughness:0.85});
+  const matRwCream = new THREE.MeshStandardMaterial({color:0xF6EEDC, roughness:0.9});
+  const matRwLeaf  = new THREE.MeshStandardMaterial({color:0x5FA84E, roughness:0.7});
+  const matRwLeafD = new THREE.MeshStandardMaterial({color:0x4A8C3E, roughness:0.75});
+  const matRwEye   = new THREE.MeshStandardMaterial({color:0x17130F, roughness:0.25});
+  const matRwGlint = new THREE.MeshStandardMaterial({color:0xFFFFFF, roughness:0.15});
+  const matRwBeak  = new THREE.MeshStandardMaterial({color:0xE3AB6E, roughness:0.7});
 
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const d = imageData.data;
-      const w = canvas.width, h = canvas.height;
-      const total = w * h;
+  const rowlet = new THREE.Group();
+  function blob(mat, sx, sy, sz, x, y, z) {
+    const m = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 24), mat);
+    m.scale.set(sx, sy, sz);
+    m.position.set(x, y, z);
+    m.castShadow = true;
+    rowlet.add(m);
+    return m;
+  }
 
-      // Flood-fill from all edges using Int32Array queue (fast + memory-safe)
-      const visited = new Uint8Array(total);
-      const queue   = new Int32Array(total);
-      let head = 0, tail = 0;
+  // Body — head and body are one round blob, per the concept sheet
+  blob(matRwBody, 1, 1.04, 0.95, 0, 0, 0);
 
-      const isWhite = p => d[p] >= 240 && d[p+1] >= 240 && d[p+2] >= 240;
-      const enqueue = idx => {
-        if (idx >= 0 && idx < total && !visited[idx] && isWhite(idx * 4)) {
-          visited[idx] = 1; queue[tail++] = idx;
-        }
-      };
+  // White facial disc — two overlapping lenses hugging the front
+  blob(matRwCream, 0.5, 0.52, 0.18, -0.26, 0.28, 0.80);
+  blob(matRwCream, 0.5, 0.52, 0.18,  0.26, 0.28, 0.80);
+  // Cream belly
+  blob(matRwCream, 0.72, 0.6, 0.5, 0, -0.42, 0.44);
 
-      for (let x = 0; x < w; x++) { enqueue(x); enqueue((h-1)*w + x); }
-      for (let y = 1; y < h-1; y++) { enqueue(y*w); enqueue(y*w + w-1); }
+  // Eyes — stored for the blink cycle in the render loop
+  rowletEyes.push(blob(matRwEye, 0.17, 0.17, 0.09, -0.3, 0.28, 0.94));
+  rowletEyes.push(blob(matRwEye, 0.17, 0.17, 0.09,  0.3, 0.28, 0.94));
+  // Eye glints — big upper-inner + small lower-outer, per the art
+  blob(matRwGlint, 0.05, 0.05, 0.03, -0.25, 0.34, 1.02);
+  blob(matRwGlint, 0.05, 0.05, 0.03,  0.35, 0.34, 1.02);
+  blob(matRwGlint, 0.024, 0.024, 0.018, -0.34, 0.22, 1.01);
+  blob(matRwGlint, 0.024, 0.024, 0.018,  0.26, 0.22, 1.01);
 
-      while (head < tail) {
-        const idx = queue[head++];
-        d[idx*4+3] = 0;
-        const x = idx % w, y = (idx/w)|0;
-        if (x > 0)   enqueue(idx-1);
-        if (x < w-1) enqueue(idx+1);
-        if (y > 0)   enqueue(idx-w);
-        if (y < h-1) enqueue(idx+w);
-      }
+  // Beak — tiny cone between the eyes, tipped slightly down
+  const beak = new THREE.Mesh(new THREE.ConeGeometry(0.085, 0.18, 12), matRwBeak);
+  beak.rotation.x = Math.PI/2 + 0.35;
+  beak.position.set(0, 0.09, 0.94);
+  beak.castShadow = true;
+  rowlet.add(beak);
 
-      ctx.putImageData(imageData, 0, 0);
-    } catch(e) { /* if processing fails, use image as-is */ }
-    const cleanTex = new THREE.CanvasTexture(canvas);
-    cleanTex.encoding = THREE.sRGBEncoding;
-    const aspect = img.width / img.height;
-    const h = 2.2;
-    const spriteMat = new THREE.SpriteMaterial({ map: cleanTex, transparent: true });
-    const sprite = new THREE.Sprite(spriteMat);
-    sprite.scale.set(h * aspect, h, 1);
-    bookGroup.add(sprite);
+  // Leaf bowtie — two leaves + knot at the face/chest junction
+  const bowL = blob(matRwLeaf, 0.3, 0.13, 0.07, -0.22, -0.12, 0.85); bowL.rotation.z =  0.5;
+  const bowR = blob(matRwLeaf, 0.3, 0.13, 0.07,  0.22, -0.12, 0.85); bowR.rotation.z = -0.5;
+  blob(matRwLeaf, 0.09, 0.09, 0.07, 0, -0.12, 0.88);
+
+  // Wings — tucked at the sides
+  const wingL = blob(matRwWing, 0.2, 0.58, 0.42, -0.88, -0.1, 0.02); wingL.rotation.z =  0.18;
+  const wingR = blob(matRwWing, 0.2, 0.58, 0.42,  0.88, -0.1, 0.02); wingR.rotation.z = -0.18;
+
+  // Tail leaves — three, fanned at the lower back
+  [[0, 0], [-0.24, 0.45], [0.24, -0.45]].forEach(([dx, ry]) => {
+    const leaf = blob(matRwLeafD, 0.16, 0.05, 0.5, dx, -0.52, -0.72);
+    leaf.rotation.set(0.35, ry, 0);
   });
+
+  // Feet
+  blob(matRwBeak, 0.11, 0.08, 0.16, -0.22, -1.0, 0.16);
+  blob(matRwBeak, 0.11, 0.08, 0.16,  0.22, -1.0, 0.16);
+
+  rowlet.scale.setScalar(1.05);
+
+  // Cradle: lay him on his back inside the helmet. The reveal animation's
+  // +90° X rotation cancels this out, standing him upright to face you.
+  const cradle = new THREE.Group();
+  cradle.rotation.x = -Math.PI/2;
+  cradle.add(rowlet);
+  bookGroup.add(cradle);
 
   bookGroup.position.y = -0.05;
   bookGroup.rotation.y = 0.08;
@@ -1101,6 +1120,11 @@ function animate(){
     }
   }
   pGeo.attributes.position.needsUpdate = true;
+
+  // Rowlet blink — a quick 0.2s blink every ~4.3s
+  const bt = time % 4.3;
+  const blink = bt > 4.1 ? Math.sin(((bt - 4.1) / 0.2) * Math.PI) : 0;
+  rowletEyes.forEach(ey => { ey.scale.y = 0.17 * (1 - 0.88 * blink); });
 
   // Dramatic lighting shift during reveal
   warmU.intensity = 0.4 + e * 1.5;
