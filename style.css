@@ -15,8 +15,8 @@
      • Caption   — meta / fine print          (--fs-caption)
    ============================================================ */
 :root {
-  --font-heading: Arial, 'Helvetica Neue', Helvetica, sans-serif;
-  --font-ui: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  --font-heading: Arial, sans-serif;
+  --font-ui: Arial, sans-serif;
   --font-jp: "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Yu Mincho", "YuMincho", "MS Mincho", "Noto Serif JP", serif;
 
   /* Type scale */
