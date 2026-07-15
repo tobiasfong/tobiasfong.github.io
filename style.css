@@ -1,24 +1,63 @@
+/* ============================================================
+   TYPOGRAPHY SYSTEM
+   ------------------------------------------------------------
+   Fonts
+     • English (default) — Arial
+     • Japanese (:lang(ja)) — Mincho (serif). No web fonts loaded;
+       both are system-font stacks.
+   Hierarchy (single source of truth — use these tokens, don't
+   hardcode sizes)
+     • H1        — display heading           (--fs-h1)
+     • H2        — section heading            (--fs-h2)
+     • Lead      — intro / stand-first copy   (--fs-lead)
+     • Body      — running text, 13.5px       (--fs-body)
+     • Label     — UPPERCASE, tracked, muted  (--fs-label)
+     • Caption   — meta / fine print          (--fs-caption)
+   ============================================================ */
 :root {
   --font-heading: Arial, 'Helvetica Neue', Helvetica, sans-serif;
   --font-ui: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  --font-jp: "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Yu Mincho", "YuMincho", "MS Mincho", "Noto Serif JP", serif;
+
+  /* Type scale */
+  --fs-h1: clamp(60px, 9vw, 108px);
+  --fs-h2: clamp(32px, 4vw, 48px);
+  --fs-lead: 16px;
+  --fs-body: 13.5px;
+  --fs-label: 12px;
+  --fs-caption: 11.5px;
+  --lh-body: 1.6;
+
   --bg: #ffffff;
   --bg-alt: #F7F7F5;
   --border: rgba(0,0,0,0.08);
   --text: #0a0a0a;
   --text-body: #414141;
   --text-muted: #888888;
+  --label-color: var(--text-muted); /* labels stay muted grey; swap to --accent-red to make them red */
+  --accent-red: #C8102E;
   --pill-bg: #EFEFED;
   --pill-text: #3a3a3a;
 }
+
+/* Japanese pages render entirely in Mincho — redefining the font
+   tokens here means every element using them switches automatically. */
+html[lang="ja"] {
+  --font-heading: var(--font-jp);
+  --font-ui: var(--font-jp);
+}
+/* Inline Japanese snippets on otherwise-English pages */
+:lang(ja) { font-family: var(--font-jp); }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font-ui);
+  font-size: var(--fs-body);
   background: var(--bg);
   color: var(--text-body);
-  line-height: 1.6;
+  line-height: var(--lh-body);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -80,7 +119,7 @@ nav {
 
 .nav-btn {
   font-family: var(--font-ui);
-  font-size: 12px;
+  font-size: var(--fs-label);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text);
@@ -136,16 +175,16 @@ nav {
 
 .hero-kicker {
   font-family: var(--font-ui);
-  font-size: 12px;
+  font-size: var(--fs-label);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--label-color);
   margin-bottom: 20px;
 }
 
 h1 {
   font-family: var(--font-heading);
-  font-size: clamp(60px, 9vw, 108px);
+  font-size: var(--fs-h1);
   font-weight: 700;
   line-height: 0.92;
   letter-spacing: -0.03em;
@@ -154,7 +193,7 @@ h1 {
 }
 
 .hero-body {
-  font-size: 17px;
+  font-size: var(--fs-lead);
   line-height: 1.75;
   color: var(--text-body);
   max-width: 52ch;
@@ -195,7 +234,7 @@ h1 {
   padding: 11px 22px;
   border-radius: 999px;
   font-family: var(--font-ui);
-  font-size: 12px;
+  font-size: var(--fs-label);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   text-decoration: none;
@@ -249,16 +288,16 @@ h1 {
 
 .section-kicker {
   font-family: var(--font-ui);
-  font-size: 12px;
+  font-size: var(--fs-label);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: rgba(0,0,0,0.45);
+  color: var(--label-color);
   margin-bottom: 16px;
 }
 
 .section-title {
   font-family: var(--font-heading);
-  font-size: clamp(32px, 4vw, 48px);
+  font-size: var(--fs-h2);
   font-weight: 700;
   line-height: 1.05;
   letter-spacing: -0.03em;
@@ -268,7 +307,7 @@ h1 {
 }
 
 .section-copy {
-  font-size: 16px;
+  font-size: var(--fs-lead);
   line-height: 1.7;
   color: var(--text-body);
   max-width: 600px;
@@ -340,7 +379,7 @@ h1 {
 
 .arch-panel-tag {
   font-family: var(--font-ui);
-  font-size: 12px;
+  font-size: var(--fs-label);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: rgba(255,255,255,0.65);
@@ -360,7 +399,7 @@ h1 {
 
 .panel-copy {
   margin-top: 10px;
-  font-size: 13px;
+  font-size: var(--fs-body);
   line-height: 1.6;
   color: rgba(255,255,255,0.75);
   display: grid;
@@ -420,10 +459,10 @@ h1 {
 
 .path-panel-tag {
   font-family: var(--font-ui);
-  font-size: 12px;
+  font-size: var(--fs-label);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: rgba(0,0,0,0.4);
+  color: var(--label-color);
   margin-bottom: 10px;
 }
 
@@ -438,7 +477,7 @@ h1 {
 
 .path-card p {
   margin-top: 10px;
-  font-size: 13px;
+  font-size: var(--fs-body);
   line-height: 1.6;
   color: var(--text-muted);
 }
@@ -493,8 +532,8 @@ h1 {
 }
 
 .fusion-widget-link {
-  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
-  font-size: 13px;
+  font-family: var(--font-ui);
+  font-size: var(--fs-body);
   font-weight: 600;
   color: var(--text);
   text-decoration: none;
@@ -506,15 +545,15 @@ h1 {
 }
 
 .fusion-widget-date {
-  font-size: 11px;
+  font-size: var(--fs-caption);
   color: var(--text-muted);
 }
 
 .fusion-widget-loading {
   padding: 20px;
-  font-size: 13px;
+  font-size: var(--fs-body);
   color: var(--text-muted);
-  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: var(--font-ui);
 }
 
 @media (max-width: 768px) {
@@ -545,7 +584,7 @@ h1 {
 
 .feature-card-label {
   font-family: var(--font-ui);
-  font-size: 11px;
+  font-size: var(--fs-label);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgba(255,255,255,0.55);
@@ -566,7 +605,7 @@ h1 {
 }
 
 .feature-card-body p {
-  font-size: 13px;
+  font-size: var(--fs-body);
   line-height: 1.65;
   color: rgba(255,255,255,0.7);
   max-width: 680px;
@@ -596,7 +635,7 @@ footer {
   justify-content: space-between;
   align-items: center;
   font-family: var(--font-ui);
-  font-size: 12px;
+  font-size: var(--fs-caption);
   color: var(--text-muted);
   letter-spacing: 0.02em;
 }
@@ -691,7 +730,7 @@ footer {
 
 .project-content p,
 .project-content li {
-  font-size: 15px;
+  font-size: var(--fs-body);
   color: var(--text-body);
   line-height: 1.75;
   max-width: 68ch;
@@ -759,9 +798,9 @@ footer {
 
 /* ── Release-notes archive (per-version accordions) ── */
 .release-archive-label {
-  font-size: 13px;
+  font-size: var(--fs-label);
   font-weight: 600;
-  color: var(--text-muted);
+  color: var(--label-color);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   margin-top: 2rem;
@@ -791,8 +830,8 @@ footer {
 .release-item[open] > summary::before { content: "▾"; }
 .release-item[open] > summary { border-bottom: 1px solid var(--border); }
 .release-item .release-ver { font-family: var(--mono, monospace); color: var(--text); font-weight: 600; }
-.release-item .release-name { color: var(--text-body); font-size: 14px; }
-.release-item .release-date { color: var(--text-muted); font-size: 12px; margin-left: auto; }
+.release-item .release-name { color: var(--text-body); font-size: var(--fs-body); }
+.release-item .release-date { color: var(--text-muted); font-size: var(--fs-caption); margin-left: auto; }
 .release-item ul { padding: 0.75rem 0 1rem 1.15rem; }
 
 .belt {
@@ -813,7 +852,7 @@ footer {
   border-radius: 14px; display: block;
 }
 .belt figcaption {
-  font-size: 12px; color: var(--text-muted); margin-top: 0.5rem;
+  font-size: var(--fs-caption); color: var(--text-muted); margin-top: 0.5rem;
 }
 @keyframes belt-scroll {
   from { transform: translateX(0); }
@@ -847,23 +886,23 @@ footer {
 }
 
 .lead {
-  font-size: 17px;
+  font-size: var(--fs-lead);
   line-height: 1.75;
   color: var(--text-body);
   max-width: 60ch;
 }
 
 .meta {
-  font-size: 12px;
+  font-size: var(--fs-label);
   letter-spacing: 0.04em;
-  color: var(--text-muted);
+  color: var(--label-color);
   margin: 10px 0 16px;
   text-transform: uppercase;
 }
 
 .breadcrumb {
   padding: 20px 0 8px;
-  font-size: 13px;
+  font-size: var(--fs-body);
 }
 
 .breadcrumb a {
@@ -889,7 +928,7 @@ footer {
   padding: 10px 20px;
   border-radius: 999px;
   font-family: var(--font-ui);
-  font-size: 12px;
+  font-size: var(--fs-label);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   text-decoration: none;
@@ -921,7 +960,7 @@ footer {
 }
 
 .note {
-  font-size: 13px;
+  font-size: var(--fs-body);
   color: var(--text-muted);
   font-style: italic;
   margin: 8px 0;
@@ -975,7 +1014,7 @@ footer {
 }
 
 .projects-card-body p {
-  font-size: 13px;
+  font-size: var(--fs-body);
   color: var(--text-muted);
   line-height: 1.55;
 }

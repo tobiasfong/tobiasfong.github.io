@@ -5,7 +5,7 @@
   background: #F7F7F5;
   border: 1px solid rgba(0,0,0,0.08);
   max-width: 320px;
-  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: var(--font-ui);
 }
 
 .weather-card h2 {
@@ -28,7 +28,7 @@
   margin: 0.4rem 0 1rem;
   padding: 6px 10px;
   font-size: 14px;
-  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: var(--font-ui);
   border: 1px solid rgba(0,0,0,0.12);
   border-radius: 8px;
   background: #fff;
