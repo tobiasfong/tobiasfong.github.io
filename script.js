@@ -107,10 +107,8 @@ setActive();
   nextBtn.addEventListener('click', () => move(-1));
 })();
 
-// Path cards — staggered reveal with scale
-(function () {
-  const grid = document.querySelector('.path-grid');
-  if (!grid) return;
+// Path cards — staggered reveal with scale (handles multiple .path-grid sections)
+document.querySelectorAll('.path-grid').forEach(grid => {
   let triggered = false;
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
@@ -123,4 +121,4 @@ setActive();
     });
   }, { threshold: 0.1 });
   observer.observe(grid);
-})();
+});

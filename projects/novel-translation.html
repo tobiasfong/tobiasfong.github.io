@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Novel Translation MCP Server | Tobias Fong</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="icon" type="image/jpeg" href="/img/rowlet-logo.jpg" />
+</head>
+
+  <body>
+  <nav class="project-nav">
+    <div class="project-nav-inner">
+      <a href="/" class="project-nav-logo"><img src="/img/rowlet-logo.jpg" alt="Home" style="width:32px;height:32px;border-radius:50%;object-fit:cover;display:block;" /></a>
+      <div class="project-nav-links">
+        <a href="/projects/">← Projects</a>
+        <a href="/#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+    <main class="container project-content">
+      <p class="breadcrumb">
+        <a href="/projects/">← Back to Projects</a>
+      </p>
+
+      <header class="project-hero" style="
+          text-align:center;
+          padding: 5rem 2rem 4rem;
+          position: relative;
+          overflow: hidden;
+          border-radius: 16px;
+          margin-bottom: 3rem;
+          background: url('/img/rxr-mirror-matsuyama.jpg') center/cover no-repeat;
+        ">
+        <div style="position:absolute; inset:0; background:rgba(255,255,255,0.72); z-index:0;"></div>
+        <div style="position:relative; z-index:1;">
+          <div class="section-kicker">MCP Server Project</div>
+          <h1>Novel Translation MCP Server</h1>
+          <p class="lead" style="max-width: 640px; margin: 0 auto 1.5rem;">
+            A local MCP server that lets Claude answer narrow questions about a novel manuscript —
+            one chapter, one search hit, one glossary term — instead of ever re-reading the whole document.
+          </p>
+          <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+            <span class="tag" style="background: var(--text); color: var(--bg);">MCP Server</span>
+            <span class="tag">Python</span>
+            <span class="tag">python-docx</span>
+            <span class="tag">Built with Claude</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- A story of translation -->
+      <section class="editorial-split">
+        <div>
+          <div class="section-kicker">Background</div>
+          <h2>A story of translation</h2>
+        </div>
+        <div style="padding-top: 2rem;">
+          <p>
+            My dream to be a writer started way back when I was a kid, when I read R. L. Stine's
+            <em>Goosebumps</em> series and Katherine Applegate's <em>Animorphs</em> series. But as I became
+            a teenager, I ended up getting into manga and anime, and over 20 years ago, there was literally
+            a Manga genre in Fictionpress, the website I started writing stories on. You can guess what kind
+            of stories I ended up writing the most.
+          </p>
+          <p>
+            As I entered university (National University of Singapore) and majored in Japanese Studies,
+            while learning the language, I delved into Japanese light novels. My dream of being a writer
+            also shifted, and I wanted to produce my own light novel... written in Japanese, if possible. I
+            had a good friend from my exchange semester in Keio University — Watanabe Kazunari — and he
+            helped me translate one of my (sadly, very badly written) light novels into Japanese. Great fun,
+            I'm super grateful to him even though the project wasn't a success, and I hope to work with him
+            again in the future.
+          </p>
+          <p>
+            Fast forward over a decade, and I'm back at it again. With the advent of AI, translation is
+            easier, and I would like to think that I have gotten better at writing Japanese too (nah, not
+            really... better at reading Japanese, more like). With AI models such as Claude's Opus 4.8 and
+            ChatGPT being able to pick up cultural contexts and nuances that Google Translate couldn't,
+            translation has become a more manageable process.
+          </p>
+          <p>
+            So I thought, why not write a story in English, then use Claude to translate it into Japanese?
+          </p>
+          <p>
+            However, here's the kicker. I believe in creative collaboration. That is to say, I'm not the
+            lazy kind who will just hand my story over to Claude, ask him to translate it for me completely,
+            then post it online. No. AI is an amazing assistant, but AI is <em>not</em> a replacement for
+            humans. Just because AI can translate for you doesn't mean you don't need translators and
+            interpreters. There have been breathtaking developments and progress in AI translations, but...
+            they're still not human. They'll still miss the creative decisions, deliberate choice of
+            words/phrases, and contextual intention that a human writer brings.
+          </p>
+          <p>
+            Furthermore, I can read and write Japanese. So why not take advantage of that? Human-AI
+            collaboration. That's what we should strive for. AI and I are partners. He assists me in what I
+            do, not replace me. He advises me if he spots a mistake. I make the judgement calls, especially
+            when it comes to creative context and judgement, such as play on words, puns, deliberate
+            foreshadowing, references and easter eggs that the AI has no context of.
+          </p>
+        </div>
+      </section>
+
+      <!-- Translation workflow -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">The Process</div>
+        <h2>Translation workflow</h2>
+        <p>
+          So instead of a 100% handover to Claude — what they call "fire and forget" if I'm not mistaken —
+          I asked him to translate chapter by chapter. After he translates one chapter, I read and review
+          it, make my changes. This can be: "No, I was making a reference here, the choice of Japanese words
+          are deliberate." "My character meant to say this, it was on purpose." Or "this character speaks
+          in <span lang="ja">丁寧語</span>, that character speaks in <span lang="ja">普通語</span>."
+        </p>
+        <p>
+          An interesting note: one of my observations is that Claude tends to translate according to what
+          he deems "realistic." As in, "oh, this character will speak <span lang="ja">丁寧語</span> to this
+          party, but switch to <span lang="ja">普通語</span> for another." But that doesn't really work in
+          light novels and manga because character consistency. Certainly, there will be cases where the
+          character chooses to be deferential and polite, but realism and switching between speech modes
+          aren't really the point.
+        </p>
+        <p>
+          Also, he tends to miss the references and easter eggs, especially the Japanese light novel
+          titles, or whatever meta-joke my protagonist made, and I had to correct those too.
+        </p>
+        <p>
+          There was also the matter of pronouns. Now this is less of an AI's weakness because I'm sure 3rd
+          language translators like me tend to make similar mistakes too, but I notice a ton of pronouns
+          being used. In English, lots of pronouns being used is the norm. In Japanese, it looks odd.
+        </p>
+        <p>
+          So that's where a human comes in, to check the naturalness of the translation, to make precise,
+          surgical edits, after my AI assistant has done the heavy lifting and translated a whole chapter.
+          As I said, one doesn't replace the other. It's a creative collaboration. A partnership.
+        </p>
+        <p>
+          That's the other aspect I enjoyed in the workflow. When I make a mistake, Claude would raise it
+          and advise me on how best to proceed. "No, that sounds weird." Or "your changes are ungrammatical.
+          Here's an alternative." Or "You've overtrimmed the pronouns and this sentence now lacks a subject.
+          I suggest you add it back."
+        </p>
+        <p>
+          There are times when Claude acknowledges my changes are better (not sure if he's flattering me),
+          but there are often times he helps correct my mistakes. I would like to believe this collaboration
+          helps both of us produce a better work than either of us can do solo.
+        </p>
+      </section>
+
+      <!-- The problem -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">The Catch</div>
+        <h2>The problem</h2>
+        <p>
+          However, one thing I noticed while translating was that every time I resume my translation
+          workflow, after booting up my computer or waking him up from sleep, is that... the first
+          resumption prompt would immediately consume 20-30% of my 5-hour usage.
+        </p>
+        <p style="font-weight: 600; color: var(--text);">That is a lot.</p>
+        <p>
+          Apparently, he kept rereading the full English master document every time we resume the chat,
+          which bloated the context.
+        </p>
+        <p>
+          At that time, I was also working on building MCP servers for my company, and one of the things we
+          had to address was that the AI harness of my colleagues burned a lot of tokens reading a Google
+          Drive spreadsheet. I thought I had an MCP server or app that solved that — instead of the AI
+          harness reading the spreadsheet directly (lots of tabs, which caused the token burn), he uses
+          tools to fetch the relevant data from the spreadsheet instead. The app rendered the data on screen
+          via TypeScript, while the MCP server hosted tools with similar functions for the AI client to
+          fetch that exact same data to answer queries.
+        </p>
+        <p>
+          So I thought, why not apply that same principle here? Instead of the AI harness reading my
+          52,000+ word master document over and over again, just use tools hosted by an MCP server to read
+          them. With that, I went about building that MCP server, again with Claude as my assistant.
+        </p>
+      </section>
+
+      <!-- The fix that didn't work first — the honest engineering beat -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">Under The Hood</div>
+        <h2>The fix that didn't work on the first try</h2>
+        <p>
+          An MCP server that returns small, targeted excerpts — one chapter, one search hit — instead of
+          ever touching the full document is the obvious answer, and it should have cut the resume cost by
+          roughly 10x. Instead, throughput measurably got <em>worse</em> — from 2-3 chapters a session down
+          to less than one.
+        </p>
+        <p>
+          The server was being used inside the wrong pattern: one long-running chat, where every tool call
+          re-sends the entire conversation history, and each context call was returning a full previous
+          chapter (~9k tokens) that then sat in history, being re-processed on every subsequent turn.
+        </p>
+        <p>
+          Diagnosed by measuring actual tool-schema and payload sizes — not guessing — then fixed three
+          ways: terser tool docstrings cut per-message schema overhead by roughly 45% (schemas ride on
+          every message of every connected chat, so verbosity there is expensive in a way verbosity in a
+          README is not); the context tool was changed to return only the <em>tail</em> of the previous
+          chapter instead of the whole thing; and the workflow itself now explicitly teaches "one fresh chat
+          per chapter, state lives on disk" — because a fresh chat with this server costs about 7k tokens to
+          fully re-establish context, versus roughly 70k to re-read the manuscript by hand.
+        </p>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1.5rem; margin: 2.5rem 0; text-align:center;">
+          <div>
+            <div style="font-size: var(--fs-h2); font-weight:700; color:var(--text);">12</div>
+            <div class="section-kicker" style="margin-bottom:0;">MCP tools</div>
+          </div>
+          <div>
+            <div style="font-size: var(--fs-h2); font-weight:700; color:var(--text);">~1,700</div>
+            <div class="section-kicker" style="margin-bottom:0;">tokens of schema overhead<br>(down from ~2,500)</div>
+          </div>
+          <div>
+            <div style="font-size: var(--fs-h2); font-weight:700; color:var(--text);">10</div>
+            <div class="section-kicker" style="margin-bottom:0;">commits in one day</div>
+          </div>
+          <div>
+            <div style="font-size: var(--fs-h2); font-weight:700; color:var(--text);">~120k</div>
+            <div class="section-kicker" style="margin-bottom:0;">JA characters / ~50k EN words</div>
+          </div>
+          <div>
+            <div style="font-size: var(--fs-h2); font-weight:700; color:var(--text);">21</div>
+            <div class="section-kicker" style="margin-bottom:0;">chapters, as of writing</div>
+          </div>
+        </div>
+
+        <div class="section-kicker">12 tools</div>
+        <div style="overflow-x:auto; margin-bottom: 2rem;">
+          <table style="width:100%; border-collapse:collapse; font-size: var(--fs-body);">
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:8px 12px 8px 0; white-space:nowrap;"><code>list_projects</code></td>
+                <td style="padding:8px 0; color:var(--text-body);">Every registered novel and its chapter counts</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:8px 12px 8px 0; white-space:nowrap;"><code>register_project</code></td>
+                <td style="padding:8px 0; color:var(--text-body);">Register a new novel's Volume 1</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:8px 12px 8px 0; white-space:nowrap;"><code>add_manuscript_volume</code></td>
+                <td style="padding:8px 0; color:var(--text-body);">Register Volume 2+ without risk of dropping an earlier volume</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:8px 12px 8px 0; white-space:nowrap;"><code>list_chapters</code></td>
+                <td style="padding:8px 0; color:var(--text-body);">Titles + translation status for one volume — no text</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:8px 12px 8px 0; white-space:nowrap;"><code>get_chapter</code></td>
+                <td style="padding:8px 0; color:var(--text-body);">One chapter's text, optionally a paragraph slice</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:8px 12px 8px 0; white-space:nowrap;"><code>get_context</code></td>
+                <td style="padding:8px 0; color:var(--text-body);">One-call bundle: source text + previous chapter's tail + glossary + session notes</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:8px 12px 8px 0; white-space:nowrap;"><code>search_manuscript</code></td>
+                <td style="padding:8px 0; color:var(--text-body);">Grep across one or every volume without loading the document</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:8px 12px 8px 0; white-space:nowrap;"><code>get_glossary</code></td>
+                <td style="padding:8px 0; color:var(--text-body);">Approved terms + staged terms pending human review</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:8px 12px 8px 0; white-space:nowrap;"><code>propose_glossary_term</code></td>
+                <td style="padding:8px 0; color:var(--text-body);">Stage a term — never auto-commits</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:8px 12px 8px 0; white-space:nowrap;"><code>record_note</code></td>
+                <td style="padding:8px 0; color:var(--text-body);">Persist a mid-session agreement so the next fresh chat inherits it</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:8px 12px 8px 0; white-space:nowrap;"><code>save_translation</code></td>
+                <td style="padding:8px 0; color:var(--text-body);">Write a translation (only for a language with no master docx)</td>
+              </tr>
+              <tr>
+                <td style="padding:8px 12px 8px 0; white-space:nowrap;"><code>lint_chapter</code></td>
+                <td style="padding:8px 0; color:var(--text-body);">Deterministic mechanical checks — orthography, brackets, non-words, pronoun density</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section-kicker">Engineering decisions worth highlighting</div>
+
+        <div class="pill-card" style="margin-bottom: 1.25rem;">
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Reads the author's actual document, never a stale copy</p>
+          <p style="margin-bottom:0;">
+            Early design tracked one manuscript per project and treated every other language as export
+            files the tool itself wrote. For a project where the author maintains a real Japanese master
+            document — not throwaway exports — that meant the tool could silently drift out of sync with
+            what the author actually wrote, auditing yesterday's copy instead of today's edit. Fixed by
+            making any language with a registered master docx get read from that docx directly, always, and
+            making the write tool refuse — raise an error, not a silent no-op — for a language that has one.
+            The author's document is the only writable artifact for it; the tool never owns a second copy of
+            the truth.
+          </p>
+        </div>
+
+        <div class="pill-card" style="margin-bottom: 1.25rem;">
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Volumes restart chapter numbering, because that's how real books work</p>
+          <p style="margin-bottom:0;">
+            First design assumed a Volume 2 would continue counting from Volume 1's last chapter. Correction
+            from the author: real published volumes restart at chapter 1 — so chapter identity throughout
+            the server is (volume, chapter number) together, reworked so chapter 1 of two different volumes
+            resolves to two different, correct texts, including at the volume boundary (asking for context
+            on Volume 2's first chapter correctly pulls continuity from the end of Volume 1, not "no
+            previous chapter"). Verified with a synthetic two-volume test manuscript where both volumes
+            genuinely have their own chapter 1.
+          </p>
+        </div>
+
+        <div class="pill-card" style="margin-bottom: 1.25rem;">
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Human-in-the-loop is enforced in code, not just prompted</p>
+          <p style="margin-bottom:0;">
+            <code>propose_glossary_term</code> has no code path that writes to the approved glossary — a
+            proposed term sits staged until a human explicitly promotes it. Same principle in the workflow
+            itself: the model checks the human's own edits with the same scrutiny as its own draft (the
+            translator is fluent but not a native speaker, so his prose isn't automatically correct just
+            because he wrote it) — approval requires two gates in order: the model's review converges with
+            nothing left to flag, then the human signs off. Skipping straight to human approval is exactly
+            how an error slips through unflagged.
+          </p>
+        </div>
+
+        <div class="pill-card" style="margin-bottom: 1.25rem;">
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">The workflow ships inside the MCP protocol itself, not chat memory</p>
+          <p style="margin-bottom:0;">
+            The collaborative review loop — draft, judgment-call notes, human edit, re-check, approve — is
+            written once in a WORKFLOW.md and passed as the server's <code>instructions</code> field, part
+            of the MCP handshake every connecting client receives automatically. The workflow travels with
+            the tool, independent of which model or session is on the other end. A gitignored local override
+            lets an individual translator layer their own house rules — locked orthography, pronoun
+            conventions, a specific voice bible — on top of the shipped default without forking the repo.
+          </p>
+        </div>
+
+        <div class="pill-card">
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Diagnosed a live bug across two running chat sessions</p>
+          <p style="margin-bottom:0;">
+            Mid-project, a second chat session — also connected to the same server — hit a bare
+            <code>KeyError</code>. Traced it to stale server processes: a dozen Python subprocesses still
+            running from earlier that day, several holding code from before a schema change, still
+            answering tool calls against a registry file the current code had already migrated. Fixed by
+            killing the stale processes and, separately, turning that class of failure into a clear error
+            message instead of a bare traceback for next time.
+          </p>
+        </div>
+      </section>
+
+      <!-- Get it -->
+      <section style="display:flex; justify-content:center; margin: 0 auto 3rem;">
+        <div class="pill-card" style="max-width:640px; width:100%;">
+          <div class="section-kicker">For everyone's use</div>
+          <h2>Get the code</h2>
+          <p>
+            Second personal MCP server, same origin pattern as the first
+            (<a href="/projects/mcp-background.html">Webcomic Background Generator</a>): built to fix a
+            real, dated problem I actually hit doing my own work, not a speculative feature. Same design
+            stance across both — AI as a collaborative partner, with the human keeping final authority.
+          </p>
+          <p>
+            Public from day one, and genericized before publishing: personal paths and my novel's specific
+            title moved to a gitignored local config, so anyone can clone it and register their own book.
+            It lives in <a href="https://github.com/tobiasfong/webcomic-toolkit" target="_blank" rel="noopener noreferrer">webcomic-toolkit</a>
+            — a monorepo, not a single-purpose repo, with <code>servers/novel-translation-mcp/</code> as the
+            first server in it. Built to hold the next ones (a comic speech-bubble + translation server, a
+            publication/EPUB-assembly server, an orchestration skill) without needing a new repo each time.
+          </p>
+          <a class="button" href="https://github.com/tobiasfong/webcomic-toolkit" target="_blank" rel="noopener noreferrer">
+            View the code on GitHub →
+          </a>
+        </div>
+      </section>
+
+    </main>
+
+  <footer class="project-footer">
+    <div class="project-nav-inner">
+      <span style="font-size:12px;color:var(--text-muted);">© 2026 Tobias Fong</span>
+      <span style="font-size:12px;color:var(--text-muted);">Built with Claude</span>
+    </div>
+  </footer>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
