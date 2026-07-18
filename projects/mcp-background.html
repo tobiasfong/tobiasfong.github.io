@@ -45,7 +45,7 @@
           </p>
           <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
             <span class="tag" style="background: var(--text); color: var(--bg);">MCP Server</span>
-            <span class="tag">v1.7.0</span>
+            <span class="tag">v1.8.0</span>
             <span class="tag">Python</span>
             <span class="tag">Stable Diffusion</span>
             <span class="tag">ComfyUI</span>
@@ -394,18 +394,36 @@
 
         <div class="pill-card" style="margin-top: 1.5rem;">
           <h3 style="margin-top:0; display:flex; align-items:baseline; gap:0.6rem;">
-            <span style="font-family:var(--mono,monospace); color:var(--text);">v1.7.0</span>
-            <span style="font-size:13px; font-weight:500; color:var(--text-muted);">Niji V5 Style LoRA</span>
+            <span style="font-family:var(--mono,monospace); color:var(--text);">v1.8.0</span>
+            <span style="font-size:13px; font-weight:500; color:var(--text-muted);">3D Prop Rendering</span>
           </h3>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:-0.4rem;">July 17, 2026</p>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:-0.4rem;">July 18, 2026</p>
+          <ul style="color: var(--text-body); line-height: 1.8;">
+            <li><strong>✨ Added — <code>generate_prop_scene</code>.</strong> Diffusion models are bad at
+              repeated-object geometry — ask for a row of parked bicycles and you get fused wheels, phantom
+              wheelchairs, or a "bicycle train" of clones. This gives objects the same fix Metropolis mode
+              already gave buildings: real 3D meshes, a real camera, real occlusion — rendered headless to a
+              composition sketch that the checkpoint only paints, never invents.</li>
+            <li><strong>🚲 First prop — a bicycle.</strong> A proper diamond frame, correct tire proportions,
+              and a straight handlebar (a curved drop-bar kept reading as a second saddle). Place objects
+              explicitly or generate a realistic parked row in one call.</li>
+          </ul>
+        </div>
+
+        <p class="release-archive-label">Earlier releases</p>
+
+        <details class="release-item">
+          <summary>
+            <span class="release-ver">v1.7.0</span>
+            <span class="release-name">Niji V5 Style LoRA</span>
+            <span class="release-date">July 17, 2026</span>
+          </summary>
           <ul style="color: var(--text-body); line-height: 1.8;">
             <li><strong>✨ Added — Niji V5 Style LoRA.</strong> An optional second aesthetic for stories
               wanting an East-Asian architectural flavor — pagodas, lanterns — a great fit for
               <em>Reincarnator × Regressor</em>.</li>
           </ul>
-        </div>
-
-        <p class="release-archive-label">Earlier releases</p>
+        </details>
 
         <details class="release-item">
           <summary>
