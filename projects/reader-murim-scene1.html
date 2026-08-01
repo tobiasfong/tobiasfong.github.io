@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Scene 1 — Reader | Character &amp; Panel Generator</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="icon" type="image/jpeg" href="/img/rowlet-logo.jpg" />
+    <style>
+      /* ── Webtoon reader ──
+         Vertical-scroll reader: seamless stacked segments, dark surround so the
+         art carries the page. Prototype for the Starry Knight reader. */
+      body.reader-body { background: #14151a; }
+
+      .reader-nav {
+        position: sticky; top: 0; z-index: 20;
+        background: rgba(20,21,26,0.88);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid rgba(255,255,255,0.10);
+      }
+      .reader-nav-inner {
+        max-width: 900px; margin: 0 auto; padding: 10px 16px;
+        display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      }
+      .reader-nav a { color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; }
+      .reader-nav a:hover { color: #fff; }
+      .reader-title { color: #fff; font-size: 13px; font-weight: 600; letter-spacing: 0.01em; }
+
+      .reader-head {
+        max-width: 720px; margin: 0 auto; padding: 3rem 1.25rem 2rem; text-align: center;
+      }
+      .reader-head h1 { color: #fff; margin: 0 0 0.5rem; font-size: 1.6rem; }
+      .reader-head p { color: rgba(255,255,255,0.62); font-size: 14px; line-height: 1.7; margin: 0 auto; max-width: 34rem; }
+      .reader-head .kicker {
+        color: rgba(255,255,255,0.45); font-size: 11px; letter-spacing: 0.14em;
+        text-transform: uppercase; margin-bottom: 0.6rem;
+      }
+
+      /* Segments butt together with no gap — the strip must read as one image. */
+      .reader-strip { max-width: 900px; margin: 0 auto; padding: 0 0 1rem; font-size: 0; }
+      /* height:auto lets the width/height attributes act as an aspect-ratio hint
+         (reserving space before load) instead of a fixed, distorting height. */
+      .reader-strip img { width: 100%; height: auto; display: block; margin: 0; }
+
+      .reader-end {
+        max-width: 720px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; text-align: center;
+      }
+      .reader-end p { color: rgba(255,255,255,0.62); font-size: 14px; line-height: 1.7; }
+      .reader-end .button {
+        display: inline-block; margin-top: 1rem;
+        background: #fff; color: #14151a; border: none;
+      }
+      .reader-end .button:hover { background: rgba(255,255,255,0.86); }
+
+      .to-top {
+        position: fixed; right: 18px; bottom: 18px; z-index: 30;
+        width: 42px; height: 42px; border-radius: 50%;
+        background: rgba(255,255,255,0.12); color: #fff;
+        border: 1px solid rgba(255,255,255,0.20);
+        font-size: 17px; line-height: 1; cursor: pointer;
+        opacity: 0; pointer-events: none; transition: opacity 0.25s;
+        backdrop-filter: blur(6px);
+      }
+      .to-top.show { opacity: 1; pointer-events: auto; }
+      .to-top:hover { background: rgba(255,255,255,0.22); }
+
+      @media (max-width: 600px) {
+        .reader-head { padding: 2rem 1rem 1.5rem; }
+        .reader-head h1 { font-size: 1.35rem; }
+      }
+    </style>
+  </head>
+
+  <body class="reader-body">
+    <nav class="reader-nav">
+      <div class="reader-nav-inner">
+        <a href="/projects/character-panel.html">← Back to the write-up</a>
+        <span class="reader-title">Scene 1 · 15 panels</span>
+      </div>
+    </nav>
+
+    <header class="reader-head">
+      <div class="kicker">Character &amp; Panel Generator · Production Test</div>
+      <h1>Scene 1</h1>
+      <p>
+        Fifteen panels, storyboard to finished vertical strip, produced entirely through the
+        Character &amp; Panel Generator MCP server. Two characters from two different projects,
+        each generated separately from its own reference sheet, then composited.
+      </p>
+    </header>
+
+    <div class="reader-strip">
+      <!-- width/height are required here: without them each segment has zero
+           intrinsic height until it loads, which collapses the strip and breaks
+           both the scroll length and lazy-loading. -->
+      <img src="/img/scene1/seg-01.jpg" alt="Scene 1, panel 1" width="900" height="501" loading="eager" />
+      <img src="/img/scene1/seg-02.jpg" alt="Scene 1, panel 2" width="900" height="539" loading="eager" />
+      <img src="/img/scene1/seg-03.jpg" alt="Scene 1, panel 3" width="900" height="479" loading="lazy" />
+      <img src="/img/scene1/seg-04.jpg" alt="Scene 1, panel 4" width="900" height="748" loading="lazy" />
+      <img src="/img/scene1/seg-05.jpg" alt="Scene 1, panel 5" width="900" height="511" loading="lazy" />
+      <img src="/img/scene1/seg-06.jpg" alt="Scene 1, panel 6" width="900" height="618" loading="lazy" />
+      <img src="/img/scene1/seg-07.jpg" alt="Scene 1, panel 7" width="900" height="646" loading="lazy" />
+      <img src="/img/scene1/seg-08.jpg" alt="Scene 1, panel 8" width="900" height="614" loading="lazy" />
+      <img src="/img/scene1/seg-09.jpg" alt="Scene 1, panel 9" width="900" height="772" loading="lazy" />
+      <img src="/img/scene1/seg-10.jpg" alt="Scene 1, panel 10" width="900" height="535" loading="lazy" />
+      <img src="/img/scene1/seg-11.jpg" alt="Scene 1, panel 11" width="900" height="748" loading="lazy" />
+      <img src="/img/scene1/seg-12.jpg" alt="Scene 1, panel 12" width="900" height="931" loading="lazy" />
+      <img src="/img/scene1/seg-13.jpg" alt="Scene 1, panel 13" width="900" height="748" loading="lazy" />
+      <img src="/img/scene1/seg-14.jpg" alt="Scene 1, panel 14" width="900" height="651" loading="lazy" />
+      <img src="/img/scene1/seg-15.jpg" alt="Scene 1, panel 15" width="900" height="966" loading="lazy" />
+    </div>
+
+    <div class="reader-end">
+      <p>End of Scene 1.</p>
+      <a class="button" href="/projects/character-panel.html">← How this was made</a>
+    </div>
+
+    <button class="to-top" id="toTop" aria-label="Back to top">↑</button>
+
+    <script>
+      (function () {
+        var btn = document.getElementById('toTop');
+        window.addEventListener('scroll', function () {
+          btn.classList.toggle('show', window.scrollY > 900);
+        }, { passive: true });
+        btn.addEventListener('click', function () {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      })();
+    </script>
+  </body>
+</html>
