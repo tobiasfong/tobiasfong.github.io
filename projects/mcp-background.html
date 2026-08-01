@@ -45,7 +45,7 @@
           </p>
           <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
             <span class="tag" style="background: var(--text); color: var(--bg);">MCP Server</span>
-            <span class="tag">v1.8.0</span>
+            <span class="tag">v1.9.0</span>
             <span class="tag">Python</span>
             <span class="tag">Stable Diffusion</span>
             <span class="tag">ComfyUI</span>
@@ -394,10 +394,47 @@
 
         <div class="pill-card" style="margin-top: 1.5rem;">
           <h3 style="margin-top:0; display:flex; align-items:baseline; gap:0.6rem;">
-            <span style="font-family:var(--mono,monospace); color:var(--text);">v1.8.0</span>
-            <span style="font-size:13px; font-weight:500; color:var(--text-muted);">3D Prop Rendering</span>
+            <span style="font-family:var(--mono,monospace); color:var(--text);">v1.9.0</span>
+            <span style="font-size:13px; font-weight:500; color:var(--text-muted);">FLUX.1-dev, and mood as a post-process</span>
           </h3>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:-0.4rem;">July 18, 2026</p>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:-0.4rem;">July 28, 2026</p>
+          <ul style="color: var(--text-body); line-height: 1.8;">
+            <li><strong>✨ Added — FLUX.1-dev as a second base model.</strong> Pass
+              <code>model="flux_manwha"</code> to any generation tool to render with FLUX instead of
+              Stable Diffusion 1.5, which stays the default and is completely untouched. FLUX is far
+              better at <em>object geometry</em> — the deformed-bicycle problem that drove the previous
+              release — at the cost of slower renders and looser composition control. Runs quantised to
+              fit a 6&nbsp;GB laptop GPU.</li>
+            <li><strong>🎚️ Added — <code>grade_plate</code>, and a change of approach.</strong> The most
+              useful finding of this release was a mistake I'd been making: asking the model for mood in
+              the prompt — "grimdark", "dim lighting", "deep shadow" — is what dragged renders off the
+              manhwa look into semi-realistic murk. Deleting that wording, changing nothing else, made
+              the same scene 2.5× brighter and properly cel-shaded. So mood now happens
+              <em>after</em> generation: render clean, then grade a copy. Deterministic, instant, and the
+              original is never touched.</li>
+            <li><strong>🎨 Added — <code>extract_palette</code>.</strong> Reads a reference image's
+              dominant colours and returns them as <em>prompt language</em> ("deep red", "ash grey")
+              rather than hex codes, so a reference library can actually drive colour instead of being
+              eyeballed.</li>
+            <li><strong>🖌️ Added — <code>edit_background</code>.</strong> Edit a plate you've already
+              approved with a plain-English instruction — "make it snowing, with snow settled on the
+              seats and the ground" — instead of re-rolling a fresh render and hoping the seed
+              cooperates. Composition and style survive the edit.</li>
+            <li><strong>🐛 Fixed — hand-drawn sketches were being doubled.</strong> Edge detection finds
+              <em>both</em> sides of a pencil line, so every drawn stroke became two parallel guide lines
+              and the model painted the doubled hairlines literally. Photos and 3D renders were never
+              affected; hand-drawn input now takes a different path automatically.</li>
+          </ul>
+        </div>
+
+        <p class="release-archive-label">Earlier releases</p>
+
+        <details class="release-item">
+          <summary>
+            <span class="release-ver">v1.8.0</span>
+            <span class="release-name">3D Prop Rendering</span>
+            <span class="release-date">July 18, 2026</span>
+          </summary>
           <ul style="color: var(--text-body); line-height: 1.8;">
             <li><strong>✨ Added — <code>generate_prop_scene</code>.</strong> Diffusion models are bad at
               repeated-object geometry — ask for a row of parked bicycles and you get fused wheels, phantom
@@ -408,9 +445,7 @@
               and a straight handlebar (a curved drop-bar kept reading as a second saddle). Place objects
               explicitly or generate a realistic parked row in one call.</li>
           </ul>
-        </div>
-
-        <p class="release-archive-label">Earlier releases</p>
+        </details>
 
         <details class="release-item">
           <summary>
