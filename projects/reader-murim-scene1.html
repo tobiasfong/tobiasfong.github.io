@@ -3,38 +3,32 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Scene 1 — Reader | Character &amp; Panel Generator</title>
+    <title>Murim Test: Trevor X Ri Hwa Crossover | Tobias Fong</title>
     <link rel="stylesheet" href="/style.css" />
     <link rel="icon" type="image/jpeg" href="/img/rowlet-logo.jpg" />
     <style>
       /* ── Webtoon reader ──
-         Vertical-scroll reader: seamless stacked segments, dark surround so the
-         art carries the page. Prototype for the Starry Knight reader. */
-      body.reader-body { background: #14151a; }
+         Vertical-scroll reader: seamless stacked segments on white, so the page
+         disappears and the art carries it. Prototype for the Starry Knight reader. */
+      body.reader-body { background: #fff; }
 
       .reader-nav {
         position: sticky; top: 0; z-index: 20;
-        background: rgba(20,21,26,0.88);
+        background: rgba(255,255,255,0.90);
         backdrop-filter: blur(8px);
-        border-bottom: 1px solid rgba(255,255,255,0.10);
+        border-bottom: 1px solid rgba(0,0,0,0.10);
       }
       .reader-nav-inner {
         max-width: 900px; margin: 0 auto; padding: 10px 16px;
         display: flex; align-items: center; justify-content: space-between; gap: 1rem;
       }
-      .reader-nav a { color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; }
-      .reader-nav a:hover { color: #fff; }
-      .reader-title { color: #fff; font-size: 13px; font-weight: 600; letter-spacing: 0.01em; }
+      .reader-nav a { color: #000; text-decoration: none; font-size: 13px; }
+      .reader-nav a:hover { opacity: 0.6; }
 
       .reader-head {
         max-width: 720px; margin: 0 auto; padding: 3rem 1.25rem 2rem; text-align: center;
       }
-      .reader-head h1 { color: #fff; margin: 0 0 0.5rem; font-size: 1.6rem; }
-      .reader-head p { color: rgba(255,255,255,0.62); font-size: 14px; line-height: 1.7; margin: 0 auto; max-width: 34rem; }
-      .reader-head .kicker {
-        color: rgba(255,255,255,0.45); font-size: 11px; letter-spacing: 0.14em;
-        text-transform: uppercase; margin-bottom: 0.6rem;
-      }
+      .reader-head h1 { color: #000; margin: 0; font-size: 1.6rem; }
 
       /* Segments butt together with no gap — the strip must read as one image. */
       .reader-strip { max-width: 900px; margin: 0 auto; padding: 0 0 1rem; font-size: 0; }
@@ -45,24 +39,24 @@
       .reader-end {
         max-width: 720px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; text-align: center;
       }
-      .reader-end p { color: rgba(255,255,255,0.62); font-size: 14px; line-height: 1.7; }
+      .reader-end p { color: #000; font-size: 14px; line-height: 1.7; }
       .reader-end .button {
         display: inline-block; margin-top: 1rem;
-        background: #fff; color: #14151a; border: none;
+        background: #14151a; color: #fff; border: none;
       }
-      .reader-end .button:hover { background: rgba(255,255,255,0.86); }
+      .reader-end .button:hover { background: rgba(20,21,26,0.82); }
 
       .to-top {
         position: fixed; right: 18px; bottom: 18px; z-index: 30;
         width: 42px; height: 42px; border-radius: 50%;
-        background: rgba(255,255,255,0.12); color: #fff;
-        border: 1px solid rgba(255,255,255,0.20);
+        background: rgba(0,0,0,0.72); color: #fff;
+        border: 1px solid rgba(0,0,0,0.14);
         font-size: 17px; line-height: 1; cursor: pointer;
         opacity: 0; pointer-events: none; transition: opacity 0.25s;
         backdrop-filter: blur(6px);
       }
       .to-top.show { opacity: 1; pointer-events: auto; }
-      .to-top:hover { background: rgba(255,255,255,0.22); }
+      .to-top:hover { background: rgba(0,0,0,0.86); }
 
       @media (max-width: 600px) {
         .reader-head { padding: 2rem 1rem 1.5rem; }
@@ -74,19 +68,12 @@
   <body class="reader-body">
     <nav class="reader-nav">
       <div class="reader-nav-inner">
-        <a href="/projects/character-panel.html">← Back to the write-up</a>
-        <span class="reader-title">Scene 1 · 15 panels</span>
+        <a href="/projects/character-panel.html">← Back to the Character &amp; Panel Generator page</a>
       </div>
     </nav>
 
     <header class="reader-head">
-      <div class="kicker">Character &amp; Panel Generator · Production Test</div>
-      <h1>Scene 1</h1>
-      <p>
-        Fifteen panels, storyboard to finished vertical strip, produced entirely through the
-        Character &amp; Panel Generator MCP server. Two characters from two different projects,
-        each generated separately from its own reference sheet, then composited.
-      </p>
+      <h1>Murim Test: Trevor X Ri Hwa Crossover</h1>
     </header>
 
     <div class="reader-strip">
@@ -111,7 +98,6 @@
     </div>
 
     <div class="reader-end">
-      <p>End of Scene 1.</p>
       <a class="button" href="/projects/character-panel.html">← How this was made</a>
     </div>
 

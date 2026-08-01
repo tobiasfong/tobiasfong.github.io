@@ -6,6 +6,12 @@
     <title>Character &amp; Panel Generator | Tobias Fong</title>
     <link rel="stylesheet" href="/style.css" />
     <link rel="icon" type="image/jpeg" href="/img/rowlet-logo.jpg" />
+    <style>
+      /* 8 storyboards as two even rows of four; 2-up on narrow screens so the
+         sketches stay legible rather than shrinking to thumbnails. */
+      .sb-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+      @media (max-width: 700px) { .sb-grid { grid-template-columns: repeat(2, 1fr); } }
+    </style>
   </head>
 
   <body>
@@ -28,8 +34,9 @@
         <div class="section-kicker">MCP Server Project</div>
         <h1>Character &amp; Panel Generator</h1>
         <p class="lead" style="max-width: 660px; margin: 0 auto 1.5rem;">
-          A local MCP server that keeps a webcomic's characters looking like themselves — register your
-          reference art once, then generate poses, turnaround sheets and finished panels that stay on-model.
+          A local MCP server that maintains character consistency in your webcomic. Create your character
+          concept sheet, either by feeding your AI assistant your own references and drawings first, or
+          through prompting. Then generate your panels via a storyboarding workflow.
         </p>
         <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
           <span class="tag" style="background: var(--text); color: var(--bg);">MCP Server</span>
@@ -40,47 +47,84 @@
         </div>
       </header>
 
-      <!-- The hook -->
+      <!-- The story -->
       <section class="editorial-split">
         <div>
-          <img src="/img/cp-panel-p02.jpg" alt="A character generated on-model from her registered reference sheet, standing in a bamboo grove"
+          <img src="/img/cp-panel-p01.jpg" alt="A generated panel of a character holding an open book in a bamboo grove"
             style="width:100%; border-radius:12px; margin-top:1.25rem; display:block;" loading="lazy" />
         </div>
         <div style="padding-top: 2rem;">
-          <div class="section-kicker">What It Is</div>
-          <h2>For writers who aren't artists</h2>
+          <div class="section-kicker">The story</div>
+          <h2>How this all began</h2>
           <p>
-            And for artists who'd rather not redraw the same character six times before page one.
+            Personally, I draw as well as write. I am aware that my art is awful, but I do take pride in
+            creating my own work without using AI. However, when discussing story concepts and swapping ideas
+            with my good friend, Avery Krushall, I suddenly had an epiphany.
           </p>
           <p>
-            You register whatever reference art you already have — commissioned, AI-generated, or one good
-            drawing — into a <strong>Character Bible</strong>. From there, the server generates new poses,
-            genuine back views and turnaround sheets that stay recognizably the same character, then
-            composites them onto background plates into finished panels.
+            Not all writers can draw, or have the time to pick up drawing skills and practice the craft. But
+            there are many writers who would love to see their story come to life as webcomics, much like the
+            mass-produced manhuas from Tencent's Studio (funnily enough, they're often derided as slop). So I
+            was thinking... what if I help these writers fulfil their dreams by providing an MCP server or
+            platform that can help adapt their beloved stories into actual webcomics? Avery, for example, had
+            generated a ton of character concept sheets with ChatGPT, and they looked amazing, but he wasn't
+            able to turn them into a proper webcomic yet. What if I help him with that?
           </p>
           <p>
-            It wraps a local ComfyUI + Stable Diffusion / FLUX pipeline, runs entirely on your own machine,
-            and is the character-domain sibling of the
-            <a href="/projects/mcp-background.html">Webcomic Background Generator</a>'s World Builder. That
-            server handles places. This one handles people.
+            I knew it was possible. Tencent, Kuaikan and other big Chinese studios have been producing mass AI
+            manhuas (the notorious <em>Daxia Swordsman</em> being one of them), and for all of the accusations
+            of slop, they were able to produce consistent characters and coherent narratives from a stable set
+            of assets. So why couldn't I do the same?
+          </p>
+          <p>
+            Thus, this Character &amp; Panel Generator MCP server was born.
           </p>
         </div>
       </section>
 
       <!-- The problem -->
+      <section class="editorial-split" style="grid-template-columns: 1fr 300px;">
+        <div>
+          <div class="section-kicker">The problem</div>
+          <h2>Character consistency</h2>
+          <p>
+            Prior to this project, I did some research, and I discovered that character consistency was one of
+            the main stumbling blocks to drawing a webcomic using AI. Midjourney appears to be great at this,
+            but it is an additional subscription on top of whatever AI client the users are already using, and
+            it's very specialized.
+          </p>
+          <p>
+            Given that I'm already building MCP servers, I thought, why not build another MCP server and expand
+            my webcomic ecosystem, to make it usable for writers as well? Cater not just to artists, but to
+            webnovel authors who dream of seeing their work take the stage in webcomic form.
+          </p>
+          <p>
+            One of the priorities was to ensure character consistency, because if they show up wearing
+            different clothes or sporting a different appearance in the next panel, it'll cause a continuity
+            error. Or worse, they'll show as a different character entirely.
+          </p>
+        </div>
+        <div>
+          <img src="/img/cp-panel-p02.jpg" alt="A character generated on-model from her registered reference sheet, standing in a bamboo grove"
+            style="width:100%; border-radius:12px; margin-top:1.25rem; display:block;" loading="lazy" />
+        </div>
+      </section>
+
+      <!-- What it is -->
       <section style="max-width: 720px; margin: 0 auto 3rem;">
-        <div class="section-kicker">The Catch</div>
-        <h2>Text-to-image gives you a different person every time</h2>
+        <div class="section-kicker">What it is</div>
+        <h2>Your very own webcomic assistant</h2>
         <p>
-          That's fine for a single illustration. For a comic it's fatal. Readers track characters by hair,
-          eyes, costume and silhouette — drift between panels doesn't read as "a slightly different render,"
-          it reads as a continuity error, or worse, as a different character entirely.
+          My MCP server works by wrapping a local ComfyUI + Stable Diffusion / FLUX pipeline, runs entirely on
+          your own machine, and is the character-domain sibling of the
+          <a href="/projects/mcp-background.html">Webcomic Background Generator</a>'s World Builder.
         </p>
         <p>
-          So the entire design follows from one principle: <strong>reference-driven, never
-          generate-from-text-and-pray.</strong> The registered art is the ground truth for who a character
-          is, and every single generation conditions on it. If you can't point at the reference a panel came
-          from, the tool considers that a bug, not a style.
+          You begin by first registering whatever reference art you already have — commissioned, AI-generated,
+          or one good drawing — into a <strong>Character Bible</strong>. Or you can generate the Character
+          Bible from text description, iterating until your AI client generates a character you're satisfied
+          with, which you can then register. From there, the server generates new poses, e.g. back views, 3/4
+          views, and closeup expressions, and compiles them into finalized character concept sheets.
         </p>
       </section>
 
@@ -89,10 +133,16 @@
         <div style="text-align: center; margin-bottom: 2rem;">
           <div class="section-kicker">Step One</div>
           <h2>Character concepts</h2>
+          <p style="max-width: 40rem; margin: 0 auto 1rem;">
+            Each character gets their reference sheet — front, back, expressions, props, an action pose — and
+            that sheet becomes the source of truth for every webcomic panel that will be generated henceforth.
+          </p>
           <p style="max-width: 40rem; margin: 0 auto;">
-            Everything starts here. A character gets a reference sheet — front, back, expressions, props, an
-            action pose — and that sheet becomes the ground truth every later panel is generated against.
-            Both of these were produced by the server itself, from nothing but a written description.
+            Trevor was generated based on my own illustrations (refer to my
+            <a href="/projects/prototype-2.html">Reincarnator x Regressor</a> page), while Namgoong Ri Hwa was
+            generated purely from text (a written description). The profiles, appearance and abilities were all
+            manually written by me. I would suggest you write these yourself, not have the AI generate
+            everything for you... because they are <em>your</em> characters.
           </p>
         </div>
 
@@ -100,8 +150,8 @@
           <img src="/img/cp-sheet-trevor.jpg" alt="A generated character reference sheet: front and back full-body views, three expression crops, an in-action pair, and a prop study"
             style="width:100%; border-radius:12px; display:block; box-shadow: 0 12px 40px rgba(0,0,0,0.12);" loading="lazy" />
           <figcaption style="font-size: var(--fs-caption); color:var(--text-muted); margin-top:0.75rem; text-align:center;">
-            Front and back full-body, three expression crops, prop study, two in-action poses — one sheet,
-            generated from a written description, then approved and registered as the character's primary reference.
+            Front and back full-body, three expression crops, prop study, two in-action poses. The template was
+            taken from Avery's character concept, and I tried to emulate it, with little success.
           </figcaption>
         </figure>
 
@@ -109,8 +159,9 @@
           <img src="/img/cp-sheet-rihwa.jpg" alt="A second generated character reference sheet, same layout, for a different character in a different project"
             style="width:100%; border-radius:12px; display:block; box-shadow: 0 12px 40px rgba(0,0,0,0.12);" loading="lazy" />
           <figcaption style="font-size: var(--fs-caption); color:var(--text-muted); margin-top:0.75rem; text-align:center;">
-            A second character, from a different project entirely. Projects namespace characters per comic —
-            which is what makes the crossover further down this page possible at all.
+            A second character, created just to test out this MCP server. While Trevor was from
+            <em>Reincarnator x Regressor</em>, a story I already written, I came up with Ri Hwa for a fun
+            crossover to see if it's possible to create a consistent webcomic based on character reference sheets.
           </figcaption>
         </figure>
       </section>
@@ -131,22 +182,39 @@
         </div>
 
         <div class="pill-card" style="margin-bottom: 1.25rem;">
-          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">A three-tier identity stack, so quality scales with hardware</p>
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Reference-conditioned editing — the part that does the real work</p>
           <p style="margin-bottom:0;">
-            Tier 1 (always on) is prompt + LoRA styling, and needs nothing beyond a working ComfyUI. Tier 2
-            (opt-in per call) adds IP-Adapter identity conditioning and ControlNet pose control. Tier 3 bakes
-            a per-character LoRA for the strongest lock available locally. You're never forced to pay for a
-            tier your GPU can't run.
+            The operation that actually produced every panel here isn't text-to-image at all. FLUX Kontext
+            takes an approved reference sheet — or an already-finished panel — as a conditioning input, so a
+            new pose is generated <em>from</em> the existing art rather than from a description of it. The
+            prompt steers the change; the image carries the identity. Two honest limits come with it: it binds
+            <strong>one reference to one generation</strong> (which is why multi-character panels have to be
+            composited), and it restyles rather than restructures — raising a character's arms into open air
+            works, changing a pose underneath clothing doesn't.
           </p>
         </div>
 
         <div class="pill-card" style="margin-bottom: 1.25rem;">
-          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">3D pose control, because prompts can't force a direction</p>
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Three ways to hold an identity, depending on your hardware</p>
           <p style="margin-bottom:0;">
-            An OpenPose or depth map is rendered from a posable 3D skeleton at any angle. Reference sheets are
-            almost always frontal, and no amount of prompting reliably produces a genuine back view — this is
-            the same "geometry first, diffusion only paints" principle the background server uses for its
-            cities and props, applied to bodies.
+            These are alternatives, not a ladder you climb. FLUX Kontext reference conditioning is what the
+            production work runs on. A tiered Stable Diffusion path — prompt and style LoRA always on,
+            IP-Adapter identity plus ControlNet pose as an opt-in — exists for setups where FLUX isn't
+            practical. And per-character LoRA baking trains against your registered references for the tightest
+            lock available locally, at the cost of a training run per character.
+          </p>
+        </div>
+
+        <div class="pill-card" style="margin-bottom: 1.25rem;">
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Pose control from a 3D skeleton, and the trade it forces</p>
+          <p style="margin-bottom:0;">
+            A pose skeleton extracted from a flat reference has no way to encode facing-away-from-camera, so
+            the server can project one from a posable 3D skeleton instead, where a 180° yaw genuinely flips the
+            limb assignments. It works about two seeds in three — a generate-and-curate tool, not a button. The
+            catch is bigger than the hit rate, though: that path is text-to-image with structural guidance, so
+            it has <strong>no image identity input at all</strong>. You choose between conditioning on the
+            character's actual art and controlling the camera precisely. Not both in one pass. For finished
+            panels the reference-driven path wins every time.
           </p>
         </div>
 
@@ -174,14 +242,20 @@
       <section style="max-width: 1000px; margin: 0 auto 3rem;">
         <div style="text-align: center; margin-bottom: 2rem;">
           <div class="section-kicker">Step Two</div>
-          <h2>The human still decides what's in the panel</h2>
+          <h2>Storyboard</h2>
+          <p style="max-width: 40rem; margin: 0 auto 1rem;">
+            To save yourself from pain, I highly recommend you storyboard the whole scene manually. You don't
+            need to be an artist to do this — rough sketches (even stick figures) are fine. The point is the
+            composition, the poses you want, the camera angles, perspectives, scale, and even the size of the
+            panels themselves.
+          </p>
           <p style="max-width: 40rem; margin: 0 auto;">
-            I storyboarded the whole scene by hand first — fifteen panels, rough as anything. Composition,
-            camera, staging and acting are decisions, and decisions are the part I'm not delegating. The
-            server renders what the storyboard already worked out.
+            Like I said, AI is not here to replace humans. We are the storytellers, we direct, we instruct. AI
+            assists. This is <em>your</em> story that you're adapting to a webcomic. Let's keep it that way.
           </p>
         </div>
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem;">
+        <!-- Fixed 4-up so the 8 boards land as two even rows of four, never 5+3. -->
+        <div class="sb-grid">
           <img src="/img/cp-storyboard-01.jpg" alt="Hand-drawn storyboard, panels 1 and 2" style="width:100%; border-radius:10px; display:block; border:1px solid var(--border);" loading="lazy" />
           <img src="/img/cp-storyboard-02.jpg" alt="Hand-drawn storyboard, panels 3 and 4" style="width:100%; border-radius:10px; display:block; border:1px solid var(--border);" loading="lazy" />
           <img src="/img/cp-storyboard-03.jpg" alt="Hand-drawn storyboard, panels 5 and 6" style="width:100%; border-radius:10px; display:block; border:1px solid var(--border);" loading="lazy" />
@@ -197,10 +271,19 @@
       <section style="max-width: 1000px; margin: 0 auto 3rem;">
         <div style="text-align: center; margin-bottom: 2rem;">
           <div class="section-kicker">Step Three</div>
-          <h2>What came out, and what each one proves</h2>
+          <h2>Not smooth-sailing</h2>
+          <p style="max-width: 40rem; margin: 0 auto 1rem;">
+            Through trial and error, I managed to generate the panels, but... yeah, it's not perfect. I'll be
+            honest with you. Currently, AI is still best as an assistant. You'll still need to do some manual
+            cleanup yourself — I had to erase extra fingers, add missing fingers, rotate, polish shadows,
+            resize characters, and more. And even then, it's not perfect. You'll notice that Ri Hwa's boots are
+            different in one of the panels. Sigh.
+          </p>
           <p style="max-width: 40rem; margin: 0 auto;">
-            These aren't here because they're pretty. Each one is doing something that's genuinely hard to get
-            out of a diffusion model, so the captions name the capability rather than the plot.
+            Worse, while Claude was able to generate solo panels successfully, the contact panels were where
+            everything went wrong. Trevor and Ri Hwa often fused, or looked weird and deformed, and in the end,
+            the solution was for Claude to generate them separately, then I manually composited the both of
+            them in a single panel.
           </p>
         </div>
 
@@ -209,17 +292,19 @@
           <figure style="margin:0;">
             <img src="/img/cp-panel-p04.jpg" alt="Two characters mid-action in one panel" style="width:100%; border-radius:12px; display:block;" loading="lazy" />
             <figcaption style="font-size: var(--fs-caption); color:var(--text-muted); margin-top:0.6rem;">
-              <strong>Two characters, one panel.</strong> Identity conditioning binds one reference to one
-              generation, so multi-character panels are generated as solos and composited. Looks trivial. Isn't.
+              <strong>Two characters, one panel.</strong> Reference conditioning binds one reference to one
+              generation, so generating both together fused them into a deformed mess. Each figure was
+              generated solo, then composited by hand. Looks trivial. Isn't.
             </figcaption>
           </figure>
 
           <figure style="margin:0;">
             <img src="/img/cp-panel-p15.jpg" alt="A top-down panel with one character seen from behind" style="width:100%; border-radius:12px; display:block;" loading="lazy" />
             <figcaption style="font-size: var(--fs-caption); color:var(--text-muted); margin-top:0.6rem;">
-              <strong>A genuine back view, from a top-down camera.</strong> Reference sheets are frontal and
-              prompts can't force a direction — this is what the 3D pose maps exist for. Both figures and the
-              ground plate share one projection, which is the difference between "composited" and "pasted."
+              <strong>A genuine back view, from a top-down camera.</strong> Reference sheets are frontal, so
+              the back view came from conditioning on the turnaround sheet — not from a pose map. Both figures
+              were generated separately and composited by hand onto a ground plate sharing their projection,
+              which is the difference between "composited" and "pasted."
             </figcaption>
           </figure>
 
@@ -267,26 +352,25 @@
         </div>
         <p style="font-size: var(--fs-caption); color:var(--text-muted); margin-top:0.6rem; text-align:center; max-width:620px; margin-left:auto; margin-right:auto;">
           <strong>A matched pair.</strong> Two separate generations, two different characters, cropped and lit
-          to sit side by side in the same beat — generated independently, then composited as a single panel.
+          to sit side by side in the same beat — and laid out as two panels side by side, the one exception in
+          a strip where every other panel stacks vertically.
         </p>
       </section>
 
       <!-- The deliverable -->
       <section style="display:flex; justify-content:center; margin: 0 auto 3rem;">
         <div class="pill-card" style="max-width:640px; width:100%; text-align:center;">
-          <div class="section-kicker">The Proof</div>
-          <h2>It goes all the way to a deliverable</h2>
+          <div class="section-kicker">Showcase</div>
+          <h2>An actual webcomic</h2>
           <p>
-            Individual nice images prove very little. What matters is whether the thing assembles into
-            something you could actually publish — so the fifteen panels were laid out into a finished
-            vertical strip, the format a webtoon reader actually scrolls through.
+            As you can see, I succeeded in creating a short webcomic strip. The fifteen final panels were
+            combined into a single vertical strip, in the same format a webtoon reader usually scrolls through.
           </p>
           <p>
-            It's also the first real test of a proper comic reader on this site, which
-            <a href="/projects/prototype-3.html">A Starry Knight</a> has been waiting on. Two birds.
+            This is also the first real test of creating a proper comic reader on this site.
           </p>
           <a class="button" href="/projects/reader-murim-scene1.html">
-            Read Scene 1 →
+            Read →
           </a>
         </div>
       </section>
@@ -294,7 +378,7 @@
       <!-- Tools -->
       <section style="max-width: 720px; margin: 0 auto 3rem;">
         <div class="section-kicker">The Toolbox</div>
-        <h2>Roughly twenty tools</h2>
+        <h2>Twenty-two tools</h2>
         <div style="overflow-x:auto; margin-bottom: 2rem;">
           <table style="width:100%; border-collapse:collapse; font-size: var(--fs-body);">
             <tbody>
@@ -310,8 +394,8 @@
                 <td style="padding:10px 0; color:var(--text-body);">
                   <code>generate_character_concept</code>, <code>crop_reference</code>,
                   <code>generate_reference_sheet</code>, <code>generate_turnaround_sheet</code>,
-                  <code>compose_reference_sheet</code> — for getting a character into the bible from nothing,
-                  from a composite sheet, or from a single drawing
+                  <code>compose_reference_sheet</code>, <code>compose_full_reference_sheet</code> — for getting
+                  a character into the bible from nothing, from a composite sheet, or from a single drawing
                 </td>
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
@@ -328,41 +412,49 @@
                   <code>apply_vfx_overlay</code>, <code>compose_panel</code>
                 </td>
               </tr>
-              <tr>
+              <tr style="border-bottom:1px solid var(--border);">
                 <td style="padding:10px 12px 10px 0; white-space:nowrap; vertical-align:top;"><strong>LoRA training</strong></td>
                 <td style="padding:10px 0; color:var(--text-body);">
                   <code>bake_character_lora</code>, <code>check_lora_training</code>,
                   <code>cancel_lora_training</code>
                 </td>
               </tr>
+              <tr>
+                <td style="padding:10px 12px 10px 0; white-space:nowrap; vertical-align:top;"><strong>Health</strong></td>
+                <td style="padding:10px 0; color:var(--text-body);"><code>check_status</code></td>
+              </tr>
             </tbody>
           </table>
         </div>
         <p style="font-size: 14px; color: var(--text-muted);">
-          <strong>Under the hood:</strong> Python, FastMCP over stdio. Local ComfyUI driving FLUX.1 Kontext dev
-          (GGUF quantised) for identity-conditioned editing, Stable Diffusion 1.5 for the legacy tier,
-          ControlNet Union for pose and lineart, IP-Adapter for identity, and a manhwa/webtoon style LoRA.
-          Developed against a 6&nbsp;GB laptop GPU — the quantised models and the CPU-side compositing are both
-          consequences of that constraint, and both turned out to be good ideas anyway.
+          <strong>Under the hood:</strong> Python, FastMCP over stdio. Local ComfyUI driving
+          <strong>FLUX.1 Kontext dev</strong> (GGUF quantised) for reference-conditioned generation and
+          editing, plus a turnaround-sheet LoRA and a manhwa/webtoon style LoRA. Stable Diffusion 1.5 and an
+          experimental SDXL path remain available with ControlNet Union for pose and lineart, and IP-Adapter
+          for identity. Developed against a <strong>6&nbsp;GB laptop GPU</strong> — the quantised models and the
+          CPU-side compositing are both direct consequences of that constraint, and both turned out to be good
+          ideas anyway.
         </p>
       </section>
 
       <!-- Honest note -->
       <section style="max-width: 720px; margin: 0 auto 3rem;">
-        <div class="section-kicker">Honestly</div>
-        <h2>What the production run actually taught me</h2>
+        <div class="section-kicker">Takeaway</div>
+        <h2>What I learned</h2>
         <p>
-          Fifteen panels sounds small. It wasn't — it's where most of this server's hard-won rules came from,
-          and they're written down in the repo so the next person doesn't have to rediscover them. The biggest
-          one: <strong>the background and the figures have to share a projection</strong>, or the panel reads as
-          pasted no matter how carefully you match the colour. I spent a long time adjusting hue and shadow on
-          panels whose real problem was that the camera didn't agree with itself.
+          Though I set out to create a webcomic creation pipeline for writers, I realize that in the end, you
+          still cannot rely completely on AI to create a webcomic for you. As I built the MCP server, going
+          through countless iterations and wasted seeds, I realized it was far more efficient in certain cases
+          to just manually edit the images myself, whether it's removing extra fingers, rotating figures,
+          coloring shadows, flipping the characters horizontally and then manually exchanging the positions of
+          buttons and pins (because the poor guy would be mirrored and they'll be on the wrong side). Saves a
+          lot of time too.
         </p>
         <p>
-          The early panels needed heavy hand repair. The late ones needed much less — not because the model got
-          better, but because I did. That's the honest shape of this kind of tooling: it doesn't remove the
-          craft, it moves where you spend it. Same conclusion I reached
-          <a href="/projects/novel-translation.html">translating my novel</a>, from the opposite direction.
+          So yes, you still need a human hand in this. You can't simply hand your webnovel to the AI and expect
+          a perfect webcomic out of the gate. Make sure to check, and manually clean up wherever necessary. You
+          don't need to be an artist. All you need is an eraser, or digital paintbrush to get rid of splotches
+          or fill in missing gaps.
         </p>
       </section>
 
