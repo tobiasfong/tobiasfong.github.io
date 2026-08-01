@@ -111,21 +111,28 @@
       </section>
 
       <!-- What it is -->
-      <section style="max-width: 720px; margin: 0 auto 3rem;">
-        <div class="section-kicker">What it is</div>
-        <h2>Your very own webcomic assistant</h2>
-        <p>
-          My MCP server works by wrapping a local ComfyUI + Stable Diffusion / FLUX pipeline, runs entirely on
-          your own machine, and is the character-domain sibling of the
-          <a href="/projects/mcp-background.html">Webcomic Background Generator</a>'s World Builder.
-        </p>
-        <p>
-          You begin by first registering whatever reference art you already have — commissioned, AI-generated,
-          or one good drawing — into a <strong>Character Bible</strong>. Or you can generate the Character
-          Bible from text description, iterating until your AI client generates a character you're satisfied
-          with, which you can then register. From there, the server generates new poses, e.g. back views, 3/4
-          views, and closeup expressions, and compiles them into finalized character concept sheets.
-        </p>
+      <section class="editorial-split">
+        <div>
+          <img src="/img/cp-prop-tome.jpg" alt="A generated prop study: an open tome with light rising from its pages"
+            style="width:100%; border-radius:12px; margin-top:1.25rem; display:block;" loading="lazy" />
+        </div>
+        <div style="padding-top: 2rem;">
+          <div class="section-kicker">What it is</div>
+          <h2>Your very own webcomic assistant</h2>
+          <p>
+            My MCP server works by wrapping a local ComfyUI + Stable Diffusion / FLUX pipeline, runs entirely
+            on your own machine, and is the character-domain sibling of the
+            <a href="/projects/mcp-background.html">Webcomic Background Generator</a>'s World Builder.
+          </p>
+          <p>
+            You begin by first registering whatever reference art you already have — commissioned,
+            AI-generated, or one good drawing — into a <strong>Character Bible</strong>. Or you can generate
+            the Character Bible from text description, iterating until your AI client generates a character
+            you're satisfied with, which you can then register. From there, the server generates new poses,
+            e.g. back views, 3/4 views, and closeup expressions, and compiles them into finalized character
+            concept sheets.
+          </p>
+        </div>
       </section>
 
       <!-- Character concepts -->
@@ -438,24 +445,30 @@
       </section>
 
       <!-- Honest note -->
-      <section style="max-width: 720px; margin: 0 auto 3rem;">
-        <div class="section-kicker">Takeaway</div>
-        <h2>What I learned</h2>
-        <p>
-          Though I set out to create a webcomic creation pipeline for writers, I realize that in the end, you
-          still cannot rely completely on AI to create a webcomic for you. As I built the MCP server, going
-          through countless iterations and wasted seeds, I realized it was far more efficient in certain cases
-          to just manually edit the images myself, whether it's removing extra fingers, rotating figures,
-          coloring shadows, flipping the characters horizontally and then manually exchanging the positions of
-          buttons and pins (because the poor guy would be mirrored and they'll be on the wrong side). Saves a
-          lot of time too.
-        </p>
-        <p>
-          So yes, you still need a human hand in this. You can't simply hand your webnovel to the AI and expect
-          a perfect webcomic out of the gate. Make sure to check, and manually clean up wherever necessary. You
-          don't need to be an artist. All you need is an eraser, or digital paintbrush to get rid of splotches
-          or fill in missing gaps.
-        </p>
+      <section class="editorial-split" style="grid-template-columns: 1fr 300px;">
+        <div>
+          <div class="section-kicker">Takeaway</div>
+          <h2>What I learned</h2>
+          <p>
+            Though I set out to create a webcomic creation pipeline for writers, I realize that in the end, you
+            still cannot rely completely on AI to create a webcomic for you. As I built the MCP server, going
+            through countless iterations and wasted seeds, I realized it was far more efficient in certain cases
+            to just manually edit the images myself, whether it's removing extra fingers, rotating figures,
+            coloring shadows, flipping the characters horizontally and then manually exchanging the positions of
+            buttons and pins (because the poor guy would be mirrored and they'll be on the wrong side). Saves a
+            lot of time too.
+          </p>
+          <p>
+            So yes, you still need a human hand in this. You can't simply hand your webnovel to the AI and expect
+            a perfect webcomic out of the gate. Make sure to check, and manually clean up wherever necessary. You
+            don't need to be an artist. All you need is an eraser, or digital paintbrush to get rid of splotches
+            or fill in missing gaps.
+          </p>
+        </div>
+        <div>
+          <img src="/img/cp-panel-p05.jpg" alt="A close-up generated panel of a character wincing in pain"
+            style="width:100%; border-radius:12px; margin-top:1.25rem; display:block;" loading="lazy" />
+        </div>
       </section>
 
       <!-- Get it -->
