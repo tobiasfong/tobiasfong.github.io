@@ -757,6 +757,11 @@ footer {
      inline style, which would otherwise win here and squeeze the text column
      to ~75px on a phone. */
   .editorial-split { grid-template-columns: 1fr !important; gap: 1rem; }
+  /* Desktop alternates the image left/right to break up the scroll. Stacked on
+     a phone that alternation just reads as images landing above or below the
+     text at random, so the media column always goes on top instead. */
+  .editorial-split > .split-media { order: -1; }
+  .editorial-split > .split-media img { margin-top: 0 !important; }
 }
 
 /* ── Rounded "pill" content card ── */
