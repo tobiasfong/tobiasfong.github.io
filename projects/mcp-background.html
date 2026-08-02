@@ -45,9 +45,9 @@
           </p>
           <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
             <span class="tag" style="background: var(--text); color: var(--bg);">MCP Server</span>
-            <span class="tag">v1.9.0</span>
+            <span class="tag">v2.0.0</span>
             <span class="tag">Python</span>
-            <span class="tag">Stable Diffusion</span>
+            <span class="tag">FLUX.1-dev</span>
             <span class="tag">ComfyUI</span>
             <span class="tag">Built with Claude</span>
           </div>
@@ -101,27 +101,28 @@
               I describe a scene in plain language, and — optionally — hand it two things:
             </p>
             <ul style="color: var(--text-body); line-height: 1.8;">
-              <li><strong>A drawn character</strong> (ideally a PNG with a transparent background). The harness
-                reads the character as a spatial guide — their scale, stance, and position on the canvas
-                determine the horizon line and camera angle automatically. It returns a clean background
-                <em>plate</em> with the character absent, ready to drop under your own art layer. (A two-pass inpaint.)</li>
               <li><strong>A perspective sketch.</strong> A rough edge map — e.g. of a reference photo — that
                 locks the composition and camera angle, so the generated structure matches what you planned.
                 (This uses ControlNet.)</li>
+              <li><strong>A reference image.</strong> Its dominant colours can be read back as usable prompt
+                language, so a reference library actually drives the palette instead of being eyeballed.</li>
             </ul>
             <p style="margin-top: 1.5rem;">
-              The <strong>aesthetic comes from the model itself.</strong> You pick the render model per scene —
-              <code>solstice</code> (Korean manhwa, atmospheric), <code>counterfeit</code> (clean anime), or
-              <code>dreamshaper</code> (soft painterly) — with an optional manhwa LoRA on top. An earlier version
-              pushed the palette with an IP-Adapter style reference; in practice a model trained on the target
-              look renders it more cleanly, so I dropped the IP-Adapter and decided that it's best to leave the
-              direction to the prompt instead.
+              The <strong>aesthetic comes from the model itself.</strong> FLUX.1-dev renders every plate, with a
+              manhwa style LoRA on top. An earlier version pushed the palette with an IP-Adapter style
+              reference; in practice a model trained on the target look renders it more cleanly, so I dropped
+              the IP-Adapter and decided that it's best to leave the direction to the prompt instead. The same
+              lesson came back harder later: naming a <em>mood</em> in the prompt — "grimdark", "deep shadow" —
+              is what dragged renders into semi-realistic murk, so mood is now a post-process instead.
             </p>
             <p>
-              The harness will generate a finished background around the provided characters, planned to match
-              their scale, perspective and camera angle. I then import it as a layer into my working file and
-              polish the details, e.g. shadows, environmental interactions (such as snow on the characters if they're
-              on an ice planet).
+              I then import the finished plate as a layer into my working file and polish the details, e.g.
+              shadows, environmental interactions (such as snow on the characters if they're on an ice planet).
+              Generating a background <em>around</em> a drawn character used to live here too, but that was a
+              two-pass Stable Diffusion inpaint and didn't survive the move to FLUX. That job is now split, and
+              done better: generate the plate here, then generate and composite the figure with the
+              <a href="/projects/character-panel.html">Character &amp; Panel Generator</a>, which places it at a
+              measured height and feet position.
             </p>
             <p>
               There is also an additional feature, called Metropolis Mode, which works in conjunction with
@@ -142,9 +143,9 @@
               tedious background work to the AI.
             </p>
             <p style="font-size: 14px; color: var(--text-muted);">
-              <strong>Under the hood:</strong> a Python MCP server wrapping a local ComfyUI + Stable Diffusion
-              pipeline (SD 1.5 + ControlNet + inpainting, with selectable manhwa/anime checkpoints and an optional
-              LoRA), running on my own GPU. No cloud, no per-image cost.
+              <strong>Under the hood:</strong> a Python MCP server wrapping a local ComfyUI + FLUX.1-dev
+              pipeline (GGUF unet + ControlNet + Kontext editing, with a manhwa style LoRA), running on my own
+              GPU. No cloud, no per-image cost.
             </p>
           </div>
           <div style="display:flex; flex-direction:column; gap:1rem;">
@@ -174,10 +175,12 @@
         <p style="color: var(--text-body); line-height: 1.7;">
           I tested it, and this MCP server is capable of generating backgrounds. It took me a while to
           refine and get to a point where I'm finally satisfied with the outputs, which included searching
-          for the appropriate LoRAs. I definitely recommend Solstice and Counterfeit and DreamShaper for
-          any aspiring webcomic artist. They aren't flawless, obviously, which is evidence that human
-          artists are still necessary to manage, polish, and perfect the backgrounds. But for now, this
-          demonstrates that the MCP server I built with Claude Code actually works.
+          for the appropriate models and LoRAs. Everything here is now rendered with FLUX.1-dev — the GGUF
+          unets for dev and Kontext, T5-XXL and CLIP-L, the FLUX VAE, ControlNet Union Pro 2.0, and a
+          <code>manwha_style</code> LoRA (plus the ComfyUI-GGUF custom node to load them). They aren't
+          flawless, obviously, which is evidence that human artists are still necessary to manage, polish,
+          and perfect the backgrounds. But for now, this demonstrates that the MCP server I built with Claude
+          Code actually works.
         </p>
         <p style="color: var(--text-body); line-height: 1.7;">
           Take note, though, this is not meant to replace human artists. In a studio, you'll usually have
@@ -218,8 +221,8 @@
               <figcaption>Jungle world</figcaption>
             </figure>
             <figure>
-              <img src="/img/mcp-bg-forest-solstice.png" alt="Solstice forest path with dappled light" loading="lazy" />
-              <figcaption>Solstice forest</figcaption>
+              <img src="/img/mcp-bg-forest-solstice.png" alt="Forest path with dappled light" loading="lazy" />
+              <figcaption>Forest path, alternate</figcaption>
             </figure>
             <figure>
               <img src="/img/mcp-bg-cathedral-daylight.png" alt="Ivory gothic cathedral city in bright daylight" loading="lazy" />
@@ -236,6 +239,10 @@
             <figure>
               <img src="/img/mcp-bg-moonlit-district.png" alt="Moonlit gothic district rendered from a persistent 3D city" loading="lazy" />
               <figcaption>Moonlit district — from the persistent city</figcaption>
+            </figure>
+            <figure>
+              <img src="/img/mcp-bg-bicycle-lot.png" alt="A row of parked bicycles with correct frame geometry, rendered with FLUX" loading="lazy" />
+              <figcaption>Bicycle lot — FLUX geometry</figcaption>
             </figure>
             <!-- set 2: duplicate for a seamless loop -->
             <figure aria-hidden="true">
@@ -260,7 +267,7 @@
             </figure>
             <figure aria-hidden="true">
               <img src="/img/mcp-bg-forest-solstice.png" alt="" loading="lazy" />
-              <figcaption>Solstice forest</figcaption>
+              <figcaption>Forest path, alternate</figcaption>
             </figure>
             <figure aria-hidden="true">
               <img src="/img/mcp-bg-cathedral-daylight.png" alt="" loading="lazy" />
@@ -277,6 +284,10 @@
             <figure aria-hidden="true">
               <img src="/img/mcp-bg-moonlit-district.png" alt="" loading="lazy" />
               <figcaption>Moonlit district — from the persistent city</figcaption>
+            </figure>
+            <figure aria-hidden="true">
+              <img src="/img/mcp-bg-bicycle-lot.png" alt="" loading="lazy" />
+              <figcaption>Bicycle lot — FLUX geometry</figcaption>
             </figure>
           </div>
         </div>
@@ -319,6 +330,14 @@
             </p>
           </div>
         </div>
+        <p style="font-size: 14px; color: var(--text-muted); max-width: 46rem; margin: 1.5rem auto 0; text-align: center;">
+          A note on this walkthrough: it's a genuine record of how that panel was made, using the
+          character-conditioned mode that existed before v2.0.0. That mode was a Stable Diffusion inpaint and
+          was removed when the server moved to FLUX. The steps still hold — sketch your composition, generate,
+          then composite in your drawing software — but the character now comes from the
+          <a href="/projects/character-panel.html">Character &amp; Panel Generator</a> and gets composited onto
+          the plate, rather than being fed in first.
+        </p>
       </section>
 
       <!-- Parallax gallery -->
@@ -394,40 +413,61 @@
 
         <div class="pill-card" style="margin-top: 1.5rem;">
           <h3 style="margin-top:0; display:flex; align-items:baseline; gap:0.6rem;">
-            <span style="font-family:var(--mono,monospace); color:var(--text);">v1.9.0</span>
-            <span style="font-size:13px; font-weight:500; color:var(--text-muted);">FLUX.1-dev, and mood as a post-process</span>
+            <span style="font-family:var(--mono,monospace); color:var(--text);">v2.0.0</span>
+            <span style="font-size:13px; font-weight:500; color:var(--text-muted);">FLUX only — Stable Diffusion removed</span>
           </h3>
           <p style="font-size:13px; color:var(--text-muted); margin-top:-0.4rem;">August 1, 2026</p>
           <ul style="color: var(--text-body); line-height: 1.8;">
-            <li><strong>✨ Added — FLUX.1-dev as a second base model.</strong> Pass
-              <code>model="flux_manwha"</code> to any generation tool to render with FLUX instead of
-              Stable Diffusion 1.5, which stays the default and is completely untouched. FLUX is far
-              better at <em>object geometry</em> — the deformed-bicycle problem that drove the previous
-              release — at the cost of slower renders and looser composition control. Runs quantised to
-              fit a 6&nbsp;GB laptop GPU.</li>
-            <li><strong>🎚️ Added — <code>grade_plate</code>, and a change of approach.</strong> The most
-              useful finding of this release was a mistake I'd been making: asking the model for mood in
-              the prompt — "grimdark", "dim lighting", "deep shadow" — is what dragged renders off the
-              manhwa look into semi-realistic murk. Deleting that wording, changing nothing else, made
-              the same scene 2.5× brighter and properly cel-shaded. So mood now happens
-              <em>after</em> generation: render clean, then grade a copy. Deterministic, instant, and the
-              original is never touched.</li>
+            <li><strong>💥 Breaking — Stable Diffusion 1.5 has been removed.</strong> FLUX.1-dev is
+              now the only renderer. The reason is consistency across the toolkit: the companion
+              character generator produces every figure with FLUX, and FLUX characters composited
+              onto SD 1.5 backgrounds read as a <em>composite</em> — the two models handle light,
+              edge and colour differently enough that the join shows. Keeping SD 1.5 as a
+              "fallback" would have meant shipping a path whose main effect was mismatched art, so
+              it's gone rather than deprecated. If VRAM is tight, use a smaller GGUF
+              quantisation — but there is deliberately no lower-quality path.</li>
+            <li><strong>🗑️ Removed — the "background around your character" mode.</strong> It was
+              built as a two-pass Stable Diffusion inpaint and couldn't survive the switch. That
+              job is now split, and done better: generate the plate here, then generate and
+              composite the figure with the
+              <a href="/projects/character-panel.html">character generator</a>, which places it at a
+              measured height and feet position.</li>
+            <li><strong>🎚️ Added — <code>grade_plate</code>.</strong> Mood is now a post-process,
+              not a prompt. Asking the model for "grimdark" or "deep shadow" measurably dragged
+              renders away from the manhwa look and into murky semi-realism; removing that wording
+              made the same scene 2.5× brighter and properly cel-shaded. So: render clean, then
+              grade a copy. Instant, deterministic, and the original is never touched.</li>
+            <li><strong>🖌️ Added — <code>edit_background</code>.</strong> Edit a plate you've
+              already approved with a plain-English instruction — "make it snowing, with snow
+              settled on the seats and the ground" — instead of re-rolling a fresh render and
+              hoping the seed cooperates. Composition and style survive the edit.</li>
             <li><strong>🎨 Added — <code>extract_palette</code>.</strong> Reads a reference image's
-              dominant colours and returns them as <em>prompt language</em> ("deep red", "ash grey")
-              rather than hex codes, so a reference library can actually drive colour instead of being
-              eyeballed.</li>
-            <li><strong>🖌️ Added — <code>edit_background</code>.</strong> Edit a plate you've already
-              approved with a plain-English instruction — "make it snowing, with snow settled on the
-              seats and the ground" — instead of re-rolling a fresh render and hoping the seed
-              cooperates. Composition and style survive the edit.</li>
-            <li><strong>🐛 Fixed — hand-drawn sketches were being doubled.</strong> Edge detection finds
-              <em>both</em> sides of a pencil line, so every drawn stroke became two parallel guide lines
-              and the model painted the doubled hairlines literally. Photos and 3D renders were never
-              affected; hand-drawn input now takes a different path automatically.</li>
+              dominant colours and returns them as usable prompt language ("deep red", "ash grey")
+              rather than hex codes, so a reference library can actually drive colour.</li>
           </ul>
         </div>
 
         <p class="release-archive-label">Earlier releases</p>
+
+        <details class="release-item">
+          <summary>
+            <span class="release-ver">v1.9.0</span>
+            <span class="release-name">FLUX.1-dev, and mood as a post-process</span>
+            <span class="release-date">August 1, 2026</span>
+          </summary>
+          <ul style="color: var(--text-body); line-height: 1.8;">
+            <li><strong>✨ Added — FLUX.1-dev as a second base model.</strong> FLUX renders object
+              geometry far better than Stable Diffusion 1.5 — the deformed-bicycle problem that
+              drove the previous release — at the cost of slower renders and looser composition
+              control. Runs quantised to fit a 6&nbsp;GB laptop GPU. (SD 1.5 was still selectable
+              at this point; it was removed entirely in v2.0.0.)</li>
+            <li><strong>🐛 Fixed — hand-drawn sketches were being doubled.</strong> Edge detection
+              finds <em>both</em> sides of a pencil line, so every drawn stroke became two parallel
+              guide lines and the model painted the doubled hairlines literally. Photos and 3D
+              renders were never affected; hand-drawn input now takes a different path
+              automatically.</li>
+          </ul>
+        </details>
 
         <details class="release-item">
           <summary>
@@ -613,8 +653,8 @@
         <h2>Why wouldn't I just use a LoRA or AI image generator?</h2>
         <p>
           You can, but an MCP server comes with advantages that an AI image generator or LoRA doesn't.
-          In the first place, my MCP server comes with instructions in the README to install a couple of
-          LoRA, including Solstice and Counterfeit for that coveted manhwa/webtoon aesthetic, so you're
+          In the first place, my MCP server comes with instructions in the README to install the whole FLUX
+          stack and a <code>manwha_style</code> LoRA for that coveted manhwa/webtoon aesthetic, so you're
           getting an additional layer on top of that.
         </p>
         <p style="font-weight: 600; color: var(--text);">So, what are the benefits of this additional layer?</p>
@@ -636,16 +676,14 @@
             minimizes any drift or hallucination.
           </li>
           <li style="margin-bottom: 1rem;">
-            <strong>The character-first workflow.</strong> My MCP server is unique in that I have a
-            personalized pipeline where I feed him my drawn character, and he will plan the background
-            according to his scale and perspective. Essentially, I packaged character-conditioned generation
-            into a single-command, character-first pipeline designed to relieve some of the burden from
-            webtoon studio teams and solo webcomic artists. Particularly the latter. It also emphasizes my
-            philosophy — AI as a partner, not replacement. I need to do the work and draw my characters
-            first, for the background to be generated. Of course, you can still use my MCP server to generate
-            backgrounds without feeding him any characters (and he'll probably hallucinate and insert a
-            random character inside for you…), but it'll be much harder for you to get the scale and
-            perspective you want.
+            <strong>It's part of a toolkit, not a lone tool.</strong> This server used to take a drawn
+            character and plan the background around it in one command. That mode is gone as of v2.0.0 — it
+            was built on Stable Diffusion and couldn't survive the move to FLUX — but the job it did is now
+            split across two servers and done better. You generate the plate here, then generate and composite
+            the figure with the <a href="/projects/character-panel.html">Character &amp; Panel Generator</a>,
+            which places it at a measured height and feet position rather than inferring it. Same philosophy
+            either way — AI as a partner, not a replacement. You still direct the composition; the tools
+            render what you decided.
           </li>
           <li style="margin-bottom: 1rem;">
             <strong>A consistent and reproducible background.</strong> If you like a result and want a
