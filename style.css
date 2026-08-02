@@ -753,7 +753,10 @@ footer {
 .editorial-split .section-kicker { margin-bottom: 10px; }
 .editorial-split h2 { margin: 0; }
 @media (max-width: 760px) {
-  .editorial-split { grid-template-columns: 1fr; gap: 1rem; }
+  /* !important is needed: individual sections set their column split with an
+     inline style, which would otherwise win here and squeeze the text column
+     to ~75px on a phone. */
+  .editorial-split { grid-template-columns: 1fr !important; gap: 1rem; }
 }
 
 /* ── Rounded "pill" content card ── */
