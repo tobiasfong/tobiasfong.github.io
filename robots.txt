@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Work-in-progress scratch pages, not meant to be indexed.
+Disallow: /projects/components/
+Disallow: /projects/prototype/
+
+Sitemap: https://tobiasfong.github.io/sitemap.xml
