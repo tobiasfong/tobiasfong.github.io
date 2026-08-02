@@ -120,7 +120,7 @@
           <div class="section-kicker">What it is</div>
           <h2>Your very own webcomic assistant</h2>
           <p>
-            My MCP server works by wrapping a local ComfyUI + Stable Diffusion / FLUX pipeline, runs entirely
+            My MCP server works by wrapping a local ComfyUI + FLUX pipeline, runs entirely
             on your own machine, and is the character-domain sibling of the
             <a href="/projects/mcp-background.html">Webcomic Background Generator</a>'s World Builder.
           </p>
@@ -189,39 +189,47 @@
         </div>
 
         <div class="pill-card" style="margin-bottom: 1.25rem;">
-          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Reference-conditioned editing — the part that does the real work</p>
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Identity comes from art, not from a prompt</p>
           <p style="margin-bottom:0;">
-            The operation that actually produced every panel here isn't text-to-image at all. FLUX Kontext
-            takes an approved reference sheet — or an already-finished panel — as a conditioning input, so a
-            new pose is generated <em>from</em> the existing art rather than from a description of it. The
-            prompt steers the change; the image carries the identity. Two honest limits come with it: it binds
-            <strong>one reference to one generation</strong> (which is why multi-character panels have to be
-            composited), and it restyles rather than restructures — raising a character's arms into open air
-            works, changing a pose underneath clothing doesn't.
+            FLUX Kontext takes an approved reference sheet — or an already-finished panel — as a latent
+            conditioning input, so a new pose is generated <em>from</em> the existing art rather than from a
+            description of it. The registered art is the ground truth, and this is the <strong>only</strong>
+            identity mechanism: no tiers, no fallbacks. One constraint follows from it and shapes everything
+            downstream — <strong>one reference binds to one generation</strong>. Two characters in one image
+            would need two references, which the mechanism can't do; attempts produce attribute bleed. So
+            multi-character panels are generated as solo figures and composited.
           </p>
         </div>
 
         <div class="pill-card" style="margin-bottom: 1.25rem;">
-          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Three ways to hold an identity, depending on your hardware</p>
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">The trade-off worth naming</p>
           <p style="margin-bottom:0;">
-            These are alternatives, not a ladder you climb. FLUX Kontext reference conditioning is what the
-            production work runs on. A tiered Stable Diffusion path — prompt and style LoRA always on,
-            IP-Adapter identity plus ControlNet pose as an opt-in — exists for setups where FLUX isn't
-            practical. And per-character LoRA baking trains against your registered references for the tightest
-            lock available locally, at the cost of a training run per character.
+            Conditioning on art and controlling the camera are mutually exclusive in a single pass.
+            <code>edit_character_image</code> conditions on the character's real art, so the likeness holds —
+            but framing and body angle are inherited from the reference and ignore instructions.
+            <code>generate_character_pose</code> pins structure via ControlNet — but has no image identity
+            input, so the likeness drifts. You choose per generation. For finished panels the reference-driven
+            path wins, and direction is handled by generating a turnaround sheet first, then conditioning on
+            whichever view you need out of it.
           </p>
         </div>
 
         <div class="pill-card" style="margin-bottom: 1.25rem;">
-          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Pose control from a 3D skeleton, and the trade it forces</p>
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Genuine back views</p>
           <p style="margin-bottom:0;">
-            A pose skeleton extracted from a flat reference has no way to encode facing-away-from-camera, so
-            the server can project one from a posable 3D skeleton instead, where a 180° yaw genuinely flips the
-            limb assignments. It works about two seeds in three — a generate-and-curate tool, not a button. The
-            catch is bigger than the hit rate, though: that path is text-to-image with structural guidance, so
-            it has <strong>no image identity input at all</strong>. You choose between conditioning on the
-            character's actual art and controlling the camera precisely. Not both in one pass. For finished
-            panels the reference-driven path wins every time.
+            Reference sheets are almost always frontal, and prompting for a back view doesn't work — nothing in
+            the conditioning unambiguously says <em>this is the back</em>, so results relax toward front or
+            profile. Around twelve tuning configurations confirmed that the hard way. The answer is a
+            turnaround-sheet LoRA running on Kontext: one reference image in, a multi-pose sheet out, including
+            a genuine back view <strong>with the likeness intact</strong>.
+          </p>
+        </div>
+
+        <div class="pill-card" style="margin-bottom: 1.25rem;">
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Correcting hand-drawn anatomy</p>
+          <p style="margin-bottom:0;">
+            Feed a rough sketch through lineart ControlNet and the model redraws it with correct anatomy while
+            keeping the composition you drew. The human decides staging; the tool fixes proportions.
           </p>
         </div>
 
@@ -235,12 +243,40 @@
           </p>
         </div>
 
-        <div class="pill-card">
+        <div class="pill-card" style="margin-bottom: 1.25rem;">
           <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Compositing is separate from generation</p>
           <p style="margin-bottom:0;">
             Cutout, placement, panel assembly and strip layout are deterministic CPU operations — instant to
             iterate, no GPU, no tokens. Only generation is expensive. "Move her two hundred pixels left" should
             never cost a re-render, and here it doesn't.
+          </p>
+        </div>
+
+        <div class="pill-card" style="margin-bottom: 1.25rem;">
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">The photorealism bug was one sentence in the prompt</p>
+          <p style="margin-bottom:0;">
+            FLUX kept returning photorealistic people despite a manhwa style LoRA at full strength. The cause
+            wasn't the model or the LoRA — it was one inherited prompt fragment reading as photography:
+            <em>"studio backdrop, simple even lighting, clean sharp edges."</em> Replacing it with wording that
+            names only the medium, on a fixed seed, took the same generation from 857 distinct colours to 382 —
+            flat colour quantises hard, which is the cel-shading signature — and from photoreal to clean
+            cel-shaded manhwa. The sibling
+            <a href="/projects/mcp-background.html">background server</a> measured the same failure from the
+            other direction: mood words like "dim lighting" and "cinematic" dragged its plates into
+            semi-realistic murk.
+          </p>
+        </div>
+
+        <div class="pill-card">
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Half this server's code was deleted on purpose</p>
+          <p style="margin-bottom:0;">
+            This started out built around a three-tier identity ladder — img2img, then IP-Adapter, then baking
+            a LoRA per character — all of it existing to make one tool hold a likeness. Then Kontext arrived,
+            conditioned on a reference image directly, and made the whole edifice redundant. The 3D pose
+            machinery went for a sharper reason: it fed a tool with no image identity input, so once IP-Adapter
+            was gone, a structurally perfect back view was a correct pose of <em>nobody in particular</em> —
+            useless as a reference for a specific character. The migration removed <strong>2,735 lines</strong>
+            and took the server from 22 tools to 17. The ones that survived are the ones that earned it.
           </p>
         </div>
       </section>
@@ -385,7 +421,7 @@
       <!-- Tools -->
       <section style="max-width: 720px; margin: 0 auto 3rem;">
         <div class="section-kicker">The Toolbox</div>
-        <h2>Twenty-two tools</h2>
+        <h2>Seventeen tools</h2>
         <div style="overflow-x:auto; margin-bottom: 2rem;">
           <table style="width:100%; border-collapse:collapse; font-size: var(--fs-body);">
             <tbody>
@@ -407,23 +443,13 @@
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
                 <td style="padding:10px 12px 10px 0; white-space:nowrap; vertical-align:top;"><strong>Posing</strong></td>
-                <td style="padding:10px 0; color:var(--text-body);">
-                  <code>generate_pose_map</code>, <code>generate_pose_depth_map</code>,
-                  <code>generate_character_pose</code>
-                </td>
+                <td style="padding:10px 0; color:var(--text-body);"><code>generate_character_pose</code></td>
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
                 <td style="padding:10px 12px 10px 0; white-space:nowrap; vertical-align:top;"><strong>Finishing</strong></td>
                 <td style="padding:10px 0; color:var(--text-body);">
                   <code>edit_character_image</code>, <code>apply_gradient_background</code>,
                   <code>apply_vfx_overlay</code>, <code>compose_panel</code>
-                </td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--border);">
-                <td style="padding:10px 12px 10px 0; white-space:nowrap; vertical-align:top;"><strong>LoRA training</strong></td>
-                <td style="padding:10px 0; color:var(--text-body);">
-                  <code>bake_character_lora</code>, <code>check_lora_training</code>,
-                  <code>cancel_lora_training</code>
                 </td>
               </tr>
               <tr>
@@ -435,12 +461,11 @@
         </div>
         <p style="font-size: 14px; color: var(--text-muted);">
           <strong>Under the hood:</strong> Python, FastMCP over stdio. Local ComfyUI driving
-          <strong>FLUX.1 Kontext dev</strong> (GGUF quantised) for reference-conditioned generation and
-          editing, plus a turnaround-sheet LoRA and a manhwa/webtoon style LoRA. Stable Diffusion 1.5 and an
-          experimental SDXL path remain available with ControlNet Union for pose and lineart, and IP-Adapter
-          for identity. Developed against a <strong>6&nbsp;GB laptop GPU</strong> — the quantised models and the
-          CPU-side compositing are both direct consequences of that constraint, and both turned out to be good
-          ideas anyway.
+          <strong>FLUX.1-dev</strong> and <strong>FLUX.1 Kontext dev</strong>, both GGUF-quantised to fit a
+          <strong>6&nbsp;GB laptop GPU</strong>, with a manhwa style LoRA and a turnaround-sheet LoRA, plus
+          ControlNet Union Pro 2.0 for lineart and pose control. Compositing — cutout, placement, panel
+          assembly, vertical-strip layout — is deterministic CPU work: no GPU, instant to iterate. Roughly four
+          minutes per generation.
         </p>
       </section>
 
