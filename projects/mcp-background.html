@@ -327,11 +327,26 @@
             <img src="/img/mcp-walkthrough-03-generated.png" alt="Mikhail standing in the finished, MCP-generated gothic courtyard background"
               style="width:100%; border-radius:12px; display:block; margin-bottom:1.25rem;" loading="lazy" />
             <p style="margin:0;">
-              <strong>3.</strong> After your AI has generated the background, you can open it in your
-              drawing software (I use Clip Studio Paint), copy it as a new background layer in your webcomic
-              file, and crop/adjust/edit as necessary.
+              <strong>3.</strong> Composite the character onto the plate. If you don't use art software,
+              <code>compose_panel</code> does it for you — give it the character, the background, and where
+              the feet should land, and it places and scales the figure. If you do draw, you can instead open
+              the plate in your art program (I use Clip Studio Paint) and drop it in as a background layer,
+              which is what I do on my own pages.
             </p>
           </div>
+        </div>
+
+        <div class="pill-card" style="max-width: 46rem; margin: 1.75rem auto 0;">
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Don't draw?</p>
+          <p style="margin-bottom:0;">
+            The three steps above all start from art I drew myself, but you don't have to. Generate the
+            character with the companion
+            <a href="/projects/character-panel.html">Character &amp; Panel Generator</a> — or bring
+            commissioned art, or a character sheet you made in ChatGPT — generate the plate here, and
+            <code>compose_panel</code> puts them together. No art software required at any step. Worth knowing
+            up front: <code>compose_panel</code> lives in the character generator, so this route needs both
+            servers installed.
+          </p>
         </div>
       </section>
 
