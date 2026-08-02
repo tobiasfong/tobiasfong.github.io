@@ -103,7 +103,11 @@
             <ul style="color: var(--text-body); line-height: 1.8;">
               <li><strong>A perspective sketch.</strong> A rough edge map — e.g. of a reference photo — that
                 locks the composition and camera angle, so the generated structure matches what you planned.
-                (This uses ControlNet.)</li>
+                (This uses ControlNet.) Hand-drawn sketches are detected and handled automatically now; they
+                used to come out with every stroke doubled.</li>
+              <li><strong>A drawn character</strong>, via <code>match_canvas_to</code>. The plate is sized to
+                your character and the response reports the exact height and feet numbers, so the background
+                you get back fits the figure you already drew — ready to composite.</li>
               <li><strong>A reference image.</strong> Its dominant colours can be read back as usable prompt
                 language, so a reference library actually drives the palette instead of being eyeballed.</li>
             </ul>
@@ -118,11 +122,11 @@
             <p>
               I then import the finished plate as a layer into my working file and polish the details, e.g.
               shadows, environmental interactions (such as snow on the characters if they're on an ice planet).
-              Generating a background <em>around</em> a drawn character used to live here too, but that was a
-              two-pass Stable Diffusion inpaint and didn't survive the move to FLUX. That job is now split, and
-              done better: generate the plate here, then generate and composite the figure with the
-              <a href="/projects/character-panel.html">Character &amp; Panel Generator</a>, which places it at a
-              measured height and feet position.
+              The character-first workflow still works — what changed in v2.0.0 is that the old two-pass
+              inpaint was replaced by canvas matching, so the plate is sized to your character and you
+              composite the figure on top rather than having it painted around. If you want the figure
+              generated too, that's the
+              <a href="/projects/character-panel.html">Character &amp; Panel Generator</a>'s job.
             </p>
             <p>
               There is also an additional feature, called Metropolis Mode, which works in conjunction with
@@ -315,9 +319,8 @@
             <img src="/img/mcp-walkthrough-02-sketch.png" alt="Mikhail with a rough sketch of a bicycle rack drawn in behind him"
               style="width:100%; border-radius:12px; display:block; margin-bottom:1.25rem;" loading="lazy" />
             <p style="margin:0;">
-              <strong>2.</strong> For better results, you can sketch the background too, to give your AI a
-              better idea of how to generate the background around the character, the perspective, the
-              angle and the scale.
+              <strong>2.</strong> For better results, you can sketch the background too, to give your AI the
+              perspective, angle and scale you want, so the background fits the character you've drawn.
             </p>
           </div>
           <div class="pill-card">
@@ -330,14 +333,6 @@
             </p>
           </div>
         </div>
-        <p style="font-size: 14px; color: var(--text-muted); max-width: 46rem; margin: 1.5rem auto 0; text-align: center;">
-          A note on this walkthrough: it's a genuine record of how that panel was made, using the
-          character-conditioned mode that existed before v2.0.0. That mode was a Stable Diffusion inpaint and
-          was removed when the server moved to FLUX. The steps still hold — sketch your composition, generate,
-          then composite in your drawing software — but the character now comes from the
-          <a href="/projects/character-panel.html">Character &amp; Panel Generator</a> and gets composited onto
-          the plate, rather than being fed in first.
-        </p>
       </section>
 
       <!-- Parallax gallery -->
@@ -426,12 +421,13 @@
               "fallback" would have meant shipping a path whose main effect was mismatched art, so
               it's gone rather than deprecated. If VRAM is tight, use a smaller GGUF
               quantisation — but there is deliberately no lower-quality path.</li>
-            <li><strong>🗑️ Removed — the "background around your character" mode.</strong> It was
-              built as a two-pass Stable Diffusion inpaint and couldn't survive the switch. That
-              job is now split, and done better: generate the plate here, then generate and
-              composite the figure with the
-              <a href="/projects/character-panel.html">character generator</a>, which places it at a
-              measured height and feet position.</li>
+            <li><strong>♻️ Changed — the character workflow now matches the canvas instead of
+              inpainting.</strong> The old two-pass Stable Diffusion inpaint that painted a background
+              <em>around</em> a drawn character couldn't survive the switch, but the workflow it served
+              still works: pass <code>match_canvas_to</code> your character and the plate is sized to
+              it, with the response reporting the exact height and feet numbers so the figure
+              composites cleanly on top. If you want the figure generated as well, that's the
+              <a href="/projects/character-panel.html">character generator</a>'s job.</li>
             <li><strong>🎚️ Added — <code>grade_plate</code>.</strong> Mood is now a post-process,
               not a prompt. Asking the model for "grimdark" or "deep shadow" measurably dragged
               renders away from the manhwa look and into murky semi-realism; removing that wording
@@ -676,14 +672,16 @@
             minimizes any drift or hallucination.
           </li>
           <li style="margin-bottom: 1rem;">
-            <strong>It's part of a toolkit, not a lone tool.</strong> This server used to take a drawn
-            character and plan the background around it in one command. That mode is gone as of v2.0.0 — it
-            was built on Stable Diffusion and couldn't survive the move to FLUX — but the job it did is now
-            split across two servers and done better. You generate the plate here, then generate and composite
-            the figure with the <a href="/projects/character-panel.html">Character &amp; Panel Generator</a>,
-            which places it at a measured height and feet position rather than inferring it. Same philosophy
-            either way — AI as a partner, not a replacement. You still direct the composition; the tools
-            render what you decided.
+            <strong>The character-first workflow.</strong> My MCP server is unique in that I have a
+            personalized pipeline where I hand him my drawn character, and the plate comes back sized to that
+            character's scale and perspective — with the exact height and feet numbers reported back, so it
+            composites cleanly. Essentially, I packaged character-first generation into a single command,
+            designed to relieve some of the burden from webtoon studio teams and solo webcomic artists.
+            Particularly the latter. It also emphasizes my philosophy — AI as a partner, not replacement. I
+            need to do the work and draw my characters first, for the background to be generated around them.
+            And if you want the figures generated too, that's what the
+            <a href="/projects/character-panel.html">Character &amp; Panel Generator</a> is for — the two
+            servers are built to meet at exactly this seam.
           </li>
           <li style="margin-bottom: 1rem;">
             <strong>A consistent and reproducible background.</strong> If you like a result and want a
