@@ -496,6 +496,63 @@
         </div>
       </section>
 
+      <!-- Why use this -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">Why use this?</div>
+        <h2>Why shouldn't I just use Midjourney or any comic-dedicated AI image generator instead?</h2>
+        <p>
+          You absolutely can, and to be fair, Midjourney is genuinely good at holding a character. But it's a
+          subscription on top of whatever AI client you're already paying for, it's very specialized, and —
+          the part that matters most for a comic — it's built to give you <em>images</em>. A webcomic isn't a
+          pile of nice images. It's panels, in an order, with the same people in them.
+        </p>
+        <p style="font-weight: 600; color: var(--text);">So what does an MCP server give you that a generator doesn't?</p>
+        <ol style="color: var(--text-body); line-height: 1.8;">
+          <li style="margin-bottom: 1rem;">
+            <strong>Your art is the input, not a description of it.</strong> This is the real difference. A
+            generator starts from a prompt, so your character only exists as words you have to keep getting
+            right. Here you register the actual art — your own drawing, a commission you paid for, or a
+            concept sheet you made elsewhere — and every panel is generated <em>from</em> that image. The
+            character stays yours. You're not renting a likeness back from a prompt each session.
+          </li>
+          <li style="margin-bottom: 1rem;">
+            <strong>The Character Bible remembers, so you don't.</strong> A generator usually starts from
+            scratch every session, and you end up re-pasting references and re-explaining who someone is.
+            The Bible lives on disk, with provenance tracking which approved sheet each reference came from.
+            Panel forty is generated against the same source of truth as panel one, months later.
+          </li>
+          <li style="margin-bottom: 1rem;">
+            <strong>It goes all the way to a deliverable.</strong> Cutout, placement, panel assembly and
+            vertical-strip layout are deterministic CPU operations here — instant, free, no GPU. A generator
+            hands you a picture and leaves the comic part to you. "Move her two hundred pixels left" shouldn't
+            cost a re-render, and here it doesn't.
+          </li>
+          <li style="margin-bottom: 1rem;">
+            <strong>No context-switching.</strong> Everything happens inside your AI harness (Claude Code,
+            Codex, Antigravity) — no browser tab, no typing prompts into a separate app, no downloading and
+            re-importing files. Output lands in the right folder automatically.
+          </li>
+          <li style="margin-bottom: 1rem;">
+            <strong>The images are free.</strong> No credits, no subscription, no API costs. It runs on your
+            own GPU — mine is a 6&nbsp;GB laptop card, which is exactly why the models are quantised. Iterate
+            as much as you like; the only thing you're spending is time.
+          </li>
+          <li>
+            <strong>It's part of an ecosystem, not a lone tool.</strong> Characters here, environments in the
+            <a href="/projects/mcp-background.html">Background Generator</a>, promo video in the
+            <a href="/projects/anime-production.html">Anime Production Skill</a>, and Japanese translation in
+            the <a href="/projects/novel-translation.html">Novel Translation server</a>. Each installs
+            independently, but they're designed to meet — this server composites onto the background server's
+            plates, and both now render on FLUX specifically so the join doesn't show.
+          </li>
+        </ol>
+        <p>
+          What it won't do is make you stop caring. As I said further up, you'll still be erasing stray
+          fingers and fixing mirrored buttons. But you'll be doing that to <em>your</em> characters, in your
+          story, on your own machine — and that's the part I wanted to keep.
+        </p>
+      </section>
+
       <!-- Get it -->
       <section style="display:flex; justify-content:center; margin: 0 auto 3rem;">
         <div class="pill-card" style="max-width:640px; width:100%;">
