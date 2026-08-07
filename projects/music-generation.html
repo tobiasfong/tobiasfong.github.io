@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A local MCP server that generates BGM and Japanese theme songs for my webcomic trailers. ACE-Step 1.5 through ComfyUI on a 6GB laptop GPU — faster than real time, with a beat grid so trailer cuts land on downbeats." />
+
+    <!-- Open Graph / Twitter: controls how a shared link previews in Discord,
+         Slack, Bluesky, etc. og:image must be an absolute URL. -->
+    <meta property="og:site_name" content="Tobias Fong" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://tobiasfong.github.io/projects/music-generation.html" />
+    <meta property="og:title" content="Music Generation MCP Server | Tobias Fong" />
+    <meta property="og:description" content="A local MCP server that generates BGM and Japanese theme songs for my webcomic trailers. ACE-Step 1.5 through ComfyUI on a 6GB laptop GPU — faster than real time, with a beat grid so trailer cuts land on downbeats." />
+    <meta property="og:image" content="https://tobiasfong.github.io/img/og/og-music-generation.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Music Generation MCP Server | Tobias Fong" />
+    <meta name="twitter:description" content="A local MCP server that generates BGM and Japanese theme songs for my webcomic trailers. ACE-Step 1.5 through ComfyUI on a 6GB laptop GPU — faster than real time, with a beat grid so trailer cuts land on downbeats." />
+    <meta name="twitter:image" content="https://tobiasfong.github.io/img/og/og-music-generation.jpg" />
+    <title>Music Generation MCP Server | Tobias Fong</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="icon" type="image/jpeg" href="/img/rowlet-logo.jpg" />
+</head>
+
+  <body>
+  <nav class="project-nav">
+    <div class="project-nav-inner">
+      <a href="/" class="project-nav-logo"><img src="/img/rowlet-logo.jpg" alt="Home" style="width:32px;height:32px;border-radius:50%;object-fit:cover;display:block;" /></a>
+      <div class="project-nav-links">
+        <a href="/projects/">← Projects</a>
+        <a href="/#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+    <main class="container project-content">
+      <p class="breadcrumb">
+        <a href="/projects/">← Back to Projects</a>
+      </p>
+
+      <header class="project-hero" style="text-align:center; padding: 3rem 0 2rem;">
+        <div class="section-kicker">MCP Server Project</div>
+        <h1>Music Generation MCP Server</h1>
+        <p class="lead" style="max-width: 640px; margin: 0 auto 1.5rem;">
+          A local MCP server that generates BGM and Japanese theme songs for my webcomic trailers — on the
+          same 6&nbsp;GB laptop GPU as everything else in the toolkit.
+        </p>
+        <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+          <span class="tag" style="background: var(--text); color: var(--bg);">MCP Server</span>
+          <span class="tag">Python</span>
+          <span class="tag">ACE-Step 1.5</span>
+          <span class="tag">ComfyUI</span>
+          <span class="tag">NumPy</span>
+          <span class="tag">Built with Claude</span>
+        </div>
+      </header>
+
+      <!-- The result -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker" style="text-align:center;">The Result</div>
+        <h2 style="text-align:center;">「セカンドチャンス」</h2>
+        <p style="color: var(--text-body); line-height: 1.7; text-align:center; margin: 0 auto 1.5rem;">
+          <em>Reincarnator × Regressor</em>'s theme song, in Japanese — the first real thing this server made.
+          It replaced a Suno track whose vocal I was never happy with. Settled after six rounds of listening
+          across nineteen takes: about 28 minutes of GPU time, and zero dollars.
+        </p>
+        <figure style="margin:0;">
+          <audio
+            src="https://github.com/tobiasfong/tobiasfong.github.io/releases/download/media-v1/second-chance.mp3"
+            controls
+            preload="none"
+            style="width:100%; display:block;"
+          ></audio>
+          <figcaption style="font-size: var(--fs-caption); color:var(--text-muted); margin-top:0.75rem; text-align:center;">
+            107 seconds · 150 BPM · B minor · 4/4 · generated locally. The song is unreleased, so the lyrics
+            aren't published here — but I wrote them.
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- Background -->
+      <section class="editorial-split">
+        <div class="split-media">
+          <img src="/img/music-card.jpg" alt="A still from the Reincarnator x Regressor music video the theme song was written for"
+            style="width:100%; border-radius:12px; margin-top:1.25rem; display:block;" loading="lazy" />
+        </div>
+        <div style="padding-top: 2rem;">
+          <div class="section-kicker">Background</div>
+          <h2>The one step I was still outsourcing</h2>
+          <p>
+            Every other piece of this ecosystem runs on my own GPU at zero cost — backgrounds, characters,
+            parallax, video. Music was the exception. The
+            <a href="/projects/anime-production.html">anime production skill</a> could always <em>play</em> an
+            mp3, but never <em>make</em> one, and that mp3 came from Suno: a paid cloud service, the same
+            category as Kling for video.
+          </p>
+          <p>
+            It was also the only part of a trailer I couldn't iterate on freely, because every attempt cost
+            money. That's a worse constraint than it sounds. You don't stop at the take you like; you stop at
+            the take you can justify paying for again.
+          </p>
+          <p>
+            This closes that gap. Theme songs and BGM now generate locally on the same 6&nbsp;GB laptop GPU as
+            everything else.
+          </p>
+        </div>
+      </section>
+
+      <!-- How it works -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">How It Works</div>
+        <h2>ACE-Step, through ComfyUI</h2>
+        <p>
+          ACE-Step is the only strong open model that does songs <em>with vocals</em> — MusicGen and Stable
+          Audio Open are instrumental-only, which is fine for BGM and useless for a theme song. It runs
+          through ComfyUI, which has supported it natively since v0.25, so there's nothing to install but the
+          model weights. That made it a materially easier setup than the local video path, which needed
+          third-party loaders.
+        </p>
+        <p>
+          The server takes style tags, lyrics, tempo, key, time signature and language, and returns a lossless
+          FLAC to archive plus a 320k MP3 the Remotion pipeline can drop straight in. It also emits a beat
+          grid, so trailer cuts land on downbeats rather than wherever the edit happened to fall.
+        </p>
+        <p>
+          It runs <strong>faster than real time</strong> — a 107-second track renders in about 90 seconds at
+          roughly 5.9&nbsp;GB of VRAM. That changes how you work with it. Instead of agonising over one
+          attempt, you generate five and pick the performance you like.
+        </p>
+      </section>
+
+      <!-- Walkthrough -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">What I Learned</div>
+        <h2>The interesting part wasn't the generation — it was working out what the controls do</h2>
+        <ul style="color: var(--text-body); line-height: 1.9;">
+          <li>
+            <strong>Lyric density is arithmetic, and it's the master control.</strong> One bar is
+            <code>4 × 60 / bpm</code> seconds. Divide the track's bars by its sung lines: land near
+            <strong>2.3 bars per line</strong> and lines get sung as lines. At 4.7 they stretch into fragments
+            with gaps. Below 2 they run together, and trailing lines get silently dropped.
+          </li>
+          <li>
+            <strong>Instrumental sections aren't free duration.</strong> They compete with the lyric for the
+            same bars. Adding an intro, three interludes and an outro to an 85-second track quietly truncated
+            the song at line 10 of 16.
+          </li>
+          <li>
+            <strong>Asking for a relative minor does nothing.</strong> I picked B minor to keep the mood
+            "related" to the D major I had. B minor <em>is</em> D major's seven notes — that's what a relative
+            pair is. Sharing a pitch collection is exactly what made it unable to sound less bright.
+          </li>
+          <li>
+            <strong>Some things aren't controllable at all.</strong> Vocal register ignores the prompt: five
+            takes at identical settings returned one female vocal and one noticeably high-pitched, despite
+            explicit deep male baritone tags. Sample and pick; don't tune.
+          </li>
+        </ul>
+      </section>
+
+      <!-- Why use this -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">Why use this?</div>
+        <h2>Because iteration being free changes what you'll settle for</h2>
+        <p>
+          Local, free, and unlimited. No subscription, no per-generation cost, and no terms-of-service
+          question about who owns the output. Because iteration costs nothing, you can chase a specific
+          feeling across a dozen takes rather than accepting the first usable one.
+        </p>
+        <p>
+          The honest limit: no statistic tells you whether a vocal is any good. The tooling measures tempo,
+          key and structure; the ear does the rest. That's a human-in-the-loop workflow by design, same as the
+          rest of the ecosystem — the tools narrow the search, the author still chooses.
+        </p>
+      </section>
+
+      <!-- Release notes -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">Release Notes</div>
+        <h2>What's new</h2>
+
+        <div class="pill-card" style="margin-top: 1.5rem;">
+          <h3 style="margin-top:0; display:flex; align-items:baseline; gap:0.6rem;">
+            <span style="font-family:var(--mono,monospace); color:var(--text);">v0.2.0</span>
+            <span style="font-size:13px; font-weight:500; color:var(--text-muted);">Beat grids without Node, and a settled theme song</span>
+          </h3>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:-0.4rem;">August 6, 2026</p>
+          <ul style="color: var(--text-body); line-height: 1.8;">
+            <li><strong>🥁 Changed — beat extraction is pure Python now.</strong> It was a Node script
+              that shelled out to ffmpeg; it's now NumPy and <code>soundfile</code>, which bundles
+              libsndfile, so neither dependency is needed at all. Same output schema, so it's still a
+              Remotion drop-in. On the winning track: 268 beats, 67 downbeats, a 1.600&nbsp;s bar — and
+              67 bars is <em>exactly</em> what the density arithmetic predicted for 107 seconds, which
+              is a nice independent check on the maths above.</li>
+            <li><strong>📐 Changed — tempo comes from the recipe, not from detection.</strong> When a
+              track was generated here, the BPM was an input. Detecting it again can only be worse.</li>
+            <li><strong>🎼 Added — reference analysis.</strong> Measures the BPM and key of any
+              mp3/flac/wav so those parameters come from measurement rather than guesswork. It can't
+              separate relative major/minor pairs — nothing chroma-based can — and says so when it sees
+              one. That limitation is what proved requesting "B minor" returns D major's pitch
+              collection.</li>
+            <li><strong>✅ Added — <code>approve_track</code> / <code>forget_track</code>.</strong> Track
+              ids carry a timestamp so auditioning can't clobber a good take. Approving publishes the
+              winner under a <code>FINAL_</code> name, which the toolkit's "never delete an approved
+              FINAL_" rule then covers automatically — and <code>forget_track</code> refuses an approved
+              take in code. Worth having: 22 tracks were script-deleted in that same session.</li>
+            <li><strong>🔒 Fixed — a near-miss, one command before the first push.</strong> The
+              <code>.gitignore</code> had an exception to preserve the track manifest — but recipes embed
+              lyrics, and the repo is public, so it would have published my unreleased song text. The
+              output folder is ignored wholesale now, with the reason recorded in the file.</li>
+          </ul>
+        </div>
+
+        <p class="release-archive-label">Earlier releases</p>
+
+        <details class="release-item">
+          <summary>
+            <span class="release-ver">v0.1.0</span>
+            <span class="release-name">First cut — and 6 GB turned out to be enough</span>
+            <span class="release-date">August 6, 2026</span>
+          </summary>
+          <ul style="color: var(--text-body); line-height: 1.8;">
+            <li><strong>🎤 Six tools</strong> — generate a track, generate variations, list and fetch
+              tracks, extract a beat grid, check status. Plus a standalone CLI driver for sweeping
+              settings without MCP in the way.</li>
+            <li><strong>🧠 ACE-Step 1.5 over 1.0.</strong> 1.5 is the <em>bigger</em> download (10.0 GB
+              against 7.7), because it needs two text encoders rather than one. Chosen anyway: it's the
+              only variant with an explicit <code>language</code> input, and Japanese vocals were the
+              whole point. 1.0 has no way to declare a language and infers it from the lyric script.</li>
+            <li><strong>💾 6 GB is enough — verified, not assumed.</strong> The plan said "assume
+              quantisation will be needed." No quantisation exists or is needed; ComfyUI streams the
+              bf16 weights. Peak ~5.9 GB for a two-minute track, no OOM. <code>--lowvram</code> made no
+              measurable difference either way, so it's off.</li>
+            <li><strong>⏱️ Faster than real time</strong>, which inverted the assumption that auditioning
+              would be expensive. Five variations take about nine minutes.</li>
+            <li><strong>🎧 Both formats from one sampling pass</strong> — lossless FLAC to keep, MP3 for
+              the video pipeline. The extra encode is free next to the sampling.</li>
+            <li><strong>🧪 28 offline checks</strong>, no GPU required.</li>
+          </ul>
+        </details>
+      </section>
+
+      <!-- Ecosystem -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">Ecosystem</div>
+        <h2>The last outsourced step in the pipeline</h2>
+        <p>
+          This is the newest piece of a wider webcomic and animation toolkit: the
+          <a href="/projects/mcp-background.html">Background Generator</a> for scenery, the
+          <a href="/projects/character-panel.html">Character &amp; Panel Generator</a> for consistent figures,
+          <a href="/projects/novel-translation.html">Novel Translation</a> for the Japanese edition, and
+          <a href="/projects/anime-production.html">Anime Production</a> for the video itself — with a speech
+          bubble server still to come. With music in place, a trailer can now be made end to end without a
+          single paid service: art, song, animation, all on one machine.
+        </p>
+      </section>
+
+      <!-- Get it -->
+      <section style="display:flex; justify-content:center; margin: 0 auto 3rem;">
+        <div class="pill-card" style="max-width:640px; width:100%;">
+          <div class="section-kicker">For everyone's use</div>
+          <h2>Get the server</h2>
+          <p>
+            It's open source (MIT), like the rest of the toolkit. Ask your AI harness to clone the
+            <code>webcomic-toolkit</code> repository and follow the setup docs in
+            <a href="https://github.com/tobiasfong/webcomic-toolkit/tree/master/servers/music-generation-mcp" target="_blank" rel="noopener noreferrer">music-generation-mcp</a>.
+            You'll need ComfyUI and the ACE-Step weights; there are no custom nodes to install, and a 6&nbsp;GB
+            card is enough.
+          </p>
+          <a class="button" href="https://github.com/tobiasfong/webcomic-toolkit/tree/master/servers/music-generation-mcp" target="_blank" rel="noopener noreferrer">
+            View the code on GitHub →
+          </a>
+        </div>
+      </section>
+
+    </main>
+
+  <footer class="project-footer">
+    <div class="project-nav-inner">
+      <span style="font-size:12px;color:var(--text-muted);">© 2026 Tobias Fong</span>
+      <span style="font-size:12px;color:var(--text-muted);">Built with Claude</span>
+    </div>
+  </footer>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
