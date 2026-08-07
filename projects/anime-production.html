@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="An anime teaser, ad and MV maker for AI coding agents. It turns finished illustrations and a music track into YouTube shorts and reels, rendered locally with Remotion." />
+    <meta name="description" content="An anime teaser, ad and MV maker for AI coding agents — two rendering engines, both entirely local. Ken Burns camera motion over stills for vertical Shorts, or landscape music videos where the art genuinely moves, cut to a beat grid." />
 
     <!-- Open Graph / Twitter: controls how a shared link previews in Discord,
          Slack, Bluesky, etc. og:image must be an absolute URL. -->
@@ -11,13 +11,13 @@
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://tobiasfong.github.io/projects/anime-production.html" />
     <meta property="og:title" content="Anime Production Skill | Tobias Fong" />
-    <meta property="og:description" content="An anime teaser, ad and MV maker for AI coding agents. It turns finished illustrations and a music track into YouTube shorts and reels, rendered locally with Remotion." />
+    <meta property="og:description" content="An anime teaser, ad and MV maker for AI coding agents — two rendering engines, both entirely local. Ken Burns camera motion over stills for vertical Shorts, or landscape music videos where the art genuinely moves, cut to a beat grid." />
     <meta property="og:image" content="https://tobiasfong.github.io/img/og/og-anime-production.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Anime Production Skill | Tobias Fong" />
-    <meta name="twitter:description" content="An anime teaser, ad and MV maker for AI coding agents. It turns finished illustrations and a music track into YouTube shorts and reels, rendered locally with Remotion." />
+    <meta name="twitter:description" content="An anime teaser, ad and MV maker for AI coding agents — two rendering engines, both entirely local. Ken Burns camera motion over stills for vertical Shorts, or landscape music videos where the art genuinely moves, cut to a beat grid." />
     <meta name="twitter:image" content="https://tobiasfong.github.io/img/og/og-anime-production.jpg" />
     <title>Anime Production Skill | Tobias Fong</title>
     <link rel="stylesheet" href="/style.css" />
@@ -43,15 +43,19 @@
       <header class="project-hero" style="text-align:center; padding: 3rem 0 2rem;">
         <div class="section-kicker">Agent Skill · Anime Production</div>
         <h1>Anime Production Skill</h1>
-        <p class="lead" style="max-width: 640px; margin: 0 auto 1.5rem;">
+        <p class="lead" style="max-width: 680px; margin: 0 auto 1.5rem;">
           An anime teaser, ad &amp; MV maker for AI coding agents — it turns finished illustrations and a
-          music track into YouTube shorts and reels, rendered locally with Remotion.
+          music track into a finished video, entirely on your own machine. It now ships two engines: one
+          that makes still art feel cinematic, and one that makes the art actually move.
         </p>
         <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
           <span class="tag" style="background: var(--text); color: var(--bg);">Agent Skill</span>
+          <span class="tag">MCP Server</span>
           <span class="tag">Remotion</span>
           <span class="tag">React</span>
-          <span class="tag">Multi-agent</span>
+          <span class="tag">Python</span>
+          <span class="tag">LTX-2.3</span>
+          <span class="tag">ComfyUI</span>
           <span class="tag">MIT</span>
         </div>
       </header>
@@ -59,11 +63,19 @@
       <!-- Demo teaser -->
       <section style="max-width: 900px; margin: 0 auto 3rem;">
         <div class="section-kicker" style="text-align:center;">The Result</div>
-        <h2 style="text-align:center;">A Short for <em>Reincarnator × Regressor</em></h2>
+        <h2 style="text-align:center;">Two passes at <em>Reincarnator × Regressor</em></h2>
+        <p style="color: var(--text-body); line-height: 1.7; text-align:center; max-width: 640px; margin: 0 auto 2.5rem;">
+          Both videos below use the same hand-drawn illustrations and the same song. The first is where the
+          skill started; the second is where it ended up a few months later. Keeping them side by side is the
+          honest way to show what changed. (Sound on — tap to play.)
+        </p>
+
+        <div class="section-kicker" style="text-align:center;">v1 · The vertical Short</div>
+        <h3 style="text-align:center; margin-top:0.25rem;">Still art, made cinematic</h3>
         <p style="color: var(--text-body); line-height: 1.7; text-align:center; max-width: 640px; margin: 0 auto 1.5rem;">
-          I decided to test out my newly compiled skill with the illustrations I drew by hand, and included a
-          soundtrack — though the music was generated by Suno, I wrote the lyrics. Yes, in Japanese.
-          (Sound on — tap to play.)
+          Rendered with Remotion. Nothing in it genuinely animates — the interest comes from camera movement:
+          Ken Burns pans and zooms, crossfades, particle effects and a depth camera. That's still the right
+          tool for a Short, and it's why this engine hasn't gone anywhere.
         </p>
         <figure style="margin: 0; display:flex; justify-content:center;">
           <video
@@ -76,31 +88,162 @@
           ></video>
         </figure>
         <p style="font-size:13px; color:var(--text-muted); margin-top:1rem; text-align:center;">
-          Story · Illustrations · Lyrics: Tanaka Tomoyuki &nbsp;·&nbsp; Animation: Claude Code &nbsp;·&nbsp;
-          Music: Suno (「セカンドチャンス」)
+          Story · Illustrations · Lyrics: Tanaka Tomoyuki &nbsp;·&nbsp; Animation &amp; Music: Claude Code
+          &nbsp;·&nbsp; Made with Webcomic Toolkit (open source)
+        </p>
+
+        <hr style="border:0; border-top:1px solid var(--border, rgba(128,128,128,0.25)); margin: 3rem auto; max-width: 420px;" />
+
+        <div class="section-kicker" style="text-align:center;">v2 · The landscape music video</div>
+        <h3 style="text-align:center; margin-top:0.25rem;">Art that actually moves</h3>
+        <p style="color: var(--text-body); line-height: 1.7; text-align:center; max-width: 660px; margin: 0 auto 1.5rem;">
+          1:47, 1920×1080, 24fps — and this time the shots genuinely move, generated locally on a 6GB laptop
+          GPU. Every cut lands on a downbeat, the subtitles are burned in bilingually, and the song itself is
+          generated on the same machine. Nothing in this version touches a cloud service.
+        </p>
+        <figure style="margin: 0; display:flex; justify-content:center;">
+          <video
+            src="https://github.com/tobiasfong/tobiasfong.github.io/releases/download/media-v1/rxr-mv.mp4"
+            poster="/img/rxr-mv-poster.jpg"
+            controls
+            playsinline
+            preload="metadata"
+            style="width:100%; max-width:900px; border-radius:16px; box-shadow: 0 12px 40px rgba(0,0,0,0.18); display:block;"
+          ></video>
+        </figure>
+        <p style="font-size:13px; color:var(--text-muted); margin-top:1rem; text-align:center;">
+          Story · Illustrations · Lyrics: Tanaka Tomoyuki &nbsp;·&nbsp; Animation &amp; Music: Claude Code
+          &nbsp;·&nbsp; Made with Webcomic Toolkit (open source)
         </p>
       </section>
 
       <!-- What it is -->
       <section style="max-width: 720px; margin: 0 auto 3rem;">
         <div class="section-kicker">What It Is</div>
-        <h2>A skill to turn your illustrations into an animated short, suitable for any coding agent</h2>
+        <h2>A skill that teaches the judgment, and a server that does the work</h2>
         <p>
           The Anime Production Skill is a self-contained agent skill — a set of instructions plus a bundled
           rendering engine that an AI coding agent reads and executes on its own. Feed it to your AI harness,
-          hand it your finished illustrations or comic pages and a music track, and it renders a vertical
-          (9:16) anime teaser, advertisement, or music video — the kind you'd scroll past on YouTube Shorts
-          or TikTok to discover a new series.
+          hand it your finished illustrations or comic pages and a music track, and it renders an anime
+          teaser, advertisement, or music video: a vertical (9:16) Short, or a landscape (16:9) MV.
+        </p>
+        <p>
+          It has since grown a companion, <strong><code>anime-production-mcp</code></strong> — an MCP server
+          of 20 tools covering animation, frame editing, drawn effects, retiming, subtitles and assembly. The
+          division is deliberate: <em>the skill teaches judgment, the server does the work.</em> Knowing which
+          shot to animate and which to draw is the part that saves you GPU-hours, so that lives in prose an
+          agent reads; the mechanical steps live in tools it calls. Both are in the same
+          <code>webcomic-toolkit</code> repository, and the server ships 13 GPU-free tests.
         </p>
         <p>
           It was built and tested with <strong>Claude Code</strong>, but it isn't tied to any one harness.
-          The instructions are plain markdown (<code>AGENTS.md</code> → <code>SKILL.md</code>) and the engine
-          is plain Remotion/React with no harness-specific dependencies — so it works just as well with
+          The instructions are plain markdown (<code>AGENTS.md</code> → <code>SKILL.md</code>) and neither
+          engine has harness-specific dependencies — so it works just as well with
           <strong>OpenAI Codex, Google Antigravity, Gemini CLI, Cursor,</strong> or any AGENTS.md-aware agent.
         </p>
         <p style="font-size: 14px; color: var(--text-muted);">
-          <strong>Under the hood:</strong> a Remotion (React) video pipeline rendered entirely on your own
-          machine — no cloud service, no watermark, no per-render cost.
+          <strong>Under the hood:</strong> a Remotion (React) pipeline and a Python/Pillow + ffmpeg pipeline,
+          both rendered entirely on your own machine — no cloud service, no watermark, no per-render cost.
+        </p>
+      </section>
+
+      <!-- Two engines -->
+      <section style="max-width: 780px; margin: 0 auto 3rem;">
+        <div class="section-kicker">Two Engines</div>
+        <h2>Which one you want depends on the shape of the video</h2>
+        <p>
+          The second engine didn't replace the first. They solve different problems, and the skill now opens
+          with a decision table so your agent picks before it starts rather than halfway through:
+        </p>
+        <div style="overflow-x:auto; margin: 1.5rem 0;">
+          <table style="width:100%; border-collapse:collapse; font-size:14px; line-height:1.6;">
+            <thead>
+              <tr style="text-align:left; border-bottom:2px solid var(--border, rgba(128,128,128,0.3));">
+                <th style="padding:0.6rem 0.75rem 0.6rem 0;">&nbsp;</th>
+                <th style="padding:0.6rem 0.75rem;">Remotion engine</th>
+                <th style="padding:0.6rem 0 0.6rem 0.75rem;">Python engine</th>
+              </tr>
+            </thead>
+            <tbody style="color: var(--text-body);">
+              <tr style="border-bottom:1px solid var(--border, rgba(128,128,128,0.18));">
+                <td style="padding:0.6rem 0.75rem 0.6rem 0;"><strong>Shape</strong></td>
+                <td style="padding:0.6rem 0.75rem;">Vertical 9:16 — Shorts, Reels, TikTok</td>
+                <td style="padding:0.6rem 0 0.6rem 0.75rem;">Landscape 16:9 — a full MV</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border, rgba(128,128,128,0.18));">
+                <td style="padding:0.6rem 0.75rem 0.6rem 0;"><strong>Motion</strong></td>
+                <td style="padding:0.6rem 0.75rem;">Camera only — Ken Burns, crossfades, particles, a WebGL depth camera</td>
+                <td style="padding:0.6rem 0 0.6rem 0.75rem;">The artwork itself moves, plus drawn effects</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border, rgba(128,128,128,0.18));">
+                <td style="padding:0.6rem 0.75rem 0.6rem 0;"><strong>Editing</strong></td>
+                <td style="padding:0.6rem 0.75rem;">Timeline you compose in React</td>
+                <td style="padding:0.6rem 0 0.6rem 0.75rem;">Cut to a beat grid from the music</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border, rgba(128,128,128,0.18));">
+                <td style="padding:0.6rem 0.75rem 0.6rem 0;"><strong>Stack</strong></td>
+                <td style="padding:0.6rem 0.75rem;">Node, Remotion, React</td>
+                <td style="padding:0.6rem 0 0.6rem 0.75rem;">Python, Pillow, ffmpeg, ComfyUI — no Node at all</td>
+              </tr>
+              <tr>
+                <td style="padding:0.6rem 0.75rem 0.6rem 0;"><strong>Cost</strong></td>
+                <td style="padding:0.6rem 0.75rem;">Fast — it's compositing</td>
+                <td style="padding:0.6rem 0 0.6rem 0.75rem;">~65s of GPU per take</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size: 14px; color: var(--text-muted);">
+          One caveat worth stating plainly: the <strong>depth camera is Remotion-only</strong>, because it's
+          WebGL. The pre-baked parallax MP4s from the Background Generator are a separate thing and drop into
+          either pipeline without Node.
+        </p>
+      </section>
+
+      <!-- How it works -->
+      <section style="max-width: 780px; margin: 0 auto 3rem;">
+        <div class="section-kicker">How It Works</div>
+        <h2>One rule decides everything else</h2>
+        <p>
+          The motion in v2 comes from <strong>LTX-2.3 22B</strong> (distilled, Q4_K_M) running locally in
+          ComfyUI — about 65 seconds per take on a 6GB RTX 3060 Laptop. No subscription, no watermark. But
+          the thing that made it usable rather than a lottery wasn't the model. It was working out what it
+          can and can't be asked for:
+        </p>
+        <blockquote style="margin: 1.5rem 0; padding: 0.75rem 0 0.75rem 1.25rem; border-left: 3px solid var(--text); font-size: 18px; line-height: 1.6;">
+          LTX relocates what exists. It cannot re-imagine it.
+        </blockquote>
+        <p>
+          Arm swings, head turns, hair and cloth, drifting snow, fire, camera drift — all fine, because the
+          pixels are already there and only need moving. Blinks fail, because the eyelid was never drawn.
+          Mouth shapes fail, because no teeth or tongue exist in the source. Growing crystals fail, because
+          that's new geometry. So does foreshortening — a punch thrown at the viewer needs knuckles redrawn
+          at an angle that isn't in the illustration. Re-rolling seeds on an impossible ask never works, and
+          that's where the GPU-hours go if you don't know the rule.
+        </p>
+        <p>Everything else in the pipeline follows from it:</p>
+        <ul style="color: var(--text-body); line-height: 1.9;">
+          <li>
+            <strong>Blinks and mouths come from keyframes, not motion.</strong> FLUX.1 Kontext generates the
+            closed-eye or open-mouth frame, and only that patch is composited back — Kontext regenerates the
+            whole frame and will quietly restyle your linework otherwise. It's also binary, so half-lids are
+            made by blending the open and closed frames rather than asking for one.
+          </li>
+          <li>
+            <strong>Anything that must appear is drawn deterministically.</strong> Shooting stars with real
+            occlusion (they pass behind the mansion), growing ice, pond ripples, impact speed lines. Being
+            drawn rather than generated means they can be retimed onto musical beats — and they can't smear
+            a face.
+          </li>
+          <li>
+            <strong>Impact is sold, not animated.</strong> A punch gets speed lines, a flash and camera
+            shake instead of an animated arm. That's what anime actually does, and it's why no paid
+            image-to-video service was needed for the action beats.
+          </li>
+        </ul>
+        <p style="font-size: 14px; color: var(--text-muted);">
+          The through-line between the two engines is the same idea at different scales: v1 makes still art
+          feel cinematic by moving the camera; v2 makes the art move where it can, and draws the rest.
         </p>
       </section>
 
@@ -117,6 +260,12 @@
           <li><strong>"Showcase" mode</strong> — a Kadokawa-ad-style clean white treatment for cover shots.</li>
           <li><strong>BGM with fade-out</strong> — sync a music track, ending on a clean fade.</li>
           <li><strong>Zero watermark</strong> — the render is yours, clean, at full quality.</li>
+          <li><strong>Locally generated motion</strong> — LTX-2.3 in ComfyUI turns a still into a moving shot on a 6GB GPU.</li>
+          <li><strong>Keyframe patching</strong> — blinks and mouth shapes via FLUX.1 Kontext, composited back one patch at a time.</li>
+          <li><strong>Drawn effects</strong> — shooting stars with real occlusion, growing ice, pond ripples, impact speed lines.</li>
+          <li><strong>Beat-driven editing</strong> — cuts land on downbeats, and each shot declares a motion kind (loop / ping-pong / once / hold) that decides its timing.</li>
+          <li><strong>A hand-drawn frame</strong> — holds portrait artwork inside a 16:9 canvas, with its leaves and blossoms individually animated so a long credits card never reads as a frozen video.</li>
+          <li><strong>Burned-in bilingual subtitles</strong> — JP full size with EN beneath, plus a matching <code>.srt</code> generated from the same cue list so the two can't drift apart.</li>
         </ul>
       </section>
 
@@ -148,13 +297,15 @@
         <div class="section-kicker">Ecosystem</div>
         <h2>This is part of a broader webcomic/animation ecosystem</h2>
         <p>
-          Along with my <a href="/projects/mcp-background.html">Webcomic Background Generator</a> MCP server
-          and soon-to-come speech bubble MCP server, this is part of a wider webcomic/animation ecosystem
-          that I intend to build. I envision them to synergize with each other. For example, upon completing
-          your illustrations or webcomic panels with the Background Generator MCP server, you can then use his
-          feature to create depth-parallax clips in the form of MP4s that you can easily drop straight into
-          this anime production skill's pipeline to create a promo or advertising short. All of this, achieved
-          in a single, connected workflow.
+          This sits alongside my <a href="/projects/mcp-background.html">Webcomic Background Generator</a>,
+          <a href="/projects/character-panel.html">Character &amp; Panel Generator</a>,
+          <a href="/projects/novel-translation.html">Novel Translation</a> and music generation MCP servers —
+          a wider webcomic/animation ecosystem I've been building piece by piece, with a speech bubble server
+          still to come. They're designed to feed each other. Draw your characters consistently with the panel
+          generator, place them against backgrounds from the background generator, turn those into
+          depth-parallax MP4s that drop straight into this pipeline, and score the result with a track from
+          the music server. The v2 video above is the whole chain in one go: art, song and animation, all
+          produced on the same machine.
         </p>
       </section>
 
@@ -162,13 +313,16 @@
       <section style="display:flex; justify-content:center; margin: 0 auto 3rem;">
         <div class="pill-card" style="max-width:640px; width:100%;">
           <div class="section-kicker">For everyone's use</div>
-          <h2>Get the skill</h2>
+          <h2>Get the skill and the server</h2>
           <p>
-            It's open source (MIT) and built to be portable. Ask your AI harness — Claude Code, Codex, Google
-            Antigravity, Gemini CLI, Cursor, or any AGENTS.md-compatible agent — to clone the
-            <code>webcomic-toolkit</code> repository, go into the
-            <a href="https://github.com/tobiasfong/webcomic-toolkit/tree/master/servers/anime-production-skill" target="_blank" rel="noopener noreferrer">anime-production-skill</a>
-            folder, and follow the setup docs. It'll install the engine and render your first video for you.
+            Both are open source (MIT) and built to be portable. Ask your AI harness — Claude Code, Codex,
+            Google Antigravity, Gemini CLI, Cursor, or any AGENTS.md-compatible agent — to clone the
+            <code>webcomic-toolkit</code> repository and follow the setup docs in
+            <a href="https://github.com/tobiasfong/webcomic-toolkit/tree/master/servers/anime-production-skill" target="_blank" rel="noopener noreferrer">anime-production-skill</a>.
+            It'll install the engine and render your first video for you. If you want the landscape path with
+            real motion, register
+            <a href="https://github.com/tobiasfong/webcomic-toolkit/tree/master/servers/anime-production-mcp" target="_blank" rel="noopener noreferrer">anime-production-mcp</a>
+            as well — that one needs ComfyUI and a GPU, and it's happy with 6GB.
           </p>
           <p>
             Bring your own illustrations and a music track, and let your harness handle the animation. Focus
