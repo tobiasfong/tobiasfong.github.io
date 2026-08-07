@@ -44,9 +44,8 @@
         <div class="section-kicker">Agent Skill · MCP Server</div>
         <h1>Anime Production</h1>
         <p class="lead" style="max-width: 680px; margin: 0 auto 1.5rem;">
-          An anime teaser, ad &amp; MV maker for AI coding agents — it turns finished illustrations and a
-          music track into a finished video, entirely on your own machine. It now ships two engines: one
-          that makes still art feel cinematic, and one that makes the art actually move.
+          An MCP server and a skill that helps you turn your illustrations into an animated video, all on a
+          single AI client, without needing to subscribe or create accounts for other AI generators.
         </p>
         <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
           <span class="tag" style="background: var(--text); color: var(--bg);">Agent Skill</span>
@@ -62,21 +61,32 @@
 
       <!-- Demo teaser -->
       <section style="max-width: 900px; margin: 0 auto 3rem;">
-        <div class="section-kicker" style="text-align:center;">The Result</div>
-        <h2 style="text-align:center;">Two passes at <em>Reincarnator × Regressor</em></h2>
-        <p style="color: var(--text-body); line-height: 1.7; text-align:center; max-width: 640px; margin: 0 auto 2.5rem;">
-          Both videos below use the same hand-drawn illustrations and the same lyrics, which I wrote in
-          Japanese. The first is where the skill started; the second is where it ended up a few months later.
-          Keeping them side by side is the honest way to show what changed. (Sound on — tap to play.)
+        <h2 style="text-align:center;">My video-making journey with <em>Reincarnator × Regressor</em></h2>
+        <p style="color: var(--text-body); line-height: 1.7; max-width: 660px; margin: 0 auto 2.5rem;">
+          I always wanted to try my hand at creating the same manga/manhua/manhwa shorts and videos that I've
+          frequently watched on YouTube, and when I first saw the Anime Production Skill on MCP Marketplace, I
+          thought I could do it. So I subscribed to Claude Code with that in mind. Having drawn my own
+          illustrations for <em>Reincarnator x Regressor</em>, I thought I could produce similar short videos.
+          However, I did encounter a few hurdles during the process.
         </p>
 
-        <div class="section-kicker" style="text-align:center;">v1 · The vertical Short</div>
-        <h3 style="text-align:center; margin-top:0.25rem;">Still art, made cinematic</h3>
-        <p style="color: var(--text-body); line-height: 1.7; text-align:center; max-width: 640px; margin: 0 auto 1.5rem;">
-          Rendered with Remotion. Nothing in it genuinely animates — the interest comes from camera movement:
-          Ken Burns pans and zooms, crossfades, particle effects and a depth camera. That's still the right
-          tool for a Short, and it's why this engine hasn't gone anywhere. The soundtrack here was generated
-          by Suno; I wrote the lyrics.
+        <div class="section-kicker" style="text-align:center;">V1 ・ Light Novel Illustration short</div>
+        <h3 style="text-align:center; margin-top:0.25rem;">Reincarnator x Regressor Teaser PV</h3>
+        <p style="color: var(--text-body); line-height: 1.7; max-width: 660px; margin: 0 auto 1.25rem;">
+          The original Anime Production skill from MCP Marketplace didn't seem complete. It simply directed me
+          to download NanoBanana and other tools, including voice generators, but didn't actually help me
+          produce a real anime video. So I ended up building my own Anime Production skill, which made use of
+          Remotion to execute camera movement, pans and zooms, fades, particle effects and depth. I also used
+          the Parallax tool I created with
+          <a href="/projects/mcp-background.html">Background Generator MCP</a> to amplify the imitation of
+          movement.
+        </p>
+        <p style="color: var(--text-body); line-height: 1.7; max-width: 660px; margin: 0 auto 1.5rem;">
+          At this stage, I was still in the early stages of experimentation and I haven't learned as much as I
+          have now, so I settled for Suno to generate the music. I wrote the Japanese lyrics myself
+          because...well, I learned Japanese, so it would be a waste not to use the language skills I
+          developed. Anyway, I used the Anime Production skill to put them altogether and successfully turn my
+          illustrations into a short.
         </p>
         <figure style="margin: 0; display:flex; justify-content:center;">
           <video
@@ -88,23 +98,29 @@
             style="width:100%; max-width:340px; border-radius:16px; box-shadow: 0 12px 40px rgba(0,0,0,0.18); display:block;"
           ></video>
         </figure>
-        <p style="font-size:13px; color:var(--text-muted); margin-top:1rem; text-align:center;">
-          Story · Illustrations · Lyrics: Tanaka Tomoyuki &nbsp;·&nbsp; Animation: Claude Code &nbsp;·&nbsp;
-          Music: Suno (「セカンドチャンス」)
-        </p>
 
         <hr style="border:0; border-top:1px solid var(--border, rgba(128,128,128,0.25)); margin: 3rem auto; max-width: 420px;" />
 
-        <div class="section-kicker" style="text-align:center;">v2 · The landscape music video</div>
-        <h3 style="text-align:center; margin-top:0.25rem;">Art that actually moves</h3>
-        <p style="color: var(--text-body); line-height: 1.7; text-align:center; max-width: 660px; margin: 0 auto 1.5rem;">
-          1:47, 1920×1080, 24fps — and this time the shots genuinely move, generated locally on a 6GB laptop
-          GPU. Every cut lands on a downbeat, the subtitles are burned in bilingually, and the song is no
-          longer Suno's — it's generated on the same machine by ACE-Step, through my own music generation MCP
-          server. That server exists because of this video: as the ecosystem grew it became obvious that
-          every external tool I leaned on was another subscription, another account, and another licence to
-          read carefully before I could use my own work. Building the generator was the cheaper answer.
-          Nothing in this version touches a cloud service.
+        <div class="section-kicker" style="text-align:center;">V2・転生者×回帰者 | Reincarnator × Regressor (Animated)【異世界ラブコメアニメPV】</div>
+        <h3 style="text-align:center; margin-top:0.25rem;">Actual Animation, Limited Animation</h3>
+        <p style="color: var(--text-body); line-height: 1.7; max-width: 660px; margin: 0 auto 1.25rem;">
+          When Opus 5 was released, and I saw how other people were making use of him (and Fable 5) to create
+          detailed 3D animations, such as Claude of Duty, Ballista and Minecraft clones, I had an idea. If
+          they could create 3D animations, why can't I use Opus 5 to animate my illustrations further?
+        </p>
+        <p style="color: var(--text-body); line-height: 1.7; max-width: 660px; margin: 0 auto 1.25rem;">
+          This time, I worked with Opus 5 to produce a fully local video generator, using ComfyUI and LTX. By
+          now, I've accumulated some experience building multiple MCP servers, both for my company
+          (AKQA/Aleph) and myself (<a href="/projects/character-panel.html">character panel MCP server</a>,
+          particularly, where I learned about ComfyUI, LoRA, and FLUX in greater detail, though the foundation
+          had already been laid when I used the same engine, except that it was SD1.5, with background
+          generator), and I was confident I could replicate the success here.
+        </p>
+        <p style="color: var(--text-body); line-height: 1.7; max-width: 660px; margin: 0 auto 1.5rem;">
+          In parallel, I created a music generator MCP server that no longer requires me to rely on Suno to
+          produce music, thus allowing me to avoid both licensing issues and needing an additional paid
+          subscription. You can find out more about my
+          <a href="/projects/music-generation.html">music generator MCP server</a>, which uses ACE-Step, here.
         </p>
         <figure style="margin: 0; display:flex; justify-content:center;">
           <video
@@ -116,49 +132,48 @@
             style="width:100%; max-width:900px; border-radius:16px; box-shadow: 0 12px 40px rgba(0,0,0,0.18); display:block;"
           ></video>
         </figure>
-        <p style="font-size:13px; color:var(--text-muted); margin-top:1rem; text-align:center;">
-          Story · Illustrations · Lyrics: Tanaka Tomoyuki &nbsp;·&nbsp; Animation &amp; Music: Claude Code
-          &nbsp;·&nbsp; Made with Webcomic Toolkit (open source)
-        </p>
       </section>
 
       <!-- What it is -->
       <section style="max-width: 720px; margin: 0 auto 3rem;">
         <div class="section-kicker">What It Is</div>
-        <h2>A skill that teaches the judgment, and a server that does the work</h2>
+        <h2>From skill to skill and MCP server</h2>
         <p>
-          The Anime Production Skill is a self-contained agent skill — a set of instructions plus a bundled
-          rendering engine that an AI coding agent reads and executes on its own. Feed it to your AI harness,
-          hand it your finished illustrations or comic pages and a music track, and it renders an anime
-          teaser, advertisement, or music video: a vertical (9:16) Short, or a landscape (16:9) MV.
+          The Anime Production skill, as I mentioned above, is an agent skill that I based upon taiyousan15's
+          <a href="https://mcpmarket.com/tools/skills/anime-production" target="_blank" rel="noopener noreferrer">Anime Production skill in the MCP Marketplace</a>.
+          I have rebuilt it into a set of instructions. Your AI harness will be directed to install a bundled
+          rendering engine, which they will then read and execute on their own. Once your AI harness is hooked
+          to my MCP server, you can feed them your illustrations or comic pages or music track (which you can
+          produce using my <a href="/projects/music-generation.html">Music Generator MCP server</a>), and they
+          will turn them into an animated music video. You can produce both Short (9:16) or the standard
+          YouTube video (16:9) formats.
         </p>
         <p>
-          It has since grown a companion, <strong><code>anime-production-mcp</code></strong> — an MCP server
-          of 20 tools covering animation, frame editing, drawn effects, retiming, subtitles and assembly. The
-          division is deliberate: <em>the skill teaches judgment, the server does the work.</em> Knowing which
-          shot to animate and which to draw is the part that saves you GPU-hours, so that lives in prose an
-          agent reads; the mechanical steps live in tools it calls. Both are in the same
-          <code>webcomic-toolkit</code> repository, and the server ships 13 GPU-free tests.
+          Like I said, thanks to the release of Opus 5, I am now able to add an Anime Production MCP server,
+          which possesses 20 tools, covering animation, frame editing, drawn effects, retiming, subtitles and
+          assembly. He now joins his brother skill in the Webcomic Toolkit repository, and theoretically,
+          combining the both of them should be able to save you GPU and tokens. Apart from context-bloat, I
+          was able to generate my own images/frames and videos fairly cheaply.
         </p>
         <p>
-          It was built and tested with <strong>Claude Code</strong>, but it isn't tied to any one harness.
-          The instructions are plain markdown (<code>AGENTS.md</code> → <code>SKILL.md</code>) and neither
-          engine has harness-specific dependencies — so it works just as well with
-          <strong>OpenAI Codex, Google Antigravity, Gemini CLI, Cursor,</strong> or any AGENTS.md-aware agent.
+          Though I built and ran everything on Anthropic Claude Code (solely Claude Code — no Midjourney, no
+          Kling, no Suno), you can certainly run this on OpenAI Codex, Google Antigravity, Gemini CLI, Cursor,
+          Moonshot Kimi, or any other AI harness as well. I already have Claude markdown and Agents markdown
+          files to provide the necessary instructions.
         </p>
         <p style="font-size: 14px; color: var(--text-muted);">
           <strong>Under the hood:</strong> a Remotion (React) pipeline and a Python/Pillow + ffmpeg pipeline,
-          both rendered entirely on your own machine — no cloud service, no watermark, no per-render cost.
+          both rendered entirely on your own machine. No watermark or additional subscriptions required.
         </p>
       </section>
 
       <!-- Two engines -->
       <section style="max-width: 780px; margin: 0 auto 3rem;">
-        <div class="section-kicker">Two Engines</div>
-        <h2>Which one you want depends on the shape of the video</h2>
+        <div class="section-kicker">Two options</div>
+        <h2>Making the video you want</h2>
         <p>
-          The second engine didn't replace the first. They solve different problems, and the skill now opens
-          with a decision table so your agent picks before it starts rather than halfway through:
+          The skill provides your AI agent two engines to choose from, and both of them produce different
+          things.
         </p>
         <div style="overflow-x:auto; margin: 1.5rem 0;">
           <table style="width:100%; border-collapse:collapse; font-size:14px; line-height:1.6;">
@@ -208,25 +223,40 @@
       <!-- How it works -->
       <section style="max-width: 780px; margin: 0 auto 3rem;">
         <div class="section-kicker">How It Works</div>
-        <h2>One rule decides everything else</h2>
+        <h2>Growing pains</h2>
         <p>
-          The motion in v2 comes from <strong>LTX-2.3 22B</strong> (distilled, Q4_K_M) running locally in
-          ComfyUI — about 65 seconds per take on a 6GB RTX 3060 Laptop. No subscription, no watermark. But
-          the thing that made it usable rather than a lottery wasn't the model. It was working out what it
-          can and can't be asked for:
+          After research and discussion, Claude Code and I finally settled on using <strong>LTX-2.3 22B</strong>
+          (distilled, Q4_K_M), which runs locally in ComfyUI. Given the restrictions of my 6GB RTX 3060 laptop
+          (Lenovo Legion 5), I couldn't use the dev model. And yes, I actually talk and debate with Claude
+          Code. It's how I learned to vibe code. I feel like it's important to try and learn as much as you
+          can from your AI partner, rather than just throwing prompts and expecting him to do everything for
+          you (and besides, research is my forte).
+        </p>
+        <p>
+          It wasn't a smooth ride, and there was plenty of frustrations and failures as I spent sleepless
+          nights iterating frames and animations. Hallucinations, characters tearing apart and turning into
+          smudges. Deformed fingers and limbs (poor Silvia's face still has traces of that in the current
+          version, though I'll pass it off as her veil hanging over her face). One thing we learned, though,
+          when carrying out image to video generation.
         </p>
         <blockquote style="margin: 1.5rem 0; padding: 0.75rem 0 0.75rem 1.25rem; border-left: 3px solid var(--text); font-size: 18px; line-height: 1.6;">
-          LTX relocates what exists. It cannot re-imagine it.
+          LTX only relocates what currently exists. It cannot create anything new that doesn't already appear
+          in the image.
         </blockquote>
         <p>
-          Arm swings, head turns, hair and cloth, drifting snow, fire, camera drift — all fine, because the
-          pixels are already there and only need moving. Blinks fail, because the eyelid was never drawn.
-          Mouth shapes fail, because no teeth or tongue exist in the source. Growing crystals fail, because
-          that's new geometry. So does foreshortening — a punch thrown at the viewer needs knuckles redrawn
-          at an angle that isn't in the illustration. Re-rolling seeds on an impossible ask never works, and
-          that's where the GPU-hours go if you don't know the rule.
+          Minor movements, such as arm swing, head turns, hair, drifting snow, fire, and even camera movement,
+          were fine because the pixels already existed and LTX simply needed to relocate them. However,
+          characters apparently couldn't blink because the eyelids weren't drawn (strangely enough, LTX was
+          able to animate Silvia closing her eyes, but not Lumiere blinking). I couldn't animate characters
+          talking because no closed mouth existed in my original illustration. It was also difficult to
+          animate expanding ice (for Trevor) because that requires new geometry. Foreshortening doesn't work
+          because a punch speeding toward the camera needs the knuckles to be redrawn at an angle not in my
+          illustration. In the end, we wasted time re-rolling seeds on trying to produce these.
         </p>
-        <p>Everything else in the pipeline follows from it:</p>
+        <p>
+          Fortunately, Claude Code and I were able to come up with several solutions, which we implemented in
+          the pipeline.
+        </p>
         <ul style="color: var(--text-body); line-height: 1.9;">
           <li>
             <strong>Blinks and mouths come from keyframes, not motion.</strong> FLUX.1 Kontext generates the
@@ -247,8 +277,9 @@
           </li>
         </ul>
         <p style="font-size: 14px; color: var(--text-muted);">
-          The through-line between the two engines is the same idea at different scales: v1 makes still art
-          feel cinematic by moving the camera; v2 makes the art move where it can, and draws the rest.
+          Either way, with two different engines, you can produce multiple animations — either by creating a
+          cinematic sensation via camera movements, or animating the illustrations wherever possible while
+          drawing additional features where necessary.
         </p>
       </section>
 
@@ -304,7 +335,8 @@
         <p>
           This sits alongside my <a href="/projects/mcp-background.html">Webcomic Background Generator</a>,
           <a href="/projects/character-panel.html">Character &amp; Panel Generator</a>,
-          <a href="/projects/novel-translation.html">Novel Translation</a> and music generation MCP servers —
+          <a href="/projects/novel-translation.html">Novel Translation</a> and
+          <a href="/projects/music-generation.html">Music Generation</a> MCP servers —
           a wider webcomic/animation ecosystem I've been building piece by piece, with a speech bubble server
           still to come. They're designed to feed each other. Draw your characters consistently with the panel
           generator, place them against backgrounds from the background generator, turn those into
