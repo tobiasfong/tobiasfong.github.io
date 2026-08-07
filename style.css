@@ -1057,3 +1057,17 @@ footer {
 
   .path-grid { grid-template-columns: 1fr; }
 }
+
+/* Song lyrics: JP line with the author's English translation beneath it, the
+   same pairing the video's dual subtitles use. Tight line-height inside a pair,
+   generous margin between pairs, so a couplet reads as one unit. */
+.lyrics p {
+  margin: 0 0 0.6rem;
+  line-height: 1.55;
+  color: var(--text-body);
+}
+
+.lyrics p em {
+  color: var(--text-muted);
+  font-size: 14px;
+}
