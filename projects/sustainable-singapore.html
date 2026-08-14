@@ -114,6 +114,26 @@
       }
       .ss-axis-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--border); }
 
+      /* Legend lives in the sticky header so it stays on screen for the whole
+         scroll — the chart is thousands of pixels tall and the prose
+         explanation sits below all of it. */
+      .ss-legend {
+        display: block; text-transform: none; letter-spacing: 0;
+        font-weight: 400; font-size: 10px; color: var(--text-muted);
+        margin-top: 4px; line-height: 1.5;
+      }
+      .ss-legend span {
+        display: block; white-space: nowrap;
+        text-transform: none; letter-spacing: 0;
+        font-weight: 400; font-size: 10px; color: var(--text-muted);
+      }
+      .ss-sw {
+        display: inline-block; width: 12px; height: 0; margin-right: 5px;
+        vertical-align: middle;
+      }
+      .ss-sw-be { border-top: 2px solid rgba(10,10,10,0.35); }
+      .ss-sw-ch { border-top: 2px solid var(--accent-red); }
+
       .ss-tl-note {
         font-size: var(--fs-caption); color: var(--text-muted);
         border-left: 2px solid var(--border); padding-left: 12px; margin: 1rem 0 2.5rem;
@@ -330,7 +350,12 @@
         <span>History of Singapore's urbanization</span>
         <span>Land&nbsp;km²</span>
         <span>Year</span>
-        <span>Annual mean&nbsp;°C</span>
+        <span>Annual mean&nbsp;°C
+          <span class="ss-legend">
+            <span><i class="ss-sw ss-sw-be"></i>Berkeley Earth reconstruction, 1900–2020</span>
+            <span><i class="ss-sw ss-sw-ch"></i>Changi station record, 1982–</span>
+          </span>
+        </span>
       </div>
 
       <div class="ss-tl" id="ss-tl">
@@ -866,6 +891,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js"></script>
+    <script src="/js/sustainable-singapore.js?v=20260815"></script>
   </body>
 </html>

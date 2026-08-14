@@ -357,6 +357,28 @@
       }));
     }
 
+    // Label where each series starts and stops, on the chart itself. A reader
+    // scrolling the timeline meets the red line appearing out of nowhere at
+    // 1982 thousands of pixels before reaching the explanation below, so the
+    // explanation has to be here too. Years come from the data, not hardcoded,
+    // because both series refresh live.
+    function annotate(year, text) {
+      var ay = yFor(year);
+      svg.appendChild(svgNode('line', {
+        x1: 0, y1: ay, x2: w, y2: ay,
+        stroke: 'rgba(0,0,0,0.30)', 'stroke-width': 1, 'stroke-dasharray': '2 3'
+      }));
+      var lab = svgNode('text', { x: 3, y: ay - 5, 'font-size': 9, fill: '#777' });
+      lab.textContent = text;
+      svg.appendChild(lab);
+    }
+    if (changi && changi.length) {
+      annotate(changi[0][0], 'Changi station record begins');
+    }
+    if (berkeley && berkeley.length) {
+      annotate(berkeley[berkeley.length - 1][0], 'Berkeley Earth series ends');
+    }
+
     line(berkeley, '#0a0a0a', 1.2, 0.35);
     line(changi, '#C8102E', 1.8, 0.9);
 
