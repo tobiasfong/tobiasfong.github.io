@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Singapore warmed at roughly twice the global rate. A historian's look at how much of that is the planet and how much is the city itself — a vertical timeline running the island's urbanisation against its temperature record, with live data from NEA." />
+
+    <meta property="og:site_name" content="Tobias Fong" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://tobiasfong.github.io/projects/sustainable-singapore.html" />
+    <meta property="og:title" content="Sustainable Singapore | Tobias Fong" />
+    <meta property="og:description" content="Singapore warmed at roughly twice the global rate. A historian's look at how much of that is the planet and how much is the city itself." />
+    <meta property="og:image" content="https://tobiasfong.github.io/img/sustainable/kampong-swamp.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sustainable Singapore | Tobias Fong" />
+    <meta name="twitter:description" content="A vertical timeline running Singapore's urbanisation against its temperature record, with live data from NEA." />
+    <meta name="twitter:image" content="https://tobiasfong.github.io/img/sustainable/kampong-swamp.jpg" />
+    <title>Sustainable Singapore | Tobias Fong</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="icon" type="image/jpeg" href="/img/rowlet-logo.jpg" />
+
+    <style>
+      /* ── Page-local styles. Everything here is scoped to this page's
+           classes so nothing leaks into the shared stylesheet. ── */
+      .ss-wide { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+
+      .ss-statrow {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1.75rem; margin: 2.5rem 0; text-align: center;
+      }
+      .ss-stat-num { font-size: clamp(30px, 4vw, 44px); font-weight: 700; color: var(--text); line-height: 1.1; }
+
+      /* ── Live panel ── */
+      .ss-live {
+        border: 1px solid var(--border); border-radius: 16px;
+        background: var(--bg-alt); padding: 1.75rem;
+      }
+      .ss-live-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+      .ss-dot {
+        display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+        background: var(--accent-red); margin-right: 7px; vertical-align: middle;
+        animation: ss-pulse 2s ease-in-out infinite;
+      }
+      @keyframes ss-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+      @media (prefers-reduced-motion: reduce) { .ss-dot { animation: none; } }
+
+      .ss-live-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+      .ss-live-val { font-size: clamp(26px, 3.4vw, 38px); font-weight: 700; color: var(--text); line-height: 1.1; }
+      .ss-live-where { font-size: var(--fs-caption); color: var(--text-muted); margin-top: 2px; }
+
+      .ss-bars { margin-top: 1.75rem; display: flex; flex-direction: column; gap: 5px; }
+      .ss-bar-row { display: grid; grid-template-columns: 148px 1fr 52px; gap: 10px; align-items: center; font-size: var(--fs-caption); }
+      .ss-bar-name { color: var(--text-body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .ss-bar-track { background: rgba(0,0,0,0.06); border-radius: 999px; height: 9px; overflow: hidden; }
+      .ss-bar-fill { height: 100%; border-radius: 999px; background: var(--accent-red); opacity: 0.75; }
+      .ss-bar-val { text-align: right; font-variant-numeric: tabular-nums; color: var(--text); font-weight: 600; }
+
+      /* ── Timeline ── */
+      .ss-tl {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 96px 60px 250px;
+        gap: 0;
+      }
+      .ss-tl-col { position: relative; }
+      .ss-tl-cards  { grid-column: 1; }
+      .ss-tl-land   { grid-column: 2; }
+      .ss-tl-axis   { grid-column: 3; }
+      .ss-tl-temp   { grid-column: 4; }
+
+      .ss-tl-sticky-head {
+        position: sticky; top: 74px; z-index: 20;
+        background: rgba(255,255,255,0.92);
+        backdrop-filter: saturate(180%) blur(20px);
+        -webkit-backdrop-filter: saturate(180%) blur(20px);
+        border-bottom: 1px solid var(--border);
+        display: grid; grid-template-columns: 1fr 96px 60px 250px;
+        padding: 10px 0; margin-bottom: 12px;
+      }
+      .ss-tl-sticky-head span {
+        font-size: var(--fs-label); text-transform: uppercase; letter-spacing: 0.08em;
+        color: var(--text-muted); font-weight: 700;
+      }
+
+      .ss-card {
+        position: absolute; left: auto; right: 26px;
+        width: min(468px, 100%);
+        border: 1px solid var(--border); border-radius: 14px;
+        background: var(--bg); padding: 14px 16px;
+        box-shadow: 0 2px 14px rgba(0,0,0,0.05);
+      }
+      .ss-card-year {
+        font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.06em;
+        color: var(--accent-red); margin-bottom: 3px;
+      }
+      .ss-card h3 { font-size: 15px; color: var(--text); margin: 0 0 6px; line-height: 1.3; }
+      .ss-card p  { font-size: var(--fs-caption); color: var(--text-body); margin: 0; line-height: 1.55; }
+      /* aspect-ratio reserves the box before the lazy image loads, so the
+         card's height is correct at first layout and the collision pass
+         below doesn't stack cards on top of each other. */
+      .ss-card img {
+        width: 100%; aspect-ratio: 1024 / 576; object-fit: cover;
+        border-radius: 9px; display: block; margin: 0 0 10px;
+        background: var(--bg-alt);
+      }
+      .ss-card figcaption { font-size: 10.5px; color: var(--text-muted); margin: -4px 0 9px; }
+
+      .ss-leader { position: absolute; border-top: 1px dashed rgba(0,0,0,0.22); }
+      .ss-tick-label {
+        position: absolute; font-size: 10.5px; color: var(--text-muted);
+        font-variant-numeric: tabular-nums; transform: translateY(-50%);
+        left: 50%; margin-left: -15px; background: var(--bg); padding: 1px 0;
+      }
+      .ss-axis-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--border); }
+
+      .ss-tl-note {
+        font-size: var(--fs-caption); color: var(--text-muted);
+        border-left: 2px solid var(--border); padding-left: 12px; margin: 1rem 0 2.5rem;
+      }
+
+      /* ── Species table ── */
+      .ss-table { width: 100%; border-collapse: collapse; font-size: var(--fs-caption); }
+      .ss-table th {
+        text-align: left; padding: 9px 12px 9px 0; border-bottom: 1px solid var(--text);
+        font-size: var(--fs-label); text-transform: uppercase; letter-spacing: 0.06em; color: var(--text);
+      }
+      .ss-table td { padding: 11px 12px 11px 0; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-body); }
+      .ss-table td:first-child { color: var(--text); font-weight: 600; white-space: nowrap; }
+      .ss-table em { color: var(--text-muted); font-style: italic; font-weight: 400; }
+
+      .ss-caveat {
+        border-left: 3px solid var(--accent-red);
+        padding: 2px 0 2px 16px; margin: 1.75rem 0;
+      }
+      .ss-caveat p { margin: 0; }
+
+      .ss-src { font-size: var(--fs-caption); }
+      .ss-src li { margin-bottom: 9px; }
+      .ss-src a { color: var(--text-body); text-decoration: underline; text-underline-offset: 2px; }
+      .ss-src a:hover { color: var(--text); }
+
+      @media (max-width: 900px) {
+        .ss-wide { padding: 0 20px; }
+        .ss-tl, .ss-tl-sticky-head { grid-template-columns: 1fr 54px 46px 0; }
+        .ss-tl-temp { display: none; }
+        .ss-tl-sticky-head span:nth-child(4) { display: none; }
+        .ss-card { right: 14px; width: auto; left: 0; }
+        .ss-bar-row { grid-template-columns: 108px 1fr 46px; }
+      }
+    </style>
+</head>
+
+  <body>
+  <nav class="project-nav">
+    <div class="project-nav-inner">
+      <a href="/" class="project-nav-logo"><img src="/img/rowlet-logo.jpg" alt="Home" style="width:32px;height:32px;border-radius:50%;object-fit:cover;display:block;" /></a>
+      <div class="project-nav-links">
+        <a href="/projects/">← Projects</a>
+        <a href="/#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+    <main class="container project-content">
+      <p class="breadcrumb">
+        <a href="/projects/">← Back to Projects</a>
+      </p>
+
+      <header class="project-hero" style="text-align:center; padding: 3rem 0 2rem;">
+        <div class="section-kicker">Environmental History</div>
+        <h1>Sustainable Singapore</h1>
+        <p class="lead" style="max-width: 660px; margin: 0 auto 1.5rem;">
+          Singapore has warmed at roughly twice the global rate. The interesting historical
+          question is not <em>whether</em> it warmed — it's how much of that heat is the planet's,
+          and how much the island built for itself.
+        </p>
+        <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+          <span class="tag" style="background: var(--text); color: var(--bg);">Environmental History</span>
+          <span class="tag">Live NEA Data</span>
+          <span class="tag">Data Visualisation</span>
+          <span class="tag">Generated Art</span>
+        </div>
+      </header>
+
+      <!-- ── The question ── -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">The Question</div>
+        <h2>Two curves, one island</h2>
+        <p>
+          Between 1948 and 2025, the Meteorological Service Singapore records the island's mean
+          surface air temperature rising by an average of <strong>0.25&nbsp;°C per decade</strong>.
+          Over a comparable stretch the global figure was about 0.12&nbsp;°C per decade. Singapore
+          warmed about twice as fast as the world.
+        </p>
+        <p>
+          A climate scientist reaches for attribution models. A historian reaches for the other
+          archive — the one made of reclamation contracts, five-year building programmes and
+          tree-planting campaigns. Because over exactly the same period, Singapore did something
+          few countries have done at this speed: it rebuilt its own surface. Swamp became new town.
+          Sea became land. Kampong became concrete. Every one of those decisions changed how the
+          ground absorbs, stores and releases heat.
+        </p>
+        <p>
+          So this page puts the two archives side by side, on one shared vertical axis: what the
+          island <em>built</em>, and what the thermometers <em>read</em>. It does not claim the first
+          caused all of the second — the honest position, and the one the national weather service
+          itself takes, is more careful than that. But the two tracks are worth reading together.
+        </p>
+
+        <div class="ss-statrow">
+          <div>
+            <div class="ss-stat-num">+0.25<span style="font-size:0.45em;">°C/decade</span></div>
+            <div class="section-kicker" style="margin-bottom:0;">Singapore, 1948–2025</div>
+          </div>
+          <div>
+            <div class="ss-stat-num">+28<span style="font-size:0.5em;">%</span></div>
+            <div class="section-kicker" style="margin-bottom:0;">More land than in 1960</div>
+          </div>
+          <div>
+            <div class="ss-stat-num">4<span style="font-size:0.5em;">°C</span></div>
+            <div class="section-kicker" style="margin-bottom:0;">Countryside to CBD, same day</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Live panel ── -->
+      <section style="max-width: 760px; margin: 0 auto 3rem;">
+        <div class="section-kicker">Right Now</div>
+        <h2>The heat island, live</h2>
+        <p>
+          The urban heat island is not a historical artefact — it is measurable this minute. Below
+          are the most recent readings from the National Environment Agency's island-wide weather
+          station network, fetched live from
+          <a href="https://data.gov.sg/" target="_blank" rel="noopener noreferrer">data.gov.sg</a>
+          when this page loaded. The gap between the warmest and coolest station is the heat island,
+          in real time.
+        </p>
+
+        <div class="ss-live" id="ss-live">
+          <div class="ss-live-head">
+            <div style="font-weight:700; color:var(--text);">
+              <span class="ss-dot"></span>NEA station network
+            </div>
+            <div style="font-size:var(--fs-caption); color:var(--text-muted);" id="ss-live-time">Loading…</div>
+          </div>
+
+          <div class="ss-live-grid">
+            <div>
+              <div class="ss-live-val" id="ss-hot-val">—</div>
+              <div class="section-kicker" style="margin-bottom:0;">Warmest station</div>
+              <div class="ss-live-where" id="ss-hot-where">—</div>
+            </div>
+            <div>
+              <div class="ss-live-val" id="ss-cool-val">—</div>
+              <div class="section-kicker" style="margin-bottom:0;">Coolest station</div>
+              <div class="ss-live-where" id="ss-cool-where">—</div>
+            </div>
+            <div>
+              <div class="ss-live-val" style="color:var(--accent-red);" id="ss-gap-val">—</div>
+              <div class="section-kicker" style="margin-bottom:0;">Spread across the island</div>
+              <div class="ss-live-where" id="ss-gap-where">—</div>
+            </div>
+          </div>
+
+          <div class="ss-bars" id="ss-bars"></div>
+        </div>
+
+        <p style="font-size:var(--fs-caption); color:var(--text-muted); margin-top:1rem;">
+          A single snapshot is weather, not climate — a passing shower over one station can invert
+          the ranking. The durable finding, from repeated NUS surveys, is that built-up Singapore
+          runs roughly 0–2&nbsp;°C hotter than vegetated Singapore by day and 2–4&nbsp;°C hotter at
+          night.
+        </p>
+      </section>
+
+      <!-- ── The timeline ── -->
+    </main>
+
+    <section class="ss-wide" style="margin-bottom: 3.5rem;">
+      <div style="max-width:720px; margin:0 auto 1.5rem; text-align:center;">
+        <div class="section-kicker">The Long View</div>
+        <h2 style="font-size: var(--fs-h2); color: var(--text); margin-bottom: 0.75rem;">A hundred years, two tracks</h2>
+        <p style="font-size: var(--fs-body); color: var(--text-body);">
+          One shared axis of years, running downward. On the left, what was built. In the middle,
+          the island's total land area — the city literally growing into the sea. On the right, the
+          temperature record. Scroll.
+        </p>
+      </div>
+
+      <div class="ss-tl-sticky-head">
+        <span>What was built</span>
+        <span>Land&nbsp;km²</span>
+        <span>Year</span>
+        <span>Annual mean&nbsp;°C</span>
+      </div>
+
+      <div class="ss-tl" id="ss-tl">
+        <div class="ss-tl-col ss-tl-cards" id="ss-tl-cards"></div>
+        <div class="ss-tl-col ss-tl-land"><svg id="ss-svg-land" width="100%" height="100%" preserveAspectRatio="none" aria-label="Singapore total land area, 1960 to 2025"></svg></div>
+        <div class="ss-tl-col ss-tl-axis" id="ss-tl-axis"><div class="ss-axis-line"></div></div>
+        <div class="ss-tl-col ss-tl-temp"><svg id="ss-svg-temp" width="100%" height="100%" preserveAspectRatio="none" aria-label="Singapore annual mean temperature, 1900 to 2025"></svg></div>
+      </div>
+
+      <p class="ss-tl-note" id="ss-tl-note" style="max-width:720px; margin-left:auto; margin-right:auto;">
+        Loading data…
+      </p>
+    </section>
+
+    <main class="container project-content">
+
+      <!-- ── Reading the chart honestly ── -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">Method</div>
+        <h2>Why there are two temperature lines</h2>
+        <p>
+          The official Singapore series everyone quotes — the one behind "0.25&nbsp;°C per decade
+          since 1948" — is a homogenised national record. The clean, downloadable, machine-readable
+          version of it on data.gov.sg only begins in <strong>1982</strong>, when the designated
+          climate station moved to Changi. That is a real limit, and pretending otherwise would be
+          the easiest way to mislead on a page like this.
+        </p>
+        <p>
+          So the long line is a second, independent reconstruction: Berkeley Earth's regional
+          average for Singapore, which extends back to the nineteenth century. It runs about
+          0.4&nbsp;°C <em>below</em> the Changi station's absolute reading across their overlap.
+          That offset is a baseline difference — a regional field average versus one station's
+          thermometer — not a disagreement about direction. Both are drawn, at their own levels,
+          rather than spliced into one tidy line that would hide the seam.
+        </p>
+        <div class="ss-caveat">
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.4rem;">The station itself moved as the city grew</p>
+          <p style="font-size:var(--fs-caption);">
+            This is the awkward, genuinely interesting problem at the heart of any urban temperature
+            record. Singapore's climate station has not sat still: the reference site shifted over
+            the decades, and the land around every candidate site was being built on the whole time.
+            A thermometer that stays put while a city rises around it measures the city. A
+            thermometer that moves to escape the city measures something else. Neither is "wrong",
+            but it means the raw record can never cleanly separate global warming from local
+            construction — which is precisely why the national weather service hedges its own
+            attribution.
+          </p>
+        </div>
+      </section>
+
+      <!-- ── Trees ── -->
+      <section class="editorial-split" style="grid-template-columns: 1fr 320px;">
+        <div>
+          <div class="section-kicker">The Remedy</div>
+          <h2>Putting the canopy back</h2>
+          <p>
+            There is a neat historical symmetry here. The same decades that stripped the island's
+            surface also produced the instinct to re-cover it. On 16 June 1963, barely three years
+            into the housing programme that was clearing kampongs at speed, Lee Kuan Yew planted a
+            mempat tree at Farrer Circus and launched the first tree-planting campaign. The "Garden
+            City" campaign followed in 1967; the first Tree Planting Day in November 1971.
+          </p>
+          <p>
+            The species he pushed hardest — the angsana and the rain tree — were not chosen for
+            flowers. They were chosen for <em>crown</em>: broad, dense, fast-growing canopies that
+            could be thrown over a hot new road quickly. The stated aim was a cool canopy over the
+            city. It was, in retrospect, an urban-heat-island intervention launched decades before
+            the term was in common local use.
+          </p>
+          <p>
+            The current instalment is <strong>OneMillionTrees</strong>, run by NParks under the
+            Singapore Green Plan 2030: a million additional trees planted between 2020 and 2030,
+            currently expected to hit target by the end of 2027.
+          </p>
+        </div>
+        <div class="split-media">
+          <img src="/img/sustainable/garden-city.jpg" alt="A manhwa-styled illustration of a boulevard roofed over by the meeting canopies of mature rain trees"
+            style="width:100%; border-radius:12px; margin-top:1.25rem; display:block;" loading="lazy" />
+        </div>
+      </section>
+
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">The Evidence</div>
+        <h2>How much do trees actually cool?</h2>
+        <p>
+          Less than the headline number suggests, and more than the air temperature alone shows.
+          Both halves of that sentence matter.
+        </p>
+        <p>
+          The figure most often quoted to Singapore's planners is a reduction of up to
+          <strong>2.6&nbsp;°C</strong> in street-level temperature from shading roads with trees,
+          via the <em>Strategies for Cooling Singapore</em> report. Worth knowing before you repeat
+          it: that range originates in a <em>Dresden</em> study, not in Singapore measurements.
+        </p>
+        <p>
+          When Lei Xu and Ronita Bardhan actually measured 20 paired shaded/unshaded sites across
+          Singapore (published in <em>Science of the Total Environment</em>, December 2024), the
+          effect on <em>air temperature</em> was modest — close to a single degree. But the effect
+          on <em>thermal comfort</em>, measured on the Universal Thermal Climate Index, averaged
+          <strong>3.1&nbsp;°C</strong>. Under high coverage — roughly 80% canopy and built overhangs
+          — the modelled cooling potential reached 3–5&nbsp;°C.
+        </p>
+        <p>
+          That gap between "air temperature" and "how hot it feels" is the whole point. A tree does
+          not primarily cool the air; it intercepts the radiation that would have cooked you and the
+          pavement. Roughly 29% of the in-canopy temperature reduction comes from evaporative
+          cooling — <strong>shade does the rest</strong>. For a pedestrian in the tropics, the
+          radiant load is what matters, and that is exactly what a crown blocks.
+        </p>
+        <p>
+          There is also a limit worth planning around. Naika Meili's 2025 modelling in the
+          <em>Journal of Advances in Modeling Earth Systems</em> found shade on walls and windows
+          dominated air-conditioning savings — 6–9% of cooling energy in hot humid cities — but that
+          the benefit peaks at around <strong>40% tree cover</strong> in humid climates, beyond which
+          the moisture the trees release starts offsetting the gain. In a place as humid as
+          Singapore, more canopy is not linearly better.
+        </p>
+      </section>
+
+      <section style="max-width: 760px; margin: 0 auto 3rem;">
+        <div class="section-kicker">Species</div>
+        <h2>What to plant in a tropical city</h2>
+        <p>
+          If shade is doing most of the work, the traits that matter are crown architecture, leaf
+          area index and how fast the tree gets big — plus, in a dense city, whether it can survive
+          compacted soil, road salt-free but pollutant-heavy air, and periodic storms.
+        </p>
+        <div style="overflow-x:auto; margin: 1.75rem 0;">
+          <table class="ss-table">
+            <thead>
+              <tr><th>Tree</th><th>Why it cools</th><th>The catch</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Rain tree<br><em>Samanea saman</em></td>
+                <td>The classic Singapore canopy: a broad umbrella crown that can span 30&nbsp;m, casting dense shade over an entire carriageway. LKY's favourite for exactly this reason.</td>
+                <td>Needs enormous lateral room; leaflets fold in low light and rain, briefly thinning the shade. Big limbs mean real inspection obligations.</td>
+              </tr>
+              <tr>
+                <td>Yellow flame<br><em>Peltophorum pterocarpum</em></td>
+                <td>Compared directly against the rain tree in a 2024 <em>Arboricultural Journal</em> study, it transpired more efficiently across cool, warm <em>and</em> hot conditions — the better evaporative cooler of the two.</td>
+                <td>Lighter, less continuous crown than a mature rain tree, so it shades less ground per tree.</td>
+              </tr>
+              <tr>
+                <td>Angsana<br><em>Pterocarpus indicus</em></td>
+                <td>Dense dome-shaped crown with drooping branches, and fast — the reason it was planted along so many roads in the 1960s and 70s when shade was needed <em>now</em>.</td>
+                <td>The cautionary tale in Singapore's own greening history: mass single-species planting met vascular wilt disease. An argument for diversity, not for avoiding the species.</td>
+              </tr>
+              <tr>
+                <td>Tembusu<br><em>Cyrtophyllum fragrans</em></td>
+                <td>Native, long-lived, tough, with a solid dark crown. Handles poor urban soil and holds up structurally.</td>
+                <td>Slow. This is a tree you plant for the next generation's shade, not your own.</td>
+              </tr>
+              <tr>
+                <td>Sea apple<br><em>Syzygium grande</em></td>
+                <td>Native coastal species, dense evergreen foliage, high leaf area index, wind-firm — well suited to reclaimed and exposed waterfront ground.</td>
+                <td>Moderate spread; better as a street avenue in ranks than as a standalone shade giant.</td>
+              </tr>
+              <tr>
+                <td>Dipterocarps<br><em>Shorea</em>, <em>Hopea odorata</em></td>
+                <td>The island's original forest canopy. The right answer where the goal is restored habitat and a deep multi-layer canopy, not just a shaded pavement.</td>
+                <td>Slow to establish and demanding of space and soil — a nature-corridor tree, not a roadside one.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ss-caveat">
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.4rem;">The honest caveat on this table</p>
+          <p style="font-size:var(--fs-caption);">
+            Species-level cooling in Singapore is well studied for a handful of trees — the rain
+            tree and yellow flame comparison is real, measured and citable. For the rest, the
+            reasoning here is from general traits (crown density, leaf area index, growth rate,
+            urban tolerance) and NParks' own planting practice, not from a head-to-head Singapore
+            cooling trial for every row. Treat the first two rows as evidence and the remainder as
+            informed horticultural reasoning.
+          </p>
+        </div>
+      </section>
+
+      <!-- ── About the images ── -->
+      <section style="max-width: 720px; margin: 0 auto 3rem;">
+        <div class="section-kicker">About The Artwork</div>
+        <h2>No historical photographs were published here</h2>
+        <p>
+          Every illustration on this page was generated locally on my own machine by the
+          <a href="/projects/mcp-background.html">Webcomic Background Generator</a> — the MCP server
+          I built for my comic work — running FLUX.1-dev with a manhwa style LoRA.
+        </p>
+        <p>
+          The research process used archival photographs the way a historian uses them: to find out
+          what a place actually looked like. Toa Payoh before 1962 was attap houses, pig farms and
+          vegetable plots on swampy ground; the East Coast in the 1970s was dredger pipelines
+          discharging sand into shallow sea. Those findings were written into prompts. What is
+          published is a drawn interpretation of a documented scene, not a restyled copy of any
+          photograph — no archival image was used as pixel input, so there is no derivative-work
+          question to answer.
+        </p>
+        <p style="font-size:var(--fs-caption); color:var(--text-muted);">
+          Each plate's seed is recorded, so any image on this page can be regenerated exactly.
+        </p>
+      </section>
+
+      <!-- ── Sources ── -->
+      <section style="max-width: 760px; margin: 0 auto 3rem;">
+        <div class="section-kicker">Sources</div>
+        <h2>Where every number came from</h2>
+        <p>So you can check my work.</p>
+
+        <h3 style="font-size:15px; color:var(--text); margin:1.75rem 0 0.6rem;">Temperature</h3>
+        <ul class="ss-src">
+          <li>
+            <a href="https://data.gov.sg/datasets/d_755290a24afe70c8f9e8bcbf9f251573/view" target="_blank" rel="noopener noreferrer">Surface Air Temperature — Monthly Mean</a>,
+            NEA via data.gov.sg (dataset <code>d_755290a24afe70c8f9e8bcbf9f251573</code>). Changi
+            Climate Station, Jan 1982 onward. Annual means here are the mean of the twelve monthly
+            means, complete years only. Cross-check: this reproduces MSS's published warmest years —
+            2024, 2019 and 2016 all at 28.4&nbsp;°C.
+          </li>
+          <li>
+            <a href="https://www.weather.gov.sg/climate-past-climate-trends/" target="_blank" rel="noopener noreferrer">Past Climate Trends</a>,
+            Meteorological Service Singapore — the 0.25&nbsp;°C/decade (1948–2025) headline figure,
+            the 0.12&nbsp;°C/decade global comparison (1951–2012), and MSS's own caveat that the
+            higher local trend is "possibly due to urbanisation and regional variations".
+          </li>
+          <li>
+            <a href="https://berkeleyearth.org/data/" target="_blank" rel="noopener noreferrer">Berkeley Earth</a>
+            regional average for Singapore (<code>singapore-TAVG-Trend.txt</code>), monthly anomalies
+            from 1825. Converted to absolute using the baseline stated in the file header itself:
+            26.77&nbsp;±&nbsp;0.14&nbsp;°C for Jan 1951–Dec 1980.
+          </li>
+        </ul>
+
+        <h3 style="font-size:15px; color:var(--text); margin:1.75rem 0 0.6rem;">Urbanisation</h3>
+        <ul class="ss-src">
+          <li>
+            <a href="https://data.gov.sg/datasets/d_0b2c034da121ef8efc71949af1694b4d/view" target="_blank" rel="noopener noreferrer">Land Area (As At December), Annual</a>,
+            SingStat / Singapore Land Authority via data.gov.sg
+            (<code>d_0b2c034da121ef8efc71949af1694b4d</code>). Complete annual series 1960–2025,
+            581.5&nbsp;km² → 744.3&nbsp;km².
+          </li>
+          <li>
+            <a href="https://eresources.nlb.gov.sg/history/events/208d33cc-23c8-4d52-865b-c045d156ff69" target="_blank" rel="noopener noreferrer">The Housing and Development Board is established</a>,
+            NLB Singapore History — HDB founded 1 February 1960, succeeding the Singapore Improvement Trust.
+          </li>
+          <li>
+            <a href="https://www.hdb.gov.sg/about-us/history/hdb-towns-your-home/toa-payoh" target="_blank" rel="noopener noreferrer">HDB — Toa Payoh</a>
+            and the
+            <a href="https://www.roots.gov.sg/stories-landing/stories/toa-payoh-heritage-trail/story" target="_blank" rel="noopener noreferrer">NHB Toa Payoh Heritage Trail</a>
+            — "big swamp" etymology, the kampong of attap houses, pig farms and vegetable plots,
+            squatter clearance from 1962, and the ~18,000 units built 1965–1970.
+          </li>
+          <li>
+            <a href="https://www.roots.gov.sg/places/places-landing/places/landmarks/my-queenstown-heritage-trail/the-first-hdb-blocks-the-hdb-terraces" target="_blank" rel="noopener noreferrer">The First HDB Blocks</a>,
+            Roots.gov.sg — Stirling Road, Queenstown, completed October 1960.
+          </li>
+          <li>
+            <a href="https://www.biblioasia.nlb.gov.sg/vol-13/issue-1/apr-jun-2017/land-from-sand/" target="_blank" rel="noopener noreferrer">Land From Sand: Singapore's Reclamation Story</a>,
+            BiblioAsia (NLB) — East Coast Reclamation from 1966, Changi's ~700&nbsp;ha, Jurong Island 1993–2003.
+          </li>
+        </ul>
+
+        <h3 style="font-size:15px; color:var(--text); margin:1.75rem 0 0.6rem;">Heat island &amp; trees</h3>
+        <ul class="ss-src">
+          <li>
+            <a href="https://cde.nus.edu.sg/nuscities/mapping-the-urban-heat-island/" target="_blank" rel="noopener noreferrer">Mapping the urban heat island</a>,
+            NUS Cities — up to ~4&nbsp;°C between vegetated areas and the CBD; 0–2&nbsp;°C by day and
+            2–4&nbsp;°C at night versus forested areas.
+          </li>
+          <li>
+            <a href="https://spacedaily.com/d-research-cited-by-singapores-urban-planners-suggests-shading-roads-with-trees-can-reduce-street-level-temperatures-by-up-to-2-6-degrees-celsius-separately-models-suggest-tree-shade-on-buil/" target="_blank" rel="noopener noreferrer">Research cited by Singapore's urban planners…</a>,
+            SpaceDaily — the 0.9–2.6&nbsp;°C road-shading range from <em>Strategies for Cooling
+            Singapore</em>, and the important note that this range originates in a Dresden study
+            rather than Singapore measurements.
+          </li>
+          <li>
+            Lei Xu &amp; Ronita Bardhan (December 2024), <em>Science of the Total Environment</em> —
+            20 paired sites across Singapore; ~1&nbsp;°C air temperature effect, 3.1&nbsp;°C average
+            UTCI thermal-comfort improvement, 3–5&nbsp;°C at ~80% coverage.
+          </li>
+          <li>
+            Naika Meili (March 2025), <em>Journal of Advances in Modeling Earth Systems</em> —
+            6–9% of cooling energy saved in hot humid cities; benefit peaks near 40% tree cover.
+          </li>
+          <li>
+            <a href="https://www.tandfonline.com/doi/abs/10.1080/03071375.2024.2403288" target="_blank" rel="noopener noreferrer">Enhancing outdoor comfort in urban hot climates</a>,
+            <em>Arboricultural Journal</em> 46(4), 2024 — <em>Samanea saman</em> versus
+            <em>Peltophorum pterocarpum</em> transpiration efficiency.
+          </li>
+          <li>
+            <a href="https://www.nparks.gov.sg/sbg/about/our-history/1963-the-greening-of-singapore" target="_blank" rel="noopener noreferrer">1963: The Greening of Singapore</a>,
+            NParks — the 16 June 1963 mempat tree, the Garden City campaign of 1967, and the
+            angsana/rain tree "cool canopy" rationale.
+          </li>
+        </ul>
+
+        <p style="font-size:var(--fs-caption); color:var(--text-muted); margin-top:1.5rem;">
+          The live figures on this page come from the
+          <a href="https://data.gov.sg/" target="_blank" rel="noopener noreferrer">data.gov.sg</a>
+          public APIs, called directly from your browser. There is no server in between — no backend,
+          no API key, nothing stored.
+        </p>
+      </section>
+
+    </main>
+
+  <footer class="project-footer">
+    <div class="project-nav-inner">
+      <span style="font-size:12px;color:var(--text-muted);">© 2026 Tobias Fong</span>
+      <span style="font-size:12px;color:var(--text-muted);">Built with Claude</span>
+    </div>
+  </footer>
+
+    <script src="/script.js"></script>
+    <script src="/js/sustainable-singapore.js"></script>
+  </body>
+</html>
