@@ -269,8 +269,17 @@
           island-wide weather station network at
           <a href="https://data.gov.sg/" target="_blank" rel="noopener noreferrer">data.gov.sg</a>,
           showing the gap between the warmest and coolest parts of Singapore in real time.[^4]
-          You can see that the difference can sometimes reach between 2 and 3&nbsp;°C when comparing urban and vegetated
-          areas.
+          You can see that the difference can sometimes reach between 2 and 3&nbsp;°C when comparing urban and vegetated areas.[^26]
+        </p>
+        <p>
+          That is not an impression. Across the whole of 2023, the gap between Singapore's warmest
+          and coolest station had a median of <strong>2.2&nbsp;°C</strong> and sat above 2&nbsp;°C
+          for 61% of the year — measured across 6,893,129 per-minute readings from 17 stations.[^26]
+          Comparing a single pair directly, the East Coast Parkway expressway against the largely
+          undeveloped island of Pulau Ubin over 243,449 paired minutes, the built station was warmer
+          <strong>78% of the time</strong>. And the gap is not constant: between 9pm and 7am it holds
+          a steady 2.2–2.3&nbsp;°C, then collapses to nothing — and briefly reverses — in the early
+          afternoon. Built ground stores the day's heat and gives it back after dark.
         </p>
 
         <div class="ss-live" id="ss-live">
@@ -808,7 +817,24 @@
               in-canopy air-temperature reduction, with shading responsible for the remainder.
             </span>
           </li>
-        </ol>
+          <li id="ref-26">
+            National Environment Agency, <em>Historical Air Temperature across Singapore (2023)</em>,
+            dataset <code>d_370bbfc65de96ad93eaefa182135d1c0</code>,
+            <a href="https://data.gov.sg/datasets/d_370bbfc65de96ad93eaefa182135d1c0/view" target="_blank" rel="noopener noreferrer">data.gov.sg</a>.
+            <span class="ss-ref-note">
+              <strong>Analysis by the author, not a citation.</strong> 6,893,129 per-minute dry-bulb
+              readings across 17 stations for calendar year 2023, grouped by timestamp: island-wide
+              spread median 2.2&nbsp;°C (IQR 1.7–2.9, 90th percentile 3.8), above 2&nbsp;°C for 60.9%
+              of the year. Paired comparison of S107 East Coast Parkway against S106 Pulau Ubin over
+              243,449 shared minutes: the built station warmer 78.2% of the time, median +2.2 to
+              +2.3&nbsp;°C between 21:00 and 07:00, reversing to −0.8&nbsp;°C at 13:00.
+              <span class="ss-ref-flag">Two caveats:</span> East Coast Parkway is coastal, so part of
+              the afternoon reversal is sea breeze rather than vegetation; and Pulau Ubin is a separate
+              island rather than “rural Singapore”, of which there is none. Scripts and full
+              distributions are kept with the project research notes so the figures re-run from the
+              raw file.
+            </span>
+          </li>        </ol>
 
         <div class="ss-refs-head" id="ss-verify">A note on verification</div>
         <p style="font-size:var(--fs-caption); color:var(--text-body);">
