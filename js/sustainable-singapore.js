@@ -45,7 +45,7 @@
       title: 'An island of swamps',
       img: 'kampong-swamp.jpg',
       cap: 'Generated illustration of a kampong on a swamp, which was cleared across the island from the 1960s.',
-      body: 'Singapore was home to myriad ecosystems and coastal habitats, which have been cleared since then. However, as far back as 1820, mangrove swamps made up about 13% of Singapore’s fringe areas, only to fall to less than 0.5% of our land area in 2010.[^15]'
+      body: 'Singapore was home to myriad ecosystems and coastal habitats, much of which has been cleared since then. Even as far back as 1820, mangrove swamps made up about 13% of Singapore’s fringe areas, only to fall to less than 0.5% of our land area in 2010.[^15]'
     },
     {
       year: 1960, label: '1 February 1960',
@@ -55,7 +55,7 @@
     {
       year: 1961, label: '25 May 1961',
       title: 'The Bukit Ho Swee fire',
-      body: 'A fire, which started in Kampong Tiong Bahru, spread to Kampong Bukit Ho Swee and razed a 100-acre area, leaving 16,000 people homeless. The government pledged to aid the affected families by giving them new homes, relocating 6,000 residents to 1,150 flats in Queenstown, Tiong Bahru, Alexandra and Kallang. The remaining families also found new homes by February 1962. HDB then acquired the fire site and adjacent land for public housing, and constructed 12,562 flats in 1967.[^8]'
+      body: 'A fire, which started in Kampong Tiong Bahru, spread to Kampong Bukit Ho Swee and razed a 100-acre area, leaving 16,000 people homeless. The government pledged to aid the affected families by giving them new homes, relocating 6,000 residents to 1,150 flats in Queenstown, Tiong Bahru, Alexandra and Kallang. The remaining families also found new homes by February 1962. HDB then acquired the fire site and adjacent land for public housing, and constructed 12,562 flats by 1967.[^8]'
     },
     {
       year: 1962, label: '1962–1970',
