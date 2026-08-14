@@ -45,84 +45,134 @@
       title: 'An island of mangrove, swamp and kampong',
       img: 'kampong-swamp.jpg',
       cap: 'Generated illustration — a kampong on swampy ground, of the kind cleared across the island from the 1960s.',
-      body: 'For most of its recorded history the island’s surface was forest, mangrove-fringed coast, freshwater swamp and small settlement. Toa Payoh — Hokkien for “big swamp” — was exactly what its name says: low, wet ground carrying attap houses, pig farms, vegetable plots and fish ponds.'
+      body: 'For most of its recorded history the island’s surface was forest, mangrove-fringed coast, freshwater swamp and small settlement. Toa Payoh — Hokkien for “big swamp” — was exactly what its name says: low, wet ground carrying attap houses, pig farms, vegetable plots and fish ponds.[^9][^10]'
     },
     {
       year: 1960, label: '1 February 1960',
       title: 'The Housing and Development Board is founded',
-      body: 'HDB replaces the colonial Singapore Improvement Trust with a mandate to clear squatter settlements at speed. Its first five-year programme launches 51,031 units between 1961 and 1965. The first flats — three seven-storey blocks at Stirling Road, Queenstown — are finished in October 1960.'
+      body: 'HDB replaces the colonial Singapore Improvement Trust with a mandate to clear squatter settlements at speed. Its first five-year programme targets roughly 50,000 units and overshoots it.[^6] The first flats — three seven-storey blocks at Stirling Road, Queenstown — are finished in October 1960.[^7]'
     },
     {
-      year: 1961, label: 'May 1961',
+      year: 1961, label: '25 May 1961',
       title: 'The Bukit Ho Swee fire',
-      body: 'A fire destroys the kampong and leaves around 16,000 people homeless overnight. It becomes the turning point that wins public consent for mass rehousing: the first five replacement blocks, 768 units, are occupied by February 1962.'
+      body: 'A fire destroys the kampong and leaves around 16,000 people homeless overnight. It becomes the turning point that wins public consent for mass rehousing: the first five replacement blocks, 768 units, are occupied by February 1962.[^8]'
     },
     {
       year: 1962, label: '1962–1970',
       title: 'Toa Payoh: the big swamp becomes a new town',
       img: 'new-town-construction.jpg',
       cap: 'Generated illustration — kampong ground cleared, levelled and cut for foundations.',
-      body: 'The first town comprehensively planned and built by HDB. Squatters begin moving out in 1962 after two years of resistance; the land is prepared in 1964; roughly 18,000 units go up between 1965 and 1970, housing about 95,000 people. Wet ground is drained, filled and capped in concrete — a surface swap, from something that evaporates to something that stores heat.'
+      body: 'The first town comprehensively planned and built by HDB. Squatters begin moving out in 1962 after two years of resistance; the land is prepared in 1964; roughly 18,000 units go up between 1965 and 1970, housing about 95,000 people.[^9] Wet ground is drained, filled and capped in concrete — a surface swap, from something that evaporates to something that stores heat.'
     },
     {
       year: 1963, label: '16 June 1963',
       title: 'The first tree-planting campaign',
-      body: 'Lee Kuan Yew plants a mempat tree at Farrer Circus and sets a target of 10,000 trees a year. The stated aim is a cool canopy over the city — an urban-heat-island intervention, launched in the same years the kampongs were coming down.'
+      body: 'Lee Kuan Yew plants a mempat tree at Farrer Circus and sets a target of 10,000 trees a year.[^13] The stated aim is a cool canopy over the city — an urban-heat-island intervention, launched in the same years the kampongs were coming down.'
     },
     {
       year: 1966, label: 'From 1966',
       title: 'East Coast Reclamation begins',
       img: 'reclamation.jpg',
       cap: 'Generated illustration — dredged sand pushed out into shallow sea.',
-      body: 'Seven phases over roughly thirty years add about 1,525 hectares along the south-eastern coast, from Bedok down to Marina South. The same programme eventually produces the land Marina Bay stands on. Land area, flat at 581.5 km² since 1960, starts to climb.'
+      body: 'Seven phases over roughly thirty years add about 1,525 hectares along the south-eastern coast, from Bedok down to Marina South. The same programme eventually produces the land Marina Bay stands on.[^11] Land area, flat at 581.5 km² since 1960, starts to climb.[^5]'
     },
     {
       year: 1968, label: '1961–1968',
       title: 'Jurong: heavy industry on reclaimed swamp',
-      body: 'Mangrove and swamp in the south-west are drained and filled for the national industrial estate. By 1968 it holds 153 factories with another 46 under construction — dark, hard, heat-absorbing surface at scale, plus the waste heat of the industry standing on it.'
+      body: 'Mangrove and swamp in the south-west are drained and filled for the national industrial estate. By 1968 it holds 153 factories with another 46 under construction[^12] — dark, hard, heat-absorbing surface at scale, plus the waste heat of the industry standing on it.'
     },
     {
       year: 1971, label: 'November 1971',
       title: 'The first Tree Planting Day',
-      body: 'The 1967 “Garden City” campaign becomes an annual national ritual. Angsana and rain trees go in along the new roads specifically for their broad, fast, dense crowns.'
+      body: 'The 1967 “Garden City” campaign becomes an annual national ritual.[^14] Angsana and rain trees go in along the new roads specifically for their broad, fast, dense crowns.'
     },
     {
       year: 1979, label: '1979–1981',
       title: 'Changi: an airport out of the sea',
-      body: 'About 700 hectares are reclaimed along the north-eastern shoreline using some 40 million cubic metres of dredged sand. Reclamation completes in 1979; the airport opens in 1981. The land-area series steps up sharply through the late 1970s.'
+      body: 'About 700 hectares are reclaimed along the north-eastern shoreline using some 40 million cubic metres of dredged sand. Reclamation completes in 1979; the airport opens in 1981.[^11] The land-area series steps up sharply through the late 1970s.'
     },
     {
       year: 1993, label: '1993–2003',
       title: 'Jurong Island',
-      body: 'Seven south-western islands are merged into one 3,000-hectare petrochemical island over a decade, at a cost of about $6 billion.'
+      body: 'Seven south-western islands are merged into one 3,000-hectare petrochemical island over a decade, at a cost of about $6 billion.[^11]'
     },
     {
       year: 1997, label: '1997 onward',
       title: 'The high-rise island — and the record books',
       img: 'heat-island.jpg',
       cap: 'Generated illustration — a bare concrete street canyon: the geometry that traps heat.',
-      body: 'Every one of the ten warmest years in Singapore’s record falls after 1997. By this point the island is one of the most densely built surfaces on earth, and NUS surveys are measuring up to a 4 °C difference between the vegetated north-west and the central business district on the same afternoon. The mechanism is visible at street level: a narrow canyon walled in low-albedo concrete, with little wind, can run 2.5 °C hotter in the middle of the road than the material choice alone would suggest.'
+      body: 'Every one of the ten warmest years in Singapore’s record falls after 1997.[^1] By this point the island is one of the most densely built surfaces on earth, and NUS surveys are measuring up to a 4 °C difference between the vegetated north-west and the central business district on the same afternoon.[^16] The mechanism is visible at street level: a narrow canyon walled in low-albedo concrete, with little wind, can run 2.5 °C hotter in the middle of the road than the material choice alone would suggest.[^17]'
     },
     {
       year: 2008, label: '2000s',
       title: 'Marina Bay: a downtown on made ground',
       img: 'marina-bay.jpg',
       cap: 'Generated illustration — a waterfront skyline standing on reclaimed land.',
-      body: 'The land beneath Marina Bay was reclaimed from the 1970s onward as part of the East Coast programme; the Barrage closes the river mouth in 2008. Between 1999 and 2000 alone the national land area jumps from 659.9 to 682.7 km² — the single largest one-year gain in the series.'
+      body: 'The land beneath Marina Bay was reclaimed from the 1970s onward as part of the East Coast programme; the Barrage closes the river mouth in 2008.[^11] Between 1999 and 2000 alone the national land area jumps from 659.9 to 682.7 km² — the single largest one-year gain in the series.[^5]'
     },
     {
       year: 2020, label: '2020–2030',
       title: 'OneMillionTrees and the Green Plan',
       img: 'green-future.jpg',
       cap: 'Generated illustration — a street roofed over by canopy, facades planted.',
-      body: 'NParks sets out to plant a million more trees under the Singapore Green Plan 2030, now expected to hit target by the end of 2027. Sixty years after the mempat tree at Farrer Circus, the policy instrument is recognisably the same one — only now it is explicitly framed as heat mitigation.'
+      body: 'NParks sets out to plant a million more trees under the Singapore Green Plan 2030, now expected to hit target by the end of 2027.[^15] Sixty years after the mempat tree at Farrer Circus, the policy instrument is recognisably the same one — only now it is explicitly framed as heat mitigation.'
     },
     {
       year: 2024, label: '2024',
       title: 'The warmest year on record',
-      body: 'Annual mean temperature at Changi reaches 28.4 °C, tying 2019 and 2016. Land area reaches 735.7 km² — and 744.3 km² the year after. Both tracks are still climbing.'
+      body: 'Annual mean temperature at Changi reaches 28.4 °C, tying 2019 and 2016.[^2] Land area reaches 735.7 km² — and 744.3 km² the year after.[^5] Both tracks are still climbing.'
     }
   ];
+
+  /* ── Footnotes ───────────────────────────────────────────────
+     Citations are written inline in the prose as [^12] — in this file's
+     EVENTS array and in the page's static HTML alike — and expanded here
+     into superscript links to the numbered reference list.
+
+     One syntax, both places, so a citation can be moved between a timeline
+     card and a body paragraph without being rewritten. Keep the marker
+     glued to the punctuation it follows, e.g. "...0.25 °C per decade.[^1]"
+     ─────────────────────────────────────────────────────────── */
+  function expandCitations(root) {
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        var p = n.parentNode;
+        if (!p) { return NodeFilter.FILTER_REJECT; }
+        var tag = p.nodeName;
+        if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'TEXTAREA') {
+          return NodeFilter.FILTER_REJECT;
+        }
+        if (p.closest && p.closest('.ss-cite, .ss-refs')) {
+          return NodeFilter.FILTER_REJECT;
+        }
+        return /\[\^\d+\]/.test(n.nodeValue)
+          ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+
+    var targets = [], n;
+    while ((n = walker.nextNode())) { targets.push(n); }
+
+    targets.forEach(function (node) {
+      var frag = document.createDocumentFragment();
+      node.nodeValue.split(/(\[\^\d+\])/).forEach(function (part) {
+        var m = part.match(/^\[\^(\d+)\]$/);
+        if (m) {
+          var sup = document.createElement('sup');
+          sup.className = 'ss-cite';
+          var a = document.createElement('a');
+          a.href = '#ref-' + m[1];
+          a.textContent = m[1];
+          a.setAttribute('aria-label', 'See reference ' + m[1]);
+          sup.appendChild(a);
+          frag.appendChild(sup);
+        } else if (part) {
+          frag.appendChild(document.createTextNode(part));
+        }
+      });
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
 
   /* ── Data loading ────────────────────────────────────────── */
   function fetchJSON(url) {
@@ -384,6 +434,9 @@
     el('ss-tl').style.height = TL_HEIGHT + 'px';
     buildAxis();
     var built = buildCards();
+    // Expand before the first layout pass: the markers are inline and can
+    // reflow a card's text, which would otherwise invalidate its height.
+    expandCitations(document.body);
 
     function relayout() {
       var used = layoutCards(built);
