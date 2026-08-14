@@ -41,81 +41,81 @@
   /* ── The historical events ───────────────────────────────── */
   var EVENTS = [
     {
-      year: 1900, label: 'Before',
-      title: 'An island of mangrove, swamp and kampong',
+      year: 1900, label: '1900s',
+      title: 'An island of swamps',
       img: 'kampong-swamp.jpg',
-      cap: 'Generated illustration — a kampong on swampy ground, of the kind cleared across the island from the 1960s.',
-      body: 'For most of its recorded history the island’s surface was forest, mangrove-fringed coast, freshwater swamp and small settlement. Toa Payoh — Hokkien for “big swamp” — was exactly what its name says: low, wet ground carrying attap houses, pig farms, vegetable plots and fish ponds.[^9][^10]'
+      cap: 'Generated illustration of a kampong on a swamp, which was cleared across the island from the 1960s.',
+      body: 'Singapore was home to myriad ecosystems and coastal habitats, which have been cleared since then. However, as far back as 1820, mangrove swamps made up about 13% of Singapore’s fringe areas, only to fall to less than 0.5% of our land area in 2010.[^15]'
     },
     {
       year: 1960, label: '1 February 1960',
-      title: 'The Housing and Development Board is founded',
-      body: 'HDB replaces the colonial Singapore Improvement Trust with a mandate to clear squatter settlements at speed. Its first five-year programme targets roughly 50,000 units and overshoots it.[^6] The first flats — three seven-storey blocks at Stirling Road, Queenstown — are finished in October 1960.[^7]'
+      title: 'The Housing and Development Board is formed',
+      body: 'HDB succeeded the colonial government’s Singapore Improvement Trust, and set about solving the housing problems that arose as the island’s population grew rapidly, especially for low-income groups. By 1965, HDB completed its first five-year program, building over 50,000 units.[^6] Three seven-story blocks at Stirling Road, Queenstown, were among the first completed in October 1960.[^7]'
     },
     {
       year: 1961, label: '25 May 1961',
       title: 'The Bukit Ho Swee fire',
-      body: 'A fire destroys the kampong and leaves around 16,000 people homeless overnight. It becomes the turning point that wins public consent for mass rehousing: the first five replacement blocks, 768 units, are occupied by February 1962.[^8]'
+      body: 'A fire, which started in Kampong Tiong Bahru, spread to Kampong Bukit Ho Swee and razed a 100-acre area, leaving 16,000 people homeless. The government pledged to aid the affected families by giving them new homes, relocating 6,000 residents to 1,150 flats in Queenstown, Tiong Bahru, Alexandra and Kallang. The remaining families also found new homes by February 1962. HDB then acquired the fire site and adjacent land for public housing, and constructed 12,562 flats in 1967.[^8]'
     },
     {
       year: 1962, label: '1962–1970',
-      title: 'Toa Payoh: the big swamp becomes a new town',
+      title: 'From big swamp to housing estate',
       img: 'new-town-construction.jpg',
-      cap: 'Generated illustration — kampong ground cleared, levelled and cut for foundations.',
-      body: 'The first town comprehensively planned and built by HDB. Squatters begin moving out in 1962 after two years of resistance; the land is prepared in 1964; roughly 18,000 units go up between 1965 and 1970, housing about 95,000 people.[^9] Wet ground is drained, filled and capped in concrete — a surface swap, from something that evaporates to something that stores heat.'
+      cap: 'Generated illustration — kampong ground cleared, leveled and cut for foundations.',
+      body: 'Toa Payoh is literally “big swamp” in Hokkien, and that was what it was before 1962.[^9] In the 19th century, the forests were replaced by gambier and pepper plantations, which in turn gave rise to kampongs.[^10] By 1960, 3,000 families resided there, and though HDB first announced the construction of Toa Payoh Town in the 1960s and expected it to be built by 1965, there were delays. After resisting for two years, squatters finally moved out of the site in 1962, allowing HDB to build it during the second five-year program between 1966 and 1970.[^11] According to the RememberingHDBEstates blog, 95,000 people moved into around 18,000 units in the new flats by 1970.[^12]'
     },
     {
       year: 1963, label: '16 June 1963',
       title: 'The first tree-planting campaign',
-      body: 'Lee Kuan Yew plants a mempat tree at Farrer Circus and sets a target of 10,000 trees a year.[^13] The stated aim is a cool canopy over the city — an urban-heat-island intervention, launched in the same years the kampongs were coming down.'
+      body: 'Lee Kuan Yew plants a mempat tree at Farrer Circus and sets a target of 10,000 trees a year.[^16] The stated aim is a cool canopy over the city — an urban-heat-island intervention, launched in the same years the kampongs were coming down.'
     },
     {
       year: 1966, label: 'From 1966',
       title: 'East Coast Reclamation begins',
       img: 'reclamation.jpg',
       cap: 'Generated illustration — dredged sand pushed out into shallow sea.',
-      body: 'Seven phases over roughly thirty years add about 1,525 hectares along the south-eastern coast, from Bedok down to Marina South. The same programme eventually produces the land Marina Bay stands on.[^11] Land area, flat at 581.5 km² since 1960, starts to climb.[^5]'
+      body: 'Seven phases over roughly thirty years add about 1,525 hectares along the south-eastern coast, from Bedok down to Marina South. The same program eventually produces the land Marina Bay stands on.[^13] Land area, flat at 581.5 km² since 1960, starts to climb.[^5]'
     },
     {
       year: 1968, label: '1961–1968',
       title: 'Jurong: heavy industry on reclaimed swamp',
-      body: 'Mangrove and swamp in the south-west are drained and filled for the national industrial estate. By 1968 it holds 153 factories with another 46 under construction[^12] — dark, hard, heat-absorbing surface at scale, plus the waste heat of the industry standing on it.'
+      body: 'Mangrove and swamp in the south-west are drained and filled for the national industrial estate. By 1968 it holds 153 factories with another 46 under construction[^14] — dark, hard, heat-absorbing surface at scale, plus the waste heat of the industry standing on it.'
     },
     {
       year: 1971, label: 'November 1971',
       title: 'The first Tree Planting Day',
-      body: 'The 1967 “Garden City” campaign becomes an annual national ritual.[^14] Angsana and rain trees go in along the new roads specifically for their broad, fast, dense crowns.'
+      body: 'The 1967 “Garden City” campaign becomes an annual national ritual.[^17] Angsana and rain trees go in along the new roads specifically for their broad, fast, dense crowns.'
     },
     {
       year: 1979, label: '1979–1981',
       title: 'Changi: an airport out of the sea',
-      body: 'About 700 hectares are reclaimed along the north-eastern shoreline using some 40 million cubic metres of dredged sand. Reclamation completes in 1979; the airport opens in 1981.[^11] The land-area series steps up sharply through the late 1970s.'
+      body: 'About 700 hectares are reclaimed along the north-eastern shoreline using some 40 million cubic meters of dredged sand. Reclamation completes in 1979; the airport opens in 1981.[^13] The land-area series steps up sharply through the late 1970s.'
     },
     {
       year: 1993, label: '1993–2003',
       title: 'Jurong Island',
-      body: 'Seven south-western islands are merged into one 3,000-hectare petrochemical island over a decade, at a cost of about $6 billion.[^11]'
+      body: 'Seven south-western islands are merged into one 3,000-hectare petrochemical island over a decade, at a cost of about $6 billion.[^13]'
     },
     {
       year: 1997, label: '1997 onward',
       title: 'The high-rise island — and the record books',
       img: 'heat-island.jpg',
       cap: 'Generated illustration — a bare concrete street canyon: the geometry that traps heat.',
-      body: 'Every one of the ten warmest years in Singapore’s record falls after 1997.[^1] By this point the island is one of the most densely built surfaces on earth, and NUS surveys are measuring up to a 4 °C difference between the vegetated north-west and the central business district on the same afternoon.[^16] The mechanism is visible at street level: a narrow canyon walled in low-albedo concrete, with little wind, can run 2.5 °C hotter in the middle of the road than the material choice alone would suggest.[^17]'
+      body: 'Every one of the ten warmest years in Singapore’s record falls after 1997.[^1] By this point the island is one of the most densely built surfaces on earth, and a study trip led by Prof Matthias Roth of NUS measured a sharp 4 °C rise from Lim Chu Kang to Orchard Road — two places only thirty minutes apart.[^19] The mechanism is visible at street level: a narrow canyon walled in low-albedo concrete, with little wind, can run 2.5 °C hotter in the middle of the road than the material choice alone would suggest.[^20]'
     },
     {
       year: 2008, label: '2000s',
       title: 'Marina Bay: a downtown on made ground',
       img: 'marina-bay.jpg',
       cap: 'Generated illustration — a waterfront skyline standing on reclaimed land.',
-      body: 'The land beneath Marina Bay was reclaimed from the 1970s onward as part of the East Coast programme; the Barrage closes the river mouth in 2008.[^11] Between 1999 and 2000 alone the national land area jumps from 659.9 to 682.7 km² — the single largest one-year gain in the series.[^5]'
+      body: 'The land beneath Marina Bay was reclaimed from the 1970s onward as part of the East Coast program; the Barrage closes the river mouth in 2008.[^13] Between 1999 and 2000 alone the national land area jumps from 659.9 to 682.7 km² — the single largest one-year gain in the series.[^5]'
     },
     {
       year: 2020, label: '2020–2030',
       title: 'OneMillionTrees and the Green Plan',
       img: 'green-future.jpg',
       cap: 'Generated illustration — a street roofed over by canopy, facades planted.',
-      body: 'NParks sets out to plant a million more trees under the Singapore Green Plan 2030, now expected to hit target by the end of 2027.[^15] Sixty years after the mempat tree at Farrer Circus, the policy instrument is recognisably the same one — only now it is explicitly framed as heat mitigation.'
+      body: 'NParks sets out to plant a million more trees under the Singapore Green Plan 2030, now expected to hit target by the end of 2027.[^18] Sixty years after the mempat tree at Farrer Circus, the policy instrument is recognizably the same one — only now it is explicitly framed as heat mitigation.'
     },
     {
       year: 2024, label: '2024',
@@ -125,7 +125,7 @@
   ];
 
   /* ── Footnotes ───────────────────────────────────────────────
-     Citations are written inline in the prose as [^12] — in this file's
+     Citations are written inline in the prose as [^14] — in this file's
      EVENTS array and in the page's static HTML alike — and expanded here
      into superscript links to the numbered reference list.
 
@@ -459,7 +459,7 @@
         var lastL = state.land[state.land.length - 1];
         el('ss-tl-note').innerHTML =
           '<strong>Reading the tracks.</strong> Land area (SingStat/SLA) runs 1960–' +
-          lastL[0] + ', from 581.5 to ' + lastL[1] + ' km². The faint grey ' +
+          lastL[0] + ', from 581.5 to ' + lastL[1] + ' km². The faint gray ' +
           'temperature line is Berkeley Earth’s regional reconstruction for Singapore ' +
           '(1900–2020); the red line is the official Changi station annual mean ' +
           '(1982–' + lastT[0] + ', latest ' + lastT[1].toFixed(1) + ' °C). ' +
