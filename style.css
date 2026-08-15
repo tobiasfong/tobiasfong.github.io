@@ -22,6 +22,11 @@
   /* Type scale */
   --fs-h1: clamp(60px, 9vw, 108px);
   --fs-h2: clamp(32px, 4vw, 48px);
+  /* Project pages use the clamp's floor rather than the clamp itself: a landing
+     page has one or two H2s and can afford 48px, but a project page has eight
+     to seventeen, and at that count a fluid display size shouts. Fixed 32px is
+     exactly 2x --fs-prose. */
+  --fs-h2-doc: 32px;
   --fs-h3: 18px;
   --fs-lead: 16px;
   /* Long-form running text on project pages. Deliberately larger than
@@ -727,7 +732,8 @@ footer {
 
 .project-content h2 {
   font-family: var(--font-heading);
-  font-size: 22px;
+  font-size: var(--fs-h2-doc);
+  line-height: 1.2;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text);
