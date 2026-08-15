@@ -40,10 +40,21 @@
 
       .ss-statrow {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 1.75rem; margin: 2.5rem 0; text-align: center;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem; margin: 2.5rem 0; text-align: center;
       }
-      .ss-stat-num { font-size: clamp(30px, 4vw, 44px); font-weight: 700; color: var(--text); line-height: 1.1; }
+      /* Pills, so the three figures read as a set of related things rather
+         than as numbers floating loose in the page. */
+      .ss-stat {
+        border: 1px solid var(--border); border-radius: 14px;
+        background: var(--bg-alt); padding: 20px 18px 16px;
+      }
+      .ss-stat-num {
+        font-size: clamp(30px, 4vw, 44px); font-weight: 700; color: var(--text);
+        line-height: 1.1; font-variant-numeric: tabular-nums;
+      }
+      .ss-stat-unit { font-size: 0.42em; font-weight: 700; margin-left: 0.15em; }
+      .ss-stat .section-kicker { margin-top: 8px; }
 
       /* ── Live panel ── */
       .ss-live {
@@ -359,16 +370,16 @@
         </p>
 
         <div class="ss-statrow">
-          <div>
-            <div class="ss-stat-num">+0.25<span style="font-size:0.45em;">°C/decade</span></div>
+          <div class="ss-stat">
+            <div class="ss-stat-num" data-to="0.25" data-dp="2" data-prefix="+">+0.25<span class="ss-stat-unit">°C/decade</span></div>
             <div class="section-kicker" style="margin-bottom:0;">Singapore, 1948–2025[^1]</div>
           </div>
-          <div>
-            <div class="ss-stat-num">+28<span style="font-size:0.5em;">%</span></div>
+          <div class="ss-stat">
+            <div class="ss-stat-num" data-to="28" data-dp="0" data-prefix="+">+28<span class="ss-stat-unit">%</span></div>
             <div class="section-kicker" style="margin-bottom:0;">land, from 581.5&nbsp;km² in 1960 to 744.3&nbsp;km² in 2025[^5]</div>
           </div>
-          <div>
-            <div class="ss-stat-num">4<span style="font-size:0.5em;">°C</span></div>
+          <div class="ss-stat">
+            <div class="ss-stat-num" data-to="4" data-dp="0">4<span class="ss-stat-unit">°C</span></div>
             <div class="section-kicker" style="margin-bottom:0;">Lim Chu Kang to Orchard Road, same day[^22]</div>
           </div>
         </div>
@@ -741,6 +752,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260816c"></script>
+    <script src="/js/sustainable-singapore.js?v=20260816d"></script>
   </body>
 </html>

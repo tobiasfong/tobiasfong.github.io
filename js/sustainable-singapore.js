@@ -71,6 +71,47 @@
   // except values sitting exactly on the rounding boundary.
   function d1(v) { return (Math.round(v * 10 + 1e-9) / 10).toFixed(1); }
 
+  /* ── Stat count-up ───────────────────────────────────
+     Runs once, when the row first scrolls into view — not at load, or it would
+     have finished before anyone saw it. The final value is already in the HTML,
+     so with JS off, or IntersectionObserver missing, or reduced motion asked
+     for, the reader still gets the number. */
+  function countUp() {
+    var nums = [].slice.call(document.querySelectorAll('.ss-stat-num'));
+    if (!nums.length) { return; }
+    var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (still || !window.IntersectionObserver) { return; }
+
+    function run(node) {
+      var to = parseFloat(node.getAttribute('data-to'));
+      var dp = parseInt(node.getAttribute('data-dp'), 10) || 0;
+      var prefix = node.getAttribute('data-prefix') || '';
+      var unit = node.querySelector('.ss-stat-unit');
+      var unitHTML = unit ? unit.outerHTML : '';
+      var from = dp ? 0.01 : 1;          // start just off zero, as asked
+      var start = null, DUR = 1100;
+      function frame(t) {
+        if (start === null) { start = t; }
+        var p = Math.min(1, (t - start) / DUR);
+        // ease-out cubic: quick off the mark, settles onto the true figure
+        var v = from + (to - from) * (1 - Math.pow(1 - p, 3));
+        node.innerHTML = prefix + v.toFixed(dp) + unitHTML;
+        if (p < 1) { requestAnimationFrame(frame); }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    var seen = new WeakSet();
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting || seen.has(e.target)) { return; }
+        seen.add(e.target);
+        run(e.target);
+      });
+    }, { threshold: 0.6 });
+    nums.forEach(function (n) { io.observe(n); });
+  }
+
   function yFor(year) { return (year - YEAR_MIN) * PX_PER_YEAR; }
   function el(id) { return document.getElementById(id); }
   function svgNode(name, attrs) {
@@ -800,6 +841,7 @@
     // Expand before the first layout pass: the markers are inline and can
     // reflow a card's text, which would otherwise invalidate its height.
     expandCitations(document.body);
+    countUp();
 
     function relayout() {
       var used = layoutCards(built);
