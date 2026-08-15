@@ -64,6 +64,13 @@
   var visible = {};
   SERIES.forEach(function (s) { visible[s.key] = s.on; });
 
+  // Round to one decimal, half UP, without the float artefact that makes
+  // (28.15).toFixed(1) come back as "28.1": 28.15 has no exact binary
+  // representation and the nearest double falls just short of it. The nudge
+  // is far below the 0.01 these series are stored at, so it moves nothing
+  // except values sitting exactly on the rounding boundary.
+  function d1(v) { return (Math.round(v * 10 + 1e-9) / 10).toFixed(1); }
+
   function yFor(year) { return (year - YEAR_MIN) * PX_PER_YEAR; }
   function el(id) { return document.getElementById(id); }
   function svgNode(name, attrs) {
@@ -115,7 +122,7 @@
     {
       year: 1971, label: '8 November 1971',
       title: 'The first Tree Planting Day',
-      body: 'Dr. Goh planted a rain tree sapling on the summit of Mount Faber, marking the start of an annual ritual. In the same day, about 8,400 trees and 21,677 shrubs and creepers were planted across Singapore by students, Singapore Armed Forces, ministers and members of Parliament. Tree Planting Day has been held every year since.[^18]</p><p>Earlier, during the Garden City campaign introduced on 11 May 1967, “instant trees” such as the angsana, rain tree, sea apple and curtain creeper were planted intensively to produce results as quickly as possible. Later, the yellow flame, frangipani and bougainvillea were added. In the 1970s, then Prime Minister Lee led mass tree planting activities on newly reclaimed land such as East Coast Park and Marina South, putting in tembusu, eugenia, tamarind and sea putat. Fruit trees became the focus in the 1980s, chosen for their sturdiness — they had to survive vandalism and pilfering before the more delicate ones could follow. These included rambutan, coconut, mangosteen, jambu ayer, mango, jackfruit, jujube, langsat, kedondong, binjai and kundang.[^18]'
+      body: 'Dr. Goh planted a rain tree sapling on the summit of Mount Faber, marking the start of an annual ritual. In the same day, about 8,400 trees and 21,677 shrubs and creepers were planted across Singapore by students, Singapore Armed Forces, ministers and members of Parliament. Tree Planting Day has been held every year since.[^18]</p><p>Earlier, during the Garden City campaign introduced on 11 May 1967, “instant trees” such as the angsana, rain tree, sea apple and curtain creeper were planted intensively to produce results as quickly as possible. Later, the yellow flame, frangipani and bougainvillea were added. In the 1970s, as then Prime Minister Lee led mass tree planting activities on newly reclaimed land, such as East Coast Park and Marina South, tembusu, eugenia, tamarind and sea putat were planted during the first decade. In the following decade, Lee switched the focus to fruit trees for their sturdiness. These included rambutan, coconut, mangosteen, <em>jambu ayer</em>, mango, jackfruit, jujube, <em>langsat</em>, <em>kedondong</em>, <em>binjai</em> and <em>kundang</em>.[^18]'
     },
     {
       year: 1975, label: 'From 1975',
@@ -495,7 +502,7 @@
           fill: '#fff', stroke: hit.def.color, 'stroke-width': 1.5
         }));
         rows += '<span><i class="ss-tip-sw" style="border-top-color:' + hit.def.tipColor +
-          '"></i>' + hit.def.tip + ' ' + hit.pt[1].toFixed(1) + '&nbsp;°C</span>';
+          '"></i>' + hit.def.tip + ' ' + d1(hit.pt[1]) + '&nbsp;°C</span>';
       });
       tip.innerHTML = rows;
       tip.style.display = 'block';
@@ -641,7 +648,7 @@
     // year, so labelling all six would stack six texts on one baseline.
     if (visible.changi && data.changi && data.changi.length) {
       var lastC = data.changi[data.changi.length - 1];
-      tag(data.changi, 'Changi ' + lastC[1].toFixed(1) + '°', '#4A4A4A');
+      tag(data.changi, 'Changi ' + d1(lastC[1]) + '°', '#4A4A4A');
     }
   }
 
