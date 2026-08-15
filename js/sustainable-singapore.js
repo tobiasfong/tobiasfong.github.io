@@ -149,6 +149,7 @@
     {
       year: 1963, label: '16 June 1963',
       title: 'Greening Singapore begins',
+      img: 'tree-planting-1963.jpg',
       body: 'Also known as the Tree Planting Campaign, it was kickstarted by founding Prime Minister Lee Kuan Yew, who planted a Mempat tree at Farrer Circus.[^17] The campaign aspired to plant 10,000 new trees annually, with the Garden City program introduced in 1967 that eventually led to Singapore’s reputation as one.[^18]</p><p>The aim was to raise awareness of the importance of trees in the environment, and thanks to their ability to enhance climate resilience, they have never been more necessary as global temperatures continue to rise.'
     },
     {
@@ -160,11 +161,13 @@
     {
       year: 1968, label: '1959–1969',
       title: 'Jurong: From swamp to industrial estate',
+      img: 'jurong-estate.jpg',
       body: 'In 1959, an estimated 200,000 people, which made up 14% of the population then, were jobless. Singapore’s then minister of finance, Dr. Goh Keng Swee, launched an ambitious plan to transform a crocodile-infested swamp into an industrial estate. His gamble paid off. By 1969, Jurong Industrial Estate housed 181 factories and a 20,000-strong workforce, and 16,000 people lived in HDB-constructed flats and shophouses.[^14]'
     },
     {
       year: 1971, label: '8 November 1971',
       title: 'The first Tree Planting Day',
+      img: 'mount-faber-1971.jpg',
       body: 'Dr. Goh planted a rain tree sapling on the summit of Mount Faber, marking the start of an annual ritual. In the same day, about 8,400 trees and 21,677 shrubs and creepers were planted across Singapore by students, Singapore Armed Forces, ministers and members of Parliament. Tree Planting Day has been held every year since.[^19]</p><p>Earlier, during the Garden City campaign introduced on 11 May 1967, “instant trees” such as the angsana, rain tree, sea apple and curtain creeper were planted intensively to produce results as quickly as possible. Later, the yellow flame, frangipani and bougainvillea were added. In the 1970s, as then Prime Minister Lee led mass tree planting activities on newly reclaimed land, such as East Coast Park and Marina South, tembusu, eugenia, tamarind and sea putat were planted during the first decade. In the following decade, Lee switched the focus to fruit trees for their sturdiness. These included rambutan, coconut, mangosteen, <em>jambu ayer</em>, mango, jackfruit, jujube, <em>langsat</em>, <em>kedondong</em>, <em>binjai</em> and <em>kundang</em>.[^19]'
     },
     {
@@ -176,6 +179,7 @@
     {
       year: 1980, label: '1970s–1980s',
       title: 'The Wild West',
+      img: 'tuas-golf.jpg',
       body: 'Jurong Town Corporation added over 2,000 hectares of reclaimed land to Jurong and Tuas to expand the western industrial estate and for the construction of shipyards to support the marine sector. In the late 1980s, Tuas grew by another 650 hectares, and to inject some greenery to an otherwise industrial area, they decided to build a golf course and a park there.</p><p>JTC also enlarged Pulau Bukom and Pulau Busing, and merged Pulau Ayer Merbau, Pulau Seraya and Pulau Sakra with surrounding islets into new land that was primarily used for the petrochemical industry.[^13]'
     },
     {
