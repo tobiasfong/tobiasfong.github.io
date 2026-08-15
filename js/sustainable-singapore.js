@@ -532,8 +532,8 @@
      labels and draw order have exactly one definition. It lives in the sticky
      header because the chart is nearly four thousand pixels tall — a control
      that scrolled away would be useless for most of the reading. */
-  function buildLegend(onChange) {
-    var host = el('ss-legend');
+  function buildLegend(hostId, onChange) {
+    var host = el(hostId);
     if (!host) { return; }
     host.innerHTML = '';
     // Laid out in pairs — extremes, daily means, annual means — which is not
@@ -777,6 +777,68 @@
     }
   }
 
+  /* ── Compact chart, for phones ────────────────────────────────
+     The timeline's temperature column is 250px wide and 3,780px tall, sized to
+     sit beside the cards at 30px per year. Below 900px that column is hidden
+     entirely, which left phone readers with the history and none of the
+     measurement the page is arguing from.
+
+     This is the same six series and the same visible{} state, redrawn wide and
+     short: full width, 4px per year instead of 30, so 1900–2026 fits in ~500px
+     that a thumb can cross in one scroll. Alignment with the cards is gone, but
+     that alignment was never possible at this width anyway. */
+  var M_PX_PER_YEAR = 4;
+
+  function drawTempMobile(data) {
+    var svg = el('ss-svg-temp-m');
+    if (!svg) { return; }
+    var host = svg.parentNode;
+    var w = host.clientWidth;
+    if (!w) { return; }              // section is display:none on desktop
+    var h = (YEAR_MAX - YEAR_MIN) * M_PX_PER_YEAR;
+    var PAD_L = 34, PAD_R = 46;
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    svg.setAttribute('height', h);
+    while (svg.firstChild) { svg.removeChild(svg.firstChild); }
+
+    var ext = tempExtent(data), lo = ext[0], hi = ext[1];
+    var x = function (t) { return PAD_L + ((t - lo) / (hi - lo)) * (w - PAD_L - PAD_R); };
+    var y = function (yr) { return (yr - YEAR_MIN) * M_PX_PER_YEAR; };
+
+    var span = hi - lo, step = span <= 5 ? 1 : (span <= 9 ? 2 : 3);
+    for (var tv = Math.ceil(lo / step) * step; tv < hi; tv += step) {
+      svg.appendChild(svgNode('line', { x1: x(tv), y1: 0, x2: x(tv), y2: h,
+        stroke: 'rgba(0,0,0,0.07)', 'stroke-width': 1 }));
+      var tl = svgNode('text', { x: x(tv) + 3, y: 11, 'font-size': 10, fill: '#aaa' });
+      tl.textContent = tv + '\u00b0';
+      svg.appendChild(tl);
+    }
+
+    // Decade labels down the left, so a reader can place any wiggle in time.
+    for (var yr = 1900; yr <= YEAR_MAX; yr += 20) {
+      svg.appendChild(svgNode('line', { x1: PAD_L - 4, y1: y(yr), x2: w - PAD_R, y2: y(yr),
+        stroke: 'rgba(0,0,0,0.05)', 'stroke-width': 1 }));
+      var yl = svgNode('text', { x: 0, y: y(yr) + 3, 'font-size': 10, fill: '#999' });
+      yl.textContent = yr;
+      svg.appendChild(yl);
+    }
+
+    SERIES.forEach(function (def) {
+      var s = data[def.key];
+      if (!visible[def.key] || !s || !s.length) { return; }
+      svg.appendChild(svgNode('polyline', {
+        points: s.map(function (p) { return x(p[1]) + ',' + y(p[0]); }).join(' '),
+        fill: 'none', stroke: def.color, 'stroke-width': def.width,
+        'stroke-opacity': def.opacity, 'stroke-linejoin': 'round'
+      }));
+      var last = s[s.length - 1];
+      var lab = svgNode('text', { x: Math.min(x(last[1]) + 4, w - 4), y: y(last[0]) + 3,
+        'font-size': 9, fill: def.color });
+      lab.textContent = def.tip;
+      svg.appendChild(lab);
+    });
+  }
+
   /* ── Live station panel ──────────────────────────────────── */
   function renderLive(payload) {
     var data = payload.data;
@@ -870,11 +932,16 @@
       });
       var state = { temp: temp, land: baked.land.series, live: false };
 
-      buildLegend(function () { drawTemp(state.temp); });
+      // Two legends, one state. The sticky-header one is hidden on phones
+      // (its whole grid column is), so the mobile section carries its own.
+      function redrawTemp() { drawTemp(state.temp); drawTempMobile(state.temp); }
+      buildLegend('ss-legend', redrawTemp);
+      buildLegend('ss-legend-m', redrawTemp);
 
       function paint() {
         drawLand(state.land);
         drawTemp(state.temp);
+        drawTempMobile(state.temp);
         // All that survives of the old "Reading the tracks" paragraph: whether
         // the reader is looking at live data or the baked fallback. That is the
         // one thing the prose could not tell them.
@@ -929,6 +996,7 @@
           relayout();
           drawLand(state.land);
           drawTemp(state.temp);
+          drawTempMobile(state.temp);
         }, 200);
       });
     }).catch(function () {

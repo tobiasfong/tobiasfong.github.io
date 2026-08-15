@@ -298,13 +298,44 @@
         padding-bottom: 5px; border-bottom: 1px solid var(--border);
       }
 
+      /* Only exists below 900px, where .ss-tl-temp is hidden. */
+      .ss-temp-m { display: none; }
+      .ss-temp-m-plot { position: relative; margin-top: 0.75rem; }
+      .ss-temp-m .ss-legend { grid-template-columns: 1fr 1fr; margin-top: 10px; }
+
       @media (max-width: 900px) {
         .ss-wide { padding: 0 20px; }
+        .ss-temp-m { display: block; max-width: 720px; margin: 0 auto 3rem; }
         .ss-tl, .ss-tl-sticky-head { grid-template-columns: 1fr 54px 46px 0; }
         .ss-tl-temp { display: none; }
         .ss-tl-sticky-head span:nth-child(4) { display: none; }
         .ss-card { right: 14px; width: auto; left: 0; }
-        .ss-bar-row { grid-template-columns: 108px 1fr 46px; }
+
+        /* The station list is the one genuinely wide thing on this page: a
+           name, a bar and a reading, times sixteen. Squeezing it into a phone
+           either truncates the names to nothing or crushes the bars to a stub,
+           and on a real device it was clipping at the right edge outright.
+           So let it keep a usable width and swipe sideways instead. Reported
+           as a scroll region so it is reachable without a touchscreen too. */
+        .ss-bars {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          overscroll-behavior-x: contain;
+          padding-bottom: 6px;
+        }
+        .ss-bar-row {
+          grid-template-columns: 132px minmax(120px, 1fr) 46px;
+          min-width: 330px;
+        }
+        .ss-bar-name { white-space: nowrap; }
+
+        /* Same treatment for the three headline readings, which sit in an
+           auto-fit grid that can end up wider than the panel. */
+        .ss-live-grid {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          overscroll-behavior-x: contain;
+        }
       }
     </style>
 </head>
@@ -438,7 +469,7 @@
             </div>
           </div>
 
-          <div class="ss-bars" id="ss-bars"></div>
+          <div class="ss-bars" id="ss-bars" role="region" aria-label="Station readings, scrolls sideways" tabindex="0"></div>
         </div>
 
       </section>
@@ -477,6 +508,21 @@
     </section>
 
     <main class="container project-content">
+
+      <!-- ── The same chart, for phones ── -->
+      <section class="ss-temp-m" aria-label="Singapore temperature record">
+        <div class="section-kicker">Temperature</div>
+        <h2>The measurement, on its own</h2>
+        <p>
+          The chart that runs beside the timeline on a wider screen does not fit next
+          to it on a phone, so here it is at full width. Same six series, same
+          switches.
+        </p>
+        <div class="ss-legend" id="ss-legend-m"></div>
+        <div class="ss-temp-m-plot">
+          <svg id="ss-svg-temp-m" width="100%" preserveAspectRatio="none"></svg>
+        </div>
+      </section>
 
       <!-- ── Where the data comes from ── -->
       <section style="max-width: 720px; margin: 0 auto 3rem;">
@@ -760,6 +806,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260816j"></script>
+    <script src="/js/sustainable-singapore.js?v=20260816l"></script>
   </body>
 </html>
