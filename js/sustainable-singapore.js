@@ -160,7 +160,7 @@
       year: 2020, label: '2020–2030',
       title: 'Green Plans One Million Trees',
       img: 'green-future.jpg',
-      body: 'As a key pillar of the Singapore Green Plan 2030, the OneMillionTrees Movement aims to plant a million more trees across Singapore from 2020 to 2030. As of August 2026, 887,044 trees have been planted since.[^20] Having hit over 500,000 trees back in 2023, the National Parks Board expects to attain the target by the end of 2027.[^21]'
+      body: 'As part of the Singapore Green Plan 2030, the OneMillionTrees Movement aims to plant a million more trees across Singapore from 2020 to 2030. As of August 2026, 887,044 trees have been planted since.[^20] Having hit over 500,000 trees back in 2023, the National Parks Board expects to attain the target by the end of 2027.[^21]'
     },
     {
       year: 2024, label: '2024',
