@@ -88,7 +88,7 @@
       .ss-tl {
         position: relative;
         display: grid;
-        grid-template-columns: 1fr 96px 60px 250px;
+        grid-template-columns: minmax(0, 1fr) 116px 60px 330px;
         gap: 0;
       }
       .ss-tl-col { position: relative; }
@@ -103,7 +103,7 @@
         backdrop-filter: saturate(180%) blur(20px);
         -webkit-backdrop-filter: saturate(180%) blur(20px);
         border-bottom: 1px solid var(--border);
-        display: grid; grid-template-columns: 1fr 96px 60px 250px;
+        display: grid; grid-template-columns: minmax(0, 1fr) 116px 60px 330px;
         padding: 10px 0; margin-bottom: 12px;
       }
       .ss-tl-head-inner { display: contents; }
@@ -114,9 +114,12 @@
 
       /* The card is a button: the whole thing is the hit target, and it
          reports itself to assistive tech as opening a dialog. */
+      /* Fills its column rather than sitting in the middle of it: a card that
+         stops short leaves a gutter on the left that reads as a mistake, and
+         every pixel of that gutter is width the chart could have had. Same
+         left:0 / right:26px the phone layout already used. */
       .ss-card {
-        position: absolute; left: auto; right: 26px;
-        width: min(468px, 100%);
+        position: absolute; left: 0; right: 26px; width: auto;
         border: 1px solid var(--border); border-radius: 14px;
         background: var(--bg); padding: 10px 12px;
         box-shadow: 0 2px 14px rgba(0,0,0,0.05);
