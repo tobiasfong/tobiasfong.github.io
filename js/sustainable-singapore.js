@@ -6,10 +6,11 @@
    at /data/sustainable-singapore.json so the page still renders
    correctly if an API is down or the visitor is offline.
 
-   Two live endpoints are used:
+   Live endpoints used:
      • real-time air temperature (NEA station network)
-     • datastore_search for the historical monthly means and the
-       annual land-area series
+     • datastore_search for five MSS/Changi temperature series
+       (mean, mean daily max/min, absolute extreme max/min) and
+       the annual land-area series
    NOTE: the newer poll-download API hands back a signed S3 URL,
    and that S3 object sends no CORS headers — a browser fetch of
    it is blocked. datastore_search is the endpoint that works
@@ -20,6 +21,10 @@
 
   var DS = 'https://data.gov.sg/api/action/datastore_search?resource_id=';
   var ID_TEMP = 'd_755290a24afe70c8f9e8bcbf9f251573';   // monthly mean, Changi, 1982-
+  var ID_TMAX = 'd_8e72ca09d5000b490126e3cd492f942b';   // annual mean daily maximum
+  var ID_TMIN = 'd_be96fc5a86b96f228efd7addaf7e61a8';   // annual mean daily minimum
+  var ID_XMAX = 'd_72a4d7402d4014f1999a009864f64a11';   // monthly absolute extreme max
+  var ID_XMIN = 'd_3b4b0418948847eaca93546f7574e365';   // monthly absolute extreme min
   var ID_LAND = 'd_0b2c034da121ef8efc71949af1694b4d';   // total land area, Dec, 1960-
   var RT_TEMP = 'https://api-open.data.gov.sg/v2/real-time/api/air-temperature';
 
@@ -27,8 +32,37 @@
   var PX_PER_YEAR = 30;
   var TL_HEIGHT = (YEAR_MAX - YEAR_MIN) * PX_PER_YEAR;
 
-  var TEMP_LO = 25.6, TEMP_HI = 29.2;   // °C axis for the temperature track
   var LAND_LO = 570,  LAND_HI = 755;    // km² axis for the land track
+
+  /* The six temperature series, in draw order (back to front) and in legend
+     order (hottest at the top, coldest at the bottom, means in the middle —
+     which is also how they stack on the chart).
+
+     Both means are gray so the eye reads them as one story told twice; the
+     day/night envelope is red above and blue below. Dark = the single most
+     extreme reading of the year, medium = the average of the daily extremes.
+
+     `on` is the DEFAULT visibility, not the current state — the current state
+     lives on the checkboxes. The two absolute extremes start off: switching
+     them on widens the axis from ~8 °C to ~13 °C, which flattens every line's
+     trend, and that trade should be the reader's choice rather than the
+     page's opening move. */
+  var SERIES = [
+    { key: 'absmax',   color: '#7A0B1E', width: 1.1, opacity: 0.8,  on: false,
+      legend: 0, tipColor: '#E04A5E', name: 'Hottest of year', tip: 'Hottest' },
+    { key: 'meanmax',  color: '#C8102E', width: 1.6, opacity: 0.9,  on: true,
+      legend: 2, tipColor: '#FF8095', name: 'Mean daily max',  tip: 'Daily max' },
+    { key: 'berkeley', color: '#0a0a0a', width: 1.2, opacity: 0.35, on: true,
+      legend: 4, tipColor: 'rgba(255,255,255,0.55)', name: 'Berkeley mean',   tip: 'Berkeley' },
+    { key: 'changi',   color: '#4A4A4A', width: 1.8, opacity: 0.95, on: true,
+      legend: 5, tipColor: '#D0D0D0', name: 'Changi mean',     tip: 'Changi mean' },
+    { key: 'meanmin',  color: '#2E6FC8', width: 1.6, opacity: 0.9,  on: true,
+      legend: 3, tipColor: '#7FB3FF', name: 'Mean daily min',  tip: 'Daily min' },
+    { key: 'absmin',   color: '#123A75', width: 1.1, opacity: 0.8,  on: false,
+      legend: 1, tipColor: '#4A82D8', name: 'Coldest of year', tip: 'Coldest' }
+  ];
+  var visible = {};
+  SERIES.forEach(function (s) { visible[s.key] = s.on; });
 
   function yFor(year) { return (year - YEAR_MIN) * PX_PER_YEAR; }
   function el(id) { return document.getElementById(id); }
@@ -203,6 +237,41 @@
     });
   }
 
+  /* MSS publishes mean daily max/min already aggregated to the year, so these
+     are read straight off. */
+  function liveAnnual(id, field) {
+    return fetchJSON(DS + id + '&limit=200').then(function (j) {
+      var out = [];
+      j.result.records.forEach(function (r) {
+        var y = parseInt(r.year, 10), v = parseFloat(r[field]);
+        if (!isNaN(y) && !isNaN(v)) { out.push([y, Math.round(v * 100) / 100]); }
+      });
+      return out.sort(function (a, b) { return a[0] - b[0]; });
+    });
+  }
+
+  /* The absolute extremes are only published monthly, so the annual figure is
+     derived here — the hottest of the twelve monthly highs, the coldest of the
+     twelve monthly lows. Complete years only, same rule as the annual mean, so
+     a part-finished year can't masquerade as a record. */
+  function liveMonthlyExtreme(id, field, pick) {
+    return fetchJSON(DS + id + '&limit=2000').then(function (j) {
+      var byYear = {};
+      j.result.records.forEach(function (r) {
+        var m = r.month, v = parseFloat(r[field]);
+        if (!m || isNaN(v)) { return; }
+        var y = parseInt(m.slice(0, 4), 10);
+        (byYear[y] = byYear[y] || []).push(v);
+      });
+      var out = [];
+      Object.keys(byYear).forEach(function (y) {
+        var a = byYear[y];
+        if (a.length === 12) { out.push([parseInt(y, 10), pick.apply(Math, a)]); }
+      });
+      return out.sort(function (a, b) { return a[0] - b[0]; });
+    });
+  }
+
   function liveLand() {
     return fetchJSON(DS + ID_LAND + '&limit=10').then(function (j) {
       var rec = j.result.records[0], out = [];
@@ -323,11 +392,47 @@
     svg.appendChild(lbl);
   }
 
+  /* ── Legend, which is also the toggle ────────────────────────
+     Built from SERIES rather than written into the HTML, so the colours,
+     labels and draw order have exactly one definition. It lives in the sticky
+     header because the chart is nearly four thousand pixels tall — a control
+     that scrolled away would be useless for most of the reading. */
+  function buildLegend(onChange) {
+    var host = el('ss-legend');
+    if (!host) { return; }
+    host.innerHTML = '';
+    // Laid out in pairs — extremes, daily means, annual means — which is not
+    // the draw order, hence the separate index.
+    SERIES.slice().sort(function (a, b) { return a.legend - b.legend; })
+      .forEach(function (def) {
+      var lab = document.createElement('label');
+      var box = document.createElement('input');
+      box.type = 'checkbox';
+      box.checked = visible[def.key];
+      lab.className = box.checked ? '' : 'ss-off';
+      box.addEventListener('change', function () {
+        visible[def.key] = box.checked;
+        lab.className = box.checked ? '' : 'ss-off';
+        onChange();
+      });
+      var sw = document.createElement('i');
+      sw.className = 'ss-sw';
+      sw.style.borderTopColor = def.color;
+      // Berkeley is drawn at 35% opacity; the swatch has to match or it reads
+      // as a different, darker series than the one on the chart.
+      sw.style.opacity = def.opacity;
+      lab.appendChild(box);
+      lab.appendChild(sw);
+      lab.appendChild(document.createTextNode(def.name));
+      host.appendChild(lab);
+    });
+  }
+
   /* ── Hover readout for the temperature chart ─────────────── */
   var hoverState = null;   // refreshed by every drawTemp; listeners bound once
 
-  function attachTempHover(svg, berkeley, changi, x, w, h) {
-    hoverState = { berkeley: berkeley, changi: changi, x: x, w: w, h: h };
+  function attachTempHover(svg, data, x, w, h) {
+    hoverState = { data: data, x: x, w: w, h: h };
 
     var layer = svgNode('g', { 'pointer-events': 'none' });
     svg.appendChild(layer);
@@ -363,10 +468,17 @@
       var sy = (ev.clientY - r.top) * (s.h / r.height);
       var year = Math.round(YEAR_MIN + sy / PX_PER_YEAR);
 
-      var b = nearest(s.berkeley, year);
-      var c = nearest(s.changi, year);
+      // Report every series that is switched ON and actually has a reading at
+      // this year — so the readout always matches what is drawn. Before 1982
+      // that is Berkeley alone, however many series are enabled.
+      var hits = [];
+      SERIES.forEach(function (def) {
+        if (!visible[def.key]) { return; }
+        var p = nearest(s.data[def.key], year);
+        if (p) { hits.push({ def: def, pt: p }); }
+      });
       while (s.layer.firstChild) { s.layer.removeChild(s.layer.firstChild); }
-      if (!b && !c) { tip.style.display = 'none'; return; }
+      if (!hits.length) { tip.style.display = 'none'; return; }
 
       var gy = yFor(year);
       s.layer.appendChild(svgNode('line', {
@@ -374,20 +486,14 @@
         stroke: 'rgba(0,0,0,0.35)', 'stroke-width': 1, 'stroke-dasharray': '3 3'
       }));
       var rows = '<strong>' + year + '</strong>';
-      if (b) {
+      hits.forEach(function (hit) {
         s.layer.appendChild(svgNode('circle', {
-          cx: s.x(b[1]), cy: yFor(b[0]), r: 3.5,
-          fill: '#fff', stroke: '#0a0a0a', 'stroke-width': 1.5
+          cx: s.x(hit.pt[1]), cy: yFor(hit.pt[0]), r: 3.5,
+          fill: '#fff', stroke: hit.def.color, 'stroke-width': 1.5
         }));
-        rows += '<span><i class="ss-tip-sw ss-sw-be"></i>Berkeley ' + b[1].toFixed(1) + '&nbsp;°C</span>';
-      }
-      if (c) {
-        s.layer.appendChild(svgNode('circle', {
-          cx: s.x(c[1]), cy: yFor(c[0]), r: 3.5,
-          fill: '#fff', stroke: '#C8102E', 'stroke-width': 1.5
-        }));
-        rows += '<span><i class="ss-tip-sw ss-sw-ch"></i>Changi ' + c[1].toFixed(1) + '&nbsp;°C</span>';
-      }
+        rows += '<span><i class="ss-tip-sw" style="border-top-color:' + hit.def.tipColor +
+          '"></i>' + hit.def.tip + ' ' + hit.pt[1].toFixed(1) + '&nbsp;°C</span>';
+      });
       tip.innerHTML = rows;
       tip.style.display = 'block';
       // Keep the tip on screen: flip to the left of the pointer near the edge.
@@ -408,7 +514,27 @@
     });
   }
 
-  function drawTemp(berkeley, changi) {
+  /* The °C axis is not fixed. It spans whatever is switched on, so the mean
+     lines keep the tight scale that makes their rise legible until the reader
+     asks for the day/night envelope, at which point it zooms out to fit.
+     Snapped to half-degrees so the gridline labels stay round. */
+  function tempExtent(data) {
+    var lo = Infinity, hi = -Infinity;
+    SERIES.forEach(function (def) {
+      if (!visible[def.key]) { return; }
+      var arr = data[def.key];
+      if (!arr || !arr.length) { return; }
+      arr.forEach(function (p) {
+        if (p[1] < lo) { lo = p[1]; }
+        if (p[1] > hi) { hi = p[1]; }
+      });
+    });
+    if (lo === Infinity) { return [25.6, 29.2]; }   // nothing visible
+    var pad = Math.max(0.3, (hi - lo) * 0.08);
+    return [Math.floor((lo - pad) * 2) / 2, Math.ceil((hi + pad) * 2) / 2];
+  }
+
+  function drawTemp(data) {
     var svg = el('ss-svg-temp');
     var w = svg.parentNode.clientWidth, h = TL_HEIGHT;
     if (!w) {
@@ -419,7 +545,7 @@
       // this column is display:none) doesn't spin forever.
       drawTemp.tries = (drawTemp.tries || 0) + 1;
       if (drawTemp.tries < 60) {
-        requestAnimationFrame(function () { drawTemp(berkeley, changi); });
+        requestAnimationFrame(function () { drawTemp(data); });
       }
       return;
     }
@@ -428,9 +554,17 @@
     svg.setAttribute('height', h);
     while (svg.firstChild) { svg.removeChild(svg.firstChild); }
 
-    var x = function (t) { return ((t - TEMP_LO) / (TEMP_HI - TEMP_LO)) * w; };
+    var ext = tempExtent(data), lo = ext[0], hi = ext[1];
+    var x = function (t) { return ((t - lo) / (hi - lo)) * w; };
 
-    [26, 27, 28, 29].forEach(function (t) {
+    // Gridline spacing follows the span, so a 3.6 °C axis and a 13 °C one both
+    // land on four to six labelled lines instead of two or twenty.
+    var span = hi - lo;
+    var step = span <= 5 ? 1 : (span <= 9 ? 2 : 3);
+    var ticks = [];
+    for (var tv = Math.ceil(lo / step) * step; tv < hi; tv += step) { ticks.push(tv); }
+
+    ticks.forEach(function (t) {
       svg.appendChild(svgNode('line', {
         x1: x(t), y1: 0, x2: x(t), y2: h,
         stroke: 'rgba(0,0,0,0.06)', 'stroke-width': 1
@@ -444,13 +578,12 @@
       }
     });
 
-    function line(series, stroke, width, opacity, dash) {
+    function line(series, stroke, width, opacity) {
       if (!series || !series.length) { return; }
       svg.appendChild(svgNode('polyline', {
         points: series.map(function (p) { return x(p[1]) + ',' + yFor(p[0]); }).join(' '),
         fill: 'none', stroke: stroke, 'stroke-width': width,
-        'stroke-opacity': opacity, 'stroke-linejoin': 'round',
-        'stroke-dasharray': dash || null
+        'stroke-opacity': opacity, 'stroke-linejoin': 'round'
       }));
     }
 
@@ -469,22 +602,27 @@
       lab.textContent = text;
       svg.appendChild(lab);
     }
-    if (changi && changi.length) {
-      annotate(changi[0][0], 'Changi station record begins');
+    if (data.changi && data.changi.length) {
+      annotate(data.changi[0][0], 'Changi station record begins');
     }
-    if (berkeley && berkeley.length) {
-      annotate(berkeley[berkeley.length - 1][0], 'Berkeley Earth series ends');
+    if (visible.berkeley && data.berkeley && data.berkeley.length) {
+      annotate(data.berkeley[data.berkeley.length - 1][0], 'Berkeley Earth series ends');
     }
 
-    line(berkeley, '#0a0a0a', 1.2, 0.35);
-    line(changi, '#C8102E', 1.8, 0.9);
+    // Back to front, so the two means land on top of the envelope rather than
+    // under it. SERIES is already ordered that way.
+    SERIES.forEach(function (def) {
+      if (visible[def.key]) {
+        line(data[def.key], def.color, def.width, def.opacity);
+      }
+    });
 
     // Hover readout. The chart is ~4000px tall and only 250px wide, so reading
-    // a value off it by eye is guesswork; this gives the exact year and both
-    // series' readings. Hit-testing is by YEAR (the vertical axis) rather than
-    // by distance to a line, so the pointer doesn't have to land on 1.2px of
-    // stroke — anywhere in the column at that height works.
-    attachTempHover(svg, berkeley, changi, x, w, h);
+    // a value off it by eye is guesswork; this gives the exact year and every
+    // visible series' reading. Hit-testing is by YEAR (the vertical axis)
+    // rather than by distance to a line, so the pointer doesn't have to land on
+    // 1.2px of stroke — anywhere in the column at that height works.
+    attachTempHover(svg, data, x, w, h);
 
     function tag(series, text, color) {
       if (!series || !series.length) { return; }
@@ -496,7 +634,12 @@
       t.textContent = text;
       svg.appendChild(t);
     }
-    tag(changi, 'Changi ' + changi[changi.length - 1][1].toFixed(1) + '°', '#C8102E');
+    // Only the annual mean gets an end label. Every series ends in the same
+    // year, so labelling all six would stack six texts on one baseline.
+    if (visible.changi && data.changi && data.changi.length) {
+      var lastC = data.changi[data.changi.length - 1];
+      tag(data.changi, 'Changi ' + lastC[1].toFixed(1) + '°', '#4A4A4A');
+    }
   }
 
   /* ── Live station panel ──────────────────────────────────── */
@@ -585,23 +728,34 @@
       .then(renderLive).catch(liveFailed);
 
     fetchJSON('/data/sustainable-singapore.json').then(function (baked) {
-      var berkeley = baked.berkeley.series;
-      var state = { changi: baked.changi.series, land: baked.land.series, live: false };
+      var temp = {};
+      SERIES.forEach(function (def) {
+        temp[def.key] = (baked[def.key] && baked[def.key].series) || [];
+      });
+      var state = { temp: temp, land: baked.land.series, live: false };
+
+      buildLegend(function () { drawTemp(state.temp); });
 
       function paint() {
         drawLand(state.land);
-        drawTemp(berkeley, state.changi);
-        var lastT = state.changi[state.changi.length - 1];
+        drawTemp(state.temp);
+        var mean = state.temp.changi, lastT = mean[mean.length - 1];
         var lastL = state.land[state.land.length - 1];
+        var mx = state.temp.meanmax, mn = state.temp.meanmin;
         el('ss-tl-note').innerHTML =
           '<strong>Reading the tracks.</strong> Land area (SingStat/SLA) runs 1960–' +
-          lastL[0] + ', from 581.5 to ' + lastL[1] + ' km². The faint gray ' +
-          'temperature line is Berkeley Earth’s regional reconstruction for Singapore ' +
-          '(1900–2020); the red line is the official Changi station annual mean ' +
+          lastL[0] + ', from 581.5 to ' + lastL[1] + ' km². The two gray ' +
+          'temperature lines are annual means: Berkeley Earth’s regional reconstruction ' +
+          'for Singapore (1900–2020), and the official Changi station record ' +
           '(1982–' + lastT[0] + ', latest ' + lastT[1].toFixed(1) + ' °C). ' +
           'The roughly 0.4 °C offset between them is a baseline difference, not a ' +
           'disagreement about direction — see the note below on why they are drawn ' +
-          'separately. ' +
+          'separately. Red is the daytime side of the day and blue the night: at Changi ' +
+          'in ' + lastT[0] + ' the mean daily maximum was ' +
+          (mx.length ? mx[mx.length - 1][1].toFixed(1) : '—') + ' °C and the mean ' +
+          'daily minimum ' + (mn.length ? mn[mn.length - 1][1].toFixed(1) : '—') + ' °C. ' +
+          'The checkboxes above also add the hottest and coldest single readings of ' +
+          'each year; switching those on widens the scale, so every line looks flatter. ' +
           (state.live
             ? '<em>These series were refreshed live from data.gov.sg when you loaded this page.</em>'
             : '<em>Showing the last saved copy of the data; the live refresh did not complete.</em>');
@@ -621,14 +775,29 @@
         window.addEventListener('load', repaint);
       }
 
+      // Six requests, each independently optional. Any one that fails leaves
+      // that series on its baked copy rather than blanking the chart, which is
+      // why every promise is caught individually instead of as a group.
+      function opt(p) { return p.catch(function () { return null; }); }
       Promise.all([
-        liveTemps().catch(function () { return null; }),
-        liveLand().catch(function () { return null; })
+        opt(liveTemps()),
+        opt(liveLand()),
+        opt(liveAnnual(ID_TMAX, 'temp_mean_daily_max')),
+        opt(liveAnnual(ID_TMIN, 'temp_mean_daily_min')),
+        opt(liveMonthlyExtreme(ID_XMAX, 'max_temperature', Math.max)),
+        opt(liveMonthlyExtreme(ID_XMIN, 'temp_extremes_min', Math.min))
       ]).then(function (res) {
-        var gotT = res[0] && res[0].length, gotL = res[1] && res[1].length;
-        if (gotT) { state.changi = res[0]; }
-        if (gotL) { state.land = res[1]; }
-        if (gotT || gotL) { state.live = true; paint(); }
+        var got = false;
+        function take(i, key) {
+          if (res[i] && res[i].length) { state.temp[key] = res[i]; got = true; }
+        }
+        take(0, 'changi');
+        take(2, 'meanmax');
+        take(3, 'meanmin');
+        take(4, 'absmax');
+        take(5, 'absmin');
+        if (res[1] && res[1].length) { state.land = res[1]; got = true; }
+        if (got) { state.live = true; paint(); }
       });
 
       var t;
@@ -637,7 +806,7 @@
         t = setTimeout(function () {
           relayout();
           drawLand(state.land);
-          drawTemp(berkeley, state.changi);
+          drawTemp(state.temp);
         }, 200);
       });
     }).catch(function () {

@@ -129,22 +129,35 @@
       /* Legend lives in the sticky header so it stays on screen for the whole
          scroll — the chart is thousands of pixels tall and the prose
          explanation sits below all of it. */
+      /* Two columns, so six toggles cost three rows of sticky-header height
+         rather than six. The chart is ~3,800px tall and this header stays
+         pinned for all of it, so every row it grows is a row of the reader's
+         screen it takes away. */
       .ss-legend {
-        display: block; text-transform: none; letter-spacing: 0;
-        font-weight: 400; font-size: 10px; color: var(--text-muted);
-        margin-top: 4px; line-height: 1.5;
-      }
-      .ss-legend span {
-        display: block; white-space: nowrap;
+        display: grid; grid-template-columns: 1fr 1fr; column-gap: 8px;
         text-transform: none; letter-spacing: 0;
         font-weight: 400; font-size: 10px; color: var(--text-muted);
+        margin-top: 4px;
+      }
+      .ss-legend label {
+        display: flex; align-items: center; gap: 4px;
+        white-space: nowrap; overflow: hidden;
+        text-transform: none; letter-spacing: 0;
+        font-weight: 400; font-size: 10px; color: var(--text-muted);
+        cursor: pointer; line-height: 1.55;
+      }
+      .ss-legend label:hover { color: var(--text); }
+      .ss-legend label.ss-off { opacity: 0.45; }
+      /* The native checkbox at 10px is a 13px box with its own margins, which
+         throws the row off its baseline. Shrink and re-centre it. */
+      .ss-legend input {
+        width: 11px; height: 11px; margin: 0; flex: none;
+        accent-color: var(--accent-red); cursor: pointer;
       }
       .ss-sw {
-        display: inline-block; width: 12px; height: 0; margin-right: 5px;
-        vertical-align: middle;
+        display: inline-block; width: 12px; height: 0; flex: none;
+        border-top: 2px solid currentColor; vertical-align: middle;
       }
-      .ss-sw-be { border-top: 2px solid rgba(10,10,10,0.35); }
-      .ss-sw-ch { border-top: 2px solid var(--accent-red); }
 
       .ss-tl-note {
         font-size: var(--fs-caption); color: var(--text-muted);
@@ -214,12 +227,13 @@
       }
       .ss-tip strong { display: block; font-size: 12px; margin-bottom: 3px; }
       .ss-tip span { display: block; }
+      /* Colour comes from the script, which uses a LIGHTENED variant here: the
+         chart's palette is mixed for white paper, and Berkeley's near-black
+         would vanish against this dark tip. */
       .ss-tip-sw {
         display: inline-block; width: 10px; height: 0; margin-right: 6px;
-        vertical-align: middle;
+        border-top: 2px solid currentColor; vertical-align: middle;
       }
-      .ss-tip .ss-sw-be { border-top: 2px solid rgba(255,255,255,0.55); }
-      .ss-tip .ss-sw-ch { border-top: 2px solid #ff6b7f; }
       .ss-tl-temp svg { cursor: crosshair; }
 
       .ss-refs-head {
@@ -391,11 +405,10 @@
         <span>History of Singapore's urbanization</span>
         <span>Land&nbsp;km²</span>
         <span>Year</span>
-        <span>Annual mean&nbsp;°C
-          <span class="ss-legend">
-            <span><i class="ss-sw ss-sw-be"></i>Berkeley Earth reconstruction, 1900–2020</span>
-            <span><i class="ss-sw ss-sw-ch"></i>Changi station record, 1982–</span>
-          </span>
+        <span>Temperature&nbsp;°C
+          <!-- Filled in by the script from its SERIES table, so the colours and
+               labels here can never drift from the ones on the chart. -->
+          <span class="ss-legend" id="ss-legend"></span>
         </span>
       </div>
 
@@ -403,7 +416,7 @@
         <div class="ss-tl-col ss-tl-cards" id="ss-tl-cards"></div>
         <div class="ss-tl-col ss-tl-land"><svg id="ss-svg-land" width="100%" height="100%" preserveAspectRatio="none" aria-label="Singapore total land area, 1960 to 2025"></svg></div>
         <div class="ss-tl-col ss-tl-axis" id="ss-tl-axis"><div class="ss-axis-line"></div></div>
-        <div class="ss-tl-col ss-tl-temp"><svg id="ss-svg-temp" width="100%" height="100%" preserveAspectRatio="none" aria-label="Singapore annual mean temperature, 1900 to 2025"></svg></div>
+        <div class="ss-tl-col ss-tl-temp"><svg id="ss-svg-temp" width="100%" height="100%" preserveAspectRatio="none" aria-label="Singapore annual temperature at Changi, 1900 to 2025: annual means, mean daily maximum and minimum, and yearly extremes"></svg></div>
       </div>
 
       <p class="ss-tl-note" id="ss-tl-note" style="max-width:720px; margin-left:auto; margin-right:auto;">
@@ -623,15 +636,33 @@
             </span>
           </li>
           <li id="ref-2">
-            National Environment Agency, <em>Surface Air Temperature — Monthly Mean</em>, dataset
-            <code>d_755290a24afe70c8f9e8bcbf9f251573</code>,
-            <a href="https://data.gov.sg/datasets/d_755290a24afe70c8f9e8bcbf9f251573/view" target="_blank" rel="noopener noreferrer">data.gov.sg</a>.
-            Changi Climate Station, January 1982 onward.
+            National Environment Agency, <em>Surface Air Temperature</em> — five datasets on
+            <a href="https://data.gov.sg/" target="_blank" rel="noopener noreferrer">data.gov.sg</a>,
+            all Changi Climate Station, January 1982 onward:
+            <a href="https://data.gov.sg/datasets/d_755290a24afe70c8f9e8bcbf9f251573/view" target="_blank" rel="noopener noreferrer">Monthly Mean</a>
+            (<code>d_755290a2…</code>),
+            <a href="https://data.gov.sg/datasets/d_8e72ca09d5000b490126e3cd492f942b/view" target="_blank" rel="noopener noreferrer">Annual Mean Daily Maximum</a>
+            (<code>d_8e72ca09…</code>),
+            <a href="https://data.gov.sg/datasets/d_be96fc5a86b96f228efd7addaf7e61a8/view" target="_blank" rel="noopener noreferrer">Annual Mean Daily Minimum</a>
+            (<code>d_be96fc5a…</code>),
+            <a href="https://data.gov.sg/datasets/d_72a4d7402d4014f1999a009864f64a11/view" target="_blank" rel="noopener noreferrer">Monthly Absolute Extreme Maximum</a>
+            (<code>d_72a4d740…</code>) and
+            <a href="https://data.gov.sg/datasets/d_3b4b0418948847eaca93546f7574e365/view" target="_blank" rel="noopener noreferrer">Monthly Absolute Extreme Minimum</a>
+            (<code>d_3b4b0418…</code>).
             <span class="ss-ref-note">
-              The red line on the timeline. Annual means are <em>computed here</em> as the mean of the
-              twelve monthly means, using complete twelve-month years only — this is a derivation, not
-              a published series. Cross-checked against reference 1: it reproduces MSS's published
-              warmest years exactly (2024 = 28.44, 2019 = 28.43, 2016 = 28.42, all 28.4 to one decimal).
+              Every Changi line on the timeline. Two of the five are <em>derived here</em> rather than
+              read off: the <strong>annual mean</strong> is the mean of the twelve monthly means, and
+              the <strong>annual hottest and coldest readings</strong> are the highest and lowest of
+              the twelve monthly extremes. Both use complete twelve-month years only, so a
+              part-finished year cannot pose as a record. The mean daily maximum and minimum are
+              published annually by MSS and are taken as given. Cross-checked against reference 1: the
+              derived annual mean reproduces MSS's published warmest years exactly (2024 = 28.44,
+              2019 = 28.43, 2016 = 28.42, all 28.4 to one decimal).
+              <span class="ss-ref-flag">Worth noting:</span> across 1982–2025 the mean daily
+              <em>minimum</em> rises about <strong>0.29&nbsp;°C per decade</strong> against roughly
+              <strong>0.11&nbsp;°C</strong> for the mean daily maximum — the nights warming close to
+              three times as fast as the days. Trends fitted here by least squares on the annual
+              series; they are not MSS figures.
             </span>
           </li>
           <li id="ref-3">
@@ -956,6 +987,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260815f"></script>
+    <script src="/js/sustainable-singapore.js?v=20260815g"></script>
   </body>
 </html>
