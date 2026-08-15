@@ -22,7 +22,13 @@
   /* Type scale */
   --fs-h1: clamp(60px, 9vw, 108px);
   --fs-h2: clamp(32px, 4vw, 48px);
+  --fs-h3: 18px;
   --fs-lead: 16px;
+  /* Long-form running text on project pages. Deliberately larger than
+     --fs-body: 13.5px is right for a card blurb you scan, too small for the
+     essays these pages actually carry. */
+  --fs-prose: 16px;
+  --fs-lead-lg: 18px;
   --fs-body: 13.5px;
   --fs-label: 12px;
   --fs-caption: 11.5px;
@@ -730,10 +736,25 @@ footer {
 
 .project-content p,
 .project-content li {
-  font-size: var(--fs-body);
+  font-size: var(--fs-prose);
   color: var(--text-body);
   line-height: 1.75;
   max-width: 68ch;
+}
+
+/* .lead is (0,1,0) and loses to .project-content p (0,1,1), so without this the
+   stand-first on every project page silently renders at running-text size. */
+.project-content .lead {
+  font-size: var(--fs-lead-lg);
+}
+
+.project-content h3 {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  margin-bottom: 10px;
 }
 
 /* restore paragraph spacing the universal reset stripped out */
@@ -1069,5 +1090,5 @@ footer {
 
 .lyrics p em {
   color: var(--text-muted);
-  font-size: 14px;
+  font-size: var(--fs-body);
 }
