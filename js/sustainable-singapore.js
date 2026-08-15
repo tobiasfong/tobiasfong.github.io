@@ -215,7 +215,7 @@
     {
       year: 2024, label: '2024',
       title: 'A warm welcome back to Singapore',
-      body: 'The year I graduated from the University of Minnesota and returned to Singapore was also the warmest on record. With the annual mean temperature reaching 28.4 °C, tying with 2016 and 2019, it was — like 1997 — on the tail end of the 2023 El Niño event (which also saw one of the warmest winters in Minneapolis).[^2] Singapore’s land area also expanded to 735.7 km², and 744.3 km² in the following year, and it’s still growing.[^5]'
+      body: 'The year I graduated from the University of Minnesota and returned to Singapore was also the warmest on record. With the annual mean temperature reaching 28.4 °C, tying with 2016 and 2019,[^2] it was — like 1997 — on the tail end of the 2023 El Niño event (which also saw one of the warmest winters in Minneapolis). Singapore’s land area also expanded to 735.7 km², and 744.3 km² in the following year, and it’s still growing.[^5]'
     }
   ];
 
