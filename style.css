@@ -1098,3 +1098,56 @@ footer {
   color: var(--text-muted);
   font-size: var(--fs-body);
 }
+
+/* ── Wide media variant of .feature-card ────────────────────────────────
+   A project that earns its own full-width row: image on the left, copy on
+   the right. Reuses .feature-card's dark panel and hover so it reads as the
+   same component, only with artwork. Stacks image-over-text on a phone,
+   matching the .editorial-split rule. */
+.feature-card--media {
+  align-items: stretch;
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+}
+
+.feature-card--media .feature-card-media {
+  flex: 0 0 46%;
+  min-height: 260px;
+  background-size: cover;
+  background-position: center;
+}
+
+.feature-card--media .feature-card-inner {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 32px;
+  min-width: 0;
+}
+
+.feature-card--media .feature-card-body h3 { font-size: var(--fs-h3); }
+
+.feature-card--media .feature-card-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.feature-card--media .feature-card-tags span {
+  font-size: var(--fs-label);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+
+@media (max-width: 760px) {
+  .feature-card--media { flex-direction: column; }
+  .feature-card--media .feature-card-media { flex-basis: auto; min-height: 200px; }
+  .feature-card--media .feature-card-inner { padding: 24px; }
+}
