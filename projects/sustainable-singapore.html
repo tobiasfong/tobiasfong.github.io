@@ -24,6 +24,11 @@
            classes so nothing leaks into the shared stylesheet. ── */
       .ss-wide { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
 
+      /* style.css caps .project-content p at 68ch (~605px) for reading measure.
+         These two sections are sized to the 880px hero video, and a full-width
+         heading sitting over a 605px column is what looked compressed. */
+      .ss-fullwidth-prose p { max-width: none; }
+
       /* ── Hero video ── */
       .ss-hero-video { margin: 2rem auto 0; max-width: 880px; }
       .ss-hero-video video {
@@ -327,7 +332,7 @@
       </header>
 
       <!-- ── The question ── -->
-      <section style="max-width: 880px; margin: 0 auto 3rem;">
+      <section class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3rem;">
         <h2>A historical overview of temperature rise alongside Singapore's urbanization</h2>
         <p>
           Between 1948 and 2025, Singapore grew warmer as the mean surface air temperature rose by
@@ -370,7 +375,7 @@
       </section>
 
       <!-- ── Live panel ── -->
-      <section style="max-width: 880px; margin: 0 auto 3rem;">
+      <section class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3rem;">
         <div class="section-kicker">Live tracking</div>
         <h2>Daily temperatures</h2>
         <p>
