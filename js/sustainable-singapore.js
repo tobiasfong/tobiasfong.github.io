@@ -85,7 +85,7 @@
       year: 1900, label: '1900s',
       title: 'An island of swamps',
       img: 'kampong-swamp.jpg',
-      body: 'Singapore was home to myriad ecosystems and coastal habitats, much of which has been cleared since then. Even as far back as 1820, mangrove swamps made up about 13% of Singapore’s fringe areas, only to fall to less than 0.5% of our land area in 2010.[^15]'
+      body: 'Singapore was home to myriad ecosystems and coastal habitats, much of which has been cleared since then. Even as far back as 1820, mangrove swamps made up about 13% of Singapore’s fringe areas, only to fall to less than 0.5% of our land area in 2010.[^16]'
     },
     {
       year: 1960, label: '1 February 1960',
@@ -106,7 +106,7 @@
     {
       year: 1963, label: '16 June 1963',
       title: 'Greening Singapore begins',
-      body: 'Also known as the Tree Planting Campaign, it was kickstarted by founding Prime Minister Lee Kuan Yew, who planted a Mempat tree at Farrer Circus.[^16] The campaign aspired to plant 10,000 new trees annually, with the Garden City program introduced in 1967 that eventually led to Singapore’s reputation as one.[^17]</p><p>The aim was to raise awareness of the importance of trees in the environment, and thanks to their ability to enhance climate resilience, they have never been more necessary as global temperatures continue to rise.'
+      body: 'Also known as the Tree Planting Campaign, it was kickstarted by founding Prime Minister Lee Kuan Yew, who planted a Mempat tree at Farrer Circus.[^17] The campaign aspired to plant 10,000 new trees annually, with the Garden City program introduced in 1967 that eventually led to Singapore’s reputation as one.[^18]</p><p>The aim was to raise awareness of the importance of trees in the environment, and thanks to their ability to enhance climate resilience, they have never been more necessary as global temperatures continue to rise.'
     },
     {
       year: 1966, label: 'From 1966',
@@ -122,7 +122,7 @@
     {
       year: 1971, label: '8 November 1971',
       title: 'The first Tree Planting Day',
-      body: 'Dr. Goh planted a rain tree sapling on the summit of Mount Faber, marking the start of an annual ritual. In the same day, about 8,400 trees and 21,677 shrubs and creepers were planted across Singapore by students, Singapore Armed Forces, ministers and members of Parliament. Tree Planting Day has been held every year since.[^18]</p><p>Earlier, during the Garden City campaign introduced on 11 May 1967, “instant trees” such as the angsana, rain tree, sea apple and curtain creeper were planted intensively to produce results as quickly as possible. Later, the yellow flame, frangipani and bougainvillea were added. In the 1970s, as then Prime Minister Lee led mass tree planting activities on newly reclaimed land, such as East Coast Park and Marina South, tembusu, eugenia, tamarind and sea putat were planted during the first decade. In the following decade, Lee switched the focus to fruit trees for their sturdiness. These included rambutan, coconut, mangosteen, <em>jambu ayer</em>, mango, jackfruit, jujube, <em>langsat</em>, <em>kedondong</em>, <em>binjai</em> and <em>kundang</em>.[^18]'
+      body: 'Dr. Goh planted a rain tree sapling on the summit of Mount Faber, marking the start of an annual ritual. In the same day, about 8,400 trees and 21,677 shrubs and creepers were planted across Singapore by students, Singapore Armed Forces, ministers and members of Parliament. Tree Planting Day has been held every year since.[^19]</p><p>Earlier, during the Garden City campaign introduced on 11 May 1967, “instant trees” such as the angsana, rain tree, sea apple and curtain creeper were planted intensively to produce results as quickly as possible. Later, the yellow flame, frangipani and bougainvillea were added. In the 1970s, as then Prime Minister Lee led mass tree planting activities on newly reclaimed land, such as East Coast Park and Marina South, tembusu, eugenia, tamarind and sea putat were planted during the first decade. In the following decade, Lee switched the focus to fruit trees for their sturdiness. These included rambutan, coconut, mangosteen, <em>jambu ayer</em>, mango, jackfruit, jujube, <em>langsat</em>, <em>kedondong</em>, <em>binjai</em> and <em>kundang</em>.[^19]'
     },
     {
       year: 1975, label: 'From 1975',
@@ -148,24 +148,24 @@
       year: 1997, label: '1997 onward',
       title: 'High-rise island gives rise to rising temperatures',
       img: 'heat-island.jpg',
-      body: 'The ten warmest years in Singapore’s record all fall on and after 1997.[^1] The average mean was 28.4 °C in 2016, 2019 and 2024, 28.3 °C in 1997, 1998 and 2015, 28.2 °C in 2023, and 28.1 °C in 2002, 2010 and 2025.[^2] By now, Singapore is one of the most dense urban nations in the world, which exacerbates the Urban Heat Island effect. Caused by heat both trapped by buildings and generated from human activities, the difference between temperatures in highly urbanized Orchard Road and open natural Lim Chu Kang reaches up to 4 °C, despite the two neighborhoods being only 30 minutes apart.[^20]</p><p>Depending on material, such as black aluminum facade, a narrow space between concrete buildings and road can see temperatures rise up to 2.5 °C.[^21]'
+      body: 'The ten warmest years in Singapore’s record all fall on and after 1997,[^1] which was the year of one of the most powerful El Niño events in recorded history. The average mean was 28.4 °C in 2016, 2019 and 2024, 28.3 °C in 1997, 1998 and 2015, 28.2 °C in 2023, and 28.1 °C in 2002, 2010 and 2025.[^2] By now, Singapore is one of the most dense urban nations in the world, which exacerbates the Urban Heat Island effect. Caused by heat both trapped by buildings and generated from human activities, the difference between temperatures in highly urbanized Orchard Road and open natural Lim Chu Kang reaches up to 4 °C, despite the two neighborhoods being only 30 minutes apart.[^22]</p><p>Depending on material, such as black aluminum facade, a narrow space between concrete buildings and road can see temperatures rise up to 2.5 °C.[^23]'
     },
     {
       year: 2008, label: '2000s',
-      title: 'Marina Bay: a downtown on made ground',
+      title: 'Marina Bay’s Barrage of Skyscrapers',
       img: 'marina-bay.jpg',
-      body: 'The land beneath Marina Bay was reclaimed from the 1970s onward as part of the East Coast program; the Barrage closes the river mouth in 2008.[^13] Between 1999 and 2000 alone the national land area jumps from 659.9 to 682.7 km² — the single largest one-year gain in the series.[^5]'
+      body: 'After the initial reclamation around Marina Bay that began in 1977, the first skyscrapers were constructed in the 21st century.[^13] An expansion of the city center that includes the iconic ship-roof Marina Bay Sands, one of Singapore’s only two casinos, and high-rise luxury apartments, Marina Bay is also home to a dam, Marina Barrage, which officially opened on 31 October 2008.[^15]</p><p>Amidst this, the national land area increased from 659.9 to 682.7 km² between 1999 and 2000, which was the largest annual increment of land in Singapore.[^5]'
     },
     {
       year: 2020, label: '2020–2030',
-      title: 'OneMillionTrees and the Green Plan',
+      title: 'Green Plans One Million Trees',
       img: 'green-future.jpg',
-      body: 'NParks sets out to plant a million more trees under the Singapore Green Plan 2030, now expected to hit target by the end of 2027.[^19] Sixty years after the mempat tree at Farrer Circus, the policy instrument is recognizably the same one — only now it is explicitly framed as heat mitigation.'
+      body: 'As a key pillar of the Singapore Green Plan 2030, the OneMillionTrees Movement aims to plant a million more trees across Singapore from 2020 to 2030. As of August 2026, 887,044 trees have been planted since.[^20] Having hit over 500,000 trees back in 2023, the National Parks Board expects to attain the target by the end of 2027.[^21]'
     },
     {
       year: 2024, label: '2024',
-      title: 'The warmest year on record',
-      body: 'Annual mean temperature at Changi reaches 28.4 °C, tying 2019 and 2016.[^2] Land area reaches 735.7 km² — and 744.3 km² the year after.[^5] Both tracks are still climbing.'
+      title: 'A warm welcome back to Singapore',
+      body: 'The year I graduated from the University of Minnesota and returned to Singapore was also the warmest on record. With the annual mean temperature reaching 28.4 °C, tying with 2016 and 2019, it was — like 1997 — on the tail end of the 2023 El Niño event (which also saw one of the warmest winters in Minneapolis).[^2] Singapore’s land area also expanded to 735.7 km², and 744.3 km² in the following year, and it’s still growing.[^5]'
     }
   ];
 
@@ -749,26 +749,12 @@
       function paint() {
         drawLand(state.land);
         drawTemp(state.temp);
-        var mean = state.temp.changi, lastT = mean[mean.length - 1];
-        var lastL = state.land[state.land.length - 1];
-        var mx = state.temp.meanmax, mn = state.temp.meanmin;
-        el('ss-tl-note').innerHTML =
-          '<strong>Reading the tracks.</strong> Land area (SingStat/SLA) runs 1960–' +
-          lastL[0] + ', from 581.5 to ' + lastL[1] + ' km². The two gray ' +
-          'temperature lines are annual means: Berkeley Earth’s regional reconstruction ' +
-          'for Singapore (1900–2020), and the official Changi station record ' +
-          '(1982–' + lastT[0] + ', latest ' + lastT[1].toFixed(1) + ' °C). ' +
-          'The roughly 0.4 °C offset between them is a baseline difference, not a ' +
-          'disagreement about direction — see the note below on why they are drawn ' +
-          'separately. Red is the daytime side of the day and blue the night: at Changi ' +
-          'in ' + lastT[0] + ' the mean daily maximum was ' +
-          (mx.length ? mx[mx.length - 1][1].toFixed(1) : '—') + ' °C and the mean ' +
-          'daily minimum ' + (mn.length ? mn[mn.length - 1][1].toFixed(1) : '—') + ' °C. ' +
-          'The checkboxes above also add the hottest and coldest single readings of ' +
-          'each year; switching those on widens the scale, so every line looks flatter. ' +
-          (state.live
-            ? '<em>These series were refreshed live from data.gov.sg when you loaded this page.</em>'
-            : '<em>Showing the last saved copy of the data; the live refresh did not complete.</em>');
+        // All that survives of the old "Reading the tracks" paragraph: whether
+        // the reader is looking at live data or the baked fallback. That is the
+        // one thing the prose could not tell them.
+        el('ss-tl-note').innerHTML = state.live
+          ? 'The temperature and land-area series on this page were refreshed live from data.gov.sg when you loaded it.'
+          : 'Showing the last saved copy of the data; the live refresh did not complete.';
       }
 
       paint();
