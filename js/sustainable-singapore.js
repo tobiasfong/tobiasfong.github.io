@@ -67,7 +67,7 @@
     {
       year: 1963, label: '16 June 1963',
       title: 'Greening Singapore begins',
-      body: 'Also known as the Tree Planting Campaign, it was kickstarted by founding Prime Minister Lee Kuan Yew, who planted a Mempat tree at Farrer Circus.[^16] The campaign aspired to plant 10,000 new trees annually, with the Garden City program introduced in 1967 that eventually led to Singapore’s reputation as one.[^17]</p><p>The aim was to raise awareness of the importance of trees in the environment, and their ability to enhance climate resilience has never mattered more as global temperatures continue to rise.'
+      body: 'Also known as the Tree Planting Campaign, it was kickstarted by founding Prime Minister Lee Kuan Yew, who planted a Mempat tree at Farrer Circus.[^16] The campaign aspired to plant 10,000 new trees annually, with the Garden City program introduced in 1967 that eventually led to Singapore’s reputation as one.[^17]</p><p>The aim was to raise awareness of the importance of trees in the environment, and thanks to their ability to enhance climate resilience, they have never been more necessary as global temperatures continue to rise.'
     },
     {
       year: 1966, label: 'From 1966',
