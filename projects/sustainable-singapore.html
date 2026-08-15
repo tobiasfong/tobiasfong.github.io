@@ -106,6 +106,7 @@
         display: grid; grid-template-columns: 1fr 96px 60px 250px;
         padding: 10px 0; margin-bottom: 12px;
       }
+      .ss-tl-head-inner { display: contents; }
       .ss-tl-sticky-head span {
         font-size: var(--fs-label); text-transform: uppercase; letter-spacing: 0.08em;
         color: var(--text-muted); font-weight: 700;
@@ -298,23 +299,6 @@
         padding-bottom: 5px; border-bottom: 1px solid var(--border);
       }
 
-      /* Only exists below 900px, where .ss-tl-temp is hidden. */
-      .ss-temp-m { display: none; }
-      /* The x axis here is TEMPERATURE, and the visible span can be 10 degC.
-         Fitted into 342px of phone the whole record collapses into a few dozen
-         pixels and the differences the page is about stop being legible. So
-         give the plot a proper width and let the reader swipe across it.
-         Labelled as a scroll region and focusable, so it also works without a
-         touchscreen. */
-      .ss-temp-m-plot {
-        position: relative; margin-top: 0.75rem;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior-x: contain;
-        padding-bottom: 8px;
-      }
-      .ss-temp-m-plot > svg { display: block; min-width: 720px; }
-
       /* A scroller with no visible edge looks like a chart that just stops.
          This says otherwise. It hides itself the moment the reader scrolls,
          so it prompts once rather than nagging. */
@@ -332,15 +316,39 @@
       }
       .ss-swipe-hint.ss-used { opacity: 0; pointer-events: none; }
       @media (prefers-reduced-motion: reduce) { .ss-swipe-hint { transition: none; } }
-      .ss-temp-m .ss-legend { grid-template-columns: 1fr 1fr; margin-top: 10px; }
 
       @media (max-width: 900px) {
         .ss-wide { padding: 0 20px; }
-        .ss-temp-m { display: block; max-width: 720px; margin: 0 auto 3rem; }
         .ss-swipe-hint { display: flex; }
-        .ss-tl, .ss-tl-sticky-head { grid-template-columns: 1fr 54px 46px 0; }
-        .ss-tl-temp { display: none; }
-        .ss-tl-sticky-head span:nth-child(4) { display: none; }
+        /* The whole point of this page is that a card and a temperature sit
+           on the SAME year. Hiding the chart broke that; moving it to its own
+           section below broke it worse, since a reader who scrolls past
+           sixteen cards to reach a lone chart has nothing to read it against.
+           So keep all four columns and let the timeline swipe sideways, with
+           vertical position - the year - held still. */
+        .ss-tl-scroll {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          overscroll-behavior-x: contain;
+        }
+        .ss-tl { min-width: 660px; grid-template-columns: 1fr 54px 46px 230px; }
+
+        /* The header cannot live in that scroller: overflow-x would make it
+           the scrollport, and position:sticky would then stick to it rather
+           than to the page. It gets its own scroller, kept in step by script,
+           with the bar hidden since the grid below already shows one. */
+        .ss-tl-sticky-head {
+          display: block; overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          overscroll-behavior-x: contain;
+          scrollbar-width: none;
+        }
+        .ss-tl-sticky-head::-webkit-scrollbar { display: none; }
+        .ss-tl-head-inner {
+          display: grid; min-width: 660px;
+          grid-template-columns: 1fr 54px 46px 230px;
+        }
+        .ss-swipe-hint { display: flex; }
         .ss-card { right: 14px; width: auto; left: 0; }
 
         .ss-bar-row { grid-template-columns: 108px 1fr 46px; }
@@ -496,6 +504,7 @@
       </div>
 
       <div class="ss-tl-sticky-head">
+        <div class="ss-tl-head-inner" id="ss-tl-head-scroll">
         <span>History of Singapore's urbanization</span>
         <span>Land&nbsp;km²</span>
         <span>Year</span>
@@ -504,34 +513,23 @@
                labels here can never drift from the ones on the chart. -->
           <span class="ss-legend" id="ss-legend"></span>
         </span>
+        </div>
       </div>
 
+      <div class="ss-tl-scroll" id="ss-tl-scroll" role="region"
+           aria-label="Timeline and temperature chart, scrolls sideways" tabindex="0">
       <div class="ss-tl" id="ss-tl">
         <div class="ss-tl-col ss-tl-cards" id="ss-tl-cards"></div>
         <div class="ss-tl-col ss-tl-land"><svg id="ss-svg-land" width="100%" height="100%" preserveAspectRatio="none" aria-label="Singapore total land area, 1960 to 2025"></svg></div>
         <div class="ss-tl-col ss-tl-axis" id="ss-tl-axis"><div class="ss-axis-line"></div></div>
         <div class="ss-tl-col ss-tl-temp"><svg id="ss-svg-temp" width="100%" height="100%" preserveAspectRatio="none" aria-label="Singapore annual temperature at Changi, 1900 to 2025: annual means, mean daily maximum and minimum, and yearly extremes"></svg></div>
       </div>
+      </div>
+      <div class="ss-swipe-hint" id="ss-swipe-hint" aria-hidden="true">← swipe →</div>
 
     </section>
 
     <main class="container project-content">
-
-      <!-- ── The same chart, for phones ── -->
-      <section class="ss-temp-m" aria-label="Singapore temperature record">
-        <div class="section-kicker">Temperature</div>
-        <h2>The measurement, on its own</h2>
-        <p>
-          The chart that runs beside the timeline on a wider screen does not fit next
-          to it on a phone, so here it is at full width. Same six series, same
-          switches.
-        </p>
-        <div class="ss-legend" id="ss-legend-m"></div>
-        <div class="ss-temp-m-plot" id="ss-temp-m-plot" role="region" aria-label="Temperature chart, scrolls sideways" tabindex="0">
-          <svg id="ss-svg-temp-m" width="100%" preserveAspectRatio="none"></svg>
-        </div>
-        <div class="ss-swipe-hint" id="ss-swipe-hint" aria-hidden="true">← swipe →</div>
-      </section>
 
       <!-- ── Where the data comes from ── -->
       <section style="max-width: 720px; margin: 0 auto 3rem;">
@@ -815,6 +813,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260816m"></script>
+    <script src="/js/sustainable-singapore.js?v=20260816o"></script>
   </body>
 </html>

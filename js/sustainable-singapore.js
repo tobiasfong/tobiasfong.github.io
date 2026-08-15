@@ -777,81 +777,41 @@
     }
   }
 
-  /* ── Compact chart, for phones ────────────────────────────────
-     The timeline's temperature column is 250px wide and 3,780px tall, sized to
-     sit beside the cards at 30px per year. Below 900px that column is hidden
-     entirely, which left phone readers with the history and none of the
-     measurement the page is arguing from.
-
-     This is the same six series and the same visible{} state, redrawn wide and
-     short: full width, 4px per year instead of 30, so 1900–2026 fits in ~500px
-     that a thumb can cross in one scroll. Alignment with the cards is gone, but
-     that alignment was never possible at this width anyway. */
-  var M_PX_PER_YEAR = 4;
-
-  function drawTempMobile(data) {
-    var svg = el('ss-svg-temp-m');
-    if (!svg) { return; }
-    // Measure the SVG, NOT its parent. The parent is a horizontal scroller
-    // clipped to the phone's width, while the svg carries a min-width so the
-    // temperature axis has room to be read. Sizing from the parent would draw
-    // a 342px chart and let preserveAspectRatio="none" stretch it to 720.
-    var w = Math.round(svg.getBoundingClientRect().width);
-    if (!w) { return; }              // section is display:none on desktop
-    var h = (YEAR_MAX - YEAR_MIN) * M_PX_PER_YEAR;
-    var PAD_L = 34, PAD_R = 46;
-    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
-    svg.setAttribute('height', h);
-    while (svg.firstChild) { svg.removeChild(svg.firstChild); }
-
-    var ext = tempExtent(data), lo = ext[0], hi = ext[1];
-    var x = function (t) { return PAD_L + ((t - lo) / (hi - lo)) * (w - PAD_L - PAD_R); };
-    var y = function (yr) { return (yr - YEAR_MIN) * M_PX_PER_YEAR; };
-
-    var span = hi - lo, step = span <= 5 ? 1 : (span <= 9 ? 2 : 3);
-    for (var tv = Math.ceil(lo / step) * step; tv < hi; tv += step) {
-      svg.appendChild(svgNode('line', { x1: x(tv), y1: 0, x2: x(tv), y2: h,
-        stroke: 'rgba(0,0,0,0.07)', 'stroke-width': 1 }));
-      var tl = svgNode('text', { x: x(tv) + 3, y: 11, 'font-size': 10, fill: '#aaa' });
-      tl.textContent = tv + '\u00b0';
-      svg.appendChild(tl);
-    }
-
-    // Decade labels down the left, so a reader can place any wiggle in time.
-    for (var yr = 1900; yr <= YEAR_MAX; yr += 20) {
-      svg.appendChild(svgNode('line', { x1: PAD_L - 4, y1: y(yr), x2: w - PAD_R, y2: y(yr),
-        stroke: 'rgba(0,0,0,0.05)', 'stroke-width': 1 }));
-      var yl = svgNode('text', { x: 0, y: y(yr) + 3, 'font-size': 10, fill: '#999' });
-      yl.textContent = yr;
-      svg.appendChild(yl);
-    }
-
-    SERIES.forEach(function (def) {
-      var s = data[def.key];
-      if (!visible[def.key] || !s || !s.length) { return; }
-      svg.appendChild(svgNode('polyline', {
-        points: s.map(function (p) { return x(p[1]) + ',' + y(p[0]); }).join(' '),
-        fill: 'none', stroke: def.color, 'stroke-width': def.width,
-        'stroke-opacity': def.opacity, 'stroke-linejoin': 'round'
-      }));
-      var last = s[s.length - 1];
-      var lab = svgNode('text', { x: Math.min(x(last[1]) + 4, w - 4), y: y(last[0]) + 3,
-        'font-size': 9, fill: def.color });
-      lab.textContent = def.tip;
-      svg.appendChild(lab);
-    });
-  }
-
   // Retire the swipe hint once the reader has actually swiped. The element is
   // aria-hidden already: a screen reader gets the same information from the
   // labelled scroll region, so this is decoration for sighted touch users.
   function wireSwipeHint() {
-    var plot = el('ss-temp-m-plot'), hint = el('ss-swipe-hint');
-    if (!plot || !hint) { return; }
-    plot.addEventListener('scroll', function once() {
-      if (plot.scrollLeft > 8) {
+    // The element that SCROLLS is .ss-tl-sticky-head; #ss-tl-head-scroll is
+    // the grid inside it. Setting scrollLeft on the inner one does nothing,
+    // which is exactly what the first version of this did.
+    var grid = el('ss-tl-scroll'),
+        head = document.querySelector('.ss-tl-sticky-head'),
+        hint = el('ss-swipe-hint');
+    if (!grid) { return; }
+
+    // Hold the sticky header's columns over the grid's columns. They have to
+    // be two separate scrollers: a header inside an overflow-x container would
+    // stick to that container instead of to the page, and stop being sticky at
+    // all. The guard keeps the two from ping-ponging each other's scroll
+    // events forever.
+    var syncing = false;
+    function link(a, b) {
+      if (!a || !b) { return; }
+      a.addEventListener('scroll', function () {
+        if (syncing) { return; }
+        syncing = true;
+        b.scrollLeft = a.scrollLeft;
+        requestAnimationFrame(function () { syncing = false; });
+      });
+    }
+    link(grid, head);
+    link(head, grid);
+
+    if (!hint) { return; }
+    grid.addEventListener('scroll', function once() {
+      if (grid.scrollLeft > 8) {
         hint.classList.add('ss-used');
-        plot.removeEventListener('scroll', once);
+        grid.removeEventListener('scroll', once);
       }
     });
   }
@@ -952,14 +912,11 @@
 
       // Two legends, one state. The sticky-header one is hidden on phones
       // (its whole grid column is), so the mobile section carries its own.
-      function redrawTemp() { drawTemp(state.temp); drawTempMobile(state.temp); }
-      buildLegend('ss-legend', redrawTemp);
-      buildLegend('ss-legend-m', redrawTemp);
+      buildLegend('ss-legend', function () { drawTemp(state.temp); });
 
       function paint() {
         drawLand(state.land);
         drawTemp(state.temp);
-        drawTempMobile(state.temp);
         // All that survives of the old "Reading the tracks" paragraph: whether
         // the reader is looking at live data or the baked fallback. That is the
         // one thing the prose could not tell them.
@@ -1014,7 +971,6 @@
           relayout();
           drawLand(state.land);
           drawTemp(state.temp);
-          drawTempMobile(state.temp);
         }, 200);
       });
     }).catch(function () {
