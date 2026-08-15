@@ -131,11 +131,13 @@
     {
       year: 1960, label: '1 February 1960',
       title: 'The Housing and Development Board is formed',
+      img: 'hdb-flats.jpg',
       body: 'HDB succeeded the colonial government’s Singapore Improvement Trust, and set about solving the housing problems that arose as the island’s population grew rapidly, especially for low-income groups. By 1965, HDB completed its first five-year program, building over 50,000 units.[^6] Three seven-story blocks at Stirling Road, Queenstown, were among the first completed in October 1960.[^7]'
     },
     {
       year: 1961, label: '25 May 1961',
       title: 'The Bukit Ho Swee fire',
+      img: 'bukit-ho-swee.jpg',
       body: 'A fire, which started in Kampong Tiong Bahru, spread to Kampong Bukit Ho Swee and razed a 100-acre area, leaving 16,000 people homeless. The government pledged to aid the affected families by giving them new homes, relocating 6,000 residents to 1,150 flats in Queenstown, Tiong Bahru, Alexandra and Kallang. The remaining families also found new homes by February 1962. HDB then acquired the fire site and adjacent land for public housing, and constructed 12,562 flats by 1967.[^8]'
     },
     {
@@ -168,6 +170,7 @@
     {
       year: 1975, label: 'From 1975',
       title: 'Changi taking flight',
+      img: 'changi-1980s.jpg',
       body: 'The Port of Singapore Authority, now known as Maritime and Port Authority of Singapore, began reclaiming 745 hectares of land along Changi coast for the construction of Changi Airport, with the fill material acquired from the adjoining seabed.[^13]'
     },
     {
@@ -178,11 +181,13 @@
     {
       year: 1990, label: '1990–2004',
       title: 'Changi grows colossal',
+      img: 'changi-modern.jpg',
       body: 'In 1990, another massive reclamation was carried out for both the expansion of Changi Airport and other developments in the area. But Changi’s growth did not stop there. Between 1992 and 2004, over 2,000 hectares of land at Changi East were reclaimed, 820 of which were set aside for a fourth terminal and a third runway. 125 hectares were given over to Changi Naval Base, while 639 hectares were reserved for industries.[^13]'
     },
     {
       year: 1993, label: '1993–2003',
       title: 'Jurong Island, merge for the kill',
+      img: 'jurong-island.jpg',
       body: 'In 1993, JTC merged seven southwestern islands – Pulau Merlimau, Pulau Ayer Chawan, Pulau Ayer Merbau, Pulau Seraya, Pulau Sakra, Pulau Pesek and Pulau Pesek Kecil – into Jurong Island, which cost $6 billion. When completed a decade later, 3,000 hectares of reclaimed land were available as industrial space, and more than 100 petroleum, petrochemical and specialty chemical companies wasted no time occupying Jurong Island.[^13]'
     },
     {
