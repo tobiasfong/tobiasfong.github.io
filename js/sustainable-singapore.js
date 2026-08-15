@@ -148,7 +148,7 @@
       year: 1997, label: '1997 onward',
       title: 'High-rise island gives rise to rising temperatures',
       img: 'heat-island.jpg',
-      body: 'The ten warmest years in Singapore’s record all fall on and after 1997. The average mean was 28.4 °C in 2016, 2019 and 2024, 28.3 °C in 1998, 28.2 °C in 1997, 2015 and 2023, and 28.1 °C in 2002, 2010 and 2025.[^1] By now, Singapore is one of the most dense urban nations in the world, which exacerbates the Urban Heat Island effect. Caused by heat both trapped by buildings and generated from human activities, the difference between temperatures in highly urbanized Orchard Road and open natural Lim Chu Kang reaches up to 4 °C, despite the two neighborhoods being only 30 minutes apart.[^20]</p><p>Depending on material, such as black aluminum facade, a narrow space between concrete buildings and road can see temperatures rise up to 2.5 °C.[^21]'
+      body: 'The ten warmest years in Singapore’s record all fall on and after 1997.[^1] The average mean was 28.4 °C in 2016, 2019 and 2024, 28.3 °C in 1997, 1998 and 2015, 28.2 °C in 2023, and 28.1 °C in 2002, 2010 and 2025.[^2] By now, Singapore is one of the most dense urban nations in the world, which exacerbates the Urban Heat Island effect. Caused by heat both trapped by buildings and generated from human activities, the difference between temperatures in highly urbanized Orchard Road and open natural Lim Chu Kang reaches up to 4 °C, despite the two neighborhoods being only 30 minutes apart.[^20]</p><p>Depending on material, such as black aluminum facade, a narrow space between concrete buildings and road can see temperatures rise up to 2.5 °C.[^21]'
     },
     {
       year: 2008, label: '2000s',
