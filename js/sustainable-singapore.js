@@ -78,7 +78,6 @@
       year: 1900, label: '1900s',
       title: 'An island of swamps',
       img: 'kampong-swamp.jpg',
-      cap: 'Generated illustration of a kampong on a swamp, which was cleared across the island from the 1960s.',
       body: 'Singapore was home to myriad ecosystems and coastal habitats, much of which has been cleared since then. Even as far back as 1820, mangrove swamps made up about 13% of Singapore’s fringe areas, only to fall to less than 0.5% of our land area in 2010.[^15]'
     },
     {
@@ -95,7 +94,6 @@
       year: 1962, label: '1962–1970',
       title: 'From big swamp to housing estate',
       img: 'new-town-construction.jpg',
-      cap: 'Generated illustration — kampong ground cleared, leveled and cut for foundations.',
       body: 'Toa Payoh is literally “big swamp” in Hokkien, and that was what it was before 1962.[^9] In the 19th century, the forests were replaced by gambier and pepper plantations, which in turn gave rise to kampongs.[^10] By 1960, 3,000 families resided there, and though HDB first announced the construction of Toa Payoh Town in the 1960s and expected it to be built by 1965, there were delays. After resisting for two years, squatters finally moved out of the site in 1962, allowing HDB to build it during the second five-year program between 1966 and 1970.[^11] According to the RememberingHDBEstates blog, 95,000 people moved into around 18,000 units in the new flats by 1970.[^12]'
     },
     {
@@ -107,48 +105,54 @@
       year: 1966, label: 'From 1966',
       title: 'East Coast: The Great Reclamation',
       img: 'reclamation.jpg',
-      cap: 'Generated illustration — dredged sand pushed out into shallow sea.',
       body: 'The East Coast Reclamation, known as the Great Reclamation, began officially in 1966 and continued for three decades over seven phases. Adding 1,525 hectares of land along the southeastern coast, the project stretched across Bedok, Tanjong Rhu, Queen Elizabeth Walk, Tanah Merah Besar, Telok Ayer Basin, a massive lagoon, Marina Centre, Marina East and Marina South (with the last three forming the 660-hectare Marina City, later named Marina Bay).[^13]</p><p>The total cost was $613 million.[^13]'
     },
     {
-      year: 1968, label: '1961–1968',
-      title: 'Jurong: heavy industry on reclaimed swamp',
-      body: 'Mangrove and swamp in the south-west are drained and filled for the national industrial estate. By 1968 it holds 153 factories with another 46 under construction[^14] — dark, hard, heat-absorbing surface at scale, plus the waste heat of the industry standing on it.'
+      year: 1968, label: '1959–1969',
+      title: 'Jurong: From swamp to industrial estate',
+      body: 'In 1959, an estimated 200,000 people, which made up 14% of the population then, were jobless. Singapore’s then minister of finance, Dr. Goh Keng Swee, launched an ambitious plan to transform a crocodile-infested swamp into an industrial estate. His gamble paid off. By 1969, Jurong Industrial Estate housed 181 factories and a 20,000-strong workforce, and 16,000 people lived in HDB-constructed flats and shophouses.[^14]'
     },
     {
-      year: 1971, label: 'November 1971',
+      year: 1971, label: '8 November 1971',
       title: 'The first Tree Planting Day',
-      body: 'The 1967 “Garden City” campaign becomes an annual national ritual.[^18] Angsana and rain trees go in along the new roads as “instant trees”, chosen because they grew fast enough to produce results in the shortest possible time.[^18]'
+      body: 'Dr. Goh planted a rain tree sapling on the summit of Mount Faber, marking the start of an annual ritual. In the same day, about 8,400 trees and 21,677 shrubs and creepers were planted across Singapore by students, Singapore Armed Forces, ministers and members of Parliament. Tree Planting Day has been held every year since.[^18]</p><p>Earlier, during the Garden City campaign introduced on 11 May 1967, “instant trees” such as the angsana, rain tree, sea apple and curtain creeper were planted intensively to produce results as quickly as possible. Later, the yellow flame, frangipani and bougainvillea were added. In the 1970s, then Prime Minister Lee led mass tree planting activities on newly reclaimed land such as East Coast Park and Marina South, putting in tembusu, eugenia, tamarind and sea putat. Fruit trees became the focus in the 1980s, chosen for their sturdiness — they had to survive vandalism and pilfering before the more delicate ones could follow. These included rambutan, coconut, mangosteen, jambu ayer, mango, jackfruit, jujube, langsat, kedondong, binjai and kundang.[^18]'
     },
     {
       year: 1975, label: 'From 1975',
-      title: 'Changi: an airport out of the sea',
-      body: 'PSA begins reclaiming 745 hectares along the Changi coast for the new airport, taking the fill material from the adjoining seabed.[^13] Land area, flat at 581.5 km² since 1960, steps up sharply through the late 1970s.[^5]'
+      title: 'Changi taking flight',
+      body: 'The Port of Singapore Authority, now known as Maritime and Port Authority of Singapore, began reclaiming 745 hectares of land along Changi coast for the construction of Changi Airport, with the fill material acquired from the adjoining seabed.[^13]'
+    },
+    {
+      year: 1980, label: '1970s–1980s',
+      title: 'The Wild West',
+      body: 'Jurong Town Corporation added over 2,000 hectares of reclaimed land to Jurong and Tuas to expand the western industrial estate and for the construction of shipyards to support the marine sector. In the late 1980s, Tuas grew by another 650 hectares, and to inject some greenery to an otherwise industrial area, they decided to build a golf course and a park there.</p><p>JTC also enlarged Pulau Bukom and Pulau Busing, and merged Pulau Ayer Merbau, Pulau Seraya and Pulau Sakra with surrounding islets into new land that was primarily used for the petrochemical industry.[^13]'
+    },
+    {
+      year: 1990, label: '1990–2004',
+      title: 'Changi grows colossal',
+      body: 'In 1990, another massive reclamation was carried out for both the expansion of Changi Airport and other developments in the area. But Changi’s growth did not stop there. Between 1992 and 2004, over 2,000 hectares of land at Changi East were reclaimed, 820 of which were set aside for a fourth terminal and a third runway. 125 hectares were given over to Changi Naval Base, while 639 hectares were reserved for industries.[^13]'
     },
     {
       year: 1993, label: '1993–2003',
-      title: 'Jurong Island',
-      body: 'Seven south-western islands are merged into one 3,000-hectare petrochemical island over a decade, at a cost of about $6 billion.[^13]'
+      title: 'Jurong Island, merge for the kill',
+      body: 'In 1993, JTC merged seven southwestern islands – Pulau Merlimau, Pulau Ayer Chawan, Pulau Ayer Merbau, Pulau Seraya, Pulau Sakra, Pulau Pesek and Pulau Pesek Kecil – into Jurong Island, which cost $6 billion. When completed a decade later, 3,000 hectares of reclaimed land were available as industrial space, and more than 100 petroleum, petrochemical and specialty chemical companies wasted no time occupying Jurong Island.[^13]'
     },
     {
       year: 1997, label: '1997 onward',
-      title: 'The high-rise island — and the record books',
+      title: 'High-rise island gives rise to rising temperatures',
       img: 'heat-island.jpg',
-      cap: 'Generated illustration — a bare concrete street canyon: the geometry that traps heat.',
-      body: 'Every one of the ten warmest years in Singapore’s record falls after 1997.[^1] By this point the island is one of the most densely built surfaces on earth, and a study trip led by Prof Matthias Roth of NUS measured a sharp 4 °C rise from Lim Chu Kang to Orchard Road — two places only thirty minutes apart.[^20] The mechanism is visible at street level: a narrow canyon walled in low-albedo concrete, with little wind, can run 2.5 °C hotter in the middle of the road than the material choice alone would suggest.[^21]'
+      body: 'The ten warmest years in Singapore’s record all fall on and after 1997. The average mean was 28.4 °C in 2016, 2019 and 2024, 28.3 °C in 1998, 28.2 °C in 1997, 2015 and 2023, and 28.1 °C in 2002, 2010 and 2025.[^1] By now, Singapore is one of the most dense urban nations in the world, which exacerbates the Urban Heat Island effect. Caused by heat both trapped by buildings and generated from human activities, the difference between temperatures in highly urbanized Orchard Road and open natural Lim Chu Kang reaches up to 4 °C, despite the two neighborhoods being only 30 minutes apart.[^20]</p><p>Depending on material, such as black aluminum facade, a narrow space between concrete buildings and road can see temperatures rise up to 2.5 °C.[^21]'
     },
     {
       year: 2008, label: '2000s',
       title: 'Marina Bay: a downtown on made ground',
       img: 'marina-bay.jpg',
-      cap: 'Generated illustration — a waterfront skyline standing on reclaimed land.',
       body: 'The land beneath Marina Bay was reclaimed from the 1970s onward as part of the East Coast program; the Barrage closes the river mouth in 2008.[^13] Between 1999 and 2000 alone the national land area jumps from 659.9 to 682.7 km² — the single largest one-year gain in the series.[^5]'
     },
     {
       year: 2020, label: '2020–2030',
       title: 'OneMillionTrees and the Green Plan',
       img: 'green-future.jpg',
-      cap: 'Generated illustration — a street roofed over by canopy, facades planted.',
       body: 'NParks sets out to plant a million more trees under the Singapore Green Plan 2030, now expected to hit target by the end of 2027.[^19] Sixty years after the mempat tree at Farrer Circus, the policy instrument is recognizably the same one — only now it is explicitly framed as heat mitigation.'
     },
     {
@@ -309,7 +313,6 @@
       var html = '<div class="ss-card-year">' + ev.label + '</div><h3>' + ev.title + '</h3>';
       if (ev.img) {
         html += '<img src="/img/sustainable/' + ev.img + '" alt="' + ev.title + '" loading="lazy" />';
-        if (ev.cap) { html += '<figcaption>' + ev.cap + '</figcaption>'; }
       }
       html += '<p>' + ev.body + '</p>';
       c.innerHTML = html;
