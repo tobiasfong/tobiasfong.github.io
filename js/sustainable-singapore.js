@@ -792,8 +792,11 @@
   function drawTempMobile(data) {
     var svg = el('ss-svg-temp-m');
     if (!svg) { return; }
-    var host = svg.parentNode;
-    var w = host.clientWidth;
+    // Measure the SVG, NOT its parent. The parent is a horizontal scroller
+    // clipped to the phone's width, while the svg carries a min-width so the
+    // temperature axis has room to be read. Sizing from the parent would draw
+    // a 342px chart and let preserveAspectRatio="none" stretch it to 720.
+    var w = Math.round(svg.getBoundingClientRect().width);
     if (!w) { return; }              // section is display:none on desktop
     var h = (YEAR_MAX - YEAR_MIN) * M_PX_PER_YEAR;
     var PAD_L = 34, PAD_R = 46;
@@ -836,6 +839,20 @@
         'font-size': 9, fill: def.color });
       lab.textContent = def.tip;
       svg.appendChild(lab);
+    });
+  }
+
+  // Retire the swipe hint once the reader has actually swiped. The element is
+  // aria-hidden already: a screen reader gets the same information from the
+  // labelled scroll region, so this is decoration for sighted touch users.
+  function wireSwipeHint() {
+    var plot = el('ss-temp-m-plot'), hint = el('ss-swipe-hint');
+    if (!plot || !hint) { return; }
+    plot.addEventListener('scroll', function once() {
+      if (plot.scrollLeft > 8) {
+        hint.classList.add('ss-used');
+        plot.removeEventListener('scroll', once);
+      }
     });
   }
 
@@ -914,6 +931,7 @@
     // reflow a card's text, which would otherwise invalidate its height.
     expandCitations(document.body);
     countUp();
+    wireSwipeHint();
 
     function relayout() {
       var used = layoutCards(built);

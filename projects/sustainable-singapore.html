@@ -300,42 +300,50 @@
 
       /* Only exists below 900px, where .ss-tl-temp is hidden. */
       .ss-temp-m { display: none; }
-      .ss-temp-m-plot { position: relative; margin-top: 0.75rem; }
+      /* The x axis here is TEMPERATURE, and the visible span can be 10 degC.
+         Fitted into 342px of phone the whole record collapses into a few dozen
+         pixels and the differences the page is about stop being legible. So
+         give the plot a proper width and let the reader swipe across it.
+         Labelled as a scroll region and focusable, so it also works without a
+         touchscreen. */
+      .ss-temp-m-plot {
+        position: relative; margin-top: 0.75rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+        padding-bottom: 8px;
+      }
+      .ss-temp-m-plot > svg { display: block; min-width: 720px; }
+
+      /* A scroller with no visible edge looks like a chart that just stops.
+         This says otherwise. It hides itself the moment the reader scrolls,
+         so it prompts once rather than nagging. */
+      .ss-swipe-hint {
+        display: none;
+        align-items: center; gap: 8px;
+        margin-top: 6px;
+        font-size: var(--fs-label); text-transform: uppercase;
+        letter-spacing: 0.08em; font-weight: 700; color: var(--text-muted);
+        transition: opacity 0.25s;
+      }
+      .ss-swipe-hint::before,
+      .ss-swipe-hint::after {
+        content: ''; flex: 1; height: 1px; background: var(--border);
+      }
+      .ss-swipe-hint.ss-used { opacity: 0; pointer-events: none; }
+      @media (prefers-reduced-motion: reduce) { .ss-swipe-hint { transition: none; } }
       .ss-temp-m .ss-legend { grid-template-columns: 1fr 1fr; margin-top: 10px; }
 
       @media (max-width: 900px) {
         .ss-wide { padding: 0 20px; }
         .ss-temp-m { display: block; max-width: 720px; margin: 0 auto 3rem; }
+        .ss-swipe-hint { display: flex; }
         .ss-tl, .ss-tl-sticky-head { grid-template-columns: 1fr 54px 46px 0; }
         .ss-tl-temp { display: none; }
         .ss-tl-sticky-head span:nth-child(4) { display: none; }
         .ss-card { right: 14px; width: auto; left: 0; }
 
-        /* The station list is the one genuinely wide thing on this page: a
-           name, a bar and a reading, times sixteen. Squeezing it into a phone
-           either truncates the names to nothing or crushes the bars to a stub,
-           and on a real device it was clipping at the right edge outright.
-           So let it keep a usable width and swipe sideways instead. Reported
-           as a scroll region so it is reachable without a touchscreen too. */
-        .ss-bars {
-          overflow-x: auto;
-          -webkit-overflow-scrolling: touch;
-          overscroll-behavior-x: contain;
-          padding-bottom: 6px;
-        }
-        .ss-bar-row {
-          grid-template-columns: 132px minmax(120px, 1fr) 46px;
-          min-width: 330px;
-        }
-        .ss-bar-name { white-space: nowrap; }
-
-        /* Same treatment for the three headline readings, which sit in an
-           auto-fit grid that can end up wider than the panel. */
-        .ss-live-grid {
-          overflow-x: auto;
-          -webkit-overflow-scrolling: touch;
-          overscroll-behavior-x: contain;
-        }
+        .ss-bar-row { grid-template-columns: 108px 1fr 46px; }
       }
     </style>
 </head>
@@ -469,7 +477,7 @@
             </div>
           </div>
 
-          <div class="ss-bars" id="ss-bars" role="region" aria-label="Station readings, scrolls sideways" tabindex="0"></div>
+          <div class="ss-bars" id="ss-bars"></div>
         </div>
 
       </section>
@@ -519,9 +527,10 @@
           switches.
         </p>
         <div class="ss-legend" id="ss-legend-m"></div>
-        <div class="ss-temp-m-plot">
+        <div class="ss-temp-m-plot" id="ss-temp-m-plot" role="region" aria-label="Temperature chart, scrolls sideways" tabindex="0">
           <svg id="ss-svg-temp-m" width="100%" preserveAspectRatio="none"></svg>
         </div>
+        <div class="ss-swipe-hint" id="ss-swipe-hint" aria-hidden="true">← swipe →</div>
       </section>
 
       <!-- ── Where the data comes from ── -->
@@ -806,6 +815,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260816l"></script>
+    <script src="/js/sustainable-singapore.js?v=20260816m"></script>
   </body>
 </html>
