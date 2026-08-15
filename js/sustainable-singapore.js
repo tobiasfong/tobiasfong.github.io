@@ -453,6 +453,16 @@
 
   /* ── Boot ────────────────────────────────────────────────── */
   function boot() {
+    // The hero video autoplays muted and looping because it is decorative, but
+    // anyone who has asked their OS for reduced motion gets the poster frame
+    // instead. Can't be done in CSS — autoplay has to be revoked in script.
+    var hero = el('ss-hero-vid');
+    if (hero && window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      hero.removeAttribute('autoplay');
+      hero.pause();
+      hero.currentTime = 0;
+    }
     el('ss-tl').style.height = TL_HEIGHT + 'px';
     buildAxis();
     var built = buildCards();
@@ -494,6 +504,12 @@
       }
 
       paint();
+
+      // The hero video changes layout timing: on a cold load the temperature
+      // column can still measure 0px when paint() first runs, and drawTemp
+      // bails on a zero width (it cannot scale an axis into no space). Repaint
+      // once every resource has settled.
+      window.addEventListener('load', function () { relayout(); paint(); });
 
       Promise.all([
         liveTemps().catch(function () { return null; }),

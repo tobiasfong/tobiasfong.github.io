@@ -24,6 +24,20 @@
            classes so nothing leaks into the shared stylesheet. ── */
       .ss-wide { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
 
+      /* ── Hero video ── */
+      .ss-hero-video { margin: 2rem auto 0; max-width: 880px; }
+      .ss-hero-video video {
+        width: 100%; display: block; border-radius: 16px;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        background: var(--bg-alt);
+        aspect-ratio: 16 / 9;   /* reserve the box so the hero doesn't jump on load */
+      }
+      .ss-hero-video figcaption {
+        font-size: var(--fs-caption); color: var(--text-muted);
+        margin-top: 0.85rem; text-align: center;
+        max-width: 620px; margin-left: auto; margin-right: auto;
+      }
+
       .ss-statrow {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -229,12 +243,22 @@
           Tracking the history of climate change in Singapore, and comparing the temperature rise
           with the rate of urbanization.
         </p>
-        <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
-          <span class="tag" style="background: var(--text); color: var(--bg);">Environmental History</span>
-          <span class="tag">Live NEA Data</span>
-          <span class="tag">Data Visualisation</span>
-          <span class="tag">Generated Art</span>
-        </div>
+        <figure class="ss-hero-video">
+          <video
+            id="ss-hero-vid"
+            autoplay muted loop playsinline preload="metadata"
+            poster="/img/sustainable/hero-poster.jpg"
+            aria-label="One stretch of ground in Singapore over sixty years: a kampong on swampy
+                        ground, the same ground cleared under a construction crane, a bare concrete
+                        street, and that street again beneath a full tree canopy. A man stands with
+                        his back to us in each, his clothes changing with the decades.">
+            <source src="/img/sustainable/hero.mp4" type="video/mp4" />
+          </video>
+          <figcaption>
+            One stretch of ground, sixty years apart — kampong on swamp, cleared earth under a
+            crane, a bare concrete street, and the same street under canopy.
+          </figcaption>
+        </figure>
       </header>
 
       <!-- ── The question ── -->
@@ -891,6 +915,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260815"></script>
+    <script src="/js/sustainable-singapore.js?v=20260815c"></script>
   </body>
 </html>
