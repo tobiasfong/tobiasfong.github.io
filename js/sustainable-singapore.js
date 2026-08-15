@@ -917,12 +917,15 @@
       function paint() {
         drawLand(state.land);
         drawTemp(state.temp);
-        // All that survives of the old "Reading the tracks" paragraph: whether
-        // the reader is looking at live data or the baked fallback. That is the
-        // one thing the prose could not tell them.
-        el('ss-tl-note').innerHTML = state.live
-          ? 'The temperature and land-area series on this page were refreshed live from data.gov.sg when you loaded it.'
+        // Only the failure case is worth a line here. When the refresh worked
+        // there is nothing to report: the note sat between two paragraphs of
+        // argument and interrupted them to repeat what the source note at the
+        // foot of the page already says. A reader looking at stale numbers,
+        // though, has no other way to find that out.
+        var note = el('ss-tl-note');
+        note.textContent = state.live ? ''
           : 'Showing the last saved copy of the data; the live refresh did not complete.';
+        note.hidden = state.live;
       }
 
       paint();
@@ -974,7 +977,9 @@
         }, 200);
       });
     }).catch(function () {
-      el('ss-tl-note').textContent = 'Chart data could not be loaded.';
+      var note = el('ss-tl-note');
+      note.textContent = 'Chart data could not be loaded.';
+      note.hidden = false;   // paint() may have hidden it on an earlier pass
     });
   }
 
