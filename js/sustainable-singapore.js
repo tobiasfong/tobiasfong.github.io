@@ -306,6 +306,70 @@
     }
   }
 
+  /* ── Card modal ─────────────────────────────────────
+     Click, never hover. The timeline is ~4,000px tall, so a hover trigger
+     would fire constantly while scrolling past; touch devices have no hover
+     at all; and a dialog takes focus, which is hostile when the reader did
+     not ask for it. */
+  var modal = null, modalPrevFocus = null;
+
+  function buildModal() {
+    modal = document.createElement('div');
+    modal.className = 'ss-modal';
+    modal.id = 'ss-modal';
+    modal.hidden = true;
+    modal.innerHTML =
+      '<div class="ss-modal-back" data-close></div>' +
+      '<div class="ss-modal-box" role="dialog" aria-modal="true" aria-labelledby="ss-modal-title">' +
+        '<button type="button" class="ss-modal-x" data-close aria-label="Close">&times;</button>' +
+        '<div class="ss-modal-scroll">' +
+          '<div class="ss-card-year" id="ss-modal-year"></div>' +
+          '<h3 id="ss-modal-title"></h3>' +
+          '<div id="ss-modal-media"></div>' +
+          '<div id="ss-modal-body"></div>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(modal);
+
+    modal.addEventListener('click', function (e) {
+      if (e.target.hasAttribute('data-close')) { closeModal(); }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (modal.hidden) { return; }
+      if (e.key === 'Escape') { closeModal(); return; }
+      if (e.key !== 'Tab') { return; }
+      // Keep Tab inside the dialog while it is open.
+      var f = modal.querySelectorAll('button, [href]');
+      if (!f.length) { return; }
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { last.focus(); e.preventDefault(); }
+      else if (!e.shiftKey && document.activeElement === last) { first.focus(); e.preventDefault(); }
+    });
+  }
+
+  function openModal(ev, trigger) {
+    if (!modal) { buildModal(); }
+    modalPrevFocus = trigger || document.activeElement;
+    el('ss-modal-year').textContent = ev.label;
+    el('ss-modal-title').textContent = ev.title;
+    el('ss-modal-media').innerHTML = ev.img
+      ? '<img src="/img/sustainable/' + ev.img + '" alt="' + ev.title + '" />' : '';
+    el('ss-modal-body').innerHTML = '<p>' + ev.body + '</p>';
+    // The body still holds raw [^N] markers, so expand them here rather than
+    // at boot \u2014 this content did not exist when expandCitations first ran.
+    expandCitations(el('ss-modal-body'));
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.ss-modal-x').focus();
+  }
+
+  function closeModal() {
+    if (!modal || modal.hidden) { return; }
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    if (modalPrevFocus && modalPrevFocus.focus) { modalPrevFocus.focus(); }
+  }
+
   function buildCards() {
     var host = el('ss-tl-cards');
     var overlay = svgNode('svg', {
@@ -314,15 +378,25 @@
     });
     host.appendChild(overlay);
 
+    // The card on the page is a SUMMARY: year, title, thumbnail. The body
+    // text lives in the modal. Keeping the prose out of the timeline is what
+    // makes the column readable — sixteen full cards ran to 5,600px and forced
+    // the later ones a long way below their true year on the axis.
     var nodes = EVENTS.map(function (ev) {
-      var c = document.createElement('div');
+      var c = document.createElement('button');
+      c.type = 'button';
       c.className = 'ss-card';
-      var html = '<div class="ss-card-year">' + ev.label + '</div><h3>' + ev.title + '</h3>';
+      c.setAttribute('aria-haspopup', 'dialog');
+      var html = '';
       if (ev.img) {
-        html += '<img src="/img/sustainable/' + ev.img + '" alt="' + ev.title + '" loading="lazy" />';
+        html += '<img src="/img/sustainable/' + ev.img + '" alt="" loading="lazy" />';
       }
-      html += '<p>' + ev.body + '</p>';
+      html += '<div class="ss-card-text">' +
+        '<div class="ss-card-year">' + ev.label + '</div>' +
+        '<h3>' + ev.title + '</h3>' +
+        '<span class="ss-card-more">Read more</span></div>';
       c.innerHTML = html;
+      c.addEventListener('click', function () { openModal(ev, c); });
       host.appendChild(c);
       return { ev: ev, node: c };
     });
