@@ -323,10 +323,107 @@
     svg.appendChild(lbl);
   }
 
+  /* ── Hover readout for the temperature chart ─────────────── */
+  var hoverState = null;   // refreshed by every drawTemp; listeners bound once
+
+  function attachTempHover(svg, berkeley, changi, x, w, h) {
+    hoverState = { berkeley: berkeley, changi: changi, x: x, w: w, h: h };
+
+    var layer = svgNode('g', { 'pointer-events': 'none' });
+    svg.appendChild(layer);
+    hoverState.layer = layer;
+
+    var tip = el('ss-tip');
+    if (!tip) {
+      tip = document.createElement('div');
+      tip.id = 'ss-tip';
+      tip.className = 'ss-tip';
+      tip.setAttribute('role', 'status');
+      document.body.appendChild(tip);
+    }
+
+    function nearest(series, year) {
+      if (!series || !series.length) { return null; }
+      var best = null, bd = Infinity;
+      for (var i = 0; i < series.length; i++) {
+        var d = Math.abs(series[i][0] - year);
+        if (d < bd) { bd = d; best = series[i]; }
+      }
+      return bd <= 1 ? best : null;   // don't report a value years away
+    }
+
+    if (svg.dataset.hoverBound) { return; }
+    svg.dataset.hoverBound = '1';
+
+    svg.addEventListener('mousemove', function (ev) {
+      var s = hoverState;
+      if (!s) { return; }
+      var r = svg.getBoundingClientRect();
+      if (!r.height) { return; }
+      var sy = (ev.clientY - r.top) * (s.h / r.height);
+      var year = Math.round(YEAR_MIN + sy / PX_PER_YEAR);
+
+      var b = nearest(s.berkeley, year);
+      var c = nearest(s.changi, year);
+      while (s.layer.firstChild) { s.layer.removeChild(s.layer.firstChild); }
+      if (!b && !c) { tip.style.display = 'none'; return; }
+
+      var gy = yFor(year);
+      s.layer.appendChild(svgNode('line', {
+        x1: 0, y1: gy, x2: s.w, y2: gy,
+        stroke: 'rgba(0,0,0,0.35)', 'stroke-width': 1, 'stroke-dasharray': '3 3'
+      }));
+      var rows = '<strong>' + year + '</strong>';
+      if (b) {
+        s.layer.appendChild(svgNode('circle', {
+          cx: s.x(b[1]), cy: yFor(b[0]), r: 3.5,
+          fill: '#fff', stroke: '#0a0a0a', 'stroke-width': 1.5
+        }));
+        rows += '<span><i class="ss-tip-sw ss-sw-be"></i>Berkeley ' + b[1].toFixed(1) + '&nbsp;°C</span>';
+      }
+      if (c) {
+        s.layer.appendChild(svgNode('circle', {
+          cx: s.x(c[1]), cy: yFor(c[0]), r: 3.5,
+          fill: '#fff', stroke: '#C8102E', 'stroke-width': 1.5
+        }));
+        rows += '<span><i class="ss-tip-sw ss-sw-ch"></i>Changi ' + c[1].toFixed(1) + '&nbsp;°C</span>';
+      }
+      tip.innerHTML = rows;
+      tip.style.display = 'block';
+      // Keep the tip on screen: flip to the left of the pointer near the edge.
+      var tw = tip.offsetWidth;
+      var left = ev.clientX + 16;
+      if (left + tw > window.innerWidth - 8) { left = ev.clientX - tw - 16; }
+      tip.style.left = left + 'px';
+      tip.style.top = Math.max(8, ev.clientY - 12) + 'px';
+    });
+
+    svg.addEventListener('mouseleave', function () {
+      tip.style.display = 'none';
+      if (hoverState && hoverState.layer) {
+        while (hoverState.layer.firstChild) {
+          hoverState.layer.removeChild(hoverState.layer.firstChild);
+        }
+      }
+    });
+  }
+
   function drawTemp(berkeley, changi) {
     var svg = el('ss-svg-temp');
     var w = svg.parentNode.clientWidth, h = TL_HEIGHT;
-    if (!w) { return; }
+    if (!w) {
+      // The grid column has no width yet. Returning silently here is exactly
+      // how the chart came up empty on a cold load — the axis cannot be scaled
+      // into zero space, so nothing was drawn and nothing said so. Retry on the
+      // next frame instead, bounded so a genuinely hidden column (mobile, where
+      // this column is display:none) doesn't spin forever.
+      drawTemp.tries = (drawTemp.tries || 0) + 1;
+      if (drawTemp.tries < 60) {
+        requestAnimationFrame(function () { drawTemp(berkeley, changi); });
+      }
+      return;
+    }
+    drawTemp.tries = 0;
     svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
     svg.setAttribute('height', h);
     while (svg.firstChild) { svg.removeChild(svg.firstChild); }
@@ -381,6 +478,13 @@
 
     line(berkeley, '#0a0a0a', 1.2, 0.35);
     line(changi, '#C8102E', 1.8, 0.9);
+
+    // Hover readout. The chart is ~4000px tall and only 250px wide, so reading
+    // a value off it by eye is guesswork; this gives the exact year and both
+    // series' readings. Hit-testing is by YEAR (the vertical axis) rather than
+    // by distance to a line, so the pointer doesn't have to land on 1.2px of
+    // stroke — anywhere in the column at that height works.
+    attachTempHover(svg, berkeley, changi, x, w, h);
 
     function tag(series, text, color) {
       if (!series || !series.length) { return; }
@@ -505,11 +609,17 @@
 
       paint();
 
-      // The hero video changes layout timing: on a cold load the temperature
-      // column can still measure 0px when paint() first runs, and drawTemp
-      // bails on a zero width (it cannot scale an axis into no space). Repaint
-      // once every resource has settled.
-      window.addEventListener('load', function () { relayout(); paint(); });
+      // Repaint once layout has settled. This CANNOT be a bare window 'load'
+      // listener: paint() runs inside a fetch callback, and that fetch often
+      // resolves AFTER load has already fired — in which case the listener is
+      // attached to an event that will never come again, and the chart stays
+      // empty. So repaint on the next frame regardless, and only also listen
+      // for load if it genuinely hasn't happened yet.
+      function repaint() { relayout(); paint(); }
+      requestAnimationFrame(repaint);
+      if (document.readyState !== 'complete') {
+        window.addEventListener('load', repaint);
+      }
 
       Promise.all([
         liveTemps().catch(function () { return null; }),
