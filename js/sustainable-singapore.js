@@ -66,15 +66,15 @@
     },
     {
       year: 1963, label: '16 June 1963',
-      title: 'The first tree-planting campaign',
-      body: 'Lee Kuan Yew plants a mempat tree at Farrer Circus and sets a target of 10,000 trees a year.[^16] The stated aim is a cool canopy over the city — an urban-heat-island intervention, launched in the same years the kampongs were coming down.'
+      title: 'Greening Singapore begins',
+      body: 'Also known as the Tree Planting Campaign, it was kickstarted by founding Prime Minister Lee Kuan Yew, who planted a Mempat tree at Farrer Circus.[^16] The campaign aspired to plant 10,000 new trees annually, with the Garden City program introduced in 1967 that eventually led to Singapore’s reputation as one.[^17]</p><p>The aim was to raise awareness of the importance of trees in the environment, and their ability to enhance climate resilience has never mattered more as global temperatures continue to rise.'
     },
     {
       year: 1966, label: 'From 1966',
-      title: 'East Coast Reclamation begins',
+      title: 'East Coast: The Great Reclamation',
       img: 'reclamation.jpg',
       cap: 'Generated illustration — dredged sand pushed out into shallow sea.',
-      body: 'Seven phases over roughly thirty years add about 1,525 hectares along the south-eastern coast, from Bedok down to Marina South. The same program eventually produces the land Marina Bay stands on.[^13] Land area, flat at 581.5 km² since 1960, starts to climb.[^5]'
+      body: 'The East Coast Reclamation, known as the Great Reclamation, began officially in 1966 and continued for three decades over seven phases. Adding 1,525 hectares of land along the southeastern coast, the project stretched across Bedok, Tanjong Rhu, Queen Elizabeth Walk, Tanah Merah Besar, Telok Ayer Basin, a massive lagoon, Marina Centre, Marina East and Marina South (with the last three forming the 660-hectare Marina City, later named Marina Bay).[^13]</p><p>The total cost was $613 million.[^13]'
     },
     {
       year: 1968, label: '1961–1968',
@@ -84,12 +84,12 @@
     {
       year: 1971, label: 'November 1971',
       title: 'The first Tree Planting Day',
-      body: 'The 1967 “Garden City” campaign becomes an annual national ritual.[^17] Angsana and rain trees go in along the new roads specifically for their broad, fast, dense crowns.'
+      body: 'The 1967 “Garden City” campaign becomes an annual national ritual.[^18] Angsana and rain trees go in along the new roads as “instant trees”, chosen because they grew fast enough to produce results in the shortest possible time.[^18]'
     },
     {
-      year: 1979, label: '1979–1981',
+      year: 1975, label: 'From 1975',
       title: 'Changi: an airport out of the sea',
-      body: 'About 700 hectares are reclaimed along the north-eastern shoreline using some 40 million cubic meters of dredged sand. Reclamation completes in 1979; the airport opens in 1981.[^13] The land-area series steps up sharply through the late 1970s.'
+      body: 'PSA begins reclaiming 745 hectares along the Changi coast for the new airport, taking the fill material from the adjoining seabed.[^13] Land area, flat at 581.5 km² since 1960, steps up sharply through the late 1970s.[^5]'
     },
     {
       year: 1993, label: '1993–2003',
@@ -101,7 +101,7 @@
       title: 'The high-rise island — and the record books',
       img: 'heat-island.jpg',
       cap: 'Generated illustration — a bare concrete street canyon: the geometry that traps heat.',
-      body: 'Every one of the ten warmest years in Singapore’s record falls after 1997.[^1] By this point the island is one of the most densely built surfaces on earth, and a study trip led by Prof Matthias Roth of NUS measured a sharp 4 °C rise from Lim Chu Kang to Orchard Road — two places only thirty minutes apart.[^19] The mechanism is visible at street level: a narrow canyon walled in low-albedo concrete, with little wind, can run 2.5 °C hotter in the middle of the road than the material choice alone would suggest.[^20]'
+      body: 'Every one of the ten warmest years in Singapore’s record falls after 1997.[^1] By this point the island is one of the most densely built surfaces on earth, and a study trip led by Prof Matthias Roth of NUS measured a sharp 4 °C rise from Lim Chu Kang to Orchard Road — two places only thirty minutes apart.[^20] The mechanism is visible at street level: a narrow canyon walled in low-albedo concrete, with little wind, can run 2.5 °C hotter in the middle of the road than the material choice alone would suggest.[^21]'
     },
     {
       year: 2008, label: '2000s',
@@ -115,7 +115,7 @@
       title: 'OneMillionTrees and the Green Plan',
       img: 'green-future.jpg',
       cap: 'Generated illustration — a street roofed over by canopy, facades planted.',
-      body: 'NParks sets out to plant a million more trees under the Singapore Green Plan 2030, now expected to hit target by the end of 2027.[^18] Sixty years after the mempat tree at Farrer Circus, the policy instrument is recognizably the same one — only now it is explicitly framed as heat mitigation.'
+      body: 'NParks sets out to plant a million more trees under the Singapore Green Plan 2030, now expected to hit target by the end of 2027.[^19] Sixty years after the mempat tree at Farrer Circus, the policy instrument is recognizably the same one — only now it is explicitly framed as heat mitigation.'
     },
     {
       year: 2024, label: '2024',

@@ -105,6 +105,9 @@
       }
       .ss-card h3 { font-size: 15px; color: var(--text); margin: 0 0 6px; line-height: 1.3; }
       .ss-card p  { font-size: var(--fs-caption); color: var(--text-body); margin: 0; line-height: 1.55; }
+      /* Card bodies may carry an internal paragraph break; without this the two
+         paragraphs run together, since the rule above zeroes every margin. */
+      .ss-card p + p { margin-top: 0.65em; }
       /* aspect-ratio reserves the box before the lazy image loads, so the
          card's height is correct at first layout and the collision pass
          below doesn't stack cards on top of each other. */
@@ -310,7 +313,7 @@
           </div>
           <div>
             <div class="ss-stat-num">4<span style="font-size:0.5em;">°C</span></div>
-            <div class="section-kicker" style="margin-bottom:0;">Lim Chu Kang to Orchard Road, same day[^19]</div>
+            <div class="section-kicker" style="margin-bottom:0;">Lim Chu Kang to Orchard Road, same day[^20]</div>
           </div>
         </div>
       </section>
@@ -324,13 +327,13 @@
           island-wide weather station network at
           <a href="https://data.gov.sg/" target="_blank" rel="noopener noreferrer">data.gov.sg</a>,
           showing the gap between the warmest and coolest parts of Singapore in real time.[^4]
-          You can see that the difference can sometimes reach between 2 and 3&nbsp;°C when comparing urban and vegetated areas.[^26]
+          You can see that the difference can sometimes reach between 2 and 3&nbsp;°C when comparing urban and vegetated areas.[^27]
         </p>
         <p>
           For example, in 2023, the difference between Singapore's hottest and coolest stations had
           a median of <strong>2.2&nbsp;°C</strong>. For over three-fifths of the year, the difference
           hovered above 2&nbsp;°C, a measurement I had Claude Code take across 6,893,129 readings
-          (measured per minute) from 17 stations.[^26] When comparing the East Coast Parkway
+          (measured per minute) from 17 stations.[^27] When comparing the East Coast Parkway
           expressway against Pulau Ubin, which remains largely undeveloped to this day, ECP
           was warmer <strong>78% of the time</strong>.
         </p>
@@ -454,7 +457,7 @@
             surface also produced the instinct to re-cover it. On 16 June 1963, barely three years
             into the housing program that was clearing kampongs at speed, Lee Kuan Yew planted a
             mempat tree at Farrer Circus and launched the first tree-planting campaign.[^16] The "Garden
-            City" campaign followed in 1967; the first Tree Planting Day in November 1971.[^17]
+            City" campaign followed in 1967; the first Tree Planting Day in November 1971.[^18]
           </p>
           <p>
             The species he pushed hardest — the angsana and the rain tree — were not chosen for
@@ -466,7 +469,7 @@
           <p>
             The current instalment is <strong>OneMillionTrees</strong>, run by NParks under the
             Singapore Green Plan 2030: a million additional trees planted between 2020 and 2030,
-            currently expected to hit target by the end of 2027.[^18]
+            currently expected to hit target by the end of 2027.[^19]
           </p>
         </div>
         <div class="split-media">
@@ -486,7 +489,7 @@
           The figure most often quoted to Singapore's planners is a reduction of up to
           <strong>2.6&nbsp;°C</strong> in street-level temperature from shading roads with trees,
           via the <em>Strategies for Cooling Singapore</em> report. Worth knowing before you repeat
-          it: that range originates in a <em>Dresden</em> study, not in Singapore measurements.[^21]
+          it: that range originates in a <em>Dresden</em> study, not in Singapore measurements.[^22]
         </p>
         <p>
           When Lei Xu and Ronita Bardhan actually measured 20 paired shaded/unshaded sites across
@@ -494,18 +497,18 @@
           effect on <em>air temperature</em> was modest — close to a single degree. But the effect
           on <em>thermal comfort</em>, measured on the Universal Thermal Climate Index, averaged
           <strong>3.1&nbsp;°C</strong>. Under high coverage — roughly 80% canopy and built overhangs
-          — the modeled cooling potential reached 3–5&nbsp;°C.[^22]
+          — the modeled cooling potential reached 3–5&nbsp;°C.[^23]
         </p>
         <p>
           That gap between "air temperature" and "how hot it feels" is the whole point. A tree does
           not primarily cool the air; it intercepts the radiation that would have cooked you and the
           pavement. Roughly 29% of the in-canopy temperature reduction comes from evaporative
-          cooling — <strong>shade does the rest</strong>.[^25] For a pedestrian in the tropics, the
+          cooling — <strong>shade does the rest</strong>.[^26] For a pedestrian in the tropics, the
           radiant load is what matters, and that is exactly what a crown blocks.
         </p>
         <p>
           There is also a limit worth planning around. Naika Meili's 2025 modeling in the
-          <em>Journal of Advances in Modeling Earth Systems</em>[^23] found shade on walls and windows
+          <em>Journal of Advances in Modeling Earth Systems</em>[^24] found shade on walls and windows
           dominated air-conditioning savings — 6–9% of cooling energy in hot humid cities — but that
           the benefit peaks at around <strong>40% tree cover</strong> in humid climates, beyond which
           the moisture the trees release starts offsetting the gain. In a place as humid as
@@ -529,17 +532,17 @@
             <tbody>
               <tr>
                 <td>Rain tree<br><em>Samanea saman</em></td>
-                <td>The classic Singapore canopy: a broad umbrella crown that can span 30&nbsp;m, casting dense shade over an entire carriageway. LKY's favorite for exactly this reason.[^16]</td>
+                <td>The classic Singapore canopy: a broad umbrella crown casting dense shade over an entire carriageway. One of the fast-growing “instant trees” the Garden City campaign leaned on to produce results in the shortest possible time — and the species Goh Keng Swee put in the ground at Mount Faber on the first Tree Planting Day.[^18]</td>
                 <td>Needs enormous lateral room; leaflets fold in low light and rain, briefly thinning the shade. Big limbs mean real inspection obligations.</td>
               </tr>
               <tr>
                 <td>Yellow flame<br><em>Peltophorum pterocarpum</em></td>
-                <td>Compared directly against the rain tree in a 2024 <em>Arboricultural Journal</em> study[^24], it transpired more efficiently across cool, warm <em>and</em> hot conditions — the better evaporative cooler of the two.</td>
+                <td>Compared directly against the rain tree in a 2024 <em>Arboricultural Journal</em> study[^25], it transpired more efficiently across cool, warm <em>and</em> hot conditions — the better evaporative cooler of the two.</td>
                 <td>Lighter, less continuous crown than a mature rain tree, so it shades less ground per tree.</td>
               </tr>
               <tr>
                 <td>Angsana<br><em>Pterocarpus indicus</em></td>
-                <td>Dense dome-shaped crown with drooping branches, and fast — the reason it was planted along so many roads in the 1960s and 70s when shade was needed <em>now</em>.[^16]</td>
+                <td>Dense dome-shaped crown with drooping branches, and fast — the reason it was planted along so many roads in the 1960s and 70s when shade was needed <em>now</em>.[^18]</td>
                 <td>The cautionary tale in Singapore's own greening history: mass single-species planting met vascular wilt disease. An argument for diversity, not for avoiding the species.</td>
               </tr>
               <tr>
@@ -733,13 +736,24 @@
             </span>
           </li>
           <li id="ref-13">
-            <a href="https://www.biblioasia.nlb.gov.sg/vol-13/issue-1/apr-jun-2017/land-from-sand/" target="_blank" rel="noopener noreferrer">“Land From Sand: Singapore's Reclamation Story”</a>,
+            Lim Tin Seng,
+            <a href="https://biblioasia.nlb.gov.sg/all-sections/vol-13-issue-1-apr-jun-2017-land-from-sand/" target="_blank" rel="noopener noreferrer">“Land From Sand: Singapore's Reclamation Story”</a>,
             <em>BiblioAsia</em> 13(1), National Library Board, April–June 2017.
             <span class="ss-ref-note">
-              East Coast Reclamation from 1966, seven phases over some thirty years adding about
-              1,525&nbsp;hectares from Bedok to Marina South; Changi's roughly 700&nbsp;hectares and
-              40&nbsp;million&nbsp;m³ of dredged sand, completed 1979 for a 1981 opening; Jurong Island
-              merging seven islands 1993–2003 into about 3,000&nbsp;hectares.
+              “Dubbed the ‘Great Reclamation’, it added a <strong>1,525-hectare</strong> tract along the
+              southeastern coast of the island.” Work began officially in 1966 and “would continue for a
+              remarkable 30 years over seven phases”: I–II from Bedok to Tanjong Rhu, 1966–71,
+              458&nbsp;hectares and a 9-km beach; III–IV, 1971–75, 67 and 486&nbsp;hectares; V from 1974,
+              completed 1977, 34&nbsp;hectares forming Marina Centre and a massive lagoon; VI–VII in
+              1979, creating Marina East and Marina South, which with Marina Centre formed the
+              <strong>660-hectare</strong> Marina City, later Marina Bay. Total cost
+              <strong>$613&nbsp;million</strong>. Also: PSA's Changi reclamation from 1975, 745&nbsp;hectares
+              along the Changi coast with fill from the adjoining seabed; and seven south-western islands
+              merged from 1993 in four stages at $6&nbsp;billion, completed in 2003 as Jurong Island's
+              3,000&nbsp;hectares.
+              <span class="ss-ref-flag">One internal tension:</span> the article says thirty years, but
+              the seven phases it then enumerates end in 1979 — thirteen. The thirty-year span presumably
+              covers the later Marina works; the phase list does not.
             </span>
           </li>
           <li id="ref-14">
@@ -772,16 +786,32 @@
           </li>
           <li id="ref-16">
             National Parks Board,
-            <a href="https://www.nparks.gov.sg/sbg/about/our-history/1963-the-greening-of-singapore" target="_blank" rel="noopener noreferrer">“1963: The Greening of Singapore”</a>,
-            Singapore Botanic Gardens.
+            <a href="https://www.nparks.gov.sg/portals/annualreport/greening-with-the-community.html" target="_blank" rel="noopener noreferrer">“Greening with the Community”</a>,
+            <em>Annual Report 2023/24</em>.
             <span class="ss-ref-note">
-              The mempat tree planted by Lee Kuan Yew on <strong>16 June 1963</strong>; the target of
-              10,000 trees a year; the “Garden City” campaign of 1967; and the explicit preference for
-              <strong>angsana and rain tree</strong> as fast, broad-crowned shade trees to put a cool
-              canopy over the city.
+              “On <strong>16 June 1963</strong>, founding Prime Minister Lee Kuan Yew kickstarted the
+              nationwide greening campaign with the planting of a Mempat tree at Farrer Circus.” The
+              same page identifies the species as pink mempat (<em>Cratoxylum formosum</em>) and gives
+              over <strong>683,000 trees</strong> planted with community help as at March 2023 under
+              the OneMillionTrees movement.
             </span>
           </li>
           <li id="ref-17">
+            Naidu Ratnala Thulaja,
+            <a href="https://www.nlb.gov.sg/main/article-detail?cmsuuid=99114695-9f29-4b53-890d-967a31d8fa32" target="_blank" rel="noopener noreferrer">“Tree Planting Campaign”</a>,
+            <em>Singapore Infopedia</em>, National Library Board.
+            <span class="ss-ref-note">
+              The campaign launched in 1963 and inaugurated by then Prime Minister Lee Kuan Yew; its
+              aim, beyond improving Singapore's image, “to promote awareness and appreciation of the
+              need for trees in the environment”; the hope of <strong>10,000 new trees
+              annually</strong>; the <strong>Garden City programme of 1967</strong>, linking parks,
+              gardens and open spaces by a network of tree-lined roads; and the annual Tree Planting
+              Day launched in November 1971. The article is candid that the campaign's early years
+              were unsuccessful, “due to the people's lack of empathy for trees and a lack of
+              expertise for the campaign”. Content stated as valid as at 2016.
+            </span>
+          </li>
+          <li id="ref-18">
             <a href="https://biblioasia.nlb.gov.sg/vol-17/issue-4/jan-to-mar-2022/tree-planting-day/" target="_blank" rel="noopener noreferrer">“The Blossoming of Tree Planting Day”</a>,
             <em>BiblioAsia</em> 17(4), National Library Board, January–March 2022.
             <span class="ss-ref-note">
@@ -789,20 +819,20 @@
               observance.
             </span>
           </li>
-          <li id="ref-18">
+          <li id="ref-19">
             National Parks Board,
             <a href="https://www.nparks.gov.sg/treessg/one-million-trees" target="_blank" rel="noopener noreferrer">OneMillionTrees movement</a>,
             under the Singapore Green Plan 2030.
             <span class="ss-ref-note">
               One million additional trees to be planted between 2020 and 2030; as reported in
-              reference 21, now expected to reach target by the end of 2027.
+              reference 22, now expected to reach target by the end of 2027.
             </span>
           </li>
         </ol>
 
         <div class="ss-refs-head">Urban heat island and tree cooling</div>
-        <ol class="ss-refs" style="counter-reset: ssref 18;">
-          <li id="ref-19">
+        <ol class="ss-refs" style="counter-reset: ssref 19;">
+          <li id="ref-20">
             <a href="https://fass.nus.edu.sg/srn/2019/01/03/killer-heat/" target="_blank" rel="noopener noreferrer">“Killer Heat”</a>,
             Sustainable Regional Network, NUS Faculty of Arts and Social Sciences, 3 January 2019 —
             reporting a study trip with <strong>Professor Matthias Roth</strong>, NUS Department of
@@ -816,10 +846,10 @@
               <span class="ss-ref-flag">Note the dissent:</span> Roth also stresses that research has
               <em>not</em> really shown that green initiatives such as adding trees and rooftop gardens
               succeed in reducing the urban heat island — a direct challenge to the argument in the
-              tree section below, and worth weighing against references 21–25.
+              tree section below, and worth weighing against references 22–26.
             </span>
           </li>
-          <li id="ref-20">
+          <li id="ref-21">
             Priyadarsini, R., Wong, N.H. &amp; Cheong, K.W.D., “Microclimatic modeling of the urban
             thermal environment of Singapore to mitigate urban heat island”,
             <em>Solar Energy</em>, 2008.
@@ -830,37 +860,37 @@
               materials. <span class="ss-ref-flag">Abstract only</span> — the full text is paywalled.
             </span>
           </li>
-          <li id="ref-21">
+          <li id="ref-22">
             <a href="https://spacedaily.com/d-research-cited-by-singapores-urban-planners-suggests-shading-roads-with-trees-can-reduce-street-level-temperatures-by-up-to-2-6-degrees-celsius-separately-models-suggest-tree-shade-on-buil/" target="_blank" rel="noopener noreferrer">“Research cited by Singapore's urban planners suggests shading roads with trees can reduce street-level temperatures by up to 2.6 degrees Celsius…”</a>,
             SpaceDaily.
             <span class="ss-ref-note">
               Source for the headline <strong>0.9–2.6&nbsp;°C</strong> road-shading range attributed to
               the <em>Strategies for Cooling Singapore</em> report — and, importantly, for the
               observation that <strong>this range originates in a Dresden study rather than Singapore
-              measurements</strong>. Also the secondary source through which references 22 and 23, and
+              measurements</strong>. Also the secondary source through which references 23 and 24, and
               the OneMillionTrees timing, reached this page.
             </span>
           </li>
-          <li id="ref-22">
+          <li id="ref-23">
             Xu, Lei, Ronita Bardhan, Hongyu Mei, Srilalitha Gopalakrishnan, Xian Zheng, and Thomas Schroepfer. “Harnessing Street Shade to Mitigate Heat Stress: An In-Situ Parallel Investigation under Extreme Heat Conditions in Tropical Singapore.” <em>Science of the Total Environment</em> 958 (2025): 177864. <a href="https://doi.org/10.1016/j.scitotenv.2024.177864" target="_blank" rel="noopener noreferrer">doi:10.1016/j.scitotenv.2024.177864</a>.
             <span class="ss-ref-note">
               Twenty paired shaded/unshaded sites across Singapore: an air-temperature effect
               “close to a single degree”, an average <strong>3.1&nbsp;°C</strong> improvement in
               thermal comfort on the Universal Thermal Climate Index, and modeled cooling potential of
               <strong>3–5&nbsp;°C</strong> at roughly 80% canopy and built-overhang coverage.
-              <span class="ss-ref-flag">Not read directly</span> — figures via reference 21.
+              <span class="ss-ref-flag">Not read directly</span> — figures via reference 22.
             </span>
           </li>
-          <li id="ref-23">
+          <li id="ref-24">
             Meili, Naika, et al. “Modeling the Effect of Trees on Energy Demand for Indoor Cooling and Dehumidification Across Cities and Climates.” <em>Journal of Advances in Modeling Earth Systems</em> 17, no. 3 (2025): e2024MS004590. <a href="https://doi.org/10.1029/2024MS004590" target="_blank" rel="noopener noreferrer">doi:10.1029/2024MS004590</a>. An open-access copy is available via the ETH Research Collection.
             <span class="ss-ref-note">
               Shade on building walls and windows dominates air-conditioning savings; modeled savings
               average <strong>6–9% of summer cooling energy</strong> in hot humid cities, with benefit
               peaking near <strong>40% tree cover</strong> before moisture-release penalties offset the
-              gain. <span class="ss-ref-flag">Not read directly</span> — figures via reference 21.
+              gain. <span class="ss-ref-flag">Not read directly</span> — figures via reference 22.
             </span>
           </li>
-          <li id="ref-24">
+          <li id="ref-25">
             <a href="https://www.tandfonline.com/doi/abs/10.1080/03071375.2024.2403288" target="_blank" rel="noopener noreferrer">“Enhancing outdoor comfort in urban hot climates: investigating the cooling impact of two tropical trees through shade provision and transpiration”</a>,
             <em>Arboricultural Journal</em> 46(4), 2024.
             <span class="ss-ref-note">
@@ -870,7 +900,7 @@
               <span class="ss-ref-flag">Abstract only</span> — the full text is paywalled.
             </span>
           </li>
-          <li id="ref-25">
+          <li id="ref-26">
             “A method to partition the relative effects of evaporative cooling and shading on air
             temperature within vegetation canopy”,
             <a href="https://academic.oup.com/jue/article/4/1/juy012/5051919" target="_blank" rel="noopener noreferrer"><em>Journal of Urban Ecology</em> 4(1), 2018</a>.
@@ -880,7 +910,7 @@
               in-canopy air-temperature reduction, with shading responsible for the remainder.
             </span>
           </li>
-          <li id="ref-26">
+          <li id="ref-27">
             National Environment Agency, <em>Historical Air Temperature across Singapore (2023)</em>,
             dataset <code>d_370bbfc65de96ad93eaefa182135d1c0</code>,
             <a href="https://data.gov.sg/datasets/d_370bbfc65de96ad93eaefa182135d1c0/view" target="_blank" rel="noopener noreferrer">data.gov.sg</a>.
@@ -904,10 +934,10 @@
           Not all of these were checked to the same depth, and it would be dishonest to present them as
           though they were. References 1–5 were downloaded and inspected directly — the temperature and
           land-area series on this page are computed from the raw files, not copied from anyone's chart.
-          References 6–19 and 25 were read on the cited pages. Reference 12 is a blog rather than an
-          official source, and is attributed as such in the text. References 20, 22, 23 and 24 are the
+          References 6–20 and 26 were read on the cited pages. Reference 12 is a blog rather than an
+          official source, and is attributed as such in the text. References 21, 23, 24 and 25 are the
           weak links: they are paywalled journal articles, and their figures reached this page through
-          abstracts and through the SpaceDaily summary at reference 21. If you intend to rely on the
+          abstracts and through the SpaceDaily summary at reference 22. If you intend to rely on the
           3.1&nbsp;°C thermal-comfort figure or the 40%-canopy threshold for anything that matters,
           read those papers first.
         </p>
@@ -929,6 +959,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260815e"></script>
+    <script src="/js/sustainable-singapore.js?v=20260815f"></script>
   </body>
 </html>
