@@ -1006,16 +1006,39 @@
     var floor = f.at(end) - f.pi(end);
     var anchor = null, k;
     for (k = 0; k < s.length; k++) { if (s[k][0] === ANCHOR) { anchor = s[k][1]; } }
+    /* The two historical facts are derived against the SAME rounded figure the
+       sentence quotes, so they can never disagree with it. If a future refit
+       lifts the floor to 27.9, the year and the counts move with it rather than
+       quietly becoming false. */
+    var fl = parseFloat(d1(floor));
+    var firstAt = null;
+    for (k = 0; k < s.length; k++) {
+      if (firstAt === null && parseFloat(d1(s[k][1])) >= fl) { firstAt = s[k][0]; }
+    }
+    var pre = (data.berkeley || []).filter(function (p) { return p[0] < s[0][0]; });
+    var preOver = pre.filter(function (p) { return parseFloat(d1(p[1])) >= fl; }).length;
+    var preMax = pre.length ? Math.max.apply(null, pre.map(function (p) { return p[1]; })) : null;
+
     var read = el('ss-proj-read');
     if (read && anchor !== null) {
-      read.innerHTML = 'If we are to extrapolate the current trend of an increase of <strong>' +
+      var html = 'If we are to extrapolate the current trend of an increase of <strong>' +
         (f.b * 10).toFixed(2) + '&nbsp;°C</strong> per decade, take into account the spread of ' +
         '<strong>±' + f.pi(end).toFixed(2) + '&nbsp;°C</strong>, it wouldn’t be unusual for ' +
         end + ' to be as cool as ' + d1(floor) + '&nbsp;°C. That said, that doesn’t change ' +
         'the fact that the world has gotten warmer. It’s still a ' +
         d1(floor - anchor) + '&nbsp;°C increase over the ' + d1(anchor) + '&nbsp;°C in ' +
-        ANCHOR + ', almost 3 decades ago. No matter how much certain parties deny climate ' +
-        'change, the evidence is against them.';
+        ANCHOR + ', almost 3 decades ago.';
+      if (firstAt) {
+        html += ' Furthermore, based on Changi Station’s records, no year reached ' +
+          d1(floor) + '&nbsp;°C until ' + firstAt + '.';
+      }
+      if (pre.length && !preOver) {
+        html += ' Worse, across Berkeley Earth’s ' + pre[0][0] + '–' + pre[pre.length - 1][0] +
+          ' record, not a single year ever hit ' + d1(floor) +
+          '&nbsp;°C, with the hottest only reaching ' + d1(preMax) + '&nbsp;°C.';
+      }
+      read.innerHTML = html + ' No matter how much certain parties deny climate change, the ' +
+        'evidence is against them.';
     }
 
     drawCentury(f, last);
