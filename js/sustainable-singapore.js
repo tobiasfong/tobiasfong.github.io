@@ -1036,10 +1036,14 @@
         msg = 'No trees. This is the baseline everything else is measured against.';
       } else if (cover > 40) {
         var at40 = series[2], gain = Math.abs(v) - Math.abs(at40);
-        msg = 'Doubling the cover past 40% bought another ' + gain.toFixed(1) +
-          ' points. The humidity is eating the shade.';
+        // Every scenario in the data gains a little past 40%, but the curves do
+        // flatten and one dips, so the wording has to survive a negative too.
+        msg = 'Increasing the cover past 40% only yielded ' +
+          (gain < 0 ? gain.toFixed(1) + ' points, a loss' : 'an additional ' + gain.toFixed(1) + ' points') +
+          '. The humidity produced by the trees outweighs the benefits of their shade.';
       } else if (cover === 40) {
-        msg = 'The knee of the curve. Past here each extra tree buys much less.';
+        msg = 'This is the point of diminishing returns. Beyond this point, the efficiency ' +
+          'of any additional trees drops drastically.';
       }
       msgEl.textContent = msg;
       draw(series);
