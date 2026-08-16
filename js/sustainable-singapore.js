@@ -1793,7 +1793,7 @@
      heights (the timeline alone is several screens), and "whichever heading
      the sticky bars last passed" is the answer a reader expects. */
   function wirePageNav() {
-    var nav = el('ss-pagenav');
+    var nav = el('ss-nav');
     if (!nav) { return; }
     var links = [].slice.call(nav.querySelectorAll('a'));
     var targets = links.map(function (a) {
@@ -1826,7 +1826,7 @@
         if (i === found) { a.setAttribute('aria-current', 'true'); }
         else { a.removeAttribute('aria-current'); }
       });
-      var chip = links[found], strip = el('ss-pagenav-inner');
+      var chip = links[found], strip = el('ss-nav-links');
       if (chip && strip && strip.scrollWidth > strip.clientWidth) {
         strip.scrollTo({
           left: Math.max(0, chip.offsetLeft - (strip.clientWidth - chip.offsetWidth) / 2),

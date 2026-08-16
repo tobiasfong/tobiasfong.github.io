@@ -675,8 +675,22 @@ footer {
   background: rgba(255,255,255,0.88);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border);
   padding: 0 48px;
+
+  /* Reset the bare `nav` rule above, which is the home page's floating centred
+     pill. Without these, its left:50% + translateX(-50%) push this bar half a
+     screen to the left, and its radius/shadow give it a pill look it should not
+     have. `border: 0` must come before `border-bottom` or it wipes it out. */
+  left: auto;
+  right: auto;
+  transform: none;
+  width: auto;
+  max-width: none;
+  display: block;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .project-nav-inner {
@@ -1059,6 +1073,13 @@ footer {
   nav {
     width: calc(100% - 32px);
     padding: 14px 20px;
+  }
+
+  /* Same leak as the desktop rule: the pill's narrowed width and pill padding
+     would otherwise apply to the flat project bar too. */
+  .project-nav {
+    width: auto;
+    padding: 0 24px;
   }
 
   .nav-links { display: none; }
