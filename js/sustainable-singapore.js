@@ -208,7 +208,7 @@
     },
     {
       year: 2008, label: '2008–2021',
-      title: 'Housing bubble',
+      title: 'Housing boom',
       img: 'condo-boom.jpg',
       body: 'HDB’s units grew by 24%,[^16] and the land area increased by 22.9 km².[^5] In the same period, condominium clusters were constructed, e.g. Pasir Ris Grove, which housed at least 4 new condominium complexes within 5 years, not counting several built elsewhere in the same neighborhood around the same time. During that stretch, 2016 and 2019 broke the record for being the hottest years.'
     },
