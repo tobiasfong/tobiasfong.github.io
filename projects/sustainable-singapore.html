@@ -535,7 +535,8 @@
     <main class="container project-content">
 
       <!-- ── Where the data comes from ── -->
-      <section style="max-width: 720px; margin: 0 auto 3rem;">
+      <section class="editorial-split" style="grid-template-columns: 1fr 320px;">
+        <div>
         <div class="section-kicker">Data</div>
         <h2>Several Lines of Thought</h2>
         <p>
@@ -562,10 +563,23 @@
             Consequently, the temperature measured will inevitably be entwined with local construction.
           </p>
         </div>
+        </div>
+        <div class="split-media">
+          <img src="/img/sustainable/two-records.jpg"
+            alt="A manhwa-styled illustration of a young man at a desk at night, frowning at a tablet with printed pages spread in front of him"
+            style="width:100%; border-radius:12px; margin-top:1.25rem; display:block;" loading="lazy" />
+        </div>
       </section>
 
       <!-- ── What the two records add up to ── -->
-      <section style="max-width: 720px; margin: 0 auto 3rem;">
+      <!-- Media first in the DOM so the default 300px/1fr split puts it left. -->
+      <section class="editorial-split">
+        <div class="split-media">
+          <img src="/img/sustainable/writing-up.jpg"
+            alt="A manhwa-styled illustration seen over the shoulder of a young man typing at a laptop, a night window and city lights beyond the desk"
+            style="width:100%; border-radius:12px; margin-top:1.25rem; display:block;" loading="lazy" />
+        </div>
+        <div>
         <div class="section-kicker">Synthesis</div>
         <h2>Reading the data</h2>
         <p>
@@ -612,6 +626,7 @@
           4 between 1982 and 2007 to 8 in the next 18 years.
         </p>
         <p><strong>The heat is real.</strong></p>
+        </div>
       </section>
 
       <section class="editorial-split" style="grid-template-columns: 1fr 320px;">
@@ -670,7 +685,19 @@
       </section>
 
       <!-- ── About the images ── -->
-      <section style="max-width: 720px; margin: 0 auto 3rem;">
+      <!-- Media column first in the DOM: .editorial-split's default 300px/1fr
+           puts it on the left, and the phone rule reorders it above the text. -->
+      <section class="editorial-split">
+        <div class="split-media">
+          <img src="/img/sustainable/trevor-reference.jpg"
+            alt="Character reference of Trevor, the protagonist of Reincarnator X Regressor: a young man in black glasses and a red school blazer, drawn in manhwa style"
+            style="width:100%; border-radius:12px; display:block;" loading="lazy" />
+          <p style="font-size:var(--fs-caption); color:var(--text-muted); margin-top:0.6rem;">
+            Trevor, from <em>Reincarnator X Regressor</em> — generated with the same character
+            and panel server that drew the figures on this page.
+          </p>
+        </div>
+        <div>
         <div class="section-kicker">Disclaimer</div>
         <h2>The artwork isn't real</h2>
         <p>
@@ -690,6 +717,7 @@
           Also, I thought it was a good chance to put something I built with my buddy, Claude Code, to
           use, and demonstrate the fruits of our webcomic labor.
         </p>
+        </div>
       </section>
 
       <!-- ── References ── -->
