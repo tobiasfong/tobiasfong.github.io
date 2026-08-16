@@ -1520,35 +1520,35 @@
         avoided.toFixed(1) + '<span class="ss-sim-unit"> Mt</span>';
 
       el('ss-grid-heat').innerHTML = p === 0 ?
-        'Waste heat stays where it is: <strong>' + now.toFixed(0) +
-        '&nbsp;TWh</strong> a year thrown away by the power stations.' :
-        'But waste heat rises from <strong>' + now.toFixed(0) + '</strong> to between <strong>' +
+        'Waste heat remains the same, at <strong>' + now.toFixed(0) +
+        '&nbsp;TWh</strong> per year.' :
+        'Waste heat increases from <strong>' + now.toFixed(0) + '</strong> to between <strong>' +
         lo.toFixed(0) + '</strong> and <strong>' + hi.toFixed(0) +
-        '&nbsp;TWh</strong> a year — ' + (lo / now).toFixed(1) + ' to ' + (hi / now).toFixed(1) +
-        ' times as much heat dumped locally.';
+        '&nbsp;TWh</strong> per year, about ' + (lo / now).toFixed(1) + ' to ' +
+        (hi / now).toFixed(1) + ' times more.';
 
+      // The efficiency explanation lives in the prose below the widget now, so
+      // this only has to say which grid the reader is looking at.
       var msg = el('ss-grid-msg');
       if (msg) {
         msg.textContent = p === 0 ?
-          'The grid as it stands: 94% natural gas, about half of the energy burned arriving as electricity.' :
-          'Reactors turn about a third of their heat into electricity. The current fleet manages ' +
-          Math.round(fleetEff * 100) + '%. The same electricity therefore needs far more heat made, ' +
-          'and the surplus has to go somewhere.';
+          'The current grid, unchanged, 94% natural gas.' :
+          'Projected grid, when ' + Math.round(p * 100) +
+          '% of electricity is provided by nuclear reactors.';
       }
 
       var read = el('ss-grid-read');
       if (read) {
         read.innerHTML = p === 0 ?
-          'Move the slider to swap generation over to reactors.' :
-          'Switching ' + Math.round(p * 100) + '% of the grid stops <strong>' +
-          avoided.toFixed(1) + '&nbsp;million tons</strong> of CO₂ a year. For scale, the ' +
-          'entire tree calculation above saves 87,000 tons — this is about <strong>' +
-          Math.round(avoided * 1e6 / 87000) + ' times</strong> larger. The catch is the heat: ' +
-          'the same switch adds <strong>' + (lo - now).toFixed(0) + ' to ' +
-          (hi - now).toFixed(0) + '&nbsp;TWh</strong> of waste heat a year. Whether that matters ' +
-          'to the temperatures on this page depends on where it goes — gas stations vent much ' +
-          'of theirs into the air over Jurong Island, while a reactor would reject its heat to ' +
-          'seawater. That is a siting decision, not a property of the technology.';
+          'Move the slider to see what switching part of the supply would change.' :
+          'Switching to ' + Math.round(p * 100) + '% reduces carbon emission by <strong>' +
+          avoided.toFixed(1) + '&nbsp;million tons</strong> of CO₂ a year. Compared to the ' +
+          '87,000 tons saved by trees, this is about <strong>' +
+          Math.round(avoided * 1e6 / 87000) + ' times</strong> larger. However, more heat is ' +
+          'generated. Waste heat increases by <strong>' + (lo - now).toFixed(0) + ' to ' +
+          (hi - now).toFixed(0) + '&nbsp;TWh</strong> per year. Though the technologies differ ' +
+          'in how they deal with waste heat, with gas stations venting most of them into the ' +
+          'air above Jurong Island, a nuclear reactor would dump its heat into the sea.';
       }
     }
 
