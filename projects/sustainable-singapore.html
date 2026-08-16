@@ -371,7 +371,7 @@
 
       .ss-nav {
         position: sticky; top: 0; z-index: 100;
-        /* style.css's bare `nav` rule is the home page's floating centred pill:
+        /* style.css's bare `nav` rule is the home page's floating centered pill:
            left 50%, translateX(-50%), a fixed width, a 999px radius, a shadow.
            None of it suits a full-width bar, and left/transform in particular
            have to be unset by hand or it lands half a screen to the left. */
@@ -543,7 +543,7 @@
       }
       .ss-tip strong { display: block; font-size: 12px; margin-bottom: 3px; }
       .ss-tip span { display: block; }
-      /* Colour comes from the script, which uses a LIGHTENED variant here: the
+      /* Color comes from the script, which uses a LIGHTENED variant here: the
          chart's palette is mixed for white paper, and Berkeley's near-black
          would vanish against this dark tip. */
       .ss-tip-sw {
@@ -639,9 +639,9 @@
       <div class="ss-nav-links" id="ss-nav-links">
         <a href="#ss-overview">Overview</a>
         <a href="#ss-live-sec">Live</a>
-        <a href="#ss-maps">Satellite</a>
         <a href="#ss-timeline">Timeline</a>
         <a href="#ss-data">Data</a>
+        <a href="#ss-maps">Heatmap</a>
         <a href="#ss-synthesis">Synthesis</a>
         <a href="#ss-projection">Projection</a>
         <a href="#ss-trees">Trees</a>
@@ -799,10 +799,7 @@
                 <span class="ss-ramp-na" id="ss-lm-time">Loading…</span>
               </div>
               <p class="ss-map-cap">
-                The same readings as the list, placed where the stations actually stand. The shading
-                between them is interpolated, not measured — hover a dot for a reading that exists.
-                This is air temperature, on its own scale; the satellite map further down measures
-                the ground instead, and the two are not comparable.
+                Hover over a dot to see the NEA station's measurement of that area's temperature.
               </p>
             </div>
           </div>
@@ -810,74 +807,6 @@
 
       </section>
 
-      <!-- ── The two maps ── -->
-      <section id="ss-maps" class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3rem;">
-        <div class="section-kicker">From orbit</div>
-        <h2>Where the island actually cooks</h2>
-        <p>
-          The station network tells us how far apart the warmest and coolest corners of Singapore
-          are, and the map on that panel guesses at what lies between them — but sixteen
-          thermometers, however you interpolate them, cannot show us <em>where</em> the heat really
-          sits. For that we need a satellite. The map below is built from thirteen cloud-free Landsat 8 and 9 passes over
-          Singapore between April 2022 and April 2026, each one taken at about 11:16 in the morning,
-          and each pixel is 30 metres across.[^39]
-        </p>
-        <p>
-          What it measures is the temperature of the <em>ground</em> — the tarmac, the roof, the leaf
-          canopy — rather than the air a person stands in. Surface readings run far hotter than air
-          readings, so the numbers here are not comparable to the 28&nbsp;°C annual means elsewhere
-          on this page. What they are good for is comparison <em>within</em> the island, and there the
-          pattern is unambiguous.
-        </p>
-
-        <div class="ss-map">
-          <div class="ss-map-frame">
-            <img class="ss-map-base" src="/img/sustainable/lst-singapore.png"
-                 alt="Satellite land-surface temperature across Singapore. The airports and the
-                      western industrial estates are the hottest ground on the island; the central
-                      catchment forest is the coolest." loading="lazy" width="1400" height="840" />
-            <div class="ss-map-pin flip" style="left:78.3%; top:38.5%;"><i></i><span>Changi Airport</span><b>47.6&nbsp;°C</b></div>
-            <div class="ss-map-pin" style="left:20.0%; top:70.7%;"><i></i><span>Jurong Island</span><b>45.9&nbsp;°C</b></div>
-            <div class="ss-map-pin" style="left:47.3%; top:56.5%;"><i></i><span>Orchard</span><b>40.5&nbsp;°C</b></div>
-            <div class="ss-map-pin" style="left:23.4%; top:17.8%;"><i></i><span>Lim Chu Kang</span><b>36.8&nbsp;°C</b></div>
-            <div class="ss-map-pin" style="left:42.0%; top:41.7%;"><i></i><span>Central catchment</span><b>33.5&nbsp;°C</b></div>
-          </div>
-          <div class="ss-ramp">
-            <span class="ss-ramp-end">33&nbsp;°C</span>
-            <span class="ss-ramp-bar" style="background:linear-gradient(90deg,#eea099,#e77b74,#dc5551,#cb2a30,#b10015,#8c000d,#64050d);"></span>
-            <span class="ss-ramp-end">47&nbsp;°C and above</span>
-            <span class="ss-ramp-na"><i></i>no clear reading</span>
-          </div>
-          <p class="ss-map-cap">
-            Land-surface temperature, median of thirteen Landsat overpasses.[^39] Gray marks ground
-            that no pass ever saw clearly — persistent cloud, and the northeastern corner, which
-            falls outside this satellite track and so takes Pulau Ubin and Pulau Tekong with it.
-            Malaysia has been cut away at the Johor Strait.
-          </p>
-        </div>
-
-        <p>
-          Changi's runways are the hottest ground in the country, and Jurong Island is not far
-          behind — reclaimed land, paved and roofed end to end, with a petrochemical industry
-          sitting on top of it. Orchard runs 3.7&nbsp;°C hotter than Lim Chu Kang, which is close to
-          the 4&nbsp;°C gap measured between those two places at street level.[^23] The coolest
-          ground on the island is the central catchment forest, 14&nbsp;°C below the runways, and it
-          is the one part of Singapore we never built on.
-        </p>
-
-        <div class="ss-caveat">
-          <p style="font-weight:700; color:var(--text); margin-bottom:0.4rem;">Two maps that disagree, and why</p>
-          <p style="font-size:var(--fs-caption);">
-            If you compare the two, the live map will often refuse to show Orchard as a hot spot —
-            some afternoons it is one of the coolest readings on the island. That is not a
-            contradiction so much as a difference in what is being measured and where. Weather
-            stations are sited by international convention in open, ventilated ground, well away
-            from buildings, which is precisely the exposure that keeps a thermometer from noticing a
-            street canyon. Add a sea breeze and a passing shower and any single minute is weather.
-            The satellite has no such manners: it reads whatever surface is facing it.
-          </p>
-        </div>
-      </section>
 
       <!-- ── The timeline ── -->
     </main>
@@ -962,6 +891,81 @@
 
       <!-- ── What the two records add up to ── -->
       <!-- Media first in the DOM so the default 300px/1fr split puts it left. -->
+      <!-- ── The heatmap ── -->
+      <section id="ss-maps" class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3rem;">
+        <div class="section-kicker">Heatmap</div>
+        <h2>Hold up, let Singapore cook</h2>
+        <p>
+          While NEA stations measure air temperature of specific sites in Singapore, this Landsat
+          collection focuses on surface temperature. That is to say, the temperature of the ground,
+          such as tarmac, roofs, or leaf canopy. Surface readings are usually higher than air
+          readings, which is why the numbers are much higher than the 28&nbsp;°C annual mean
+          temperature in the timeline chart above. However, they are still important because they
+          display the heat distribution across Singapore, and as you study it, you'll be able to
+          notice a pattern.
+        </p>
+        <p>
+          The heatmap is built from thirteen cloud-free Landsat 8 and 9 passes over Singapore between
+          April 2022 and April 2026, each taken at about 11:16&nbsp;a.m. Each pixel is 30&nbsp;meters
+          across.[^39]
+        </p>
+
+        <div class="ss-map">
+          <div class="ss-map-frame">
+            <img class="ss-map-base" src="/img/sustainable/lst-singapore.png"
+                 alt="Satellite land-surface temperature across Singapore. The airports and the
+                      western industrial estates are the hottest ground on the island; the central
+                      catchment forest is the coolest." loading="lazy" width="1400" height="840" />
+            <div class="ss-map-pin flip" style="left:78.3%; top:38.5%;"><i></i><span>Changi Airport</span><b>47.6&nbsp;°C</b></div>
+            <div class="ss-map-pin" style="left:20.0%; top:70.7%;"><i></i><span>Jurong Island</span><b>45.9&nbsp;°C</b></div>
+            <div class="ss-map-pin" style="left:47.3%; top:56.5%;"><i></i><span>Orchard</span><b>40.5&nbsp;°C</b></div>
+            <div class="ss-map-pin" style="left:23.4%; top:17.8%;"><i></i><span>Lim Chu Kang</span><b>36.8&nbsp;°C</b></div>
+            <div class="ss-map-pin" style="left:42.0%; top:41.7%;"><i></i><span>Central catchment</span><b>33.5&nbsp;°C</b></div>
+          </div>
+          <div class="ss-ramp">
+            <span class="ss-ramp-end">33&nbsp;°C</span>
+            <span class="ss-ramp-bar" style="background:linear-gradient(90deg,#eea099,#e77b74,#dc5551,#cb2a30,#b10015,#8c000d,#64050d);"></span>
+            <span class="ss-ramp-end">47&nbsp;°C and above</span>
+            <span class="ss-ramp-na"><i></i>no clear reading</span>
+          </div>
+        </div>
+
+        <p>
+          The surface temperatures here are based on the median of thirteen Landsat
+          overpasses.[^39] There are limitations to this data, though. Indicated in gray are areas
+          that the passes were unable to capture clearly, perhaps obstructed by clouds, or regions
+          that fall outside the satellite range, such as the northeastern corner, which includes
+          Pulau Ubin and Pulau Tekong.
+        </p>
+        <p>
+          What we can see for sure is that Changi Airport's runways are the hottest surface in the
+          country at 47.6&nbsp;°C, with Jurong Island not far behind at 45.9&nbsp;°C. This ties in
+          with what we know, the island being reclaimed land, paved and roofed from one end to the
+          other, and home to much of Singapore's petrochemical industry. Orchard Road also boils at
+          40.5&nbsp;°C, 3.7&nbsp;°C hotter than Lim Chu Kang, which is close to the 4&nbsp;°C gap
+          measured between them at street level in Roth’s study, despite being only 30
+          minutes apart.[^23]
+        </p>
+        <p>
+          Unsurprisingly, the coolest surface in Singapore is the central catchment forest at
+          33.5&nbsp;°C, 14.1&nbsp;°C lower than Changi Airport's runways, and among the very few
+          regions yet to be urbanized.
+        </p>
+
+        <div class="ss-caveat">
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.4rem;">Reconciling the two maps</p>
+          <p style="font-size:var(--fs-caption);">
+            If you notice any discrepancies between NEA station's live map and the Landsat-based
+            heatmap, such as why the former's afternoon measurement of Orchard Road sometimes
+            inclines toward the coolest in Singapore, it's because they're measuring two different
+            things. Air and land. Furthermore, NEA climate stations are usually located in open,
+            ventilated ground, far away from other buildings. This makes their thermometers unlikely
+            to measure temperatures captured within a street canyon or urban environment. In
+            contrast, satellite readings simply measure whatever surface they capture.
+          </p>
+        </div>
+      </section>
+
       <section id="ss-synthesis" class="editorial-split">
         <div class="split-media">
           <img src="/img/sustainable/writing-up.jpg"
@@ -1492,13 +1496,14 @@
         <ol class="ss-refs" style="counter-reset: ssref 22;">
           <li id="ref-23">
             <a href="https://fass.nus.edu.sg/srn/2019/01/03/killer-heat/" target="_blank" rel="noopener noreferrer">“Killer Heat.”</a> Sustainable Regional Network, NUS Faculty of Arts and Social Sciences, January 3, 2019.
+            <span class="ss-ref-note">The article reports a study trip with Professor Matthias Roth of the NUS Department of Geography, who has studied Singapore’s climate since 2000. It records “a sharp increase of 4°C from Lim Chu Kang to Orchard Road, despite these areas being only 30 minutes apart,” which Roth attributes to background global warming and, principally, the Urban Heat Island effect — heat trapped in buildings and heat generated by human activity. Roth also notes that research has not clearly shown “green” measures such as added trees and rooftop gardens to succeed in reducing that effect, a caution worth holding alongside the tree section further down this page.</span>
           </li>
           <li id="ref-24">
             Priyadarsini, Rajagopalan, Wong Nyuk Hien, and Cheong Kok Wai David. <a href="https://doi.org/10.1016/j.solener.2008.02.008" target="_blank" rel="noopener noreferrer">“Microclimatic Modeling of the Urban Thermal Environment of Singapore to Mitigate Urban Heat Island.”</a> <em>Solar Energy</em> 82, no. 8 (2008): 727–45.
           </li>
           <li id="ref-25">
             <a href="https://spacedaily.com/d-research-cited-by-singapores-urban-planners-suggests-shading-roads-with-trees-can-reduce-street-level-temperatures-by-up-to-2-6-degrees-celsius-separately-models-suggest-tree-shade-on-buil/" target="_blank" rel="noopener noreferrer">“Research Cited by Singapore’s Urban Planners Suggests Shading Roads with Trees Can Reduce Street-Level Temperatures by up to 2.6 Degrees Celsius.”</a> <em>SpaceDaily</em>. Accessed August 15, 2026.
-            <span class="ss-ref-note"><span class="ss-ref-flag">Where the 2.6&nbsp;°C comes from:</span> the figure is quoted from the <em>Strategies for Cooling Singapore</em> catalogue, and the range originates in a <em>Dresden</em> study rather than in Singapore measurements.</span>
+            <span class="ss-ref-note"><span class="ss-ref-flag">Where the 2.6&nbsp;°C comes from:</span> the figure is quoted from the <em>Strategies for Cooling Singapore</em> catalog, and the range originates in a <em>Dresden</em> study rather than in Singapore measurements.</span>
           </li>
           <li id="ref-26">
             Xu, Lei, Ronita Bardhan, Hao Mei, Srilalitha Gopalakrishnan, Xing Zheng, and Thomas Schroepfer. <a href="https://doi.org/10.1016/j.scitotenv.2024.177864" target="_blank" rel="noopener noreferrer">“Harnessing Street Shade to Mitigate Heat Stress: An In-Situ Parallel Investigation under Extreme Heat Conditions in Tropical Singapore.”</a> <em>Science of the Total Environment</em> 958 (2025): 177864.
@@ -1554,7 +1559,7 @@
         <ol class="ss-refs" style="counter-reset: ssref 38;">
           <li id="ref-39">
             United States Geological Survey. <a href="https://www.usgs.gov/landsat-missions/landsat-collection-2-level-2-science-products" target="_blank" rel="noopener noreferrer">“Landsat Collection 2 Level-2 Science Products.”</a> Earth Resources Observation and Science Center. Accessed August 16, 2026.
-            <span class="ss-ref-note"><strong>Analysis by the author, not a citation.</strong> The map uses the Level-2 surface temperature band (ST_B10) from thirteen Landsat 8 and 9 scenes over path 125, row 059, between April 1, 2022 and April 28, 2026, each with less than 15% scene cloud. Cloud and cloud shadow are removed using the scene’s own quality band, and the coastline is drawn from each scene’s water index rather than from a boundary file. No single pass sees more than 85% of Singapore, so the thirteen are combined as a per-pixel median after each has been levelled to the same island-wide baseline — without that step a pixel seen only on a hot day would read hotter than its neighbour seen only on a cool one. Scenes were reached through Microsoft’s Planetary Computer.[^40]</span>
+            <span class="ss-ref-note"><strong>Analysis by the author, not a citation.</strong> The map uses the Level-2 surface temperature band (ST_B10) from thirteen Landsat 8 and 9 scenes over path 125, row 059, between April 1, 2022 and April 28, 2026, each with less than 15% scene cloud. Cloud and cloud shadow are removed using the scene’s own quality band, and the coastline is drawn from each scene’s water index rather than from a boundary file. No single pass sees more than 85% of Singapore, so the thirteen are combined as a per-pixel median after each has been leveled to the same island-wide baseline — without that step a pixel seen only on a hot day would read hotter than its neighbor seen only on a cool one. Scenes were reached through Microsoft’s Planetary Computer.[^40]</span>
           </li>
           <li id="ref-40">
             Microsoft. <a href="https://planetarycomputer.microsoft.com/dataset/landsat-c2-l2" target="_blank" rel="noopener noreferrer">“Landsat Collection 2 Level-2.”</a> Planetary Computer Data Catalog. Accessed August 16, 2026.
@@ -1578,6 +1583,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260816an"></script>
+    <script src="/js/sustainable-singapore.js?v=20260817c"></script>
   </body>
 </html>

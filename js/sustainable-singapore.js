@@ -14,7 +14,7 @@
    NOTE: the newer poll-download API hands back a signed S3 URL,
    and that S3 object sends no CORS headers — a browser fetch of
    it is blocked. datastore_search is the endpoint that works
-   from a page. Don't "modernise" this to poll-download.
+   from a page. Don't "modernize" this to poll-download.
    ============================================================ */
 (function () {
   'use strict';
@@ -776,7 +776,7 @@
       svg.appendChild(t);
     }
     // Only the annual mean gets an end label. Every series ends in the same
-    // year, so labelling all six would stack six texts on one baseline.
+    // year, so labeling all six would stack six texts on one baseline.
     if (visible.changi && data.changi && data.changi.length) {
       var lastC = data.changi[data.changi.length - 1];
       tag(data.changi, 'Changi ' + d1(lastC[1]) + '°', '#4A4A4A');
@@ -1261,8 +1261,8 @@
        end-century window, 2080-2099. Mean of five models, with the model
        minimum and maximum in brackets. Drawn as three separate scenarios
        rather than one outer bracket, because 28.5 to 32.9 collapses the whole
-       emissions question into a single grey block -- and the question is the
-       point. Colours follow MSS's own figures. */
+       emissions question into a single gray block -- and the question is the
+       point. Colors follow MSS's own figures. */
     var V3 = [
       { k: 'SSP1-2.6', mid: 29.0, lo: 28.5, hi: 29.5, c: '#3F6E9B' },
       { k: 'SSP2-4.5', mid: 29.9, lo: 29.3, hi: 30.7, c: '#E08A2E' },
@@ -1731,17 +1731,26 @@
       tip.className = 'ss-tip';
       document.body.appendChild(tip);
     }
-    function hide() { tip.style.opacity = '0'; }
+    // .ss-tip is hidden with display:none, not opacity — every other tooltip on
+    // this page toggles display, and setting opacity alone left this one
+    // permanently invisible however carefully it was positioned.
+    function hide() { tip.style.display = 'none'; }
     svg.addEventListener('mouseover', function (e) {
       var t = e.target;
       if (!t.dataset || !t.dataset.name) { return; }
       tip.innerHTML = '<strong>' + t.dataset.name + '</strong><span>' +
         t.dataset.v + ' °C right now</span>';
-      tip.style.opacity = '1';
+      tip.style.display = 'block';
     });
     svg.addEventListener('mousemove', function (e) {
-      tip.style.left = (e.clientX + 14) + 'px';
-      tip.style.top = (e.clientY + 14) + 'px';
+      // Same edge handling as the chart tooltips: flip to the left of the
+      // pointer rather than run off screen. The eastern stations sit far
+      // enough right that on a phone the tip would otherwise be cut off.
+      var tw = tip.offsetWidth;
+      var left = e.clientX + 14;
+      if (left + tw > window.innerWidth - 8) { left = e.clientX - tw - 14; }
+      tip.style.left = Math.max(8, left) + 'px';
+      tip.style.top = Math.max(8, e.clientY + 14) + 'px';
     });
     svg.addEventListener('mouseout', hide);
     svg.addEventListener('mouseleave', hide);
