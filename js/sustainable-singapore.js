@@ -1042,7 +1042,7 @@
           (gain < 0 ? gain.toFixed(1) + ' points, a loss' : 'an additional ' + gain.toFixed(1) + ' points') +
           '. The humidity produced by the trees outweighs the benefits of their shade.';
       } else if (cover === 40) {
-        msg = 'This is the point of diminishing returns. Beyond this point, the efficiency ' +
+        msg = 'This is the sharpest bend of the curve. Beyond this point, the efficiency ' +
           'of any additional trees drops drastically.';
       }
       msgEl.textContent = msg;
