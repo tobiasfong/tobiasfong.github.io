@@ -817,61 +817,73 @@
   }
 
   /* ── How many years at each temperature ───────────────────────
-     Rows are temperature levels rather than years. The question it answers is
-     how many years have ever landed on each reading and how long ago the first
-     one was — which is where the shift shows up: every level at 28 °C and above
-     has its earliest year inside the last thirty.
+     Rows are temperature levels rather than years, and the count is split into
+     the two halves of the record instead of totalled. That split is the whole
+     point. A single total cannot show a change over time -- it has no time in
+     it -- and worse, it argues backwards: the longest bar in a plain frequency
+     table is 26.5 °C, because cool years are the ones there have been most of.
+     Halved, the top of the table is empty on the left and full on the right,
+     and the bottom is the reverse.
 
-     Built from the same two series the chart draws, so it needs no maintenance.
-     The year a new annual mean arrives, a row's count goes up by itself.
+     The boundary is the median year, so the two halves always hold the same
+     number of years as the record grows. Built from the same two series the
+     chart draws, so a new annual mean lands here by itself.
 
      Berkeley covers 1900 up to the year Changi's record starts, Changi from
-     there on. The two disagree by about a third of a degree where they overlap;
-     the note under the table says so plainly, because stitching them tilts the
-     older half downward and a reader should be told. */
+     there on. The two disagree by about a third of a degree where they overlap,
+     and that tilt runs in the direction of this table's own argument, so the
+     note under it says so and gives the single-instrument check. */
   function drawFreq(data) {
     var body = el('ss-freq-body');
     if (!body) { return; }
     var b = data.berkeley || [], c = data.changi || [];
     if (!b.length && !c.length) { return; }
 
-    var split = c.length ? c[0][0] : Infinity;
+    var handover = c.length ? c[0][0] : Infinity;
     var years = [];
-    b.forEach(function (p) { if (p[0] < split) { years.push(p); } });
+    b.forEach(function (p) { if (p[0] < handover) { years.push(p); } });
     c.forEach(function (p) { years.push(p); });
     if (!years.length) { return; }
+    years.sort(function (x, y) { return x[0] - y[0]; });
+
+    var from = years[0][0], to = years[years.length - 1][0];
+    var mid = years[Math.floor(years.length / 2)][0];
 
     // Key on tenths as a whole number: 28.4 as a float is an unreliable map key,
     // and this is the same half-up rounding d1() applies everywhere else.
-    var count = {}, earliest = {};
-    var lo = Infinity, hi = -Infinity, from = Infinity, to = -Infinity;
+    var early = {}, late = {}, lo = Infinity, hi = -Infinity;
     years.forEach(function (p) {
       var k = Math.round(p[1] * 10 + 1e-9);
-      count[k] = (count[k] || 0) + 1;
-      if (earliest[k] === undefined || p[0] < earliest[k]) { earliest[k] = p[0]; }
+      var bucket = p[0] < mid ? early : late;
+      bucket[k] = (bucket[k] || 0) + 1;
       if (k < lo) { lo = k; }
       if (k > hi) { hi = k; }
-      if (p[0] < from) { from = p[0]; }
-      if (p[0] > to) { to = p[0]; }
     });
 
-    var most = 0;
-    for (var key in count) { if (count[key] > most) { most = count[key]; } }
+    // One scale across both columns, or the two halves could not be compared.
+    var most = 0, key;
+    for (key in early) { if (early[key] > most) { most = early[key]; } }
+    for (key in late) { if (late[key] > most) { most = late[key]; } }
 
     var cap = el('ss-freq-cap');
     if (cap) { cap.textContent = 'Years at each annual mean, ' + from + '–' + to; }
+    var h1 = el('ss-freq-h1'), h2 = el('ss-freq-h2');
+    if (h1) { h1.textContent = from + '–' + (mid - 1); }
+    if (h2) { h2.textContent = mid + '–' + to; }
+
+    function cell(n) {
+      return '<td class="ss-freq-n">' +
+        (n ? '<span class="ss-freq-bar" style="width:' +
+             (n / most * 100).toFixed(1) + '%"></span>' : '') +
+        '<span>' + n + '</span></td>';
+    }
 
     var html = '';
     for (var k = hi; k >= lo; k--) {
-      var n = count[k] || 0;
-      html += '<tr' + (n ? '' : ' class="ss-freq-none"') + '>' +
+      var a = early[k] || 0, z = late[k] || 0;
+      html += '<tr' + (a || z ? '' : ' class="ss-freq-none"') + '>' +
         '<th scope="row">' + (k / 10).toFixed(1) + '&nbsp;°C</th>' +
-        '<td class="ss-freq-n">' +
-          (n ? '<span class="ss-freq-bar" style="width:' +
-               (n / most * 100).toFixed(1) + '%"></span>' : '') +
-          '<span>' + (n || '—') + '</span>' +
-        '</td>' +
-        '<td>' + (n ? earliest[k] : '—') + '</td>' +
+        cell(a) + cell(z) +
       '</tr>';
     }
     body.innerHTML = html;
