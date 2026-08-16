@@ -816,6 +816,67 @@
     });
   }
 
+  /* ── How many years at each temperature ───────────────────────
+     Rows are temperature levels rather than years. The question it answers is
+     how many years have ever landed on each reading and how long ago the first
+     one was — which is where the shift shows up: every level at 28 °C and above
+     has its earliest year inside the last thirty.
+
+     Built from the same two series the chart draws, so it needs no maintenance.
+     The year a new annual mean arrives, a row's count goes up by itself.
+
+     Berkeley covers 1900 up to the year Changi's record starts, Changi from
+     there on. The two disagree by about a third of a degree where they overlap;
+     the note under the table says so plainly, because stitching them tilts the
+     older half downward and a reader should be told. */
+  function drawFreq(data) {
+    var body = el('ss-freq-body');
+    if (!body) { return; }
+    var b = data.berkeley || [], c = data.changi || [];
+    if (!b.length && !c.length) { return; }
+
+    var split = c.length ? c[0][0] : Infinity;
+    var years = [];
+    b.forEach(function (p) { if (p[0] < split) { years.push(p); } });
+    c.forEach(function (p) { years.push(p); });
+    if (!years.length) { return; }
+
+    // Key on tenths as a whole number: 28.4 as a float is an unreliable map key,
+    // and this is the same half-up rounding d1() applies everywhere else.
+    var count = {}, earliest = {};
+    var lo = Infinity, hi = -Infinity, from = Infinity, to = -Infinity;
+    years.forEach(function (p) {
+      var k = Math.round(p[1] * 10 + 1e-9);
+      count[k] = (count[k] || 0) + 1;
+      if (earliest[k] === undefined || p[0] < earliest[k]) { earliest[k] = p[0]; }
+      if (k < lo) { lo = k; }
+      if (k > hi) { hi = k; }
+      if (p[0] < from) { from = p[0]; }
+      if (p[0] > to) { to = p[0]; }
+    });
+
+    var most = 0;
+    for (var key in count) { if (count[key] > most) { most = count[key]; } }
+
+    var cap = el('ss-freq-cap');
+    if (cap) { cap.textContent = 'Years at each annual mean, ' + from + '–' + to; }
+
+    var html = '';
+    for (var k = hi; k >= lo; k--) {
+      var n = count[k] || 0;
+      html += '<tr' + (n ? '' : ' class="ss-freq-none"') + '>' +
+        '<th scope="row">' + (k / 10).toFixed(1) + '&nbsp;°C</th>' +
+        '<td class="ss-freq-n">' +
+          (n ? '<span class="ss-freq-bar" style="width:' +
+               (n / most * 100).toFixed(1) + '%"></span>' : '') +
+          '<span>' + (n || '—') + '</span>' +
+        '</td>' +
+        '<td>' + (n ? earliest[k] : '—') + '</td>' +
+      '</tr>';
+    }
+    body.innerHTML = html;
+  }
+
   /* ── Live station panel ──────────────────────────────────── */
   function renderLive(payload) {
     var data = payload.data;
@@ -917,6 +978,7 @@
       function paint() {
         drawLand(state.land);
         drawTemp(state.temp);
+        drawFreq(state.temp);
         // Only the failure case is worth a line here. When the refresh worked
         // there is nothing to report: the note sat between two paragraphs of
         // argument and interrupted them to repeat what the source note at the

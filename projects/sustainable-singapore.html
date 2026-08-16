@@ -251,10 +251,27 @@
         text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums;
       }
       /* Row headers are labels, not column headings: the uppercase treatment and
-         the heavy rule on .ss-table th belong to the 2008/2021 row only. */
+         the heavy rule on .ss-table th belong to the header row only. */
       .ss-table--narrow tbody th {
         text-transform: none; letter-spacing: 0; font-weight: 600;
         font-size: var(--fs-caption); border-bottom: 1px solid var(--border);
+      }
+      .ss-table--narrow tbody tr:hover { background: var(--bg-alt); }
+      /* A count is easier to compare as a length than as a numeral, and the
+         shape of the distribution is the whole point of this table. The bar is
+         drawn behind the figure rather than in its own column, so it costs no
+         width in a 300px gutter. */
+      .ss-freq-n { position: relative; }
+      .ss-freq-bar {
+        position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+        height: 15px; background: rgba(200,16,46,0.13); border-radius: 2px;
+      }
+      .ss-freq-n span:last-child { position: relative; }
+      /* Levels no year has ever recorded. Kept in place so the column reads as a
+         continuous scale rather than a list with silent holes. */
+      .ss-freq-none th, .ss-freq-none td { color: var(--text-muted); font-weight: 400; }
+      .ss-freq-note {
+        font-size: 11px; line-height: 1.5; color: var(--text-muted); margin-top: 10px;
       }
 
       .ss-caveat {
@@ -601,17 +618,25 @@
           <img src="/img/sustainable/writing-up.jpg"
             alt="A manhwa-styled illustration seen over the shoulder of a young man typing at a laptop, a night window and city lights beyond the desk"
             style="width:100%; border-radius:12px; margin-top:1.25rem; display:block;" loading="lazy" />
-          <table class="ss-table ss-table--narrow">
-            <caption>The same thirteen years, three ways</caption>
+          <!-- Rows are filled in by the script from the same series the chart
+               draws, so the year a new record lands it appears here too. -->
+          <table class="ss-table ss-table--narrow" id="ss-freq">
+            <caption id="ss-freq-cap">How many years at each temperature</caption>
             <thead>
-              <tr><th scope="col">&nbsp;</th><th scope="col">2008</th><th scope="col">2021</th></tr>
+              <tr>
+                <th scope="col">Annual mean</th>
+                <th scope="col">Years</th>
+                <th scope="col">Earliest</th>
+              </tr>
             </thead>
-            <tbody>
-              <tr><th scope="row">HDB dwelling units[^16]</th><td>883,896</td><td>1,096,380</td></tr>
-              <tr><th scope="row">Land area[^5]</th><td>710.2&nbsp;km²</td><td>733.1&nbsp;km²</td></tr>
-              <tr><th scope="row">Annual mean[^2]</th><td>27.5&nbsp;°C</td><td>27.9&nbsp;°C</td></tr>
-            </tbody>
+            <tbody id="ss-freq-body"></tbody>
           </table>
+          <p class="ss-freq-note">
+            1900–1981 from Berkeley Earth,[^3] 1982 onward from Changi.[^2] The two do not
+            measure quite the same thing: across the years they overlap, Berkeley reads about
+            0.35&nbsp;°C cooler, so the older half of this table sits lower than a Changi
+            reading of the same year would.
+          </p>
         </div>
         <div>
         <div class="section-kicker">Synthesis</div>
@@ -884,6 +909,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260816p"></script>
+    <script src="/js/sustainable-singapore.js?v=20260816q"></script>
   </body>
 </html>
