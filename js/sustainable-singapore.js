@@ -1752,6 +1752,101 @@
     if (t) { t.textContent = 'Live feed unavailable right now'; }
   }
 
+  /* ── Tabs ────────────────────────────────────────────────────
+     The station list and the station map are two views of one fetch, so they
+     share a control rather than both being on screen. Both panels are built
+     at load; the map's SVG is sized in viewBox units, so it renders correctly
+     even while its panel is hidden and has no layout box. */
+  function wireTabs(rootId) {
+    var root = el(rootId);
+    if (!root) { return; }
+    var tabs = [].slice.call(root.querySelectorAll('[role="tab"]'));
+    if (!tabs.length) { return; }
+
+    function select(tab) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        var panel = el(t.getAttribute('aria-controls'));
+        if (panel) { panel.hidden = !on; }
+      });
+    }
+
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { select(t); });
+      t.addEventListener('keydown', function (e) {
+        var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!d) { return; }
+        e.preventDefault();
+        var next = tabs[(i + d + tabs.length) % tabs.length];
+        select(next);
+        next.focus();
+      });
+    });
+  }
+
+  /* ── In-page section nav ─────────────────────────────────────
+     Marks the section the reader is in and keeps that chip scrolled into
+     view, since the strip overflows on a phone. Driven off scroll position
+     rather than IntersectionObserver: the sections are wildly different
+     heights (the timeline alone is several screens), and "whichever heading
+     the sticky bars last passed" is the answer a reader expects. */
+  function wirePageNav() {
+    var nav = el('ss-pagenav');
+    if (!nav) { return; }
+    var links = [].slice.call(nav.querySelectorAll('a'));
+    var targets = links.map(function (a) {
+      return el(a.getAttribute('href').slice(1));
+    });
+
+    // Publish the bar's real height rather than a guessed one: the timeline's
+    // sticky header positions itself from --ss-nav-h, and a wrong guess there
+    // shows up as the two bars overlapping mid-timeline.
+    function measure() {
+      document.documentElement.style.setProperty(
+        '--ss-nav-h', Math.round(nav.getBoundingClientRect().height) + 'px');
+    }
+
+    var current = null;
+    function update() {
+      var stick = nav.getBoundingClientRect().bottom + 16;
+      var found = 0;
+      for (var i = 0; i < targets.length; i++) {
+        if (targets[i] && targets[i].getBoundingClientRect().top <= stick) { found = i; }
+      }
+      // The last section rarely reaches the top of the viewport, so at the
+      // very bottom of the page nothing would ever mark it.
+      if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) {
+        found = links.length - 1;
+      }
+      if (found === current) { return; }
+      current = found;
+      links.forEach(function (a, i) {
+        if (i === found) { a.setAttribute('aria-current', 'true'); }
+        else { a.removeAttribute('aria-current'); }
+      });
+      var chip = links[found], strip = el('ss-pagenav-inner');
+      if (chip && strip && strip.scrollWidth > strip.clientWidth) {
+        strip.scrollTo({
+          left: Math.max(0, chip.offsetLeft - (strip.clientWidth - chip.offsetWidth) / 2),
+          behavior: 'smooth'
+        });
+      }
+    }
+
+    // Called straight off the scroll event rather than through a
+    // requestAnimationFrame gate: rAF is suspended while a tab is in the
+    // background, which leaves a "already queued" flag stuck on and kills the
+    // highlight for the rest of the session. update() only reads eleven
+    // rectangles and returns early unless the active section changed, so
+    // there is nothing here worth deferring.
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', function () { measure(); update(); });
+    measure();
+    update();
+  }
+
   /* ── Boot ────────────────────────────────────────────────── */
   function boot() {
     // The hero video autoplays muted and looping because it is decorative, but
@@ -1781,6 +1876,9 @@
     }
     relayout();
     window.addEventListener('load', relayout);
+
+    wireTabs('ss-live-tabs');
+    wirePageNav();
 
     // One fetch feeds both the station panel and the station map, so the two
     // can never show readings a minute apart.

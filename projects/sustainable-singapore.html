@@ -98,7 +98,7 @@
       .ss-tl-temp   { grid-column: 4; }
 
       .ss-tl-sticky-head {
-        position: sticky; top: 74px; z-index: 20;
+        position: sticky; top: var(--ss-stick); z-index: 20;
         background: rgba(255,255,255,0.92);
         backdrop-filter: saturate(180%) blur(20px);
         -webkit-backdrop-filter: saturate(180%) blur(20px);
@@ -357,6 +357,65 @@
       }
       .ss-caveat p { margin: 0; }
 
+      /* ── In-page section nav ──
+         The site nav is sticky at the top of the viewport, so this one parks
+         directly beneath it. --ss-stick is where anything else that sticks has
+         to start: the timeline's own header reads it, so the two bars can
+         never end up on top of each other. */
+      :root { --ss-nav-h: 45px; --ss-stick: calc(57px + var(--ss-nav-h)); }
+
+      .ss-pagenav {
+        position: sticky; top: 57px; z-index: 30;
+        /* style.css's bare `nav` rule is the home page's floating centred pill:
+           left 50%, translateX(-50%), a fixed width, a 999px radius, a shadow.
+           None of it suits a full-width strip, and left/transform in particular
+           have to be unset by hand or the bar lands half a screen to the left.
+           The inner .container supplies the measure and the side padding. */
+        left: auto; right: auto; transform: none;
+        width: auto; max-width: none;
+        display: block; border: 0; border-radius: 0; box-shadow: none;
+        padding: 0;
+        margin: 0 0 2rem; border-bottom: 1px solid var(--border);
+        background: rgba(255,255,255,0.92);
+        backdrop-filter: saturate(180%) blur(20px);
+        -webkit-backdrop-filter: saturate(180%) blur(20px);
+      }
+      .ss-pagenav-inner {
+        display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none;
+        -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain;
+        padding: 7px 0;
+      }
+      .ss-pagenav-inner::-webkit-scrollbar { display: none; }
+      .ss-pagenav a {
+        flex: 0 0 auto; padding: 5px 11px; border-radius: 999px;
+        font-size: 13px; font-weight: 600; text-decoration: none;
+        color: var(--text-muted); white-space: nowrap;
+        transition: background 0.15s, color 0.15s;
+      }
+      .ss-pagenav a:hover { color: var(--text); background: var(--bg-alt); }
+      .ss-pagenav a[aria-current="true"] { color: #fff; background: var(--accent-red); }
+
+      /* Anchor jumps have to clear both bars, or the target heading lands
+         underneath them and the reader starts at the second paragraph. */
+      section[id] { scroll-margin-top: calc(var(--ss-stick) + 14px); }
+
+      /* ── Tabs ──
+         Two views of one fetch: the station list and the station map. */
+      .ss-tablist {
+        display: flex; gap: 4px; margin-bottom: 14px;
+        border-bottom: 1px solid var(--border);
+      }
+      .ss-tablist button {
+        appearance: none; border: 0; background: none; cursor: pointer;
+        padding: 9px 14px; font: inherit; font-size: 14px; font-weight: 600;
+        color: var(--text-muted); border-bottom: 2px solid transparent;
+        margin-bottom: -1px;
+      }
+      .ss-tablist button:hover { color: var(--text); }
+      .ss-tablist button[aria-selected="true"] {
+        color: var(--text); border-bottom-color: var(--accent-red);
+      }
+
       /* ── The two maps ──
          Both figures are drawn on the SAME frame — longitude 103.60–104.10,
          latitude 1.18–1.48 — so the satellite raster, the island mask and the
@@ -532,6 +591,14 @@
 
         .ss-map-pin { font-size: 10px; }
         .ss-map-pin span { display: none; }   /* keep the number, drop the place name */
+
+        /* Three stacked bars would be too much of a phone screen, so the chips
+           get shorter here — and --ss-nav-h has to follow, since the timeline
+           header positions itself from it. */
+        :root { --ss-nav-h: 39px; }
+        .ss-pagenav a { font-size: 12px; padding: 4px 9px; }
+        .ss-pagenav-inner { padding: 5px 0; }
+        .ss-tablist button { padding: 8px 11px; font-size: 13px; }
       }
     </style>
 </head>
@@ -543,6 +610,24 @@
       <div class="project-nav-links">
         <a href="/projects/">← Projects</a>
         <a href="/#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="ss-pagenav" id="ss-pagenav" aria-label="Sections of this page">
+    <div class="container">
+      <div class="ss-pagenav-inner" id="ss-pagenav-inner">
+        <a href="#ss-overview">Overview</a>
+        <a href="#ss-live-sec">Live</a>
+        <a href="#ss-maps">Satellite</a>
+        <a href="#ss-timeline">Timeline</a>
+        <a href="#ss-data">Data</a>
+        <a href="#ss-synthesis">Synthesis</a>
+        <a href="#ss-projection">Projection</a>
+        <a href="#ss-trees">Trees</a>
+        <a href="#ss-sim">Simulation</a>
+        <a href="#ss-nuclear">Nuclear</a>
+        <a href="#ss-refs-sec">References</a>
       </div>
     </div>
   </nav>
@@ -572,7 +657,7 @@
       </header>
 
       <!-- ── The question ── -->
-      <section class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3rem;">
+      <section id="ss-overview" class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3rem;">
         <div class="section-kicker">Historical overview</div>
         <h2>Studying Singapore's urbanization alongside temperature rise</h2>
         <p>
@@ -617,7 +702,7 @@
       </section>
 
       <!-- ── Live panel ── -->
-      <section class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3rem;">
+      <section id="ss-live-sec" class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3rem;">
         <div class="section-kicker">Live tracking</div>
         <h2>Hot spots and cold spots</h2>
         <p>
@@ -641,6 +726,13 @@
           appears to be hotter. Apparently, during the day, artificial ground stores the heat before
           emitting it once night has fallen.
         </p>
+        <div class="ss-tabs" id="ss-live-tabs">
+          <div class="ss-tablist" role="tablist" aria-label="How to view the station readings">
+            <button type="button" role="tab" id="ss-tab-list" aria-controls="ss-panel-list" aria-selected="true">Station list</button>
+            <button type="button" role="tab" id="ss-tab-map" aria-controls="ss-panel-map" aria-selected="false" tabindex="-1">Live map</button>
+          </div>
+
+          <div role="tabpanel" id="ss-panel-list" aria-labelledby="ss-tab-list">
         <div class="ss-live" id="ss-live">
           <div class="ss-live-head">
             <div style="font-weight:700; color:var(--text);">
@@ -669,6 +761,32 @@
 
           <div class="ss-bars" id="ss-bars"></div>
         </div>
+          </div>
+
+          <div role="tabpanel" id="ss-panel-map" aria-labelledby="ss-tab-map" hidden>
+            <div class="ss-map" style="margin-top:0;">
+              <div class="ss-map-frame">
+                <div class="ss-map-base ss-map-masked ss-map-silhouette"></div>
+                <svg class="ss-map-field ss-map-masked" id="ss-lm-field" preserveAspectRatio="none"
+                     aria-hidden="true"></svg>
+                <svg class="ss-map-field" id="ss-lm-pins" preserveAspectRatio="none"
+                     role="img" aria-label="Air temperature right now at each of the NEA weather stations"></svg>
+              </div>
+              <div class="ss-ramp">
+                <span class="ss-ramp-end" id="ss-lm-lo">—</span>
+                <span class="ss-ramp-bar" style="background:linear-gradient(90deg,#d9a279,#cf884e,#c36d19,#b35400,#9a4100,#7b3600,#5d2b00);"></span>
+                <span class="ss-ramp-end" id="ss-lm-hi">—</span>
+                <span class="ss-ramp-na" id="ss-lm-time">Loading…</span>
+              </div>
+              <p class="ss-map-cap">
+                The same readings as the list, placed where the stations actually stand. The shading
+                between them is interpolated, not measured — hover a dot for a reading that exists.
+                This is air temperature, on its own scale; the satellite map further down measures
+                the ground instead, and the two are not comparable.
+              </p>
+            </div>
+          </div>
+        </div>
 
       </section>
 
@@ -678,8 +796,9 @@
         <h2>Where the island actually cooks</h2>
         <p>
           The station network tells us how far apart the warmest and coolest corners of Singapore
-          are, but sixteen thermometers cannot show us <em>where</em> the heat sits. For that we need
-          a satellite. The map below is built from thirteen cloud-free Landsat 8 and 9 passes over
+          are, and the map on that panel guesses at what lies between them — but sixteen
+          thermometers, however you interpolate them, cannot show us <em>where</em> the heat really
+          sits. For that we need a satellite. The map below is built from thirteen cloud-free Landsat 8 and 9 passes over
           Singapore between April 2022 and April 2026, each one taken at about 11:16 in the morning,
           and each pixel is 30 metres across.[^39]
         </p>
@@ -726,28 +845,6 @@
           is the one part of Singapore we never built on.
         </p>
 
-        <div class="ss-map">
-          <div class="ss-map-frame">
-            <div class="ss-map-base ss-map-masked ss-map-silhouette"></div>
-            <svg class="ss-map-field ss-map-masked" id="ss-lm-field" preserveAspectRatio="none"
-                 aria-hidden="true"></svg>
-            <svg class="ss-map-field" id="ss-lm-pins" preserveAspectRatio="none"
-                 role="img" aria-label="Air temperature right now at each of the NEA weather stations"></svg>
-          </div>
-          <div class="ss-ramp">
-            <span class="ss-ramp-end" id="ss-lm-lo">—</span>
-            <span class="ss-ramp-bar" style="background:linear-gradient(90deg,#d9a279,#cf884e,#c36d19,#b35400,#9a4100,#7b3600,#5d2b00);"></span>
-            <span class="ss-ramp-end" id="ss-lm-hi">—</span>
-            <span class="ss-ramp-na" id="ss-lm-time">Loading…</span>
-          </div>
-          <p class="ss-map-cap">
-            Air temperature at each NEA station, read live when you loaded this page.[^4] The shading
-            between stations is interpolated, not measured — hover a dot for the reading that
-            actually exists. A different scale from the satellite map above, and a different
-            quantity.
-          </p>
-        </div>
-
         <div class="ss-caveat">
           <p style="font-weight:700; color:var(--text); margin-bottom:0.4rem;">Two maps that disagree, and why</p>
           <p style="font-size:var(--fs-caption);">
@@ -765,7 +862,7 @@
       <!-- ── The timeline ── -->
     </main>
 
-    <section class="ss-wide" style="margin-bottom: 3.5rem;">
+    <section id="ss-timeline" class="ss-wide" style="margin-bottom: 3.5rem;">
       <div style="max-width:720px; margin:0 auto 1.5rem; text-align:center;">
         <div class="section-kicker">Timeline</div>
         <h2 style="font-size: var(--fs-h2); color: var(--text); margin-bottom: 0.75rem;">A century of change: construction and climate</h2>
@@ -804,7 +901,7 @@
     <main class="container project-content">
 
       <!-- ── Where the data comes from ── -->
-      <section class="editorial-split" style="grid-template-columns: 1fr 320px;">
+      <section id="ss-data" class="editorial-split" style="grid-template-columns: 1fr 320px;">
         <div>
         <div class="section-kicker">Data</div>
         <h2>Several Lines of Thought</h2>
@@ -842,7 +939,7 @@
 
       <!-- ── What the two records add up to ── -->
       <!-- Media first in the DOM so the default 300px/1fr split puts it left. -->
-      <section class="editorial-split">
+      <section id="ss-synthesis" class="editorial-split">
         <div class="split-media">
           <img src="/img/sustainable/writing-up.jpg"
             alt="A manhwa-styled illustration seen over the shoulder of a young man typing at a laptop, a night window and city lights beyond the desk"
@@ -942,7 +1039,7 @@
            browser each time the page loads, so it takes in every new year
            without anyone editing a number. No controls: "if we carry on like
            this" has nothing in it for a reader to change. -->
-      <section class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3.5rem;">
+      <section id="ss-projection" class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3.5rem;">
         <div class="section-kicker">Projection</div>
         <h2>The future is looking hot</h2>
         <p>
@@ -996,7 +1093,7 @@
         </div>
       </section>
 
-      <section class="editorial-split" style="grid-template-columns: 1fr 320px;">
+      <section id="ss-trees" class="editorial-split" style="grid-template-columns: 1fr 320px;">
         <div>
         <div class="section-kicker">Tree angles to consider</div>
         <h2>Throwing shade</h2>
@@ -1066,7 +1163,7 @@
            is extrapolated past what they simulated: the slider stops on the five
            cover fractions they ran, and combinations they could not model say so
            rather than guessing. -->
-      <section class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3.5rem;">
+      <section id="ss-sim" class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3.5rem;">
         <div class="section-kicker">A shady simulation</div>
         <h2>The trees have us covered...or do they?</h2>
         <p>
@@ -1166,7 +1263,7 @@
            number. It deliberately does NOT output a temperature: Singapore is a
            rounding error in global emissions, and degrees from this arithmetic
            would be false precision resting on a false premise. -->
-      <section class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3.5rem;">
+      <section id="ss-nuclear" class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3.5rem;">
         <div class="section-kicker">The nuclear option</div>
         <h2>Running low on gas</h2>
         <p>
@@ -1273,7 +1370,7 @@
       </section>
 
       <!-- ── References ── -->
-      <section style="max-width: 760px; margin: 0 auto 3rem;">
+      <section id="ss-refs-sec" style="max-width: 760px; margin: 0 auto 3rem;">
         <div class="section-kicker">Footnotes</div>
         <h2>References</h2>
         <p>
@@ -1458,6 +1555,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260816ah"></script>
+    <script src="/js/sustainable-singapore.js?v=20260816al"></script>
   </body>
 </html>
