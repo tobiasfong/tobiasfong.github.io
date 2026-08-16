@@ -207,6 +207,12 @@
       body: 'After the initial reclamation around Marina Bay that began in 1977, the first skyscrapers were constructed in the 21st century.[^13] An expansion of the city center that includes the iconic ship-roof Marina Bay Sands, one of Singapore’s only two casinos, and high-rise luxury apartments, Marina Bay is also home to a dam, Marina Barrage, which officially opened on 31 October 2008.[^15]</p><p>Amidst this, the national land area increased from 659.9 to 682.7 km² between 1999 and 2000, which was the largest annual increment of land in Singapore.[^5]'
     },
     {
+      year: 2008, label: '2008–2021',
+      title: 'Housing bubble',
+      img: 'condo-boom.jpg',
+      body: 'HDB’s units grew by 24%,[^16] and the land area increased by 22.9 km².[^5] In the same period, condominium clusters were constructed, e.g. Pasir Ris Grove, which housed at least 4 new condominium complexes within 5 years, not counting several built elsewhere in the same neighborhood around the same time. During that stretch, 2016 and 2019 broke the record for being the hottest years.'
+    },
+    {
       year: 2020, label: '2020–2030',
       title: 'Green Plans One Million Trees',
       img: 'green-future.jpg',
