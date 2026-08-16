@@ -1793,9 +1793,12 @@
      heights (the timeline alone is several screens), and "whichever heading
      the sticky bars last passed" is the answer a reader expects. */
   function wirePageNav() {
-    var nav = el('ss-nav');
-    if (!nav) { return; }
-    var links = [].slice.call(nav.querySelectorAll('a'));
+    var nav = el('ss-nav'), strip = el('ss-nav-links');
+    if (!nav || !strip) { return; }
+    // Only the section chips. The bar also holds the home and Projects links,
+    // and querying the whole nav would put them in the list — aria-current
+    // would land on the logo whenever the reader is above the first section.
+    var links = [].slice.call(strip.querySelectorAll('a'));
     var targets = links.map(function (a) {
       return el(a.getAttribute('href').slice(1));
     });
@@ -1826,8 +1829,8 @@
         if (i === found) { a.setAttribute('aria-current', 'true'); }
         else { a.removeAttribute('aria-current'); }
       });
-      var chip = links[found], strip = el('ss-nav-links');
-      if (chip && strip && strip.scrollWidth > strip.clientWidth) {
+      var chip = links[found];
+      if (chip && strip.scrollWidth > strip.clientWidth) {
         strip.scrollTo({
           left: Math.max(0, chip.offsetLeft - (strip.clientWidth - chip.offsetWidth) / 2),
           behavior: 'smooth'
