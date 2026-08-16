@@ -357,6 +357,63 @@
       }
       .ss-caveat p { margin: 0; }
 
+      /* ── The two maps ──
+         Both figures are drawn on the SAME frame — longitude 103.60–104.10,
+         latitude 1.18–1.48 — so the satellite raster, the island mask and the
+         station field line up exactly and a place sits in the same spot in
+         both. Change the frame in one and you must change it in all three
+         (the constants also live in the JS as MAP_BOUNDS). */
+      .ss-map { margin: 2rem 0 0.75rem; }
+      .ss-map-frame {
+        position: relative; aspect-ratio: 5 / 3;
+        background: var(--bg-alt); border: 1px solid var(--border);
+        border-radius: 14px; overflow: hidden;
+      }
+      .ss-map-base, .ss-map-field {
+        position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+      }
+      /* The station field is clipped to the same coastline the satellite plate
+         uses, so an interpolated value never bleeds out over the sea. */
+      .ss-map-masked {
+        -webkit-mask-image: url('/img/sustainable/sg-landmask.png');
+        mask-image: url('/img/sustainable/sg-landmask.png');
+        -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+        -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+      }
+      .ss-map-silhouette { background: #E6E5E0; }
+
+      .ss-map-pin {
+        position: absolute; transform: translateY(-50%);
+        display: flex; align-items: center; gap: 5px;
+        font-size: 11px; color: var(--text); white-space: nowrap;
+        pointer-events: none; line-height: 1;
+      }
+      /* A pin near the right edge hangs its label to the left instead. Move the
+         dot with `order` rather than row-reverse, which would otherwise also swap
+         the name and the reading, so the two sides of the map would read in
+         opposite orders. */
+      .ss-map-pin.flip { transform: translate(-100%, -50%); }
+      .ss-map-pin.flip i { order: 3; }
+      .ss-map-pin i {
+        width: 7px; height: 7px; border-radius: 50%; flex: 0 0 auto;
+        background: #fff; box-shadow: 0 0 0 2px #0b0b0b;
+      }
+      /* A white plate under the text: the ramp runs to near-black at the hot
+         end, and ink alone loses the label exactly where the map is busiest. */
+      .ss-map-pin b, .ss-map-pin span {
+        background: rgba(255,255,255,0.92); padding: 2px 5px; border-radius: 4px;
+      }
+      .ss-map-pin b { font-weight: 700; font-variant-numeric: tabular-nums; }
+      .ss-map-pin span { font-weight: 600; }
+
+      .ss-ramp { display: flex; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+      .ss-ramp-bar { height: 10px; flex: 1 1 180px; min-width: 140px; border-radius: 5px; }
+      .ss-ramp-end { font-size: var(--fs-caption); color: var(--text-muted); font-variant-numeric: tabular-nums; }
+      .ss-ramp-na { display: inline-flex; align-items: center; gap: 6px; font-size: var(--fs-caption); color: var(--text-muted); }
+      .ss-ramp-na i { width: 12px; height: 10px; border-radius: 3px; background: #CBCAC2; }
+
+      .ss-map-cap { font-size: var(--fs-caption); color: var(--text-muted); margin-top: 10px; }
+
       .ss-src { font-size: var(--fs-caption); }
       .ss-src li { margin-bottom: 9px; }
       .ss-src a { color: var(--text-body); text-decoration: underline; text-underline-offset: 2px; }
@@ -472,6 +529,9 @@
         .ss-card { right: 14px; width: auto; left: 0; }
 
         .ss-bar-row { grid-template-columns: 108px 1fr 46px; }
+
+        .ss-map-pin { font-size: 10px; }
+        .ss-map-pin span { display: none; }   /* keep the number, drop the place name */
       }
     </style>
 </head>
@@ -610,6 +670,96 @@
           <div class="ss-bars" id="ss-bars"></div>
         </div>
 
+      </section>
+
+      <!-- ── The two maps ── -->
+      <section id="ss-maps" class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3rem;">
+        <div class="section-kicker">From orbit</div>
+        <h2>Where the island actually cooks</h2>
+        <p>
+          The station network tells us how far apart the warmest and coolest corners of Singapore
+          are, but sixteen thermometers cannot show us <em>where</em> the heat sits. For that we need
+          a satellite. The map below is built from thirteen cloud-free Landsat 8 and 9 passes over
+          Singapore between April 2022 and April 2026, each one taken at about 11:16 in the morning,
+          and each pixel is 30 metres across.[^39]
+        </p>
+        <p>
+          What it measures is the temperature of the <em>ground</em> — the tarmac, the roof, the leaf
+          canopy — rather than the air a person stands in. Surface readings run far hotter than air
+          readings, so the numbers here are not comparable to the 28&nbsp;°C annual means elsewhere
+          on this page. What they are good for is comparison <em>within</em> the island, and there the
+          pattern is unambiguous.
+        </p>
+
+        <div class="ss-map">
+          <div class="ss-map-frame">
+            <img class="ss-map-base" src="/img/sustainable/lst-singapore.png"
+                 alt="Satellite land-surface temperature across Singapore. The airports and the
+                      western industrial estates are the hottest ground on the island; the central
+                      catchment forest is the coolest." loading="lazy" width="1400" height="840" />
+            <div class="ss-map-pin flip" style="left:78.3%; top:38.5%;"><i></i><span>Changi Airport</span><b>47.6&nbsp;°C</b></div>
+            <div class="ss-map-pin" style="left:20.0%; top:70.7%;"><i></i><span>Jurong Island</span><b>45.9&nbsp;°C</b></div>
+            <div class="ss-map-pin" style="left:47.3%; top:56.5%;"><i></i><span>Orchard</span><b>40.5&nbsp;°C</b></div>
+            <div class="ss-map-pin" style="left:23.4%; top:17.8%;"><i></i><span>Lim Chu Kang</span><b>36.8&nbsp;°C</b></div>
+            <div class="ss-map-pin" style="left:42.0%; top:41.7%;"><i></i><span>Central catchment</span><b>33.5&nbsp;°C</b></div>
+          </div>
+          <div class="ss-ramp">
+            <span class="ss-ramp-end">33&nbsp;°C</span>
+            <span class="ss-ramp-bar" style="background:linear-gradient(90deg,#eea099,#e77b74,#dc5551,#cb2a30,#b10015,#8c000d,#64050d);"></span>
+            <span class="ss-ramp-end">47&nbsp;°C and above</span>
+            <span class="ss-ramp-na"><i></i>no clear reading</span>
+          </div>
+          <p class="ss-map-cap">
+            Land-surface temperature, median of thirteen Landsat overpasses.[^39] Gray marks ground
+            that no pass ever saw clearly — persistent cloud, and the northeastern corner, which
+            falls outside this satellite track and so takes Pulau Ubin and Pulau Tekong with it.
+            Malaysia has been cut away at the Johor Strait.
+          </p>
+        </div>
+
+        <p>
+          Changi's runways are the hottest ground in the country, and Jurong Island is not far
+          behind — reclaimed land, paved and roofed end to end, with a petrochemical industry
+          sitting on top of it. Orchard runs 3.7&nbsp;°C hotter than Lim Chu Kang, which is close to
+          the 4&nbsp;°C gap measured between those two places at street level.[^23] The coolest
+          ground on the island is the central catchment forest, 14&nbsp;°C below the runways, and it
+          is the one part of Singapore we never built on.
+        </p>
+
+        <div class="ss-map">
+          <div class="ss-map-frame">
+            <div class="ss-map-base ss-map-masked ss-map-silhouette"></div>
+            <svg class="ss-map-field ss-map-masked" id="ss-lm-field" preserveAspectRatio="none"
+                 aria-hidden="true"></svg>
+            <svg class="ss-map-field" id="ss-lm-pins" preserveAspectRatio="none"
+                 role="img" aria-label="Air temperature right now at each of the NEA weather stations"></svg>
+          </div>
+          <div class="ss-ramp">
+            <span class="ss-ramp-end" id="ss-lm-lo">—</span>
+            <span class="ss-ramp-bar" style="background:linear-gradient(90deg,#d9a279,#cf884e,#c36d19,#b35400,#9a4100,#7b3600,#5d2b00);"></span>
+            <span class="ss-ramp-end" id="ss-lm-hi">—</span>
+            <span class="ss-ramp-na" id="ss-lm-time">Loading…</span>
+          </div>
+          <p class="ss-map-cap">
+            Air temperature at each NEA station, read live when you loaded this page.[^4] The shading
+            between stations is interpolated, not measured — hover a dot for the reading that
+            actually exists. A different scale from the satellite map above, and a different
+            quantity.
+          </p>
+        </div>
+
+        <div class="ss-caveat">
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.4rem;">Two maps that disagree, and why</p>
+          <p style="font-size:var(--fs-caption);">
+            If you compare the two, the live map will often refuse to show Orchard as a hot spot —
+            some afternoons it is one of the coolest readings on the island. That is not a
+            contradiction so much as a difference in what is being measured and where. Weather
+            stations are sited by international convention in open, ventilated ground, well away
+            from buildings, which is precisely the exposure that keeps a thermometer from noticing a
+            street canyon. Add a sea breeze and a passing shower and any single minute is weather.
+            The satellite has no such manners: it reads whatever surface is facing it.
+          </p>
+        </div>
       </section>
 
       <!-- ── The timeline ── -->
@@ -1280,6 +1430,17 @@
           </li>
         </ol>
 
+        <div class="ss-refs-head">Satellite Imagery</div>
+        <ol class="ss-refs" style="counter-reset: ssref 38;">
+          <li id="ref-39">
+            United States Geological Survey. <a href="https://www.usgs.gov/landsat-missions/landsat-collection-2-level-2-science-products" target="_blank" rel="noopener noreferrer">“Landsat Collection 2 Level-2 Science Products.”</a> Earth Resources Observation and Science Center. Accessed August 16, 2026.
+            <span class="ss-ref-note"><strong>Analysis by the author, not a citation.</strong> The map uses the Level-2 surface temperature band (ST_B10) from thirteen Landsat 8 and 9 scenes over path 125, row 059, between April 1, 2022 and April 28, 2026, each with less than 15% scene cloud. Cloud and cloud shadow are removed using the scene’s own quality band, and the coastline is drawn from each scene’s water index rather than from a boundary file. No single pass sees more than 85% of Singapore, so the thirteen are combined as a per-pixel median after each has been levelled to the same island-wide baseline — without that step a pixel seen only on a hot day would read hotter than its neighbour seen only on a cool one. Scenes were reached through Microsoft’s Planetary Computer.[^40]</span>
+          </li>
+          <li id="ref-40">
+            Microsoft. <a href="https://planetarycomputer.microsoft.com/dataset/landsat-c2-l2" target="_blank" rel="noopener noreferrer">“Landsat Collection 2 Level-2.”</a> Planetary Computer Data Catalog. Accessed August 16, 2026.
+          </li>
+        </ol>
+
         <p style="font-size:var(--fs-caption); color:var(--text-muted); margin-top:1.25rem;">
           The live figures on this page come from the
           <a href="https://data.gov.sg/" target="_blank" rel="noopener noreferrer">data.gov.sg</a>
@@ -1297,6 +1458,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260816ag"></script>
+    <script src="/js/sustainable-singapore.js?v=20260816ah"></script>
   </body>
 </html>

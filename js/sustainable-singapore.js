@@ -1618,6 +1618,140 @@
     el('ss-gap-where').textContent = 'Could not reach data.gov.sg';
   }
 
+  /* ── Live station map ────────────────────────────────────────
+     Same frame as the satellite plate above it — change these and you must
+     change the CSS mask and re-render lst-singapore.png to match, or a place
+     will sit in two different spots in the two figures. */
+  var MAP_W = 103.60, MAP_E = 104.10, MAP_S = 1.18, MAP_N = 1.48;
+  var VB_W = 500, VB_H = 300;                  // viewBox units, 5:3 like the frame
+
+  // Second sequential scale on the page, so it takes the next hue rather than
+  // reusing the satellite map's red for a different quantity on a different
+  // domain. Generated and validated the same way as the red ramp.
+  var LIVE_RAMP = ['#d9a279', '#cf884e', '#c36d19', '#b35400', '#9a4100', '#7b3600', '#5d2b00'];
+
+  function rampAt(stops, t) {
+    t = Math.max(0, Math.min(1, t));
+    var x = t * (stops.length - 1), i = Math.min(Math.floor(x), stops.length - 2), f = x - i;
+    var a = stops[i], b = stops[i + 1], out = '#';
+    for (var c = 1; c < 7; c += 2) {
+      var v = Math.round(parseInt(a.substr(c, 2), 16) * (1 - f) +
+                         parseInt(b.substr(c, 2), 16) * f);
+      out += (v < 16 ? '0' : '') + v.toString(16);
+    }
+    return out;
+  }
+
+  function projX(lon) { return (lon - MAP_W) / (MAP_E - MAP_W) * VB_W; }
+  function projY(lat) { return (MAP_N - lat) / (MAP_N - MAP_S) * VB_H; }
+
+  function renderStationMap(payload) {
+    var data = payload.data;
+    var field = el('ss-lm-field'), pins = el('ss-lm-pins');
+    if (!field || !pins) { return; }
+
+    var latest = (data.readings && data.readings.length)
+      ? data.readings[data.readings.length - 1] : null;
+    if (!latest) { throw new Error('no readings'); }
+
+    var val = {};
+    latest.data.forEach(function (r) {
+      if (typeof r.value === 'number') { val[r.stationId] = r.value; }
+    });
+    var pts = [];
+    (data.stations || []).forEach(function (s) {
+      var v = val[s.id];
+      if (typeof v !== 'number' || !s.location) { return; }
+      pts.push({ name: s.name, v: v, x: projX(s.location.longitude), y: projY(s.location.latitude) });
+    });
+    if (pts.length < 3) { throw new Error('too few stations to interpolate'); }
+
+    var lo = Math.min.apply(null, pts.map(function (p) { return p.v; }));
+    var hi = Math.max.apply(null, pts.map(function (p) { return p.v; }));
+    var span = Math.max(hi - lo, 0.4);         // a flat island still needs a scale
+
+    // Inverse-distance weighting on a coarse grid, then blurred. The field is a
+    // guess between sixteen points either way, so a smooth low-resolution wash
+    // is more honest than a crisp one that implies detail we do not have.
+    field.setAttribute('viewBox', '0 0 ' + VB_W + ' ' + VB_H);
+    while (field.firstChild) { field.removeChild(field.firstChild); }
+    var defs = svgNode('defs', {});
+    defs.innerHTML = '<filter id="ss-lm-blur" x="-10%" y="-10%" width="120%" height="120%">' +
+                     '<feGaussianBlur stdDeviation="9" /></filter>';
+    field.appendChild(defs);
+
+    var g = svgNode('g', { filter: 'url(#ss-lm-blur)' });
+    var STEP = 12.5;
+    for (var gy = 0; gy < VB_H; gy += STEP) {
+      for (var gx = 0; gx < VB_W; gx += STEP) {
+        var cx = gx + STEP / 2, cy = gy + STEP / 2, num = 0, den = 0;
+        for (var i = 0; i < pts.length; i++) {
+          var dx = cx - pts[i].x, dy = cy - pts[i].y;
+          var d2 = dx * dx + dy * dy;
+          if (d2 < 1) { num = pts[i].v; den = 1; break; }
+          var w = 1 / (d2 * d2);               // 1/d^4, so a station dominates nearby
+          num += pts[i].v * w; den += w;
+        }
+        g.appendChild(svgNode('rect', {
+          x: gx, y: gy, width: STEP + 0.5, height: STEP + 0.5,
+          fill: rampAt(LIVE_RAMP, (num / den - lo) / span)
+        }));
+      }
+    }
+    field.appendChild(g);
+
+    pins.setAttribute('viewBox', '0 0 ' + VB_W + ' ' + VB_H);
+    while (pins.firstChild) { pins.removeChild(pins.firstChild); }
+    pts.forEach(function (p) {
+      var c = svgNode('circle', {
+        cx: p.x, cy: p.y, r: 4.2, fill: rampAt(LIVE_RAMP, (p.v - lo) / span),
+        stroke: '#fff', 'stroke-width': 1.8
+      });
+      c.style.cursor = 'pointer';
+      c.dataset.name = p.name;
+      c.dataset.v = p.v.toFixed(1);
+      pins.appendChild(c);
+    });
+    bindStationHover(pins);
+
+    el('ss-lm-lo').textContent = lo.toFixed(1) + ' °C';
+    el('ss-lm-hi').textContent = hi.toFixed(1) + ' °C';
+    var when = new Date(latest.timestamp);
+    el('ss-lm-time').textContent = pts.length + ' stations, ' +
+      when.toLocaleString('en-SG', { timeStyle: 'short', timeZone: 'Asia/Singapore' }) + ' SGT';
+  }
+
+  function bindStationHover(svg) {
+    if (svg.dataset.hoverBound) { return; }
+    svg.dataset.hoverBound = '1';
+    var tip = el('ss-tip');
+    if (!tip) {
+      tip = document.createElement('div');
+      tip.id = 'ss-tip';
+      tip.className = 'ss-tip';
+      document.body.appendChild(tip);
+    }
+    function hide() { tip.style.opacity = '0'; }
+    svg.addEventListener('mouseover', function (e) {
+      var t = e.target;
+      if (!t.dataset || !t.dataset.name) { return; }
+      tip.innerHTML = '<strong>' + t.dataset.name + '</strong><span>' +
+        t.dataset.v + ' °C right now</span>';
+      tip.style.opacity = '1';
+    });
+    svg.addEventListener('mousemove', function (e) {
+      tip.style.left = (e.clientX + 14) + 'px';
+      tip.style.top = (e.clientY + 14) + 'px';
+    });
+    svg.addEventListener('mouseout', hide);
+    svg.addEventListener('mouseleave', hide);
+  }
+
+  function stationMapFailed() {
+    var t = el('ss-lm-time');
+    if (t) { t.textContent = 'Live feed unavailable right now'; }
+  }
+
   /* ── Boot ────────────────────────────────────────────────── */
   function boot() {
     // The hero video autoplays muted and looping because it is decorative, but
@@ -1648,8 +1782,14 @@
     relayout();
     window.addEventListener('load', relayout);
 
+    // One fetch feeds both the station panel and the station map, so the two
+    // can never show readings a minute apart.
     fetch(RT_TEMP).then(function (r) { return r.json(); })
-      .then(renderLive).catch(liveFailed);
+      .then(function (payload) {
+        try { renderLive(payload); } catch (e) { liveFailed(); }
+        try { renderStationMap(payload); } catch (e) { stationMapFailed(); }
+      })
+      .catch(function () { liveFailed(); stationMapFailed(); });
 
     fetchJSON('/data/sustainable-singapore.json').then(function (baked) {
       var temp = {};
