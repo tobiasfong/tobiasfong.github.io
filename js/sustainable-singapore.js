@@ -1282,6 +1282,84 @@
     paintSim();
   }
 
+  /* ── Grid switch calculator ───────────────────────────────
+     Arithmetic, not a model. Every input is published:
+
+       EMA energy balance 2024 -- 123 TWh of energy in, 60 TWh of electricity
+       out. That ratio IS the fleet's thermal efficiency, 48.8%, measured rather
+       than assumed, and the difference is heat thrown away.
+
+       EMA grid emission factor 2024 -- 0.402 kg CO2 per kWh.
+
+       World Nuclear Association -- light-water reactors convert 33-37% of their
+       heat to electricity. The range is theirs; it becomes the band below.
+
+     The counterintuitive half is the point of the whole thing. Reactors are
+     roughly a third efficient where the current fleet is roughly half, so
+     making the same electricity means rejecting considerably more heat. Better
+     for carbon, worse for the waste heat Singapore itself has to absorb. */
+  var GRID_TWH = 60;          // gross electricity generated, 2024
+  var GRID_INPUT_TWH = 123;   // energy input to generate it
+  var GRID_GEF = 0.402;       // kg CO2 per kWh
+  var NUKE_EFF = [0.37, 0.33];   // best case first, so [0] is the smaller waste
+
+  function wireGrid() {
+    var slider = el('ss-grid-share');
+    if (!slider) { return; }
+    var fleetEff = GRID_TWH / GRID_INPUT_TWH;
+
+    // Heat rejected when a share p of the generation comes from reactors.
+    function waste(p, eff) {
+      return GRID_TWH * (1 - p) * (1 / fleetEff - 1) + GRID_TWH * p * (1 / eff - 1);
+    }
+
+    function paintGrid() {
+      var p = parseInt(slider.value, 10) / 100;
+      var co2 = GRID_TWH * 1e9 * GRID_GEF / 1e9;      // TWh -> kWh -> kg -> Mt
+      var avoided = co2 * p;
+      var now = waste(0, NUKE_EFF[0]);
+      var lo = waste(p, NUKE_EFF[0]), hi = waste(p, NUKE_EFF[1]);
+
+      el('ss-grid-co2').innerHTML = avoided === 0 ? '0' :
+        avoided.toFixed(1) + '<span class="ss-sim-unit"> Mt</span>';
+
+      el('ss-grid-heat').innerHTML = p === 0 ?
+        'Waste heat stays where it is: <strong>' + now.toFixed(0) +
+        '&nbsp;TWh</strong> a year thrown away by the power stations.' :
+        'But waste heat rises from <strong>' + now.toFixed(0) + '</strong> to between <strong>' +
+        lo.toFixed(0) + '</strong> and <strong>' + hi.toFixed(0) +
+        '&nbsp;TWh</strong> a year — ' + (lo / now).toFixed(1) + ' to ' + (hi / now).toFixed(1) +
+        ' times as much heat dumped locally.';
+
+      var msg = el('ss-grid-msg');
+      if (msg) {
+        msg.textContent = p === 0 ?
+          'The grid as it stands: 94% natural gas, about half of the energy burned arriving as electricity.' :
+          'Reactors turn about a third of their heat into electricity. The current fleet manages ' +
+          Math.round(fleetEff * 100) + '%. The same electricity therefore needs far more heat made, ' +
+          'and the surplus has to go somewhere.';
+      }
+
+      var read = el('ss-grid-read');
+      if (read) {
+        read.innerHTML = p === 0 ?
+          'Move the slider to swap generation over to reactors.' :
+          'Switching ' + Math.round(p * 100) + '% of the grid stops <strong>' +
+          avoided.toFixed(1) + '&nbsp;million tons</strong> of CO₂ a year. For scale, the ' +
+          'entire tree calculation above saves 87,000 tons — this is about <strong>' +
+          Math.round(avoided * 1e6 / 87000) + ' times</strong> larger. The catch is the heat: ' +
+          'the same switch adds <strong>' + (lo - now).toFixed(0) + ' to ' +
+          (hi - now).toFixed(0) + '&nbsp;TWh</strong> of waste heat a year. Whether that matters ' +
+          'to the temperatures on this page depends on where it goes — gas stations vent much ' +
+          'of theirs into the air over Jurong Island, while a reactor would reject its heat to ' +
+          'seawater. That is a siting decision, not a property of the technology.';
+      }
+    }
+
+    slider.addEventListener('input', paintGrid);
+    paintGrid();
+  }
+
   /* ── Live station panel ──────────────────────────────────── */
   function renderLive(payload) {
     var data = payload.data;
@@ -1359,6 +1437,7 @@
     countUp();
     wireSwipeHint();
     wireSim();
+    wireGrid();
 
     function relayout() {
       var used = layoutCards(built);

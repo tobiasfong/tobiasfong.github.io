@@ -783,7 +783,7 @@
           The annual mean temperatures might appear to fluctuate at first glance, but upon closer
           examination, you'll notice a single consistent trend. A trend made visible if you were to
           extrapolate it in a single red line. Undoubtedly, temperatures in Singapore have been
-          consistently rising. Even with fluctuations, they'll rarely diverge from outside the
+          consistently rising. Even with fluctuations, they'll rarely diverge from the
           shaded band. In other words, by 2035, the annual mean temperature may reach as high as
           29&nbsp;°C while being unlikely to dip below 27.8&nbsp;°C.
         </p>
@@ -955,7 +955,7 @@
         <p>
           What do these numbers mean? Meili, et al obtained data for Singapore at 40% cover, which
           they then averaged across every type of street. This translates to 5.92 million people,
-          living in roughly 15&nbsp;m² homes each, saving 2.39&nbsp;kWh per m² per year. Assuming
+          living in roughly 15&nbsp;m² homes each, saving 2.39&nbsp;kWh per m² per year, assuming
           their electric bill costs SG$0.32 and 0.41&nbsp;kg of CO₂ per kWh. This totals
           SG$68 million and 87,000 tons of CO₂ a year, and that's before taking into
           consideration the CO₂ these trees will absorb. Meili, et al simulated five different
@@ -990,6 +990,66 @@
           After all, combating climate change isn't growing greenery to absorb the heat alone.
           We also need to cut down on emissions.
         </p>
+      </section>
+
+      <!-- ── Grid switch calculator ──
+           Arithmetic on published figures, nothing modelled. EMA's own energy
+           balance supplies both the electricity generated and the energy burned
+           to make it, so the fleet's efficiency is measured rather than assumed,
+           and the reactor efficiency is a published range rather than a single
+           number. It deliberately does NOT output a temperature: Singapore is a
+           rounding error in global emissions, and degrees from this arithmetic
+           would be false precision resting on a false premise. -->
+      <section class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3.5rem;">
+        <div class="section-kicker">The other lever</div>
+        <h2>What if we stopped burning gas?</h2>
+        <p>
+          Trees can only ever mitigate. The heat has a source, and in Singapore's case 94% of our
+          electricity comes from burning natural gas.[^35] So this section asks the other question:
+          what changes if we change what the island runs on? This isn't hypothetical. Budget 2025
+          committed to studying nuclear deployment, the Energy Market Authority commissioned a
+          feasibility study on small modular reactors in September 2025, and signed a cooperation
+          agreement with Korea Hydro &amp; Nuclear Power in early 2026.[^37]
+        </p>
+
+        <div class="ss-sim">
+          <div class="ss-sim-controls">
+            <div class="ss-sim-field">
+              <label class="ss-sim-label" for="ss-grid-share">Share of the grid switched to reactors</label>
+              <input type="range" id="ss-grid-share" min="0" max="100" step="10" value="100" />
+              <div class="ss-sim-scale" aria-hidden="true">
+                <span>0%</span><span>50%</span><span>100%</span>
+              </div>
+            </div>
+            <p class="ss-sim-note" id="ss-grid-msg" style="color:var(--text-muted);"></p>
+          </div>
+
+          <div class="ss-sim-out">
+            <div class="ss-sim-num" id="ss-grid-co2">—</div>
+            <div class="ss-sim-cap">million tons of CO₂ a year that stop being emitted[^35]</div>
+            <div class="ss-sim-range" id="ss-grid-heat"></div>
+          </div>
+        </div>
+
+        <p id="ss-grid-read"></p>
+
+        <p class="ss-sim-fine">
+          Reactor efficiency is taken as 33–37%, the range the World Nuclear Association gives for
+          light-water reactors.[^36] The current fleet's 49% isn't assumed either — it is EMA's own
+          two figures divided, 60&nbsp;TWh of electricity out of 123&nbsp;TWh of energy in.[^35]
+        </p>
+
+        <div class="ss-caveat">
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.4rem;">Why there is no temperature here</p>
+          <p style="font-size:var(--fs-caption);">
+            Every other figure on this page ends in degrees. This one can't. Singapore emits
+            roughly a tenth of a percent of the world's carbon, so the effect of its grid on its
+            own temperature, by way of the atmosphere, is too small to state honestly — a number
+            in degrees would be false precision resting on a false premise. What the switch really
+            changes is carbon, which is global and cumulative, and waste heat, which is local and
+            immediate. Those are the two figures above, and nothing else is claimed.
+          </p>
+        </div>
       </section>
 
       <!-- ── About the images ── -->
@@ -1163,6 +1223,21 @@
           </li>
         </ol>
 
+        <div class="ss-refs-head">Energy and Emissions</div>
+        <ol class="ss-refs" style="counter-reset: ssref 34;">
+          <li id="ref-35">
+            Energy Market Authority. <a href="https://www.ema.gov.sg/resources/singapore-energy-statistics/chapter2" target="_blank" rel="noopener noreferrer">“Energy Transformation.”</a> <em>Singapore Energy Statistics</em>, chap. 2.
+            <span class="ss-ref-note">2024 figures: 123&nbsp;TWh of energy input produced 60&nbsp;TWh of electricity, natural gas made up 94% of the fuel mix, and the grid emission factor was 0.402&nbsp;kg&nbsp;CO₂ per kWh (down from 0.412 in 2023). The fleet efficiency used on this page is the first two of those divided, not an assumed figure.</span>
+          </li>
+          <li id="ref-36">
+            World Nuclear Association. <a href="https://world-nuclear.org/information-library/nuclear-power-reactors/overview/nuclear-power-reactors" target="_blank" rel="noopener noreferrer">“Nuclear Power Reactors.”</a> Information Library.
+            <span class="ss-ref-note">Thermal efficiency in light-water reactors is “often 33–37%,” reaching 38% in the latest pressurised-water designs. Both ends of that range are used above.</span>
+          </li>
+          <li id="ref-37">
+            <a href="https://www.world-nuclear-news.org/articles/singapore-seriously-considering-nuclear-energy" target="_blank" rel="noopener noreferrer">“Singapore ‘Seriously’ Considering Nuclear Energy.”</a> <em>World Nuclear News</em>, 2025.
+          </li>
+        </ol>
+
         <p style="font-size:var(--fs-caption); color:var(--text-muted); margin-top:1.25rem;">
           The live figures on this page come from the
           <a href="https://data.gov.sg/" target="_blank" rel="noopener noreferrer">data.gov.sg</a>
@@ -1180,6 +1255,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260816z"></script>
+    <script src="/js/sustainable-singapore.js?v=20260817a"></script>
   </body>
 </html>
