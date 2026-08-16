@@ -995,17 +995,25 @@
     el('ss-proj-mid').textContent = f.at(end).toFixed(1) + ' °C';
     el('ss-proj-band').textContent = '± ' + f.pi(end).toFixed(2) + ' °C';
 
-    // The sentence that makes the band mean something: its lower edge is
-    // cooler than a year we have already lived through.
-    var floor = f.at(end) - f.pi(end), warm = s[s.length - 1][1];
+    /* The paragraph is the author's, but every figure in it is computed rather
+       than typed, so it stays true as years accrue. ANCHOR is a real year in
+       the record: its value and the gap to the projected floor are both read
+       off the data, which is why the gap says 0.3 and not 0.4 -- 27.8 against
+       27.5 is three tenths, however the sentence is phrased. */
+    var ANCHOR = 2008;
+    var floor = f.at(end) - f.pi(end);
+    var anchor = null, k;
+    for (k = 0; k < s.length; k++) { if (s[k][0] === ANCHOR) { anchor = s[k][1]; } }
     var read = el('ss-proj-read');
-    if (read) {
-      read.innerHTML = 'Ten years of that trend adds <strong>' + (f.b * 10).toFixed(2) +
-        '&nbsp;°C</strong>. The spread on a single year is <strong>±' + f.pi(end).toFixed(2) +
-        '&nbsp;°C</strong> — about ' + (f.pi(end) / (f.b * 10)).toFixed(1) +
-        ' times as large. So ' + end + ' could plausibly come in at ' + floor.toFixed(1) +
-        '&nbsp;°C, cooler than ' + last + ' actually was (' + d1(warm) +
-        '&nbsp;°C), and the warming would still be exactly on track. A cold year is not an argument.';
+    if (read && anchor !== null) {
+      read.innerHTML = 'If we are to extrapolate the current trend of an increase of <strong>' +
+        (f.b * 10).toFixed(2) + '&nbsp;°C</strong> per decade, take into account the spread of ' +
+        '<strong>±' + f.pi(end).toFixed(2) + '&nbsp;°C</strong>, it wouldn’t be unusual for ' +
+        end + ' to be as cool as ' + d1(floor) + '&nbsp;°C. That said, that doesn’t change ' +
+        'the fact that the world has gotten warmer. It’s still a ' +
+        d1(floor - anchor) + '&nbsp;°C increase over the ' + d1(anchor) + '&nbsp;°C in ' +
+        ANCHOR + ', almost 3 decades ago. No matter how much certain parties deny climate ' +
+        'change, the evidence is against them.';
     }
 
     drawCentury(f, last);
@@ -1063,6 +1071,9 @@
       fill: '#C8102E', 'text-anchor': 'end' });
     lab.textContent = 'our line, ' + f.at(2100).toFixed(1) + ' °C';
     svg.appendChild(lab);
+
+    // Same figure in the prose, so the two can never drift apart.
+    if (el('ss-proj-2100')) { el('ss-proj-2100').textContent = f.at(2100).toFixed(1); }
   }
 
   /* ── Tree cover simulator ─────────────────────────────────
