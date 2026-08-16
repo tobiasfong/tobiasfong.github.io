@@ -906,6 +906,91 @@
      already 2.5x a decade of warming before you go anywhere. */
   var PROJ_YEARS = 10;
   var PROJ_T = 1.96;                    // 95%, normal approximation
+  var projHover = null;
+
+  /* Read-out for the projection chart, matching the timeline's. Only the
+     measured years answer: past the last reading there is no temperature to
+     report, just a line, and putting a decimal on it would dress arithmetic up
+     as a measurement. Hovering there says so instead. */
+  function bindProjHover(svg) {
+    var tip = el('ss-tip');
+    if (!tip) {
+      tip = document.createElement('div');
+      tip.id = 'ss-tip';
+      tip.className = 'ss-tip';
+      tip.setAttribute('role', 'status');
+      document.body.appendChild(tip);
+    }
+    var layer = svgNode('g', { 'pointer-events': 'none' });
+    svg.appendChild(layer);
+    projHover.layer = layer;
+
+    if (svg.dataset.hoverBound) { return; }
+    svg.dataset.hoverBound = '1';
+
+    function clear() {
+      tip.style.display = 'none';
+      if (projHover && projHover.layer) {
+        while (projHover.layer.firstChild) {
+          projHover.layer.removeChild(projHover.layer.firstChild);
+        }
+      }
+    }
+
+    svg.addEventListener('mousemove', function (ev) {
+      var st = projHover;
+      if (!st) { return; }
+      var r = svg.getBoundingClientRect();
+      if (!r.width) { return; }
+      var sx = (ev.clientX - r.left) * (st.w / r.width);
+      var frac = (sx - 44) / (st.w - 44 - 14);            // PAD_L, PAD_R
+      var year = Math.round(st.lo + frac * (st.end - st.lo));
+      if (year < st.lo || year > st.end) { clear(); return; }
+
+      while (st.layer.firstChild) { st.layer.removeChild(st.layer.firstChild); }
+
+      var pt = null, i;
+      for (i = 0; i < st.s.length; i++) { if (st.s[i][0] === year) { pt = st.s[i]; } }
+
+      st.layer.appendChild(svgNode('line', {
+        x1: st.x(year), y1: 14, x2: st.x(year), y2: st.h - 28,
+        stroke: 'rgba(0,0,0,0.35)', 'stroke-width': 1, 'stroke-dasharray': '3 3'
+      }));
+
+      var rows = '<strong>' + year + '</strong>';
+      if (pt) {
+        st.layer.appendChild(svgNode('circle', {
+          cx: st.x(year), cy: st.y(pt[1]), r: 3.5,
+          fill: '#fff', stroke: '#4A4A4A', 'stroke-width': 1.5
+        }));
+        rows += '<span><i class="ss-tip-sw" style="border-top-color:#D0D0D0"></i>Measured ' +
+          d1(pt[1]) + '&nbsp;°C</span>';
+      } else {
+        rows += '<span>Not measured — projected</span>';
+      }
+      st.layer.appendChild(svgNode('circle', {
+        cx: st.x(year), cy: st.y(st.f.at(year)), r: 3,
+        fill: '#C8102E', 'fill-opacity': 0.85
+      }));
+      rows += '<span><i class="ss-tip-sw" style="border-top-color:#C8102E"></i>Trend ' +
+        d1(st.f.at(year)) + '&nbsp;°C</span>';
+      if (year > st.last) {
+        rows += '<span><i class="ss-tip-sw" style="border-top-color:rgba(200,16,46,0.3)"></i>' +
+          d1(st.f.at(year) - st.f.pi(year)) + ' to ' + d1(st.f.at(year) + st.f.pi(year)) +
+          '&nbsp;°C</span>';
+      }
+
+      tip.innerHTML = rows;
+      tip.style.display = 'block';
+      var tw = tip.offsetWidth;
+      var left = ev.clientX + 16;
+      if (left + tw > window.innerWidth - 8) { left = ev.clientX - tw - 16; }
+      tip.style.left = left + 'px';
+      tip.style.top = Math.max(8, ev.clientY - 12) + 'px';
+    });
+
+    svg.addEventListener('mouseleave', clear);
+  }
 
   function fitTrend(series) {
     var n = series.length;
@@ -991,6 +1076,11 @@
       fill: 'none', stroke: '#4A4A4A', 'stroke-width': 1.6, 'stroke-linejoin': 'round'
     }));
 
+    // Hand the hover the same mapping the chart was drawn with, so the marker
+    // lands exactly on the plotted point rather than near it.
+    projHover = { s: s, f: f, x: x, y: y, w: w, h: h, lo: lo, end: end, last: last };
+    bindProjHover(svg);
+
     el('ss-proj-slope').textContent = '+' + (f.b * 10).toFixed(2) + ' °C';
     // Same rate quoted in the century caveat, from the same fit.
     if (el('ss-proj-rate')) { el('ss-proj-rate').textContent = (f.b * 10).toFixed(2); }
@@ -1052,7 +1142,8 @@
     var svg = el('ss-proj-far');
     if (!svg) { return; }
     var w = svg.parentNode.clientWidth, h = 150;
-    var PAD_L = 44, PAD_R = 92, PAD_T = 12, PAD_B = 26;
+    // Right gutter has to hold the three scenario bars AND their caption.
+    var PAD_L = 44, PAD_R = 132, PAD_T = 12, PAD_B = 26;
     if (!w) { return; }
     svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
     while (svg.firstChild) { svg.removeChild(svg.firstChild); }
@@ -1076,25 +1167,42 @@
       svg.appendChild(yl);
     });
 
-    // MSS V3: 28.5-32.9 °C by 2100, three emission scenarios, baseline 1995-2014.
-    // Drawn as a bracket at 2100 rather than a wedge, because the endpoint is
-    // the number they publish -- a wedge back to today would be my invention.
-    svg.appendChild(svgNode('rect', { x: x(2100) - 7, y: y(32.9), width: 14,
-      height: y(28.5) - y(32.9), fill: 'rgba(74,74,74,0.22)', rx: 3 }));
-    var band = svgNode('text', { x: x(2100) + 12, y: y(30.7) - 4, 'font-size': 10, fill: '#666' });
-    band.textContent = '28.5–32.9 °C';
+    /* MSS V3, Table 5.1: annual average daily mean air temperature over the
+       end-century window, 2080-2099. Mean of five models, with the model
+       minimum and maximum in brackets. Drawn as three separate scenarios
+       rather than one outer bracket, because 28.5 to 32.9 collapses the whole
+       emissions question into a single grey block -- and the question is the
+       point. Colours follow MSS's own figures. */
+    var V3 = [
+      { k: 'SSP1-2.6', mid: 29.0, lo: 28.5, hi: 29.5, c: '#3F6E9B' },
+      { k: 'SSP2-4.5', mid: 29.9, lo: 29.3, hi: 30.7, c: '#E08A2E' },
+      { k: 'SSP5-8.5', mid: 31.7, lo: 30.7, hi: 32.9, c: '#B03A4A' }
+    ];
+    V3.forEach(function (s, i) {
+      var cx = x(2100) + 4 + i * 16;
+      svg.appendChild(svgNode('rect', { x: cx, y: y(s.hi), width: 12,
+        height: y(s.lo) - y(s.hi), fill: s.c, 'fill-opacity': 0.4, rx: 2 }));
+      svg.appendChild(svgNode('line', { x1: cx, y1: y(s.mid), x2: cx + 12, y2: y(s.mid),
+        stroke: s.c, 'stroke-width': 2 }));
+    });
+    var band = svgNode('text', { x: x(2100) + 56, y: PAD_T + 10, 'font-size': 10, fill: '#666' });
+    band.textContent = 'MSS V3';
     svg.appendChild(band);
-    var band2 = svgNode('text', { x: x(2100) + 12, y: y(30.7) + 9, 'font-size': 10, fill: '#999' });
-    band2.textContent = 'MSS, 3 scenarios';
+    var band2 = svgNode('text', { x: x(2100) + 56, y: PAD_T + 22, 'font-size': 9, fill: '#999' });
+    band2.textContent = '2080–2099';
     svg.appendChild(band2);
+    var band3 = svgNode('text', { x: x(2100) + 56, y: PAD_T + 33, 'font-size': 9, fill: '#999' });
+    band3.textContent = 'low/mid/high';
+    svg.appendChild(band3);
 
     svg.appendChild(svgNode('line', { x1: x(LO_Y), y1: y(f.at(LO_Y)), x2: x(last), y2: y(f.at(last)),
       stroke: '#C8102E', 'stroke-width': 1.6, 'stroke-opacity': 0.55 }));
     svg.appendChild(svgNode('line', { x1: x(last), y1: y(f.at(last)), x2: x(2100), y2: y(f.at(2100)),
       stroke: '#C8102E', 'stroke-width': 1.8, 'stroke-dasharray': '5 4' }));
-    var lab = svgNode('text', { x: x(2100) - 10, y: y(f.at(2100)) - 7, 'font-size': 10,
-      fill: '#C8102E', 'text-anchor': 'end' });
-    lab.textContent = 'our line, ' + f.at(2100).toFixed(1) + ' °C';
+    // Set back from the line's end so it clears the scenario bars.
+    var lab = svgNode('text', { x: x(2078), y: y(f.at(2078)) - 8, 'font-size': 10,
+      fill: '#C8102E', 'text-anchor': 'middle' });
+    lab.textContent = 'our line, ' + f.at(2100).toFixed(1) + ' °C at 2100';
     svg.appendChild(lab);
 
     // Same figure in the prose, so the two can never drift apart.
