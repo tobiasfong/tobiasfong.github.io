@@ -274,6 +274,61 @@
         font-size: 11px; line-height: 1.5; color: var(--text-muted); margin-top: 10px;
       }
 
+      /* ── Tree cover simulator ── */
+      .ss-sim {
+        display: grid; grid-template-columns: 1fr 300px; gap: 2rem;
+        border: 1px solid var(--border); border-radius: 16px;
+        background: var(--bg-alt); padding: 1.75rem; margin-top: 1.5rem;
+        align-items: start;
+      }
+      .ss-sim-field { margin-bottom: 1.5rem; }
+      .ss-sim-field:last-child { margin-bottom: 0; }
+      .ss-sim-label {
+        display: block; font-size: var(--fs-label); text-transform: uppercase;
+        letter-spacing: 0.08em; color: var(--text-muted); font-weight: 700; margin-bottom: 10px;
+      }
+      .ss-sim input[type="range"] { width: 100%; accent-color: var(--accent-red); }
+      .ss-sim-scale {
+        display: flex; justify-content: space-between; margin-top: 4px;
+        font-size: 11px; color: var(--text-muted); font-variant-numeric: tabular-nums;
+      }
+      .ss-sim-seg { display: flex; gap: 6px; flex-wrap: wrap; }
+      .ss-sim-seg button {
+        flex: 1 1 auto; padding: 8px 10px; font: inherit; font-size: var(--fs-caption);
+        border: 1px solid var(--border); border-radius: 9px; background: var(--bg);
+        color: var(--text-body); cursor: pointer; white-space: nowrap;
+        transition: border-color 0.15s, color 0.15s, background 0.15s;
+      }
+      .ss-sim-seg button:hover { border-color: var(--accent-red); }
+      .ss-sim-seg button[aria-checked="true"] {
+        border-color: var(--accent-red); color: var(--accent-red); font-weight: 700;
+        background: rgba(200,16,46,0.06);
+      }
+      .ss-sim-out { text-align: left; }
+      .ss-sim-num {
+        font-size: clamp(38px, 6vw, 56px); font-weight: 700; color: var(--text);
+        line-height: 1; font-variant-numeric: tabular-nums;
+      }
+      .ss-sim-unit { font-size: 0.45em; margin-left: 0.08em; }
+      .ss-sim-cap {
+        font-size: var(--fs-caption); color: var(--text-muted);
+        margin-top: 8px; line-height: 1.45;
+      }
+      .ss-sim-note {
+        font-size: 11px; line-height: 1.5; color: var(--accent-red);
+        margin-top: 8px; min-height: 1.5em;
+      }
+      .ss-sim-island {
+        border-left: 2px solid var(--accent-red); padding-left: 14px; margin-top: 1.75rem;
+      }
+      .ss-sim-island p { font-size: var(--fs-caption); margin: 0; }
+      .ss-sim-fine {
+        font-size: 11px; line-height: 1.6; color: var(--text-muted); margin-top: 1.25rem;
+      }
+      @media (max-width: 760px) {
+        .ss-sim { grid-template-columns: 1fr; gap: 1.5rem; padding: 1.25rem; }
+      }
+
       .ss-caveat {
         border-left: 3px solid var(--accent-red);
         padding: 2px 0 2px 16px; margin: 1.75rem 0;
@@ -752,6 +807,84 @@
         </div>
       </section>
 
+      <!-- ── Tree cover simulator ──
+           Every number here is Meili et al.'s. The curves are their Figure 8(e),
+           the island-wide figures are their own worked example in §4.2. Nothing
+           is extrapolated past what they simulated: the slider stops on the five
+           cover fractions they ran, and combinations they could not model say so
+           rather than guessing. -->
+      <section style="max-width: 860px; margin: 0 auto 3.5rem;">
+        <div class="section-kicker">Simulation</div>
+        <h2>So how much would trees actually save?</h2>
+        <p>
+          Rather than take the headline figure on trust, here is their model to try yourself. Move
+          the cover, raise the trees, change the street. The one thing to watch for is where the
+          curve stops paying: past 40% cover it flattens, because the humidity the trees add starts
+          costing the air conditioner as much as their shade saves it.
+        </p>
+
+        <div class="ss-sim">
+          <div class="ss-sim-controls">
+            <div class="ss-sim-field">
+              <label class="ss-sim-label" for="ss-sim-cover">Tree cover of the street</label>
+              <input type="range" id="ss-sim-cover" min="0" max="4" step="1" value="2"
+                aria-describedby="ss-sim-cover-val" />
+              <div class="ss-sim-scale" aria-hidden="true">
+                <span>0%</span><span>20%</span><span>40%</span><span>60%</span><span>80%</span>
+              </div>
+            </div>
+
+            <div class="ss-sim-field">
+              <span class="ss-sim-label" id="ss-sim-h-label">Tree height, against the buildings</span>
+              <div class="ss-sim-seg" role="radiogroup" aria-labelledby="ss-sim-h-label" id="ss-sim-height">
+                <button type="button" role="radio" aria-checked="false" data-v="0.5">Half</button>
+                <button type="button" role="radio" aria-checked="false" data-v="0.75">Three&#8209;quarter</button>
+                <button type="button" role="radio" aria-checked="true" data-v="0.95">Rooftop</button>
+              </div>
+            </div>
+
+            <div class="ss-sim-field">
+              <span class="ss-sim-label" id="ss-sim-lcz-label">The street itself</span>
+              <div class="ss-sim-seg" role="radiogroup" aria-labelledby="ss-sim-lcz-label" id="ss-sim-lcz">
+                <button type="button" role="radio" aria-checked="true" data-v="LCZ6">Open low&#8209;rise</button>
+                <button type="button" role="radio" aria-checked="false" data-v="LCZ3">Packed low&#8209;rise</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="ss-sim-out">
+            <div class="ss-sim-num" id="ss-sim-num" aria-live="polite">&minus;16<span class="ss-sim-unit">%</span></div>
+            <div class="ss-sim-cap" id="ss-sim-cover-val">
+              summer air-conditioning energy, against the same street with no trees at all
+            </div>
+            <svg id="ss-sim-curve" width="100%" height="150" role="img"
+              aria-label="Energy saving against tree cover, showing the curve flattening past 40 per cent"></svg>
+            <p class="ss-sim-note" id="ss-sim-msg"></p>
+          </div>
+        </div>
+
+        <div class="ss-sim-island">
+          <p>
+            <strong>What that is worth, island-wide.</strong> The authors ran this themselves for
+            Singapore at 40% cover, averaged across every street type: 5.92&nbsp;million people at
+            15&nbsp;m² of home each, 2.39&nbsp;kWh saved per m² per year, electricity at
+            0.32&nbsp;SGD and 0.41&nbsp;kg of CO₂ per kWh. It comes to
+            <strong>68 million SGD</strong> and <strong>about 87,000 tonnes of CO₂</strong> a year,
+            before counting a single gram the trees themselves absorb.[^27]
+          </p>
+        </div>
+
+        <p class="ss-sim-fine">
+          The curves are read off Figure 8(e) of Meili and colleagues,[^27] whose model simulated
+          exactly these five cover fractions — the slider stops on them rather than inventing
+          values between. Their stated result for open low-rise at 40% cover with rooftop-height
+          trees is −16%, which is what this reads there. Two things it deliberately does not do:
+          it does not touch outdoor temperature, only the energy a building spends on cooling; and
+          it assumes a reasonably sealed building. In a leaky one the same trees give roughly half
+          as much, because more humid outdoor air gets in to be dried.
+        </p>
+      </section>
+
       <!-- ── About the images ── -->
       <!-- Media column first in the DOM: .editorial-split's default 300px/1fr
            puts it on the left, and the phone rule reorders it above the text. -->
@@ -918,6 +1051,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260816r"></script>
+    <script src="/js/sustainable-singapore.js?v=20260816s"></script>
   </body>
 </html>

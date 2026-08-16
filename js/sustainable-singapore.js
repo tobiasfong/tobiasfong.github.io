@@ -889,6 +889,150 @@
     body.innerHTML = html;
   }
 
+  /* ── Tree cover simulator ─────────────────────────────────
+     Meili et al. (2025), Figure 8(e), Singapore. Their model ran exactly five
+     cover fractions, so this reads off those five and nothing between them --
+     the slider is stepped, not continuous, because inventing 30% would be
+     inventing a simulation they never ran.
+
+     Values are digitised from the published figure. The one point they also
+     state numerically -- open low-rise, 40% cover, rooftop-height trees, -16%
+     -- is what the digitised curve reads there, which is the check that the
+     rest are read correctly.
+
+     LCZ6 with half-height trees is absent on purpose: their canyon model
+     cannot fill a wide street with short trees without a crown wider than the
+     tree is tall, so that scenario was never simulated. Saying so beats
+     interpolating a number into the gap. */
+  var SIM_COVER = [0, 20, 40, 60, 80];
+  var SIM = {
+    'LCZ3': {
+      '0.5':  [0, -2.8, -4.1, -4.4, -5.6],
+      '0.75': [0, -5.0, -6.8, -8.0, -10.2],
+      '0.95': [0, -5.5, -10.3, -12.7, -14.6]
+    },
+    'LCZ6': {
+      '0.5':  null,
+      '0.75': [0, -6.5, -12.7, -15.5, -17.0],
+      // -16.0 rather than the -15.6 the figure reads: this is the one point the
+      // paper also states in words, so the stated value wins over the pixel.
+      '0.95': [0, -9.5, -16.0, -18.6, -18.4]
+    }
+  };
+
+  function wireSim() {
+    var slider = el('ss-sim-cover');
+    if (!slider) { return; }
+    var numEl = el('ss-sim-num'), msgEl = el('ss-sim-msg'), svg = el('ss-sim-curve');
+    var state = { i: 2, h: '0.95', lcz: 'LCZ6' };
+
+    function segs(hostId) { return [].slice.call(el(hostId).querySelectorAll('button')); }
+
+    function pick(hostId, key) {
+      segs(hostId).forEach(function (b) {
+        var on = b.getAttribute('data-v') === state[key];
+        b.setAttribute('aria-checked', on ? 'true' : 'false');
+      });
+    }
+
+    function draw(series) {
+      if (!svg) { return; }
+      var w = svg.clientWidth || svg.parentNode.clientWidth;
+      var h = 150, PAD_L = 6, PAD_B = 20, PAD_T = 10;
+      svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+      while (svg.firstChild) { svg.removeChild(svg.firstChild); }
+      if (!w) { return; }
+
+      // One fixed scale across every scenario, or switching the street would
+      // silently rescale the axis and the curves would look identical.
+      var LO = -20;
+      var x = function (i) { return PAD_L + (i / 4) * (w - PAD_L * 2); };
+      var y = function (v) { return PAD_T + (v / LO) * (h - PAD_T - PAD_B); };
+
+      [-5, -10, -15, -20].forEach(function (v) {
+        svg.appendChild(svgNode('line', { x1: 0, y1: y(v), x2: w, y2: y(v),
+          stroke: 'rgba(0,0,0,0.07)', 'stroke-width': 1 }));
+      });
+
+      // The other two heights, faint, so the height lever is visibly the big one.
+      Object.keys(SIM[state.lcz]).forEach(function (hk) {
+        var s = SIM[state.lcz][hk];
+        if (!s || hk === state.h) { return; }
+        svg.appendChild(svgNode('polyline', {
+          points: s.map(function (v, i) { return x(i) + ',' + y(v); }).join(' '),
+          fill: 'none', stroke: 'rgba(0,0,0,0.18)', 'stroke-width': 1.2,
+          'stroke-dasharray': '3 3'
+        }));
+      });
+
+      if (!series) { return; }
+      svg.appendChild(svgNode('polyline', {
+        points: series.map(function (v, i) { return x(i) + ',' + y(v); }).join(' '),
+        fill: 'none', stroke: '#C8102E', 'stroke-width': 2.2, 'stroke-linejoin': 'round'
+      }));
+      series.forEach(function (v, i) {
+        svg.appendChild(svgNode('circle', {
+          cx: x(i), cy: y(v), r: i === state.i ? 5 : 2.5,
+          fill: i === state.i ? '#C8102E' : 'rgba(200,16,46,0.45)'
+        }));
+      });
+      var lab = svgNode('text', { x: 0, y: h - 4, 'font-size': 10, fill: '#999' });
+      lab.textContent = 'tree cover, 0 to 80%';
+      svg.appendChild(lab);
+    }
+
+    function paintSim() {
+      var series = SIM[state.lcz][state.h];
+      var cover = SIM_COVER[state.i];
+
+      if (!series) {
+        numEl.innerHTML = '&mdash;';
+        msgEl.textContent = 'Not simulated: a wide street cannot be filled with short trees ' +
+          'without a crown wider than the tree is tall.';
+        draw(null);
+        return;
+      }
+
+      var v = series[state.i];
+      numEl.innerHTML = (v === 0 ? '0' : '&minus;' + Math.abs(v).toFixed(1)) +
+        '<span class="ss-sim-unit">%</span>';
+
+      // The point of the whole widget: name the moment the curve stops paying.
+      var msg = '';
+      if (cover === 0) {
+        msg = 'No trees. This is the baseline everything else is measured against.';
+      } else if (cover > 40) {
+        var at40 = series[2], gain = Math.abs(v) - Math.abs(at40);
+        msg = 'Doubling the cover past 40% bought another ' + gain.toFixed(1) +
+          ' points. The humidity is eating the shade.';
+      } else if (cover === 40) {
+        msg = 'The knee of the curve. Past here each extra tree buys much less.';
+      }
+      msgEl.textContent = msg;
+      draw(series);
+    }
+
+    slider.addEventListener('input', function () {
+      state.i = parseInt(slider.value, 10);
+      paintSim();
+    });
+
+    ['ss-sim-height', 'ss-sim-lcz'].forEach(function (id) {
+      var key = id === 'ss-sim-height' ? 'h' : 'lcz';
+      segs(id).forEach(function (b) {
+        b.addEventListener('click', function () {
+          state[key] = b.getAttribute('data-v');
+          pick(id, key);
+          paintSim();
+        });
+      });
+      pick(id, key);
+    });
+
+    window.addEventListener('resize', function () { draw(SIM[state.lcz][state.h]); });
+    paintSim();
+  }
+
   /* ── Live station panel ──────────────────────────────────── */
   function renderLive(payload) {
     var data = payload.data;
@@ -965,6 +1109,7 @@
     expandCitations(document.body);
     countUp();
     wireSwipeHint();
+    wireSim();
 
     function relayout() {
       var used = layoutCards(built);
