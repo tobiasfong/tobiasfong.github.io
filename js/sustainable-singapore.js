@@ -966,7 +966,7 @@
         rows += '<span><i class="ss-tip-sw" style="border-top-color:#D0D0D0"></i>Measured ' +
           d1(pt[1]) + '&nbsp;°C</span>';
       } else {
-        rows += '<span>Not measured — projected</span>';
+        rows += '<span>Projected</span>';
       }
       st.layer.appendChild(svgNode('circle', {
         cx: st.x(year), cy: st.y(st.f.at(year)), r: 3,
@@ -1211,7 +1211,7 @@
       tip.innerHTML = '<strong>' + year + '</strong>' +
         '<span><i class="ss-tip-sw" style="border-top-color:#C8102E"></i>Our line ' +
         d1(st.f.at(year)) + '&nbsp;°C</span>' +
-        (year > st.last ? '<span>projected, not measured</span>' : '<span>fitted to measurements</span>');
+        (year > st.last ? '<span>Projected</span>' : '<span>Fitted to measurements</span>');
       place(ev);
     });
 
