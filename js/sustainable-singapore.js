@@ -906,7 +906,7 @@
      already 2.5x a decade of warming before you go anywhere. */
   var PROJ_YEARS = 10;
   var PROJ_T = 1.96;                    // 95%, normal approximation
-  var projHover = null;
+  var projHover = null, farHover = null;
 
   /* Read-out for the projection chart, matching the timeline's. Only the
      measured years answer: past the last reading there is no temperature to
@@ -1134,6 +1134,90 @@
     drawCentury(f, last);
   }
 
+  /* Read-out for the century strip. Two zones: over the bars it names the
+     scenario and gives its mean and model range, because at twelve pixels wide
+     they are legible as a comparison but not as numbers; over the plot it gives
+     the year and where our line sits. Every value shown is the same one the
+     shape was drawn from. */
+  function bindFarHover(svg) {
+    var tip = el('ss-tip');
+    if (!tip) {
+      tip = document.createElement('div');
+      tip.id = 'ss-tip';
+      tip.className = 'ss-tip';
+      tip.setAttribute('role', 'status');
+      document.body.appendChild(tip);
+    }
+    var layer = svgNode('g', { 'pointer-events': 'none' });
+    svg.appendChild(layer);
+    farHover.layer = layer;
+
+    if (svg.dataset.hoverBound) { return; }
+    svg.dataset.hoverBound = '1';
+
+    function clear() {
+      tip.style.display = 'none';
+      if (farHover && farHover.layer) {
+        while (farHover.layer.firstChild) { farHover.layer.removeChild(farHover.layer.firstChild); }
+      }
+    }
+
+    function place(ev) {
+      tip.style.display = 'block';
+      var tw = tip.offsetWidth;
+      var left = ev.clientX + 16;
+      if (left + tw > window.innerWidth - 8) { left = ev.clientX - tw - 16; }
+      tip.style.left = left + 'px';
+      tip.style.top = Math.max(8, ev.clientY - 12) + 'px';
+    }
+
+    svg.addEventListener('mousemove', function (ev) {
+      var st = farHover;
+      if (!st) { return; }
+      var r = svg.getBoundingClientRect();
+      if (!r.width) { return; }
+      var sx = (ev.clientX - r.left) * (st.w / r.width);
+      while (st.layer.firstChild) { st.layer.removeChild(st.layer.firstChild); }
+
+      // Scenario bars first: they sit past the plot's right edge.
+      if (sx >= st.barX - 6) {
+        var i = Math.round((sx - st.barX - 6) / 16);
+        if (i < 0) { i = 0; }
+        if (i > st.V3.length - 1) { i = st.V3.length - 1; }
+        var s = st.V3[i], bx = st.barX + i * 16;
+        st.layer.appendChild(svgNode('rect', {
+          x: bx - 2, y: st.y(s.hi) - 2, width: 16, height: st.y(s.lo) - st.y(s.hi) + 4,
+          fill: 'none', stroke: s.c, 'stroke-width': 1.5, rx: 3
+        }));
+        tip.innerHTML = '<strong>' + s.k + '</strong>' +
+          '<span><i class="ss-tip-sw" style="border-top-color:' + s.c + '"></i>' +
+          s.mid.toFixed(1) + '&nbsp;°C average of 5 models</span>' +
+          '<span>range ' + s.lo.toFixed(1) + ' to ' + s.hi.toFixed(1) + '&nbsp;°C</span>' +
+          '<span>2080–2099</span>';
+        place(ev);
+        return;
+      }
+
+      if (sx < st.padL) { clear(); return; }
+      var year = Math.round(1982 + ((sx - st.padL) / (st.w - st.padL - st.padR)) * (2100 - 1982));
+      if (year < 1982 || year > 2100) { clear(); return; }
+      st.layer.appendChild(svgNode('line', {
+        x1: st.x(year), y1: 12, x2: st.x(year), y2: st.h - 26,
+        stroke: 'rgba(0,0,0,0.3)', 'stroke-width': 1, 'stroke-dasharray': '3 3'
+      }));
+      st.layer.appendChild(svgNode('circle', {
+        cx: st.x(year), cy: st.y(st.f.at(year)), r: 3, fill: '#C8102E'
+      }));
+      tip.innerHTML = '<strong>' + year + '</strong>' +
+        '<span><i class="ss-tip-sw" style="border-top-color:#C8102E"></i>Our line ' +
+        d1(st.f.at(year)) + '&nbsp;°C</span>' +
+        (year > st.last ? '<span>projected, not measured</span>' : '<span>fitted to measurements</span>');
+      place(ev);
+    });
+
+    svg.addEventListener('mouseleave', clear);
+  }
+
   /* The same line, run to 2100, against what the climate models say. Drawn
      separately because the official range needs an axis six degrees tall, on
      which the whole Changi record collapses to a smudge -- which is itself
@@ -1207,6 +1291,10 @@
 
     // Same figure in the prose, so the two can never drift apart.
     if (el('ss-proj-2100')) { el('ss-proj-2100').textContent = f.at(2100).toFixed(1); }
+
+    farHover = { f: f, x: x, y: y, w: w, h: h, last: last, V3: V3,
+      padL: PAD_L, padR: PAD_R, barX: x(2100) + 4 };
+    bindFarHover(svg);
   }
 
   /* ── Tree cover simulator ─────────────────────────────────
