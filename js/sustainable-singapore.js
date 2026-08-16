@@ -64,7 +64,7 @@
   var visible = {};
   SERIES.forEach(function (s) { visible[s.key] = s.on; });
 
-  // Round to one decimal, half UP, without the float artefact that makes
+  // Round to one decimal, half UP, without the float artifact that makes
   // (28.15).toFixed(1) come back as "28.1": 28.15 has no exact binary
   // representation and the nearest double falls just short of it. The nudge
   // is far below the 0.01 these series are stored at, so it moves nothing
@@ -528,7 +528,7 @@
   }
 
   /* ── Legend, which is also the toggle ────────────────────────
-     Built from SERIES rather than written into the HTML, so the colours,
+     Built from SERIES rather than written into the HTML, so the colors,
      labels and draw order have exactly one definition. It lives in the sticky
      header because the chart is nearly four thousand pixels tall — a control
      that scrolled away would be useless for most of the reading. */
@@ -693,7 +693,7 @@
     var x = function (t) { return ((t - lo) / (hi - lo)) * w; };
 
     // Gridline spacing follows the span, so a 3.6 °C axis and a 13 °C one both
-    // land on four to six labelled lines instead of two or twenty.
+    // land on four to six labeled lines instead of two or twenty.
     var span = hi - lo;
     var step = span <= 5 ? 1 : (span <= 9 ? 2 : 3);
     var ticks = [];
@@ -779,7 +779,7 @@
 
   // Retire the swipe hint once the reader has actually swiped. The element is
   // aria-hidden already: a screen reader gets the same information from the
-  // labelled scroll region, so this is decoration for sighted touch users.
+  // labeled scroll region, so this is decoration for sighted touch users.
   function wireSwipeHint() {
     // The element that SCROLLS is .ss-tl-sticky-head; #ss-tl-head-scroll is
     // the grid inside it. Setting scrollLeft on the inner one does nothing,
@@ -895,15 +895,27 @@
      the slider is stepped, not continuous, because inventing 30% would be
      inventing a simulation they never ran.
 
-     Values are digitised from the published figure. The one point they also
+     Values are digitized from the published figure. The one point they also
      state numerically -- open low-rise, 40% cover, rooftop-height trees, -16%
-     -- is what the digitised curve reads there, which is the check that the
+     -- is what the digitized curve reads there, which is the check that the
      rest are read correctly.
 
      LCZ6 with half-height trees is absent on purpose: their canyon model
      cannot fill a wide street with short trees without a crown wider than the
      tree is tall, so that scenario was never simulated. Saying so beats
      interpolating a number into the gap. */
+  /* How wide the band is, and why those two numbers.
+
+     Meili et al. ran the same scenarios at three fresh-air ventilation rates.
+     Singapore comes out at -8% with ACH 0.5 and -4% with ACH 1, so a leaky
+     building halves the benefit: the outdoor air the trees have humidified
+     gets in, and drying it costs what the shade saved. At ACH 0.35 the
+     hot-humid cities move from a -6..-9% band to -8..-11%, about a quarter
+     better. Those two ratios are the edges here.
+
+     This is a sensitivity range from one model, not a confidence interval, and
+     the page says so. The wider literature is wider still. */
+  var SIM_LEAKY = 0.5, SIM_TIGHT = 1.25;
   var SIM_COVER = [0, 20, 40, 60, 80];
   var SIM = {
     'LCZ3': {
@@ -944,12 +956,13 @@
       if (!w) { return; }
 
       // One fixed scale across every scenario, or switching the street would
-      // silently rescale the axis and the curves would look identical.
-      var LO = -20;
+      // silently rescale the axis and the curves would look identical. It has
+      // to reach past the band's lower edge, not just the central line.
+      var LO = -25;
       var x = function (i) { return PAD_L + (i / 4) * (w - PAD_L * 2); };
       var y = function (v) { return PAD_T + (v / LO) * (h - PAD_T - PAD_B); };
 
-      [-5, -10, -15, -20].forEach(function (v) {
+      [-5, -10, -15, -20, -25].forEach(function (v) {
         svg.appendChild(svgNode('line', { x1: 0, y1: y(v), x2: w, y2: y(v),
           stroke: 'rgba(0,0,0,0.07)', 'stroke-width': 1 }));
       });
@@ -966,6 +979,15 @@
       });
 
       if (!series) { return; }
+
+      // The band first, so the line sits on top of it. Forward along the leaky
+      // edge, back along the tight one.
+      var up = series.map(function (v, i) { return x(i) + ',' + y(v * SIM_LEAKY); });
+      var dn = series.map(function (v, i) { return x(i) + ',' + y(v * SIM_TIGHT); }).reverse();
+      svg.appendChild(svgNode('polygon', {
+        points: up.concat(dn).join(' '), fill: 'rgba(200,16,46,0.12)', stroke: 'none'
+      }));
+
       svg.appendChild(svgNode('polyline', {
         points: series.map(function (v, i) { return x(i) + ',' + y(v); }).join(' '),
         fill: 'none', stroke: '#C8102E', 'stroke-width': 2.2, 'stroke-linejoin': 'round'
@@ -987,6 +1009,9 @@
 
       if (!series) {
         numEl.innerHTML = '&mdash;';
+        // Clear the band too, or it keeps showing the range of whichever
+        // scenario was on screen before this one.
+        if (el('ss-sim-range')) { el('ss-sim-range').innerHTML = ''; }
         msgEl.textContent = 'Not simulated: a wide street cannot be filled with short trees ' +
           'without a crown wider than the tree is tall.';
         draw(null);
@@ -996,6 +1021,14 @@
       var v = series[state.i];
       numEl.innerHTML = (v === 0 ? '0' : '&minus;' + Math.abs(v).toFixed(1)) +
         '<span class="ss-sim-unit">%</span>';
+
+      var rangeEl = el('ss-sim-range');
+      if (rangeEl) {
+        rangeEl.innerHTML = v === 0 ? '' :
+          'somewhere between <strong>&minus;' + (Math.abs(v) * SIM_LEAKY).toFixed(1) +
+          '%</strong> and <strong>&minus;' + (Math.abs(v) * SIM_TIGHT).toFixed(1) +
+          '%</strong>, depending on how well the building is sealed';
+      }
 
       // The point of the whole widget: name the moment the curve stops paying.
       var msg = '';

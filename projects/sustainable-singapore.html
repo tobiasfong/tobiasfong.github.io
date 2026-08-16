@@ -209,7 +209,7 @@
       .ss-legend label:hover { color: var(--text); }
       .ss-legend label.ss-off { opacity: 0.45; }
       /* The native checkbox at 10px is a 13px box with its own margins, which
-         throws the row off its baseline. Shrink and re-centre it. */
+         throws the row off its baseline. Shrink and re-center it. */
       .ss-legend input {
         width: 11px; height: 11px; margin: 0; flex: none;
         accent-color: var(--accent-red); cursor: pointer;
@@ -313,6 +313,11 @@
       .ss-sim-cap {
         font-size: var(--fs-caption); color: var(--text-muted);
         margin-top: 8px; line-height: 1.45;
+      }
+      .ss-sim-range {
+        font-size: var(--fs-caption); color: var(--text-body);
+        margin-top: 10px; line-height: 1.45;
+        border-top: 1px solid var(--border); padding-top: 10px;
       }
       .ss-sim-note {
         font-size: 11px; line-height: 1.5; color: var(--accent-red);
@@ -607,7 +612,7 @@
         <span>Land&nbsp;km²</span>
         <span>Year</span>
         <span>Temperature&nbsp;°C
-          <!-- Filled in by the script from its SERIES table, so the colours and
+          <!-- Filled in by the script from its SERIES table, so the colors and
                labels here can never drift from the ones on the chart. -->
           <span class="ss-legend" id="ss-legend"></span>
         </span>
@@ -800,6 +805,14 @@
           decreasing heat emission should be just as much a priority as planting more trees for
           heat absorption.
         </p>
+        <p>
+          Michael Alonzo, Peter Ibsen and Dexter Locke, reviewing seven years of the literature,
+          add a warning that lands squarely on us: in a tropical wet climate — which is ours —
+          more tree canopy “may have negligible impact on cooling either the air or surfaces,”
+          and they note that far too few studies have been done in this climate zone to say
+          otherwise.[^32] Much of what we know about trees and heat was measured somewhere that
+          isn't Singapore.
+        </p>
         </div>
         <div class="split-media">
           <img src="/img/sustainable/garden-city.jpg" alt="A manhwa-styled illustration of a boulevard roofed over by the meeting canopies of mature rain trees"
@@ -858,6 +871,7 @@
             <div class="ss-sim-cap" id="ss-sim-cover-val">
               summer air-conditioning energy, against the same street with no trees at all
             </div>
+            <div class="ss-sim-range" id="ss-sim-range" aria-live="polite"></div>
             <svg id="ss-sim-curve" width="100%" height="150" role="img"
               aria-label="Energy saving against tree cover, showing the curve flattening past 40 per cent"></svg>
             <p class="ss-sim-note" id="ss-sim-msg"></p>
@@ -875,8 +889,22 @@
 
         <p class="ss-sim-fine">
           Curves read off Figure 8(e) of Meili and colleagues,[^27] at the five cover fractions
-          their model actually simulated. This is a whole street averaged, not a tree outside one
-          window.
+          their model actually simulated. The band is their own ventilation test, not a confidence
+          interval: a leaky building halves the saving, a tight one gains about a quarter.
+        </p>
+        <p class="ss-sim-fine">
+          Two things to hold onto when reading it. <strong>This is a whole street averaged, not a
+          tree outside your window.</strong> Chen Yang, Mengju Xie and Thushini Mendis, reviewing
+          the global literature, put savings in equatorial climates at 31.75% — roughly double
+          ours — because most of that work measures a single tree planted three to five meters
+          from a wall it shades all afternoon.[^31] Both are true; they are answers to different
+          questions, and ours is the one about a neighborhood.
+          <strong>The 40% ceiling, though, holds up independently.</strong> Alonzo, Ibsen and
+          Locke, reading a different literature entirely, land on a canopy threshold of 35–50%
+          for the strongest cooling.[^32] And Shamila Haddad's team, modeling Riyadh with a
+          different model at a different university, got &minus;13.4% where Meili's gets
+          &minus;17%.[^33] The shape of this curve is better supported than any single number
+          on it.
         </p>
       </section>
 
@@ -1027,6 +1055,15 @@
             National Environment Agency. <a href="https://data.gov.sg/datasets/d_370bbfc65de96ad93eaefa182135d1c0/view" target="_blank" rel="noopener noreferrer">“Historical Air Temperature across Singapore (2023).”</a> Data.gov.sg.
             <span class="ss-ref-note"><strong>Analysis by the author, not a citation.</strong> 6,893,129 per-minute readings across 17 stations, grouped by timestamp; scripts and full distributions are kept with the project research notes so the figures re-run from the raw file.</span>
           </li>
+          <li id="ref-31">
+            Yang, Chen, Mengju Xie, and Thushini Mendis. <a href="https://doi.org/10.1016/j.landurbplan.2025.105475" target="_blank" rel="noopener noreferrer">“Evaluating the Role of Urban Trees on Building Energy Use: A Global Literature Review.”</a> <em>Landscape and Urban Planning</em> 264 (2025): 105475.
+          </li>
+          <li id="ref-32">
+            Alonzo, Michael, Peter C. Ibsen, and Dexter H. Locke. <a href="https://doi.org/10.48044/jauf.2025.023" target="_blank" rel="noopener noreferrer">“Urban Trees and Cooling: A Review of the Recent Literature (2018 to 2024).”</a> <em>Arboriculture &amp; Urban Forestry</em> 51, no. 5 (2025): 420–44.
+          </li>
+          <li id="ref-33">
+            Haddad, Shamila, Wanni Zhang, Riccardo Paolini, Kai Gao, Muzahim Altheeb, Abdulrahman Al Mogirah, Abdullatif Bin Moammar, Tianzhen Hong, Ansar Khan, Constantinos Cartalis, Anastasios Polydoros, and Mattheos Santamouris. <a href="https://doi.org/10.1038/s44284-023-00005-5" target="_blank" rel="noopener noreferrer">“Quantifying the Energy Impact of Heat Mitigation Technologies at the Urban Scale.”</a> <em>Nature Cities</em> 1 (2024): 62–72.
+          </li>
         </ol>
 
         <p style="font-size:var(--fs-caption); color:var(--text-muted); margin-top:1.25rem;">
@@ -1046,6 +1083,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260816s"></script>
+    <script src="/js/sustainable-singapore.js?v=20260816t"></script>
   </body>
 </html>
