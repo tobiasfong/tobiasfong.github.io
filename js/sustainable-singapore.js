@@ -126,7 +126,7 @@
       year: 1900, label: '1900s',
       title: 'An island of swamps',
       img: 'kampong-swamp.jpg',
-      body: 'Singapore was home to myriad ecosystems and coastal habitats, much of which has been cleared since then. Even as far back as 1820, mangrove swamps made up about 13% of Singapore’s fringe areas, only to fall to less than 0.5% of our land area in 2010.[^16]'
+      body: 'Singapore was home to myriad ecosystems and coastal habitats, much of which has been cleared since then. Even as far back as 1820, mangrove swamps made up about 13% of Singapore’s fringe areas, only to fall to less than 0.5% of our land area in 2010.[^17]'
     },
     {
       year: 1960, label: '1 February 1960',
@@ -150,7 +150,7 @@
       year: 1963, label: '16 June 1963',
       title: 'Greening Singapore begins',
       img: 'tree-planting-1963.jpg',
-      body: 'Also known as the Tree Planting Campaign, it was kickstarted by founding Prime Minister Lee Kuan Yew, who planted a Mempat tree at Farrer Circus.[^17] The campaign aspired to plant 10,000 new trees annually, with the Garden City program introduced in 1967 that eventually led to Singapore’s reputation as one.[^18]</p><p>The aim was to raise awareness of the importance of trees in the environment, and thanks to their ability to enhance climate resilience, they have never been more necessary as global temperatures continue to rise.'
+      body: 'Also known as the Tree Planting Campaign, it was kickstarted by founding Prime Minister Lee Kuan Yew, who planted a Mempat tree at Farrer Circus.[^18] The campaign aspired to plant 10,000 new trees annually, with the Garden City program introduced in 1967 that eventually led to Singapore’s reputation as one.[^19]</p><p>The aim was to raise awareness of the importance of trees in the environment, and thanks to their ability to enhance climate resilience, they have never been more necessary as global temperatures continue to rise.'
     },
     {
       year: 1966, label: 'From 1966',
@@ -168,7 +168,7 @@
       year: 1971, label: '8 November 1971',
       title: 'The first Tree Planting Day',
       img: 'mount-faber-1971.jpg',
-      body: 'Dr. Goh planted a rain tree sapling on the summit of Mount Faber, marking the start of an annual ritual. In the same day, about 8,400 trees and 21,677 shrubs and creepers were planted across Singapore by students, Singapore Armed Forces, ministers and members of Parliament. Tree Planting Day has been held every year since.[^19]</p><p>Earlier, during the Garden City campaign introduced on 11 May 1967, “instant trees” such as the angsana, rain tree, sea apple and curtain creeper were planted intensively to produce results as quickly as possible. Later, the yellow flame, frangipani and bougainvillea were added. In the 1970s, as then Prime Minister Lee led mass tree planting activities on newly reclaimed land, such as East Coast Park and Marina South, tembusu, eugenia, tamarind and sea putat were planted during the first decade. In the following decade, Lee switched the focus to fruit trees for their sturdiness. These included rambutan, coconut, mangosteen, <em>jambu ayer</em>, mango, jackfruit, jujube, <em>langsat</em>, <em>kedondong</em>, <em>binjai</em> and <em>kundang</em>.[^19]'
+      body: 'Dr. Goh planted a rain tree sapling on the summit of Mount Faber, marking the start of an annual ritual. In the same day, about 8,400 trees and 21,677 shrubs and creepers were planted across Singapore by students, Singapore Armed Forces, ministers and members of Parliament. Tree Planting Day has been held every year since.[^20]</p><p>Earlier, during the Garden City campaign introduced on 11 May 1967, “instant trees” such as the angsana, rain tree, sea apple and curtain creeper were planted intensively to produce results as quickly as possible. Later, the yellow flame, frangipani and bougainvillea were added. In the 1970s, as then Prime Minister Lee led mass tree planting activities on newly reclaimed land, such as East Coast Park and Marina South, tembusu, eugenia, tamarind and sea putat were planted during the first decade. In the following decade, Lee switched the focus to fruit trees for their sturdiness. These included rambutan, coconut, mangosteen, <em>jambu ayer</em>, mango, jackfruit, jujube, <em>langsat</em>, <em>kedondong</em>, <em>binjai</em> and <em>kundang</em>.[^20]'
     },
     {
       year: 1975, label: 'From 1975',
@@ -198,7 +198,7 @@
       year: 1997, label: '1997 onward',
       title: 'High-rise island gives rise to rising temperatures',
       img: 'heat-island.jpg',
-      body: 'The ten warmest years in Singapore’s record all fall on and after 1997,[^1] which was the year of one of the most powerful El Niño events in recorded history. The average mean was 28.4 °C in 2016, 2019 and 2024, 28.3 °C in 1997, 1998 and 2015, 28.2 °C in 2023, and 28.1 °C in 2002, 2010 and 2025.[^2] By now, Singapore is one of the most dense urban nations in the world, which exacerbates the Urban Heat Island effect. Caused by heat both trapped by buildings and generated from human activities, the difference between temperatures in highly urbanized Orchard Road and open natural Lim Chu Kang reaches up to 4 °C, despite the two neighborhoods being only 30 minutes apart.[^22]</p><p>Depending on material, such as black aluminum facade, a narrow space between concrete buildings and road can see temperatures rise up to 2.5 °C.[^23]'
+      body: 'The ten warmest years in Singapore’s record all fall on and after 1997,[^1] which was the year of one of the most powerful El Niño events in recorded history. The average mean was 28.4 °C in 2016, 2019 and 2024, 28.3 °C in 1997, 1998 and 2015, 28.2 °C in 2023, and 28.1 °C in 2002, 2010 and 2025.[^2] By now, Singapore is one of the most dense urban nations in the world, which exacerbates the Urban Heat Island effect. Caused by heat both trapped by buildings and generated from human activities, the difference between temperatures in highly urbanized Orchard Road and open natural Lim Chu Kang reaches up to 4 °C, despite the two neighborhoods being only 30 minutes apart.[^23]</p><p>Depending on material, such as black aluminum facade, a narrow space between concrete buildings and road can see temperatures rise up to 2.5 °C.[^24]'
     },
     {
       year: 2008, label: '2000s',
@@ -210,7 +210,7 @@
       year: 2020, label: '2020–2030',
       title: 'Green Plans One Million Trees',
       img: 'green-future.jpg',
-      body: 'As part of the Singapore Green Plan 2030, the OneMillionTrees Movement aims to plant a million more trees across Singapore from 2020 to 2030. As of August 2026, 887,044 trees have been planted since.[^20] Having hit over 500,000 trees back in 2023, the National Parks Board expects to attain the target by the end of 2027.[^21]'
+      body: 'As part of the Singapore Green Plan 2030, the OneMillionTrees Movement aims to plant a million more trees across Singapore from 2020 to 2030. As of August 2026, 887,044 trees have been planted since.[^21] Having hit over 500,000 trees back in 2023, the National Parks Board expects to attain the target by the end of 2027.[^22]'
     },
     {
       year: 2024, label: '2024',
