@@ -889,6 +889,182 @@
     body.innerHTML = html;
   }
 
+  /* ── Ten-year projection ──────────────────────────────────
+     Ordinary least squares on the Changi annual mean, refitted in the browser
+     every load, so a new year changes the answer without anyone editing a
+     constant.
+
+     The band is a PREDICTION interval, not a confidence interval on the mean.
+     The question a reader asks is "what will 2036 be", which is one draw from
+     the scatter, not the position of the underlying line — and the two differ
+     by a factor of about seven here. Using the narrower one would be the easy
+     mistake and would badly oversell the forecast.
+
+     It barely widens with distance (±0.58 now, ±0.60 in ten years) because
+     almost all of it is year-to-year weather, mostly ENSO, rather than
+     uncertainty about the slope. That flatness is the point: the band is
+     already 2.5x a decade of warming before you go anywhere. */
+  var PROJ_YEARS = 10;
+  var PROJ_T = 1.96;                    // 95%, normal approximation
+
+  function fitTrend(series) {
+    var n = series.length;
+    if (n < 10) { return null; }
+    var mx = 0, my = 0, i;
+    for (i = 0; i < n; i++) { mx += series[i][0]; my += series[i][1]; }
+    mx /= n; my /= n;
+    var sxx = 0, sxy = 0;
+    for (i = 0; i < n; i++) {
+      sxx += (series[i][0] - mx) * (series[i][0] - mx);
+      sxy += (series[i][0] - mx) * (series[i][1] - my);
+    }
+    var b = sxy / sxx, a = my - b * mx, sse = 0;
+    for (i = 0; i < n; i++) {
+      var r = series[i][1] - (a + b * series[i][0]);
+      sse += r * r;
+    }
+    var s = Math.sqrt(sse / (n - 2));
+    return {
+      a: a, b: b, s: s, n: n, mx: mx, sxx: sxx,
+      at: function (yr) { return a + b * yr; },
+      // Standard error of a single future observation, not of the fitted mean.
+      pi: function (yr) {
+        return PROJ_T * s * Math.sqrt(1 + 1 / n + (yr - mx) * (yr - mx) / sxx);
+      }
+    };
+  }
+
+  function drawProjection(data) {
+    var svg = el('ss-proj-near');
+    if (!svg) { return; }
+    var s = (data.changi || []);
+    var f = fitTrend(s);
+    if (!f) { return; }
+
+    var last = s[s.length - 1][0], end = last + PROJ_YEARS;
+    var lo = s[0][0];
+    var w = svg.parentNode.clientWidth, h = 300;
+    var PAD_L = 44, PAD_R = 14, PAD_T = 14, PAD_B = 28;
+    if (!w) { return; }
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    while (svg.firstChild) { svg.removeChild(svg.firstChild); }
+
+    var TLO = 26.8, THI = 29.6;
+    var x = function (yr) { return PAD_L + ((yr - lo) / (end - lo)) * (w - PAD_L - PAD_R); };
+    var y = function (t) { return PAD_T + ((THI - t) / (THI - TLO)) * (h - PAD_T - PAD_B); };
+
+    var t;
+    for (t = 27; t <= 29.5; t += 0.5) {
+      svg.appendChild(svgNode('line', { x1: PAD_L, y1: y(t), x2: w - PAD_R, y2: y(t),
+        stroke: 'rgba(0,0,0,0.07)', 'stroke-width': 1 }));
+      var tl = svgNode('text', { x: 4, y: y(t) + 4, 'font-size': 10, fill: '#999' });
+      tl.textContent = t.toFixed(1) + '°';
+      svg.appendChild(tl);
+    }
+    [lo, 2000, 2020, last, end].forEach(function (yr) {
+      var yl = svgNode('text', { x: x(yr), y: h - 8, 'font-size': 10, fill: '#999',
+        'text-anchor': yr === end ? 'end' : 'middle' });
+      yl.textContent = yr;
+      svg.appendChild(yl);
+    });
+
+    // Where measurement stops and arithmetic starts.
+    svg.appendChild(svgNode('line', { x1: x(last), y1: PAD_T, x2: x(last), y2: h - PAD_B,
+      stroke: 'rgba(0,0,0,0.25)', 'stroke-width': 1, 'stroke-dasharray': '2 3' }));
+    var mark = svgNode('text', { x: x(last) + 5, y: PAD_T + 10, 'font-size': 10, fill: '#999' });
+    mark.textContent = 'measured ← | → projected';
+    svg.appendChild(mark);
+
+    var band = [], i2;
+    for (i2 = last; i2 <= end; i2++) { band.push(x(i2) + ',' + y(f.at(i2) + f.pi(i2))); }
+    for (i2 = end; i2 >= last; i2--) { band.push(x(i2) + ',' + y(f.at(i2) - f.pi(i2))); }
+    svg.appendChild(svgNode('polygon', { points: band.join(' '),
+      fill: 'rgba(200,16,46,0.13)', stroke: 'none' }));
+
+    svg.appendChild(svgNode('line', { x1: x(lo), y1: y(f.at(lo)), x2: x(last), y2: y(f.at(last)),
+      stroke: '#C8102E', 'stroke-width': 1.6, 'stroke-opacity': 0.55 }));
+    svg.appendChild(svgNode('line', { x1: x(last), y1: y(f.at(last)), x2: x(end), y2: y(f.at(end)),
+      stroke: '#C8102E', 'stroke-width': 2.2, 'stroke-dasharray': '5 4' }));
+
+    svg.appendChild(svgNode('polyline', {
+      points: s.map(function (p) { return x(p[0]) + ',' + y(p[1]); }).join(' '),
+      fill: 'none', stroke: '#4A4A4A', 'stroke-width': 1.6, 'stroke-linejoin': 'round'
+    }));
+
+    el('ss-proj-slope').textContent = '+' + (f.b * 10).toFixed(2) + ' °C';
+    el('ss-proj-mid').textContent = f.at(end).toFixed(1) + ' °C';
+    el('ss-proj-band').textContent = '± ' + f.pi(end).toFixed(2) + ' °C';
+
+    // The sentence that makes the band mean something: its lower edge is
+    // cooler than a year we have already lived through.
+    var floor = f.at(end) - f.pi(end), warm = s[s.length - 1][1];
+    var read = el('ss-proj-read');
+    if (read) {
+      read.innerHTML = 'Ten years of that trend adds <strong>' + (f.b * 10).toFixed(2) +
+        '&nbsp;°C</strong>. The spread on a single year is <strong>±' + f.pi(end).toFixed(2) +
+        '&nbsp;°C</strong> — about ' + (f.pi(end) / (f.b * 10)).toFixed(1) +
+        ' times as large. So ' + end + ' could plausibly come in at ' + floor.toFixed(1) +
+        '&nbsp;°C, cooler than ' + last + ' actually was (' + d1(warm) +
+        '&nbsp;°C), and the warming would still be exactly on track. A cold year is not an argument.';
+    }
+
+    drawCentury(f, last);
+  }
+
+  /* The same line, run to 2100, against what the climate models say. Drawn
+     separately because the official range needs an axis six degrees tall, on
+     which the whole Changi record collapses to a smudge -- which is itself
+     worth seeing, but it would destroy the ten-year chart above. */
+  function drawCentury(f, last) {
+    var svg = el('ss-proj-far');
+    if (!svg) { return; }
+    var w = svg.parentNode.clientWidth, h = 150;
+    var PAD_L = 44, PAD_R = 92, PAD_T = 12, PAD_B = 26;
+    if (!w) { return; }
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    while (svg.firstChild) { svg.removeChild(svg.firstChild); }
+
+    var LO_Y = 1982, HI_Y = 2100, TLO = 26.5, THI = 33.5;
+    var x = function (yr) { return PAD_L + ((yr - LO_Y) / (HI_Y - LO_Y)) * (w - PAD_L - PAD_R); };
+    var y = function (t) { return PAD_T + ((THI - t) / (THI - TLO)) * (h - PAD_T - PAD_B); };
+
+    var t;
+    for (t = 27; t <= 33; t += 2) {
+      svg.appendChild(svgNode('line', { x1: PAD_L, y1: y(t), x2: w - PAD_R, y2: y(t),
+        stroke: 'rgba(0,0,0,0.07)', 'stroke-width': 1 }));
+      var tl = svgNode('text', { x: 4, y: y(t) + 4, 'font-size': 10, fill: '#999' });
+      tl.textContent = t + '°';
+      svg.appendChild(tl);
+    }
+    [LO_Y, 2040, 2070, 2100].forEach(function (yr) {
+      var yl = svgNode('text', { x: x(yr), y: h - 8, 'font-size': 10, fill: '#999',
+        'text-anchor': 'middle' });
+      yl.textContent = yr;
+      svg.appendChild(yl);
+    });
+
+    // MSS V3: 28.5-32.9 °C by 2100, three emission scenarios, baseline 1995-2014.
+    // Drawn as a bracket at 2100 rather than a wedge, because the endpoint is
+    // the number they publish -- a wedge back to today would be my invention.
+    svg.appendChild(svgNode('rect', { x: x(2100) - 7, y: y(32.9), width: 14,
+      height: y(28.5) - y(32.9), fill: 'rgba(74,74,74,0.22)', rx: 3 }));
+    var band = svgNode('text', { x: x(2100) + 12, y: y(30.7) - 4, 'font-size': 10, fill: '#666' });
+    band.textContent = '28.5–32.9 °C';
+    svg.appendChild(band);
+    var band2 = svgNode('text', { x: x(2100) + 12, y: y(30.7) + 9, 'font-size': 10, fill: '#999' });
+    band2.textContent = 'MSS, 3 scenarios';
+    svg.appendChild(band2);
+
+    svg.appendChild(svgNode('line', { x1: x(LO_Y), y1: y(f.at(LO_Y)), x2: x(last), y2: y(f.at(last)),
+      stroke: '#C8102E', 'stroke-width': 1.6, 'stroke-opacity': 0.55 }));
+    svg.appendChild(svgNode('line', { x1: x(last), y1: y(f.at(last)), x2: x(2100), y2: y(f.at(2100)),
+      stroke: '#C8102E', 'stroke-width': 1.8, 'stroke-dasharray': '5 4' }));
+    var lab = svgNode('text', { x: x(2100) - 10, y: y(f.at(2100)) - 7, 'font-size': 10,
+      fill: '#C8102E', 'text-anchor': 'end' });
+    lab.textContent = 'our line, ' + f.at(2100).toFixed(1) + ' °C';
+    svg.appendChild(lab);
+  }
+
   /* ── Tree cover simulator ─────────────────────────────────
      Meili et al. (2025), Figure 8(e), Singapore. Their model ran exactly five
      cover fractions, so this reads off those five and nothing between them --
@@ -1173,6 +1349,7 @@
         drawLand(state.land);
         drawTemp(state.temp);
         drawFreq(state.temp);
+        drawProjection(state.temp);
         // Only the failure case is worth a line here. When the refresh worked
         // there is nothing to report: the note sat between two paragraphs of
         // argument and interrupted them to repeat what the source note at the

@@ -274,6 +274,21 @@
         font-size: 11px; line-height: 1.5; color: var(--text-muted); margin-top: 10px;
       }
 
+      /* ── Ten-year projection ── */
+      .ss-proj {
+        border: 1px solid var(--border); border-radius: 16px;
+        background: var(--bg-alt); padding: 1.5rem; margin: 1.5rem 0;
+      }
+      .ss-proj-stats {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.25rem; margin-top: 1.25rem;
+        border-top: 1px solid var(--border); padding-top: 1.25rem;
+      }
+      .ss-proj-num {
+        font-size: clamp(26px, 3.2vw, 34px); font-weight: 700; color: var(--text);
+        line-height: 1.1; font-variant-numeric: tabular-nums; margin-bottom: 6px;
+      }
+
       /* ── Tree cover simulator ── */
       .ss-sim {
         display: grid; grid-template-columns: 1fr 300px; gap: 2rem;
@@ -756,6 +771,57 @@
         </div>
       </section>
 
+      <!-- ── Ten-year projection ──
+           A least-squares line through the Changi record, refitted in the
+           browser each time the page loads, so it takes in every new year
+           without anyone editing a number. No controls: "if we carry on like
+           this" has nothing in it for a reader to change. -->
+      <section class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3.5rem;">
+        <div class="section-kicker">Projection</div>
+        <h2>Where the next ten years go</h2>
+        <p>
+          Fit a straight line to every year Changi has recorded and run it forward a decade. The
+          line is the easy part. What the chart is really about is the shaded band around it —
+          how little that line can tell you about any single year you might actually live through.
+        </p>
+
+        <div class="ss-proj">
+          <svg id="ss-proj-near" width="100%" height="300" role="img"
+            aria-label="Changi annual mean temperature since 1982, with a fitted trend projected ten years forward and a 95 percent prediction band"></svg>
+          <div class="ss-proj-stats">
+            <div class="ss-proj-stat">
+              <div class="ss-proj-num" id="ss-proj-slope">—</div>
+              <div class="section-kicker" style="margin-bottom:0;">warming per decade, on the Changi record[^2]</div>
+            </div>
+            <div class="ss-proj-stat">
+              <div class="ss-proj-num" id="ss-proj-mid">—</div>
+              <div class="section-kicker" style="margin-bottom:0;">where the line lands, ten years out</div>
+            </div>
+            <div class="ss-proj-stat">
+              <div class="ss-proj-num" id="ss-proj-band">—</div>
+              <div class="section-kicker" style="margin-bottom:0;">but any single year, 19 times in 20, falls this far either side</div>
+            </div>
+          </div>
+        </div>
+
+        <p id="ss-proj-read"></p>
+
+        <div class="ss-caveat">
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.4rem;">A ruler is not a climate model</p>
+          <p style="font-size:var(--fs-caption);">
+            This is a line drawn through past data, nothing more. It has no idea what the world
+            decides to emit. The Meteorological Service's Third National Climate Change Study runs
+            actual climate models under three emission scenarios and puts Singapore's average daily
+            mean between 28.5&nbsp;°C and 32.9&nbsp;°C by 2100, against 27.9&nbsp;°C
+            today.[^34] Our line reaches about 29.9&nbsp;°C over the same stretch — inside their
+            range, near the bottom of it, and for the unimpressive reason that a ruler cannot
+            bend. The strip below is drawn to that scale.
+          </p>
+          <svg id="ss-proj-far" width="100%" height="150" role="img" style="margin-top:0.75rem;"
+            aria-label="The same trend extended to 2100 against the official projected range for Singapore"></svg>
+        </div>
+      </section>
+
       <section class="editorial-split" style="grid-template-columns: 1fr 320px;">
         <div>
         <div class="section-kicker">Tree angles to consider</div>
@@ -1065,6 +1131,10 @@
           <li id="ref-33">
             Haddad, Shamila, Wanni Zhang, Riccardo Paolini, Kai Gao, Muzahim Altheeb, Abdulrahman Al Mogirah, Abdullatif Bin Moammar, Tianzhen Hong, Ansar Khan, Constantinos Cartalis, Anastasios Polydoros, and Mattheos Santamouris. <a href="https://doi.org/10.1038/s44284-023-00005-5" target="_blank" rel="noopener noreferrer">“Quantifying the Energy Impact of Heat Mitigation Technologies at the Urban Scale.”</a> <em>Nature Cities</em> 1 (2024): 62–72.
           </li>
+          <li id="ref-34">
+            Centre for Climate Research Singapore. <a href="https://www.mss-int.sg/v3-climate-projections" target="_blank" rel="noopener noreferrer">“Singapore’s Third National Climate Change Study (V3): Climate Projections.”</a> Meteorological Service Singapore, 2024.
+            <span class="ss-ref-note">Projections run against a 1995–2014 baseline under three emission scenarios (SSP1-2.6, SSP2-4.5, SSP5-8.5). The trend line on this page is <em>not</em> one of them — it is a least-squares fit to the Changi record, shown alongside for scale.</span>
+          </li>
         </ol>
 
         <p style="font-size:var(--fs-caption); color:var(--text-muted); margin-top:1.25rem;">
@@ -1084,6 +1154,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260816v"></script>
+    <script src="/js/sustainable-singapore.js?v=20260816w"></script>
   </body>
 </html>
