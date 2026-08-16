@@ -817,8 +817,10 @@
             They could be as high as 32.9&nbsp;°C, or perhaps hover around 28.5, depending on
             Meteorological Service Singapore's scenarios, but either way reflect a worrying trend
             if nothing major changes. Do take note, though, that this is simply a projection based
-            on today's data taken from MSS's Third National Climate Change Study, which runs
-            climate models under three emission scenarios.[^34] This is not a confident prediction
+            on today's +<span id="ss-proj-rate">0.22</span>&nbsp;°C per decade trend, which we then
+            compared against the range taken from MSS's Third National Climate Change Study. That
+            study runs climate models under three emission scenarios, their projections based on a
+            1995–2014 baseline.[^34] This is not a confident prediction
             of the future, but just a calculation of where we are headed based on contemporary
             data. Nonetheless, even our calculations fall in the lower range of MSS's, and only
             because we unbendingly stuck to a straight line throughout.
@@ -1015,8 +1017,18 @@
 
       <!-- ── References ── -->
       <section style="max-width: 760px; margin: 0 auto 3rem;">
-        <div class="section-kicker">References</div>
+        <div class="section-kicker">Footnotes</div>
         <h2>References</h2>
+        <p>
+          Where relevant, I have left Claude's notes as they are, because they surprisingly provide
+          valuable insights on how to read the data. This is not to say Claude did all the research.
+          I sourced most of them. Plenty of Claude's online sources were dead links or locked behind
+          paywalls, so I had to do some manual digging. Of course, I read them myself (even if I
+          didn't quite understand the more technical and scientific articles). I only fed them to
+          Claude afterward to give him context and to ensure my read of the articles was right
+          (especially when interpreting numerical data), not to ask him to read for me. Nonetheless,
+          I think this is evidence that AI and humans can work well together.
+        </p>
 
         <div class="ss-refs-head">Climate and Land Data</div>
         <ol class="ss-refs">
@@ -1139,7 +1151,6 @@
           </li>
           <li id="ref-34">
             Centre for Climate Research Singapore. <a href="https://www.mss-int.sg/v3-climate-projections" target="_blank" rel="noopener noreferrer">“Singapore’s Third National Climate Change Study (V3): Climate Projections.”</a> Meteorological Service Singapore, 2024.
-            <span class="ss-ref-note">Projections run against a 1995–2014 baseline under three emission scenarios (SSP1-2.6, SSP2-4.5, SSP5-8.5). The trend line on this page is <em>not</em> one of them — it is a least-squares fit to the Changi record, shown alongside for scale.</span>
           </li>
         </ol>
 
@@ -1160,6 +1171,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260816x"></script>
+    <script src="/js/sustainable-singapore.js?v=20260816y"></script>
   </body>
 </html>

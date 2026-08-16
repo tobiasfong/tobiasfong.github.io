@@ -992,6 +992,8 @@
     }));
 
     el('ss-proj-slope').textContent = '+' + (f.b * 10).toFixed(2) + ' °C';
+    // Same rate quoted in the century caveat, from the same fit.
+    if (el('ss-proj-rate')) { el('ss-proj-rate').textContent = (f.b * 10).toFixed(2); }
     el('ss-proj-mid').textContent = f.at(end).toFixed(1) + ' °C';
     el('ss-proj-band').textContent = '± ' + f.pi(end).toFixed(2) + ' °C';
 
