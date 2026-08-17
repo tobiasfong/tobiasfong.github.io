@@ -219,6 +219,12 @@
       body: 'As part of the Singapore Green Plan 2030, the OneMillionTrees Movement aims to plant a million more trees across Singapore from 2020 to 2030. As of August 2026, 887,044 trees have been planted since.[^21] Having hit over 500,000 trees back in 2023, the National Parks Board expects to attain the target by the end of 2027.[^22]'
     },
     {
+      year: 2026, label: '2026',
+      title: 'The forest that grew back',
+      img: 'maju-forest.jpg',
+      body: 'On 10 July 2026, HDB announced it would build public housing at Sunset Way, on the 23 hectares of secondary forest known as Maju Forest. Over 41,000 people signed a petition against it.[^41] On 4 August, Minister of State for National Development Alvin Tan said the government would proceed, and put the trade in plain terms: “if we conserve even more, we will build even fewer homes.”[^40] On 16 August, SG Climate Rally drew more than 2,000 people to Hong Lim Park for the Maju Rally, calling for nature areas to be protected, for the public to be given a say, and for progress itself to be redefined — along with a demand that environmental impact assessments become a legal requirement carried out before plans are drawn.[^43] The plan on the table keeps 35% of the forest, including the native-dominated secondary forest, a freshwater stream and the stretch of the former Jurong Railway Line that runs through it, and develops the other 65%.[^42]</p><p>What makes this one worth sitting with is that Maju Forest is not old growth. It was a plantation in 1914 and mostly grassland by 1950, and it filled in between 1975 and 2005 after the railway through it stopped running. Nobody planted it. It returned on its own once we stopped using the land, and in returning it became home to over 100 species of wildlife, six of them of conservation significance.'
+    },
+    {
       year: 2024, label: '2024',
       title: 'A warm welcome back to Singapore',
       img: 'returnee-2024.jpg',
