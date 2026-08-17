@@ -496,6 +496,19 @@
 
       .ss-map-cap { font-size: var(--fs-caption); color: var(--text-muted); margin-top: 10px; }
 
+      /* Portrait, to fill the run of white space under the media column's
+         image, and so the years read downward as they do on the timeline. */
+      .ss-forest { margin: 1.5rem 0 0; }
+      .ss-forest svg { width: 100%; height: auto; display: block; overflow: visible; }
+      .ss-forest-head {
+        display: flex; justify-content: space-between; align-items: baseline;
+        gap: 8px; margin-bottom: 4px;
+      }
+      .ss-forest-sub {
+        font-size: var(--fs-caption); color: var(--text-muted);
+        font-variant-numeric: tabular-nums;
+      }
+
       .ss-src { font-size: var(--fs-caption); }
       .ss-src li { margin-bottom: 9px; }
       .ss-src a { color: var(--text-body); text-decoration: underline; text-underline-offset: 2px; }
@@ -886,6 +899,21 @@
           <img src="/img/sustainable/two-records.jpg"
             alt="A manhwa-styled illustration of a young man at a desk at night, frowning at a tablet with printed pages spread in front of him"
             style="width:100%; border-radius:12px; margin-top:1.25rem; display:block;" loading="lazy" />
+
+          <figure class="ss-forest">
+            <figcaption class="ss-forest-head">
+              <span class="section-kicker" style="margin-bottom:0;">Forest area</span>
+              <span class="ss-forest-sub" id="ss-forest-sub">Loading…</span>
+            </figcaption>
+            <svg id="ss-forest-svg" role="img"
+                 aria-label="Singapore's forest area in square kilometers, rising from about 148 in 1990 to a peak near 177 in 2010, then falling back to about 150 by 2023"></svg>
+            <p class="ss-map-cap">
+              Forest area, from the FAO assessments the World Bank publishes.[^45] The dots are the
+              years FAO actually reports; the dashed line between them is interpolation, not
+              measurement. Note this is a far broader definition of forest than Corlett’s
+              tall-forest figures above — for 1990 the two differ roughly ninefold.
+            </p>
+          </figure>
         </div>
       </section>
 
@@ -1611,6 +1639,13 @@
           </li>
         </ol>
 
+        <div class="ss-refs-head">Forest Cover</div>
+        <ol class="ss-refs" style="counter-reset: ssref 44;">
+          <li id="ref-45">
+            World Bank. <a href="https://data.worldbank.org/indicator/AG.LND.FRST.K2?locations=SG" target="_blank" rel="noopener noreferrer">“Forest Area (sq. km) — Singapore.”</a> World Development Indicators, drawing on the Food and Agriculture Organization’s Global Forest Resources Assessment. Accessed August 17, 2026.
+          </li>
+        </ol>
+
         <p style="font-size:var(--fs-caption); color:var(--text-muted); margin-top:1.25rem;">
           The live figures on this page come from the
           <a href="https://data.gov.sg/" target="_blank" rel="noopener noreferrer">data.gov.sg</a>
@@ -1628,6 +1663,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260817i"></script>
+    <script src="/js/sustainable-singapore.js?v=20260817l"></script>
   </body>
 </html>

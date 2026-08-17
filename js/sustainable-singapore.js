@@ -1636,6 +1636,161 @@
     el('ss-gap-where').textContent = 'Could not reach data.gov.sg';
   }
 
+  /* -- Forest area -----------------------------------------------
+     FAO's series, served by the World Bank, which is CORS-open. Drawn portrait
+     with the years running down, so it reads the same way as the timeline's
+     land and temperature tracks instead of asking the eye to switch axes.
+
+     The thing this chart has to be honest about: FAO reports at benchmark years
+     and the World Bank fills the gaps by straight-line interpolation, so most
+     of the "annual" values were never measured.
+
+     Detecting those years from the numbers does not work, which is worth
+     recording so nobody tries it again. Looking for a change in slope both adds
+     2016 and 2017 -- where the published values wobble by a rounding-sized
+     0.1 km2 -- and misses 2020, because the 2020-2023 trend happens to match
+     the one before it exactly. So the reporting years are named outright, from
+     FAO's own assessment schedule; add the next one here when FRA publishes.
+
+     This cannot be spliced onto Corlett's historical figures: he counts tall
+     forest and gets ~17 km2 for 1990, where FAO's broader definition gets
+     148 km2. Nine times apart, so they are not one series. */
+  var FOREST_KM2 = 'https://api.worldbank.org/v2/country/SGP/indicator/AG.LND.FRST.K2?format=json&per_page=100';
+  var FOREST_PCT = 'https://api.worldbank.org/v2/country/SGP/indicator/AG.LND.FRST.ZS?format=json&per_page=100';
+  var FOR_LO = 140, FOR_HI = 185;
+  var FOR_W = 320, FOR_H = 440;
+  var FOR_ML = 34, FOR_MR = 52, FOR_MT = 24, FOR_MB = 32;   // MB clears the last endpoint label
+  var forestState = null;
+
+  function wbSeries(payload) {
+    var rows = (payload && payload[1]) || [];
+    return rows.filter(function (r) { return r.value !== null; })
+               .map(function (r) { return [parseInt(r.date, 10), r.value]; })
+               .sort(function (a, b) { return a[0] - b[0]; });
+  }
+
+  // FAO's Global Forest Resources Assessment reference years. Everything
+  // between them is the World Bank's straight line, and the series' final year
+  // is a carried-forward estimate rather than a reported one, so it gets a
+  // value label but no dot.
+  var FAO_YEARS = [1990, 2000, 2010, 2015, 2020];
+
+  function findBenchmarks(s) {
+    var keep = {}, present = {};
+    s.forEach(function (p) { present[p[0]] = 1; });
+    FAO_YEARS.forEach(function (y) { if (present[y]) { keep[y] = 1; } });
+    return keep;
+  }
+
+  function drawForest(series, pct) {
+    var svg = el('ss-forest-svg');
+    if (!svg || series.length < 2) { return; }
+    svg.setAttribute('viewBox', '0 0 ' + FOR_W + ' ' + FOR_H);
+    while (svg.firstChild) { svg.removeChild(svg.firstChild); }
+
+    var y0 = series[0][0], y1 = series[series.length - 1][0];
+    var pw = FOR_W - FOR_ML - FOR_MR, ph = FOR_H - FOR_MT - FOR_MB;
+    var X = function (km) { return FOR_ML + ((km - FOR_LO) / (FOR_HI - FOR_LO)) * pw; };
+    var Y = function (yr) { return FOR_MT + ((yr - y0) / (y1 - y0)) * ph; };
+    var marks = findBenchmarks(series);
+    forestState = { series: series, pct: pct, marks: marks, y0: y0, y1: y1 };
+
+    [150, 160, 170, 180].forEach(function (g) {
+      svg.appendChild(svgNode('line', {
+        x1: X(g), y1: FOR_MT, x2: X(g), y2: FOR_MT + ph,
+        stroke: 'rgba(0,0,0,0.07)', 'stroke-width': 1
+      }));
+      var t = svgNode('text', { x: X(g), y: FOR_MT - 9, 'font-size': 9,
+                                fill: '#898781', 'text-anchor': 'middle' });
+      t.textContent = g;
+      svg.appendChild(t);
+    });
+    var unit = svgNode('text', { x: 0, y: FOR_MT - 9, 'font-size': 9, fill: '#898781' });
+    unit.textContent = 'km\u00b2';
+    svg.appendChild(unit);
+
+    var pts = series.map(function (p) { return X(p[1]) + ',' + Y(p[0]); });
+    svg.appendChild(svgNode('path', {
+      d: 'M ' + X(FOR_LO) + ',' + Y(y0) + ' L ' + pts.join(' L ') +
+         ' L ' + X(FOR_LO) + ',' + Y(y1) + ' Z',
+      fill: 'rgba(0,131,0,0.10)', stroke: 'none'
+    }));
+    svg.appendChild(svgNode('polyline', {
+      points: pts.join(' '), fill: 'none', stroke: '#008300',
+      'stroke-width': 1.6, 'stroke-dasharray': '4 3'
+    }));
+
+    series.forEach(function (p) {
+      if (!marks[p[0]]) { return; }
+      svg.appendChild(svgNode('circle', {
+        cx: X(p[1]), cy: Y(p[0]), r: 3.4, fill: '#008300',
+        stroke: '#fff', 'stroke-width': 1.4
+      }));
+      var lb = svgNode('text', { x: FOR_ML - 7, y: Y(p[0]) + 3, 'font-size': 9,
+                                 fill: '#52514e', 'text-anchor': 'end' });
+      lb.textContent = p[0];
+      svg.appendChild(lb);
+    });
+
+    [series[0], series[series.length - 1]].forEach(function (p) {
+      var v = svgNode('text', { x: X(p[1]) + 8, y: Y(p[0]) + 3, 'font-size': 10,
+                                fill: '#0b0b0b', 'font-weight': 700 });
+      v.textContent = p[1].toFixed(0);
+      svg.appendChild(v);
+      if (pct[p[0]] === undefined) { return; }
+      var s = svgNode('text', { x: X(p[1]) + 8, y: Y(p[0]) + 14, 'font-size': 9, fill: '#898781' });
+      s.textContent = pct[p[0]].toFixed(1) + '%';
+      svg.appendChild(s);
+    });
+
+    var sub = el('ss-forest-sub');
+    if (sub) { sub.textContent = y0 + '\u2013' + y1; }
+    bindForestHover(svg);
+  }
+
+  function bindForestHover(svg) {
+    if (svg.dataset.hoverBound) { return; }
+    svg.dataset.hoverBound = '1';
+    var tip = el('ss-tip');
+    if (!tip) {
+      tip = document.createElement('div');
+      tip.id = 'ss-tip';
+      tip.className = 'ss-tip';
+      document.body.appendChild(tip);
+    }
+    function hide() { tip.style.display = 'none'; }
+    svg.addEventListener('mousemove', function (e) {
+      if (!forestState) { return; }
+      var st = forestState;
+      var r = svg.getBoundingClientRect();
+      var vy = ((e.clientY - r.top) / r.height) * FOR_H;
+      var yr = Math.round(st.y0 + ((vy - FOR_MT) / (FOR_H - FOR_MT - FOR_MB)) * (st.y1 - st.y0));
+      yr = Math.max(st.y0, Math.min(st.y1, yr));
+      var hit = null, i;
+      for (i = 0; i < st.series.length; i++) {
+        if (st.series[i][0] === yr) { hit = st.series[i]; break; }
+      }
+      if (!hit) { hide(); return; }
+      tip.innerHTML = '<strong>' + hit[0] + '</strong>' +
+        '<span>' + hit[1].toFixed(1) + ' km\u00b2 of forest</span>' +
+        (st.pct[hit[0]] !== undefined
+          ? '<span>' + st.pct[hit[0]].toFixed(1) + '% of land area</span>' : '') +
+        '<span>' + (st.marks[hit[0]] ? 'Reported by FAO' : 'Interpolated') + '</span>';
+      tip.style.display = 'block';
+      var tw = tip.offsetWidth;
+      var left = e.clientX + 14;
+      if (left + tw > window.innerWidth - 8) { left = e.clientX - tw - 14; }
+      tip.style.left = Math.max(8, left) + 'px';
+      tip.style.top = Math.max(8, e.clientY + 14) + 'px';
+    });
+    svg.addEventListener('mouseleave', hide);
+  }
+
+  function forestFailed() {
+    var sub = el('ss-forest-sub');
+    if (sub) { sub.textContent = 'unavailable'; }
+  }
+
   /* ── Live station map ────────────────────────────────────────
      Same frame as the satellite plate above it — change these and you must
      change the CSS mask and re-render lst-singapore.png to match, or a place
@@ -1909,6 +2064,16 @@
 
     wireTabs('ss-live-tabs');
     wirePageNav();
+
+    // Two indicators from the same source: the absolute area the chart plots,
+    // and the share of land area it annotates the endpoints with.
+    Promise.all([fetchJSON(FOREST_KM2), fetchJSON(FOREST_PCT)])
+      .then(function (r) {
+        var pct = {};
+        wbSeries(r[1]).forEach(function (p) { pct[p[0]] = p[1]; });
+        drawForest(wbSeries(r[0]), pct);
+      })
+      .catch(forestFailed);
 
     // One fetch feeds both the station panel and the station map, so the two
     // can never show readings a minute apart.
