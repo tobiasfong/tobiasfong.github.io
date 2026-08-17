@@ -126,7 +126,13 @@
       year: 1900, label: '1900s',
       title: 'An island of swamps',
       img: 'kampong-swamp.jpg',
-      body: 'Singapore was home to myriad ecosystems and coastal habitats, much of which has been cleared since then. Even as far back as 1820, mangrove swamps made up about 13% of Singapore’s fringe areas, only to fall to less than 0.5% of our land area in 2010.[^17]'
+      body: 'Singapore was home to myriad ecosystems and coastal habitats, much of which has been cleared since then. Even as far back as 1820, mangrove swamps made up about 13% of Singapore’s fringe areas, only to fall to less than 0.5% of our land area in 2010.[^17] In 1819, Singapore had around 7,500 hectares covered in mangrove forests, but by 1883, most mangrove areas had deteriorated because of overexploitation. Though reclamation of mangrove areas began as early as 1822, it didn’t become significant until the 1960s (see below).[^44]'
+    },
+    {
+      year: 1935, label: '1935',
+      title: 'Need a rubber?',
+      img: 'rubber-plantation.jpg',
+      body: 'In the first half of the 20th century, rubber had the greatest impact on Singapore’s landscape when introduced on a commercial scale in 1903, occupying 12,000 hectares in 1911 before reaching a peak of 22,500 hectares in 1935, almost 40% of our total land area then. Sadly, after 1935, the rubber industry never bounced back.[^44]'
     },
     {
       year: 1960, label: '1 February 1960',
@@ -187,6 +193,12 @@
       title: 'Changi grows colossal',
       img: 'changi-modern.jpg',
       body: 'In 1990, another massive reclamation was carried out for both the expansion of Changi Airport and other developments in the area. But Changi’s growth did not stop there. Between 1992 and 2004, over 2,000 hectares of land at Changi East were reclaimed, 820 of which were set aside for a fourth terminal and a third runway. 125 hectares were given over to Changi Naval Base, while 639 hectares were reserved for industries.[^13]'
+    },
+    {
+      year: 1990, label: '1990',
+      title: 'A hill to climb when protecting nature reserves',
+      img: 'bukit-timah.jpg',
+      body: 'Singapore’s primary rainforest is confined to the Bukit Timah Nature Reserve, which is about 71 hectares, while various scattered forests only add up to 50 hectares in the adjacent water catchment area, which includes 15 hectares of freshwater swamp forest in Nee Soon. Only a few hundred hectares of mangrove survives in scattered spaces, while coastal forests have virtually vanished from the face of Singapore. As Singapore is increasingly urbanized, urban-rural evening temperatures reach differences of 5 °C or more sometimes.[^44]'
     },
     {
       year: 1993, label: '1993–2003',
