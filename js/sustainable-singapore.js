@@ -159,10 +159,10 @@
       body: 'Also known as the Tree Planting Campaign, it was kickstarted by founding Prime Minister Lee Kuan Yew, who planted a Mempat tree at Farrer Circus.[^18] The campaign aspired to plant 10,000 new trees annually, with the Garden City program introduced in 1967 that eventually led to Singapore’s reputation as one.[^19]</p><p>The aim was to raise awareness of the importance of trees in the environment, and thanks to their ability to enhance climate resilience, they have never been more necessary as global temperatures continue to rise.'
     },
     {
-      year: 1963, label: '1963',
+      year: 1963, label: '9 September 1963',
       title: 'Lining up the Jurong railway line',
       img: 'jurong-railway-1963.jpg',
-      body: 'Based on an EIA Report commissioned by NParks on behalf of HDB, the area that is now Maju Forest, next to Clementi Park, was most likely covered in rubber plantations in 1914. It was still predominantly grassland in 1950, though in 1963, the Jurong railway line was built across it, opening in 1965 and linking to the Keretapi Tanah Melayu railway that passed through Clementi Forest, which linked to Malaysia. By 1978, the area was a combination of the Jurong railway line, buildings in western low-density settlements, and abandoned land forest. After the Jurong railway line was decommissioned during the 1990s due to low usage after Singapore’s independence, it became overgrown with vegetation.[^43]'
+      body: 'Based on an EIA Report commissioned by NParks on behalf of HDB, the area that is now Maju Forest, next to Clementi Park, was most likely covered in rubber plantations in 1914. It was still predominantly grassland in 1950, though on 9 September 1963, the Jurong railway line was built across it,[^46] opening in 1965 and linking to the Keretapi Tanah Melayu railway that passed through Clementi Forest, which linked to Malaysia. By 1978, the area was a combination of the Jurong railway line, buildings in western low-density settlements, and abandoned land forest. After the Jurong railway line was decommissioned during the 1990s due to low usage after Singapore’s independence, it became overgrown with vegetation.[^43]'
     },
     {
       year: 1966, label: 'From 1966',
