@@ -496,6 +496,40 @@
 
       .ss-map-cap { font-size: var(--fs-caption); color: var(--text-muted); margin-top: 10px; }
 
+      /* ── Tree conveyor ──
+         Scrolls itself left and right and stops when the pointer is over it or
+         anything inside has focus. The track is a real scroller, so dragging and
+         keyboard scrolling work whether or not the animation is running, and
+         anyone who has asked for reduced motion just gets a strip they scroll
+         themselves. */
+      .ss-conveyor { margin: 1.5rem 0 0.75rem; position: relative; }
+      .ss-conveyor::before, .ss-conveyor::after {
+        content: ""; position: absolute; top: 0; bottom: 0; width: 36px;
+        pointer-events: none; z-index: 2;
+      }
+      .ss-conveyor::before { left: 0; background: linear-gradient(90deg, var(--bg), transparent); }
+      .ss-conveyor::after { right: 0; background: linear-gradient(270deg, var(--bg), transparent); }
+      .ss-conveyor-track {
+        display: flex; gap: 16px; overflow-x: auto; padding: 2px 0 10px;
+        scrollbar-width: none; -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+      }
+      .ss-conveyor-track::-webkit-scrollbar { display: none; }
+      .ss-tree {
+        flex: 0 0 258px; margin: 0;
+        border: 1px solid var(--border); border-radius: 14px;
+        background: var(--bg-alt); overflow: hidden;
+      }
+      .ss-tree img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+      .ss-tree figcaption { padding: 12px 14px 14px; }
+      .ss-tree figcaption strong { display: block; font-size: 14px; color: var(--text); }
+      .ss-tree figcaption em {
+        display: block; font-size: 11.5px; color: var(--text-muted); margin-bottom: 7px;
+      }
+      .ss-tree figcaption span {
+        display: block; font-size: 12.5px; line-height: 1.55; color: var(--text-body);
+      }
+
       /* Portrait, to fill the run of white space under the media column's
          image, and so the years read downward as they do on the timeline. */
       .ss-forest { margin: 1.5rem 0 0; }
@@ -658,6 +692,7 @@
         <a href="#ss-synthesis">Synthesis</a>
         <a href="#ss-projection">Projection</a>
         <a href="#ss-trees">Trees</a>
+        <a href="#ss-species">Species</a>
         <a href="#ss-sim">Simulation</a>
         <a href="#ss-nuclear">Nuclear</a>
         <a href="#ss-refs-sec">References</a>
@@ -1235,6 +1270,81 @@
            is extrapolated past what they simulated: the slider stops on the five
            cover fractions they ran, and combinations they could not model say so
            rather than guessing. -->
+      <!-- ── The tree conveyor ── -->
+      <section id="ss-species" class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3rem;">
+        <div class="section-kicker">Six candidates</div>
+        <h2>Pick of the crop</h2>
+        <p>
+          If we are planting anyway, we may as well plant the trees that do the most work. These
+          six all grow in Singapore already, and each earns its place for a different reason. Hover
+          to stop the strip and read.
+        </p>
+        <div class="ss-conveyor" id="ss-conveyor">
+          <div class="ss-conveyor-track" id="ss-conveyor-track" tabindex="0" role="region"
+               aria-label="Six tree species proposed for heat mitigation, scrolls sideways">
+          <figure class="ss-tree">
+            <img src="/img/sustainable/tree-rain.jpg" alt="A manhwa-styled illustration of a rain tree"
+                 loading="lazy" width="1024" height="576" />
+            <figcaption>
+              <strong>Rain tree</strong>
+              <em>Samanea saman</em>
+              <span>The one species with measured cooling in Singapore rather than inferred. Ow and Chan found it beat the yellow flame on shade and on air temperature under the canopy, which they put down to its greater leaf density, crown area, sapwood area, vessels and rays.[^28] Its crown spreads wide and flat rather than tall, which is the shape that shades people at ground level. It was also one of the Garden City “instant trees,” so much of Singapore already has it.</span>
+            </figcaption>
+          </figure>
+          <figure class="ss-tree">
+            <img src="/img/sustainable/tree-yellow-flame.jpg" alt="A manhwa-styled illustration of a yellow flame"
+                 loading="lazy" width="1024" height="576" />
+            <figcaption>
+              <strong>Yellow flame</strong>
+              <em>Peltophorum pterocarpum</em>
+              <span>The tree the rain tree was measured against, and it lost — useful to know, because it is planted everywhere.[^28] Tan’s team classes it as an aseasonal evergreen, the group that throttles transpiration back further when cloud rolls in.[^47] Still a capable shade tree; simply not the first pick if cooling is the goal.</span>
+            </figcaption>
+          </figure>
+          <figure class="ss-tree">
+            <img src="/img/sustainable/tree-trumpet.jpg" alt="A manhwa-styled illustration of a trumpet tree"
+                 loading="lazy" width="1024" height="576" />
+            <figcaption>
+              <strong>Trumpet tree</strong>
+              <em>Tabebuia rosea</em>
+              <span>From seasonally dry forest, and that origin is the point. Tan’s team found these species transpire freely while water is available and shed leaves to protect themselves when it is not, and they hold their transpiration better under cloud than native evergreens do.[^47] In a city that is overcast much of the year, that matters more than a peak figure measured on a clear afternoon.</span>
+            </figcaption>
+          </figure>
+          <figure class="ss-tree">
+            <img src="/img/sustainable/tree-pride-of-india.jpg" alt="A manhwa-styled illustration of a pride of india"
+                 loading="lazy" width="1024" height="576" />
+            <figcaption>
+              <strong>Pride of India</strong>
+              <em>Lagerstroemia speciosa</em>
+              <span>Another of the seasonally dry group, with the same cloud resilience.[^47] Across the eight species measured, daily transpiration ran 2,000 to 3,200 grams per square meter of leaf area in sun, falling by 16 to 56% under cloud — the seasonal species sat at the shallow end of that fall.</span>
+            </figcaption>
+          </figure>
+          <figure class="ss-tree">
+            <img src="/img/sustainable/tree-flame-of-forest.jpg" alt="A manhwa-styled illustration of a flame of the forest"
+                 loading="lazy" width="1024" height="576" />
+            <figcaption>
+              <strong>Flame of the forest</strong>
+              <em>Delonix regia</em>
+              <span>Seasonally dry again, and the broadest, flattest crown of the six.[^47] Worth not confusing with the yellow flame despite the name; they are different trees and they behaved differently in the measurements.</span>
+            </figcaption>
+          </figure>
+          <figure class="ss-tree">
+            <img src="/img/sustainable/tree-sepetir.jpg" alt="A manhwa-styled illustration of a sepetir"
+                 loading="lazy" width="1024" height="576" />
+            <figcaption>
+              <strong>Sepetir</strong>
+              <em>Sindora wallichii</em>
+              <span>Native, and included as the contrast rather than the recommendation. As an aseasonal evergreen it cuts transpiration hardest under cloud cover.[^47] It earns its place on other grounds — it belongs here, and native canopy is what the Maju Forest argument is about — but on cooling alone the imported seasonal species outperform it.</span>
+            </figcaption>
+          </figure>
+          </div>
+        </div>
+        <p class="ss-map-cap">
+          Caveat worth carrying into the next section: only the rain tree has a measured cooling
+          result for Singapore.[^28] The rest rely on transpiration and cloud-resilience
+          measurements,[^47] which is a mechanism of cooling rather than a measurement of it.
+        </p>
+      </section>
+
       <section id="ss-sim" class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3.5rem;">
         <div class="section-kicker">A shady simulation</div>
         <h2>The trees have us covered...or do they?</h2>
@@ -1661,6 +1771,13 @@
           </li>
         </ol>
 
+        <div class="ss-refs-head">Tree Species</div>
+        <ol class="ss-refs" style="counter-reset: ssref 46;">
+          <li id="ref-47">
+            Tan, Puay Yok, Nyuk Hien Wong, Chun Liang Tan, Steve Kardinal Jusuf, K. Schmiele, and Zhi Quan Chiam. <a href="https://doi.org/10.1016/j.scitotenv.2019.135764" target="_blank" rel="noopener noreferrer">“Transpiration and Cooling Potential of Tropical Urban Trees from Different Native Habitats.”</a> <em>Science of the Total Environment</em> 705 (2020): 135764.
+          </li>
+        </ol>
+
         <p style="font-size:var(--fs-caption); color:var(--text-muted); margin-top:1.25rem;">
           The live figures on this page come from the
           <a href="https://data.gov.sg/" target="_blank" rel="noopener noreferrer">data.gov.sg</a>
@@ -1678,6 +1795,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260819a"></script>
+    <script src="/js/sustainable-singapore.js?v=20260819b"></script>
   </body>
 </html>

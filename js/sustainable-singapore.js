@@ -1644,6 +1644,54 @@
     el('ss-gap-where').textContent = 'Could not reach data.gov.sg';
   }
 
+  /* -- Tree conveyor ---------------------------------------------
+     Ping-pong auto-scroll: runs right until the track is at its end, then back
+     left, and stops while the pointer is over it or focus is inside.
+
+     Position is kept as a float and written to scrollLeft each frame; letting
+     scrollLeft accumulate directly stalls, because browsers round it to whole
+     pixels and a sub-pixel increment rounds away to nothing.
+
+     rAF is the driver on purpose. Browsers suspend it for hidden tabs, so a
+     backgrounded page stops animating and resumes on return without any
+     visibility bookkeeping here. */
+  var CONVEYOR_PXPS = 26;
+
+  function wireConveyor(wrapId, trackId) {
+    var wrap = el(wrapId), track = el(trackId);
+    if (!wrap || !track) { return; }
+    if (window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) { return; }
+
+    var pos = 0, dir = 1, paused = false, last = null;
+    function pause() { paused = true; }
+    function play() { paused = false; }
+    wrap.addEventListener('mouseenter', pause);
+    wrap.addEventListener('mouseleave', play);
+    wrap.addEventListener('focusin', pause);
+    wrap.addEventListener('focusout', play);
+    wrap.addEventListener('touchstart', pause, { passive: true });
+    // A manual scroll should not fight the animation.
+    track.addEventListener('scroll', function () {
+      if (paused) { pos = track.scrollLeft; }
+    });
+
+    function step(t) {
+      if (last === null) { last = t; }
+      var dt = Math.min(t - last, 60);
+      last = t;
+      var max = track.scrollWidth - track.clientWidth;
+      if (!paused && max > 1) {
+        pos += dir * (dt / 1000) * CONVEYOR_PXPS;
+        if (pos >= max) { pos = max; dir = -1; }
+        else if (pos <= 0) { pos = 0; dir = 1; }
+        track.scrollLeft = pos;
+      }
+      window.requestAnimationFrame(step);
+    }
+    window.requestAnimationFrame(step);
+  }
+
   /* -- Forest area -----------------------------------------------
      FAO's series, served by the World Bank, which is CORS-open. Drawn portrait
      with the years running down, so it reads the same way as the timeline's
@@ -2072,6 +2120,7 @@
 
     wireTabs('ss-live-tabs');
     wirePageNav();
+    wireConveyor('ss-conveyor', 'ss-conveyor-track');
 
     // Two indicators from the same source: the absolute area the chart plots,
     // and the share of land area it annotates the endpoints with.
