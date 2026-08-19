@@ -502,13 +502,13 @@
          keyboard scrolling work whether or not the animation is running, and
          anyone who has asked for reduced motion just gets a strip they scroll
          themselves. */
-      .ss-conveyor { margin: 1.5rem 0 0.75rem; position: relative; }
-      .ss-conveyor::before, .ss-conveyor::after {
-        content: ""; position: absolute; top: 0; bottom: 0; width: 36px;
-        pointer-events: none; z-index: 2;
+      /* The arrows live in this padding, outside the scrolling track, so
+         nothing ever sits on top of a card. An edge fade was tried here and
+         removed: at either end of the run it dimmed and clipped the words of
+         the first and last card. */
+      .ss-conveyor {
+        margin: 1.5rem 0 0.75rem; position: relative; padding: 0 44px;
       }
-      .ss-conveyor::before { left: 0; background: linear-gradient(90deg, var(--bg), transparent); }
-      .ss-conveyor::after { right: 0; background: linear-gradient(270deg, var(--bg), transparent); }
       .ss-conveyor-track {
         display: flex; gap: 16px; overflow-x: auto; padding: 2px 0 10px;
         scrollbar-width: none; -webkit-overflow-scrolling: touch;
@@ -516,8 +516,6 @@
       }
       .ss-conveyor-track::-webkit-scrollbar { display: none; }
 
-      /* The arrows sit above the edge fades (which are z-index 2 and
-         pointer-events: none, so they never intercept the click). */
       .ss-conveyor-arrow {
         position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
         width: 34px; height: 34px; border-radius: 50%;
@@ -529,9 +527,12 @@
         transition: opacity 0.15s ease, background 0.15s ease;
       }
       .ss-conveyor-arrow:hover { background: var(--bg-alt); }
-      .ss-conveyor-arrow:disabled { opacity: 0.28; cursor: default; }
-      .ss-conveyor-prev { left: 2px; }
-      .ss-conveyor-next { right: 2px; }
+      .ss-conveyor-prev { left: 0; }
+      .ss-conveyor-next { right: 0; }
+      @media (max-width: 560px) {
+        .ss-conveyor { padding: 0 36px; }
+        .ss-conveyor-arrow { width: 30px; height: 30px; font-size: 17px; }
+      }
       .ss-tree {
         flex: 0 0 258px; margin: 0;
         border: 1px solid var(--border); border-radius: 14px;
@@ -1300,7 +1301,7 @@
         <p>
           If we are planting anyway, we may as well plant the trees that do the most work. These
           six all grow in Singapore already, and each earns its place for a different reason. Hover
-          to stop the strip, or use the arrows to walk through it.
+          to stop the strip, or use the arrows to step through it.
         </p>
         <div class="ss-conveyor" id="ss-conveyor">
           <button type="button" class="ss-conveyor-arrow ss-conveyor-prev"
@@ -1824,6 +1825,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260819c"></script>
+    <script src="/js/sustainable-singapore.js?v=20260819d"></script>
   </body>
 </html>

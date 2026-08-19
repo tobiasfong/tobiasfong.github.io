@@ -1656,8 +1656,8 @@
      backgrounded page stops animating and resumes on return without any
      visibility bookkeeping here.
 
-     The arrows step one card at a time and take the strip over permanently,
-     so a reader who picks a tree keeps it. */
+     The arrows step one card at a time without stopping the belt; hovering
+     is what holds it still, and it resumes from wherever it was left. */
   var CONVEYOR_PXPS = 26;
 
   function wireConveyor(wrapId, trackId) {
@@ -1669,9 +1669,7 @@
     var reduced = !!(window.matchMedia &&
                      window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
-    var pos = 0, dir = 1, paused = false, last = null, driven = false;
-
-    function maxScroll() { return track.scrollWidth - track.clientWidth; }
+    var pos = 0, dir = 1, paused = false, last = null;
 
     // One card plus the flex gap, measured rather than hardcoded so a change
     // to the card width in CSS does not silently desync the arrow step.
@@ -1683,36 +1681,13 @@
       return card.offsetWidth + gap;
     }
 
-    // Takes the position to judge against, because a smooth scroll has not
-    // arrived yet when the arrow that started it needs to update. Falling back
-    // to the live scrollLeft covers the drag and keyboard cases.
-    function syncArrows(at) {
-      if (!prev || !next) { return; }
-      var max = maxScroll();
-      var x = (at === undefined) ? track.scrollLeft : at;
-      var wasPrev = prev.disabled, wasNext = next.disabled;
-      prev.disabled = max <= 1 || x <= 1;
-      next.disabled = max <= 1 || x >= max - 1;
-      // Disabling the button that is currently focused would drop focus to the
-      // body mid-interaction, so hand it to the arrow still in play.
-      if (!wasPrev && prev.disabled && document.activeElement === prev &&
-          !next.disabled) { next.focus(); }
-      if (!wasNext && next.disabled && document.activeElement === next &&
-          !prev.disabled) { prev.focus(); }
-    }
-
-    // An arrow press means the reader is choosing what to look at, so the
-    // auto-scroll hands over for good rather than dragging their pick away
-    // again the moment the pointer leaves.
+    // An arrow steps one card and nothing more. The belt is not canceled:
+    // the reader holds it still by hovering, and it picks up from wherever
+    // they leave it once the pointer moves off.
     function nudge(cards) {
-      driven = true;
-      var target = Math.max(0, Math.min(maxScroll(),
-                                        track.scrollLeft + cards * cardStep()));
-      pos = target;
-      track.scrollTo({ left: target, behavior: reduced ? 'auto' : 'smooth' });
-      syncArrows(target);
+      track.scrollBy({ left: cards * cardStep(),
+                       behavior: reduced ? 'auto' : 'smooth' });
     }
-
     if (prev) { prev.addEventListener('click', function () { nudge(-1); }); }
     if (next) { next.addEventListener('click', function () { nudge(1); }); }
 
@@ -1722,14 +1697,18 @@
     wrap.addEventListener('mouseleave', play);
     wrap.addEventListener('focusin', pause);
     wrap.addEventListener('focusout', play);
-    wrap.addEventListener('touchstart', pause, { passive: true });
-    // A manual scroll should not fight the animation.
-    track.addEventListener('scroll', function () {
-      if (paused || driven) { pos = track.scrollLeft; }
-      syncArrows();
-    });
-    window.addEventListener('resize', syncArrows);
-    syncArrows();
+    // Touch has no mouseleave to resume on, so without a timer one tap would
+    // stall the belt for good. The delay lets momentum scrolling settle first,
+    // rather than the belt fighting the finger.
+    var touchTimer = null;
+    wrap.addEventListener('touchstart', function () {
+      if (touchTimer) { window.clearTimeout(touchTimer); touchTimer = null; }
+      pause();
+    }, { passive: true });
+    wrap.addEventListener('touchend', function () {
+      if (touchTimer) { window.clearTimeout(touchTimer); }
+      touchTimer = window.setTimeout(play, 1200);
+    }, { passive: true });
 
     // The arrows are wired above this line on purpose: someone who has asked
     // for reduced motion still gets a strip they can drive, just not one that
@@ -1740,8 +1719,13 @@
       if (last === null) { last = t; }
       var dt = Math.min(t - last, 60);
       last = t;
-      var max = maxScroll();
-      if (!paused && !driven && max > 1) {
+      var max = track.scrollWidth - track.clientWidth;
+      if (paused) {
+        // Follow the reader while they hold it, including any arrow scroll
+        // still in flight, so releasing resumes from there instead of
+        // snapping back to where the belt had got to.
+        pos = track.scrollLeft;
+      } else if (max > 1) {
         pos += dir * (dt / 1000) * CONVEYOR_PXPS;
         if (pos >= max) { pos = max; dir = -1; }
         else if (pos <= 0) { pos = 0; dir = 1; }
