@@ -1654,16 +1654,68 @@
 
      rAF is the driver on purpose. Browsers suspend it for hidden tabs, so a
      backgrounded page stops animating and resumes on return without any
-     visibility bookkeeping here. */
+     visibility bookkeeping here.
+
+     The arrows step one card at a time and take the strip over permanently,
+     so a reader who picks a tree keeps it. */
   var CONVEYOR_PXPS = 26;
 
   function wireConveyor(wrapId, trackId) {
     var wrap = el(wrapId), track = el(trackId);
     if (!wrap || !track) { return; }
-    if (window.matchMedia &&
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches) { return; }
 
-    var pos = 0, dir = 1, paused = false, last = null;
+    var prev = el(trackId.replace('-track', '-prev'));
+    var next = el(trackId.replace('-track', '-next'));
+    var reduced = !!(window.matchMedia &&
+                     window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+    var pos = 0, dir = 1, paused = false, last = null, driven = false;
+
+    function maxScroll() { return track.scrollWidth - track.clientWidth; }
+
+    // One card plus the flex gap, measured rather than hardcoded so a change
+    // to the card width in CSS does not silently desync the arrow step.
+    function cardStep() {
+      var card = track.querySelector('.ss-tree');
+      if (!card) { return Math.round(track.clientWidth * 0.8); }
+      var cs = window.getComputedStyle(track);
+      var gap = parseFloat(cs.columnGap || cs.gap) || 0;
+      return card.offsetWidth + gap;
+    }
+
+    // Takes the position to judge against, because a smooth scroll has not
+    // arrived yet when the arrow that started it needs to update. Falling back
+    // to the live scrollLeft covers the drag and keyboard cases.
+    function syncArrows(at) {
+      if (!prev || !next) { return; }
+      var max = maxScroll();
+      var x = (at === undefined) ? track.scrollLeft : at;
+      var wasPrev = prev.disabled, wasNext = next.disabled;
+      prev.disabled = max <= 1 || x <= 1;
+      next.disabled = max <= 1 || x >= max - 1;
+      // Disabling the button that is currently focused would drop focus to the
+      // body mid-interaction, so hand it to the arrow still in play.
+      if (!wasPrev && prev.disabled && document.activeElement === prev &&
+          !next.disabled) { next.focus(); }
+      if (!wasNext && next.disabled && document.activeElement === next &&
+          !prev.disabled) { prev.focus(); }
+    }
+
+    // An arrow press means the reader is choosing what to look at, so the
+    // auto-scroll hands over for good rather than dragging their pick away
+    // again the moment the pointer leaves.
+    function nudge(cards) {
+      driven = true;
+      var target = Math.max(0, Math.min(maxScroll(),
+                                        track.scrollLeft + cards * cardStep()));
+      pos = target;
+      track.scrollTo({ left: target, behavior: reduced ? 'auto' : 'smooth' });
+      syncArrows(target);
+    }
+
+    if (prev) { prev.addEventListener('click', function () { nudge(-1); }); }
+    if (next) { next.addEventListener('click', function () { nudge(1); }); }
+
     function pause() { paused = true; }
     function play() { paused = false; }
     wrap.addEventListener('mouseenter', pause);
@@ -1673,15 +1725,23 @@
     wrap.addEventListener('touchstart', pause, { passive: true });
     // A manual scroll should not fight the animation.
     track.addEventListener('scroll', function () {
-      if (paused) { pos = track.scrollLeft; }
+      if (paused || driven) { pos = track.scrollLeft; }
+      syncArrows();
     });
+    window.addEventListener('resize', syncArrows);
+    syncArrows();
+
+    // The arrows are wired above this line on purpose: someone who has asked
+    // for reduced motion still gets a strip they can drive, just not one that
+    // moves on its own.
+    if (reduced) { return; }
 
     function step(t) {
       if (last === null) { last = t; }
       var dt = Math.min(t - last, 60);
       last = t;
-      var max = track.scrollWidth - track.clientWidth;
-      if (!paused && max > 1) {
+      var max = maxScroll();
+      if (!paused && !driven && max > 1) {
         pos += dir * (dt / 1000) * CONVEYOR_PXPS;
         if (pos >= max) { pos = max; dir = -1; }
         else if (pos <= 0) { pos = 0; dir = 1; }

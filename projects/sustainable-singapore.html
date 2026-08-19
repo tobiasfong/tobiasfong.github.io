@@ -515,12 +515,35 @@
         overscroll-behavior-x: contain;
       }
       .ss-conveyor-track::-webkit-scrollbar { display: none; }
+
+      /* The arrows sit above the edge fades (which are z-index 2 and
+         pointer-events: none, so they never intercept the click). */
+      .ss-conveyor-arrow {
+        position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
+        width: 34px; height: 34px; border-radius: 50%;
+        border: 1px solid var(--border); background: var(--bg);
+        color: var(--text); font-size: 19px; line-height: 1;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer; padding: 0;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);
+        transition: opacity 0.15s ease, background 0.15s ease;
+      }
+      .ss-conveyor-arrow:hover { background: var(--bg-alt); }
+      .ss-conveyor-arrow:disabled { opacity: 0.28; cursor: default; }
+      .ss-conveyor-prev { left: 2px; }
+      .ss-conveyor-next { right: 2px; }
       .ss-tree {
         flex: 0 0 258px; margin: 0;
         border: 1px solid var(--border); border-radius: 14px;
         background: var(--bg-alt); overflow: hidden;
       }
-      .ss-tree img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+      /* height:auto is load-bearing — the width/height attributes on the img
+         map to a presentational height hint, and aspect-ratio cannot override
+         an explicit height, so without it every card renders 576px tall. */
+      .ss-tree img {
+        width: 100%; height: auto; aspect-ratio: 16 / 9;
+        object-fit: cover; display: block;
+      }
       .ss-tree figcaption { padding: 12px 14px 14px; }
       .ss-tree figcaption strong { display: block; font-size: 14px; color: var(--text); }
       .ss-tree figcaption em {
@@ -1277,9 +1300,15 @@
         <p>
           If we are planting anyway, we may as well plant the trees that do the most work. These
           six all grow in Singapore already, and each earns its place for a different reason. Hover
-          to stop the strip and read.
+          to stop the strip, or use the arrows to walk through it.
         </p>
         <div class="ss-conveyor" id="ss-conveyor">
+          <button type="button" class="ss-conveyor-arrow ss-conveyor-prev"
+                  id="ss-conveyor-prev" aria-controls="ss-conveyor-track"
+                  aria-label="Previous tree">‹</button>
+          <button type="button" class="ss-conveyor-arrow ss-conveyor-next"
+                  id="ss-conveyor-next" aria-controls="ss-conveyor-track"
+                  aria-label="Next tree">›</button>
           <div class="ss-conveyor-track" id="ss-conveyor-track" tabindex="0" role="region"
                aria-label="Six tree species proposed for heat mitigation, scrolls sideways">
           <figure class="ss-tree">
@@ -1795,6 +1824,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260819b"></script>
+    <script src="/js/sustainable-singapore.js?v=20260819c"></script>
   </body>
 </html>
