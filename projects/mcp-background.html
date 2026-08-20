@@ -64,7 +64,7 @@
           </p>
           <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
             <span class="tag" style="background: var(--text); color: var(--bg);">MCP Server</span>
-            <span class="tag">v2.0.0</span>
+            <span class="tag">v2.1.0</span>
             <span class="tag">Python</span>
             <span class="tag">FLUX.1-dev</span>
             <span class="tag">ComfyUI</span>
@@ -445,10 +445,40 @@
 
         <div class="pill-card" style="margin-top: 1.5rem;">
           <h3 style="margin-top:0; display:flex; align-items:baseline; gap:0.6rem;">
-            <span style="font-family:var(--mono,monospace); color:var(--text);">v2.0.0</span>
-            <span style="font-size:13px; font-weight:500; color:var(--text-muted);">FLUX only — Stable Diffusion removed</span>
+            <span style="font-family:var(--mono,monospace); color:var(--text);">v2.1.0</span>
+            <span style="font-size:var(--fs-body); font-weight:500; color:var(--text-muted);">Q6 weights, and a correction about what bit depth buys you</span>
           </h3>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:-0.4rem;">August 1, 2026</p>
+          <p style="font-size:var(--fs-body); color:var(--text-muted); margin-top:-0.4rem;">August 10, 2026</p>
+          <ul style="color: var(--text-body); line-height: 1.8;">
+            <li><strong>⚠️ Changed — the default weights moved from <code>Q3_K_S</code> to
+              <code>Q6_K</code>, and the Q3 files were deleted.</strong> If you installed before this
+              release, re-run <code>setup_models.py</code> — an existing install pointing at the old
+              files will fail on a missing model.</li>
+            <li><strong>🧪 Don't expect better plates from it.</strong> Q6 was adopted because bit
+              depth measurably matters for <em>repair</em>: fixing a damaged hand with Kontext went
+              from 0 of 6 usable frames at Q3 to 3 of 3 at Q6. I assumed generation would improve the
+              same way and it did not — measured at the same size, seed, prompt, LoRA and ControlNet,
+              the output was identical. Quantisation error surfaces when the task is hard; rebuilding
+              destroyed pixels is hard, generating from a good prompt has headroom. Plates you made at
+              Q3 are fine and don't need regenerating.</li>
+            <li><strong>🔧 Fixed — <code>edit_background</code> would have failed outright.</strong>
+              Only the generation path had been migrated; the edit path still loaded the deleted Q3
+              Kontext file.</li>
+            <li><strong>📄 Corrected — "Q3 so FLUX fits a 6 GB card" was wrong.</strong> ComfyUI
+              streams weights from system RAM, so VRAM was never what limited the quantisation — disk
+              was. The out-of-memory troubleshooting now points at width and height, which is what
+              actually fills VRAM.</li>
+          </ul>
+        </div>
+
+        <p class="release-archive-label">Earlier releases</p>
+
+        <details class="release-item">
+          <summary>
+            <span class="release-ver">v2.0.0</span>
+            <span class="release-name">FLUX only — Stable Diffusion removed</span>
+            <span class="release-date">August 1, 2026</span>
+          </summary>
           <ul style="color: var(--text-body); line-height: 1.8;">
             <li><strong>💥 Breaking — Stable Diffusion 1.5 has been removed.</strong> FLUX.1-dev is
               now the only renderer. The reason is consistency across the toolkit: the companion
@@ -478,9 +508,7 @@
               dominant colours and returns them as usable prompt language ("deep red", "ash grey")
               rather than hex codes, so a reference library can actually drive colour.</li>
           </ul>
-        </div>
-
-        <p class="release-archive-label">Earlier releases</p>
+        </details>
 
         <details class="release-item">
           <summary>
