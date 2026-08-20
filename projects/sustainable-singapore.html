@@ -496,6 +496,15 @@
 
       .ss-map-cap { font-size: var(--fs-caption); color: var(--text-muted); margin-top: 10px; }
 
+      /* A second-level heading inside a prose section. The page had none until
+         the species section grew a discussion below its carousel. */
+      .ss-fullwidth-prose h3 {
+        font-family: var(--font-heading);
+        font-size: 20px; line-height: 1.25; font-weight: 700;
+        letter-spacing: -0.01em; color: var(--text);
+        margin: 2.25rem 0 10px;
+      }
+
       /* ── Tree conveyor ──
          Scrolls itself left and right and stops when the pointer is over it or
          anything inside has focus. The track is a real scroller, so dragging and
@@ -1310,7 +1319,7 @@
                   id="ss-conveyor-next" aria-controls="ss-conveyor-track"
                   aria-label="Next tree">›</button>
           <div class="ss-conveyor-track" id="ss-conveyor-track" tabindex="0" role="region"
-               aria-label="Four tree species proposed for heat mitigation, scrolls sideways">
+               aria-label="Six tree species proposed for heat mitigation, scrolls sideways">
           <figure class="ss-tree">
             <img src="/img/sustainable/tree-rain.jpg" alt="A manhwa-styled illustration of a rain tree"
                  loading="lazy" width="1024" height="576" />
@@ -1347,8 +1356,62 @@
               <span>Also belonging to the seasonally dry forest group, like the trumpet tree and pride of India, it is included here because of its potentially high transpiration rate and evaporative cooling. Furthermore, it is more tolerant of drought than evergreen species, such as yellow flame.[^47]</span>
             </figcaption>
           </figure>
+          <figure class="ss-tree">
+            <img src="/img/sustainable/tree-brazilian-ironwood.jpg" alt="A manhwa-styled illustration of a Brazilian ironwood"
+                 loading="lazy" width="1024" height="576" />
+            <figcaption>
+              <strong>Brazilian ironwood</strong>
+              <em>Caesalpinia ferrea</em>
+              <span>Another of the seasonally dry forest species Tan’s team measured in Singapore. Under the sunny conditions they recorded, it transpired more than any other tree in the study, though they caution that the differences between species were not statistically significant.[^47]</span>
+            </figcaption>
+          </figure>
+          <figure class="ss-tree">
+            <img src="/img/sustainable/tree-north-indian-rosewood.jpg" alt="A manhwa-styled illustration of a North Indian rosewood"
+                 loading="lazy" width="1024" height="576" />
+            <figcaption>
+              <strong>North Indian rosewood</strong>
+              <em>Dalbergia sissoo</em>
+              <span>Also from the seasonally dry forest group, and second only to the Brazilian ironwood on transpiration under sunny skies. Like the rest of its group, it held on to more of that transpiration than the evergreens when cloud came over.[^47]</span>
+            </figcaption>
+          </figure>
           </div>
         </div>
+
+        <h3>What transpired during my research</h3>
+        <p>
+          Despite Tan et al.’s hypothesis that higher transpiration rates have larger evaporative
+          cooling potential in their research comparing seasonally dry forests against aseasonal
+          evergreen forests,[^47] other studies observed that this might not necessarily be the
+          case. For example, Ow and Chan’s comparison between the rain tree and yellow flame
+          (<em>Peltophorum pterocarpum</em>) revealed that while the latter has a higher
+          transpiration rate, it was less effective at cooling than the former,[^28] because shade
+          was the greater contributor to reducing heat (71% shade, 29% transpiration, see
+          above).[^29]
+        </p>
+        <p>
+          This is supported by Li et al., who found that in a tropical place like Singapore, the
+          island’s high humidity reduces the cooling efficacy of urban trees’ transpiration. In
+          fact, they found that in countries with a humid climate, excessively planted trees or
+          those planted in enclosed spaces would result in low cooling efficacy or thermal
+          discomfort, and might even raise the perceived temperature by up to 2 °C.[^48]
+        </p>
+        <p>
+          If you’ve been searching around local websites like me, you might have stumbled upon a
+          webpage, Green Garden, which claimed that “native trees like Rain Tree, Angsana, Sea
+          Apple, and Tembusu are perfect” for providing shade and cooling Singapore.[^49] But my
+          own research couldn’t find evidence to prove that. In the first place, the rain tree is
+          <em>not</em> native to Singapore. It is believed to be native to South America,
+          specifically Colombia, the Caribbean slope and Orinoco drainage of Venezuela, as well as
+          Central America.[^50]
+        </p>
+        <p>
+          Teo, Yu and Luo measured how nine common Singapore trees photosynthesize as the
+          temperature climbs, and found the tembusu among the most temperature-sensitive, its
+          photosynthetic capacity falling by nearly 50% over a 5 °C increase.[^51] In fact, sea
+          apples are being replaced by NParks because they have been observed to be susceptible to
+          basal rot.[^52] So they’re being removed before they start falling over and becoming a
+          hazard to residents.
+        </p>
       </section>
 
       <section id="ss-sim" class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3.5rem;">
@@ -1782,6 +1845,21 @@
           <li id="ref-47">
             Tan, Puay Yok, Nyuk Hien Wong, Chun Liang Tan, Steve Kardinal Jusuf, K. Schmiele, and Zhi Quan Chiam. <a href="https://doi.org/10.1016/j.scitotenv.2019.135764" target="_blank" rel="noopener noreferrer">“Transpiration and Cooling Potential of Tropical Urban Trees from Different Native Habitats.”</a> <em>Science of the Total Environment</em> 705 (2020): 135764.
           </li>
+          <li id="ref-48">
+            Li, Haiwei, Yongling Zhao, Chenghao Wang, Diana Ürge-Vorsatz, Jan Carmeliet, and Ronita Bardhan. <a href="https://doi.org/10.1038/s43247-024-01908-4" target="_blank" rel="noopener noreferrer">“Cooling Efficacy of Trees across Cities Is Determined by Background Climate, Urban Morphology, and Tree Trait.”</a> <em>Communications Earth &amp; Environment</em> 5, no. 1 (2024): 754.
+          </li>
+          <li id="ref-49">
+            Green Garden Integrated Services. <a href="https://greengarden.sg/landscaping-reduce-urban-heat-singapore/" target="_blank" rel="noopener noreferrer">“Landscaping Strategies to Cool Down Urban Areas.”</a> May 23, 2025.
+          </li>
+          <li id="ref-50">
+            Staples, George W., and Craig R. Elevitch. “<em>Samanea saman</em> (Rain Tree).” In <em>Traditional Trees of Pacific Islands: Their Culture, Environment, and Use</em>, edited by Craig R. Elevitch. Hōlualoa, HI: Permanent Agriculture Resources, 2006.
+          </li>
+          <li id="ref-51">
+            Teo, L. M. R., L. Yu, and X. Luo. <a href="https://doi.org/10.3389/ffgc.2026.1738900" target="_blank" rel="noopener noreferrer">“Variations in the Temperature Response of Photosynthesis among Nine Common Tree Species Planted in Singapore.”</a> <em>Frontiers in Forests and Global Change</em> 9 (2026): 1738900.
+          </li>
+          <li id="ref-52">
+            Chen, Letitia. <a href="https://www.straitstimes.com/singapore/environment/singapores-planting-palette-what-trees-colour-our-streets-and-parks" target="_blank" rel="noopener noreferrer">“Singapore’s Planting Palette: What Trees Colour Our Streets and Parks?”</a> <em>The Straits Times</em>, June 15, 2026.
+          </li>
         </ol>
 
         <p style="font-size:var(--fs-caption); color:var(--text-muted); margin-top:1.25rem;">
@@ -1801,6 +1879,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260820e"></script>
+    <script src="/js/sustainable-singapore.js?v=20260821a"></script>
   </body>
 </html>
