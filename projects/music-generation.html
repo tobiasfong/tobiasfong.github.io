@@ -246,10 +246,40 @@
 
         <div class="pill-card" style="margin-top: 1.5rem;">
           <h3 style="margin-top:0; display:flex; align-items:baseline; gap:0.6rem;">
-            <span style="font-family:var(--mono,monospace); color:var(--text);">v0.2.0</span>
-            <span style="font-size:var(--fs-body); font-weight:500; color:var(--text-muted);">Beat grids without Node, and a settled theme song</span>
+            <span style="font-family:var(--mono,monospace); color:var(--text);">v0.3.1</span>
+            <span style="font-size:var(--fs-body); font-weight:500; color:var(--text-muted);">Beat grids stop trusting either tempo source</span>
           </h3>
-          <p style="font-size:var(--fs-body); color:var(--text-muted); margin-top:-0.4rem;">August 6, 2026</p>
+          <p style="font-size:var(--fs-body); color:var(--text-muted); margin-top:-0.4rem;">August 10, 2026</p>
+          <ul style="color: var(--text-body); line-height: 1.8;">
+            <li><strong>🥁 Fixed — the beat grid was wrong in two opposite ways, and both had
+              shipped.</strong> Once the model ignored the tempo I asked for (117.45 against a
+              requested 120, enough to drift the grid most of a second in half a minute), so the
+              measurement was right. Once the detector picked a harmonic instead of the beat (161.5,
+              which is just 120 × 4/3), so the request was right. Trusting either one alone breaks
+              the other case.</li>
+            <li><strong>🧮 Changed — the two are now reconciled by ratio.</strong> If the measured
+              and requested tempos differ by a simple musical fraction (2, 3/2, 4/3 and friends), the
+              detector found a harmonic and the request wins; anything else means the model didn't
+              honour the request and the measurement wins. The result now names which source it
+              used.</li>
+            <li><strong>⚠️ Behaviour change:</strong> passing a tempo is no longer an override.
+              Detection always runs and the two get reconciled, so callers that used it to force a
+              grid will see a different result.</li>
+            <li><strong>📄 Fixed — stale install docs.</strong> The README and requirements still
+              told a fresh installer that beat extraction needed Node and an ffmpeg binary, and
+              documented an environment variable no code reads. Both untrue since the pure-Python
+              port.</li>
+          </ul>
+        </div>
+
+        <p class="release-archive-label">Earlier releases</p>
+
+        <details class="release-item">
+          <summary>
+            <span class="release-ver">v0.2.0</span>
+            <span class="release-name">Beat grids without Node, and a settled theme song</span>
+            <span class="release-date">August 6, 2026</span>
+          </summary>
           <ul style="color: var(--text-body); line-height: 1.8;">
             <li><strong>🥁 Changed — beat extraction is pure Python now.</strong> It was a Node script
               that shelled out to ffmpeg; it's now NumPy and <code>soundfile</code>, which bundles
@@ -274,9 +304,7 @@
               lyrics, and the repo is public, so it would have published my unreleased song text. The
               output folder is ignored wholesale now, with the reason recorded in the file.</li>
           </ul>
-        </div>
-
-        <p class="release-archive-label">Earlier releases</p>
+        </details>
 
         <details class="release-item">
           <summary>
