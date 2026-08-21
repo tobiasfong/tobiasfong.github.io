@@ -496,6 +496,38 @@
 
       .ss-map-cap { font-size: var(--fs-caption); color: var(--text-muted); margin-top: 10px; }
 
+      /* ── Takeaway cards ──
+         Three abreast on a wide screen, stacking to one column on a phone.
+         Same card furniture as the tree strip so the two read as a family. */
+      .ss-takeaways {
+        display: grid; grid-template-columns: repeat(3, 1fr);
+        gap: 18px; margin-top: 1.75rem;
+      }
+      .ss-takeaway {
+        border: 1px solid var(--border); border-radius: 14px;
+        background: var(--bg-alt); overflow: hidden;
+        display: flex; flex-direction: column;
+      }
+      /* height:auto is load-bearing — the img's width/height attributes map to a
+         presentational height hint that aspect-ratio cannot override. */
+      .ss-takeaway img {
+        width: 100%; height: auto; aspect-ratio: 16 / 9;
+        object-fit: cover; display: block;
+      }
+      .ss-takeaway-body { padding: 14px 16px 18px; }
+      .ss-takeaway-body h3 {
+        font-family: var(--font-heading); font-size: 17px; line-height: 1.3;
+        font-weight: 700; color: var(--text); margin: 0 0 8px;
+        letter-spacing: -0.01em;
+      }
+      .ss-takeaway-body p {
+        font-size: 13px; line-height: 1.6; color: var(--text-body); margin: 0 0 8px;
+      }
+      .ss-takeaway-body p:last-child { margin-bottom: 0; }
+      @media (max-width: 860px) {
+        .ss-takeaways { grid-template-columns: 1fr; }
+      }
+
       /* A second-level heading inside a prose section. The page had none until
          the species section grew a discussion below its carousel. */
       .ss-fullwidth-prose h3 {
@@ -728,6 +760,7 @@
         <a href="#ss-species">Species</a>
         <a href="#ss-sim">Simulation</a>
         <a href="#ss-nuclear">Nuclear</a>
+        <a href="#ss-takeaways">Takeaways</a>
         <a href="#ss-refs-sec">References</a>
       </div>
     </div>
@@ -1627,6 +1660,67 @@
         </div>
       </section>
 
+      <!-- ── Takeaways ── -->
+      <section id="ss-takeaways" class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3rem;">
+        <div class="section-kicker">Takeaways</div>
+        <h2>Too long, didn’t read?</h2>
+        <p>
+          If you skipped to this section because you found me longwinded, and wanted me to get
+          straight to the point, well, here’s the short version.
+        </p>
+        <div class="ss-takeaways">
+          <div class="ss-takeaway">
+            <img src="/img/sustainable/takeaway-hotter.jpg"
+                 alt="A manhwa-styled illustration of HDB blocks along a street under a bright midday sun"
+                 loading="lazy" width="1024" height="576" />
+            <div class="ss-takeaway-body">
+              <h3>Singapore has undeniably grown hotter.</h3>
+              <p>
+                Ever since Singapore began reclaiming and large-scale urbanization in the 1960s, the
+                annual mean temperatures have been regularly hovering near 27 °C, and it started
+                hitting 27.4 °C and above from 1982, when our country began swinging fully into
+                modernization.
+              </p>
+            </div>
+          </div>
+          <div class="ss-takeaway">
+            <img src="/img/sustainable/takeaway-trees.jpg"
+                 alt="A manhwa-styled illustration of an avenue of broad-crowned trees casting dappled shade"
+                 loading="lazy" width="1024" height="576" />
+            <div class="ss-takeaway-body">
+              <h3>Planting a seed of doubt</h3>
+              <p>
+                While most professionals would recommend planting more trees to reduce urban heat,
+                and they are correct, there is a caveat. Firstly, there is little cooling benefit to
+                exceeding 40% tree cover, as the humidity created from excessive transpiration may
+                backfire. Secondly, despite the longstanding species that have taken root in
+                Singapore since the 1960s, by virtue of Greening Singapore, the Garden City program
+                and Tree Planting Day, some trees are better at cooling than the others. Worse, a
+                couple of those species even ended up proving susceptible to basal rot.
+              </p>
+              <p>
+                Looking at you, rain tree.
+              </p>
+            </div>
+          </div>
+          <div class="ss-takeaway">
+            <img src="/img/sustainable/takeaway-nuclear.jpg"
+                 alt="A manhwa-styled illustration of a small modular reactor vessel in an industrial hall"
+                 loading="lazy" width="1024" height="576" />
+            <div class="ss-takeaway-body">
+              <h3>Reacting to small modular reactors</h3>
+              <p>
+                Though there is an advantage in switching from fossil fuel-based electricity to
+                nuclear power, the greatest of which is a stark reduction in carbon emissions (and
+                thus contributing to the war against climate change), the larger waste heat produced
+                means that even as we contribute globally to protecting the climate, Singapore
+                doesn’t get cooled as effectively.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- ── About the images ── -->
       <!-- Media column first in the DOM: .editorial-split's default 300px/1fr
            puts it on the left, and the phone rule reorders it above the text. -->
@@ -1901,6 +1995,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260821l"></script>
+    <script src="/js/sustainable-singapore.js?v=20260821m"></script>
   </body>
 </html>
