@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="An MCP server for building a branching visual novel in Ren'Py — the piece that keeps a story with choices from quietly falling apart. Built in the open, with progress logged as it goes." />
+    <meta name="description" content="An MCP server for building a visual novel in Ren'Py, complete with branching routes. It assembles characters, backgrounds and music from the rest of my webcomic MCP ecosystem into a playable game." />
 
     <!-- Open Graph / Twitter: controls how a shared link previews in Discord,
          Slack, Bluesky, etc. og:image must be an absolute URL. -->
@@ -11,14 +11,14 @@
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://tobiasfong.github.io/projects/visual-novel.html" />
     <meta property="og:title" content="Visual Novel MCP Server | Tobias Fong" />
-    <meta property="og:description" content="An MCP server for building a branching visual novel in Ren'Py — the piece that keeps a story with choices from quietly falling apart. Built in the open, with progress logged as it goes." />
+    <meta property="og:description" content="An MCP server for building a visual novel in Ren'Py, complete with branching routes. It assembles characters, backgrounds and music from the rest of my webcomic MCP ecosystem into a playable game." />
     <meta property="og:image" content="https://tobiasfong.github.io/img/og/og-visual-novel.jpg" />
     <meta property="og:image:alt" content="The title screen of A Mage Transmigrated into a Murim World — a mage in black robes holding blue light, beside three martial artists in red and white, against a snowy mountain" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Visual Novel MCP Server | Tobias Fong" />
-    <meta name="twitter:description" content="An MCP server for building a branching visual novel in Ren'Py — the piece that keeps a story with choices from quietly falling apart. Built in the open, with progress logged as it goes." />
+    <meta name="twitter:description" content="An MCP server for building a visual novel in Ren'Py, complete with branching routes. It assembles characters, backgrounds and music from the rest of my webcomic MCP ecosystem into a playable game." />
     <meta name="twitter:image" content="https://tobiasfong.github.io/img/og/og-visual-novel.jpg" />
     <meta name="twitter:image:alt" content="The title screen of A Mage Transmigrated into a Murim World — a mage in black robes holding blue light, beside three martial artists in red and white, against a snowy mountain" />
     <title>Visual Novel MCP Server | Tobias Fong</title>
@@ -35,21 +35,22 @@
       .vn-hero { width: 100%; background: #000; line-height: 0; }
       .vn-hero video { width: 100%; max-width: 1600px; margin: 0 auto; display: block; }
 
-      /* ── Progress log ──
-         Adding an entry is one .vn-entry block: a chip, a line of text, and an
-         optional <img>. Nothing else needs touching — the chip class picks the
-         color and the grid handles the rest. */
-      .vn-log { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1.5rem; }
+      /* ── Showcase log ──
+         One .vn-entry per chapter: a label, a status chip, and a grid of
+         screenshots. Adding the next chapter is a copy-paste of one block —
+         nothing here needs touching. */
+      .vn-log { display: flex; flex-direction: column; gap: 2rem; margin-top: 1.5rem; }
 
-      .vn-entry {
-        display: grid;
-        grid-template-columns: 132px 1fr;
-        gap: 1rem;
-        align-items: start;
-        padding-top: 1.25rem;
-        border-top: 1px solid var(--border);
-      }
+      .vn-entry { padding-top: 1.5rem; border-top: 1px solid var(--border); }
       .vn-entry:first-child { border-top: 0; padding-top: 0; }
+
+      .vn-entry-head {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+      .vn-entry-head h3 { margin: 0; }
 
       .vn-chip {
         display: inline-block;
@@ -63,19 +64,22 @@
       }
       .vn-chip--complete { background: #14151a; color: #fff; }
       .vn-chip--progress { background: var(--accent-red); color: #fff; }
-      .vn-chip--planned  { background: var(--pill-bg); color: var(--pill-text); }
 
-      .vn-entry p { margin: 0; }
-      .vn-entry img {
+      /* Thumbnails, because a chapter can carry a lot of them. They wrap on
+         their own; no column count to maintain as the list grows. */
+      .vn-shots {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px;
+        margin-top: 1.1rem;
+      }
+      .vn-shots img {
         width: 100%;
-        margin-top: 0.9rem;
-        border-radius: 10px;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        border-radius: 8px;
         border: 1px solid var(--border);
         display: block;
-      }
-
-      @media (max-width: 600px) {
-        .vn-entry { grid-template-columns: 1fr; gap: 0.6rem; }
       }
     </style>
   </head>
@@ -112,11 +116,10 @@
 
       <!-- 2. Header block -->
       <header class="project-hero" style="text-align:center; padding: 2rem 0;">
-        <div class="section-kicker">MCP Server Project</div>
+        <div class="section-kicker">Webcomic MCP Ecosystem</div>
         <h1>Visual Novel MCP Server</h1>
         <p class="lead" style="max-width: 660px; margin: 0 auto 1.5rem;">
-          An MCP server for building a branching visual novel in Ren'Py — the piece that keeps a story
-          with choices from quietly falling apart.
+          An MCP server for building a visual novel in Ren'Py, complete with branching routes.
         </p>
         <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
           <span class="tag" style="background: var(--text); color: var(--bg);">MCP Server</span>
@@ -132,69 +135,61 @@
       <!-- 3. The product -->
       <section style="max-width: 720px; margin: 0 auto 3rem;">
         <div class="section-kicker">The Product</div>
-        <h2>The Mage Transmigrated into a Murim World</h2>
+        <h2>A Visual Novel</h2>
         <p>
-          A mage wakes up in a murim world, where everyone settles their arguments with martial arts and
-          nobody has heard of a spell. He ends up inside the Demonic Cult, which is exactly as pleasant as
-          it sounds.
+          Putting together everything from the various MCP servers and skills in my MCP ecosystem so far,
+          including characters and art from the
+          <a href="/projects/character-panel.html">Character and Panel MCP server</a>, backgrounds from the
+          <a href="/projects/mcp-background.html">webcomic background generator MCP server</a>, the theme
+          song by the <a href="/projects/music-generation.html">Music Generator MCP server</a>, and
+          assembling the video above with the
+          <a href="/projects/anime-production.html">Anime Production MCP server and skill</a>.
         </p>
         <p>
-          Everything in the video above was made by this ecosystem — the cover art by the
-          <a href="/projects/character-panel.html">Character &amp; Panel Generator</a>, the theme by the
-          <a href="/projects/music-generation.html">Music Generator</a>, and the assembly by this server.
-          The menu bar in the last stretch is the real one from the game, not a mockup.
+          The visual novel MCP server takes the combination of generated assets and the script I penned and
+          weaves them into an actual visual novel. Choices, CG events, even a cover menu.
         </p>
-        <p style="font-size: var(--fs-body); color: var(--text-muted);">
-          1920×1080 · 89 seconds · theme loop-locked to 33 bars · assembled locally.
-        </p>
-
-        <!-- TOBIAS: your "why I built this" paragraphs go here — the personal
-             narrative that carries the Anime Production and Music pages. Left
-             empty deliberately rather than written for you. -->
       </section>
 
-      <!-- 4. Progress -->
+      <!-- 4. Showcase -->
       <section style="max-width: 720px; margin: 0 auto 3rem;">
-        <div class="section-kicker">Progress</div>
-        <h2>Built in the open</h2>
+        <div class="section-kicker">Showcase</div>
+        <h2>A Mage Transmigrated into a Murim World</h2>
         <p>
-          This one isn't finished, and it won't be for a while. Rather than wait and publish a tidy
-          retrospective, I'm logging it as it goes — so this section grows.
+          <span class="vn-chip vn-chip--progress">In Progress</span>
         </p>
 
-        <!-- To add an entry: copy one .vn-entry block, change the chip class
-             (--complete / --progress / --planned), the label, and the line.
-             The <img> is optional; drop it if there is no screenshot yet.
+        <!-- To add a chapter: copy one .vn-entry block, change the label, the chip
+             class (--complete / --progress) and the wording. Screenshots go inside
+             .vn-shots as plain <img> tags; they wrap into a thumbnail grid on their
+             own, so add as many as you like:
 
              <div class="vn-entry">
-               <span class="vn-chip vn-chip--progress">In progress</span>
-               <div>
-                 <p>What happened.</p>
-                 <img src="/img/vn/whatever.jpg" alt="..." loading="lazy" />
+               <div class="vn-entry-head">
+                 <h3>Chapter N</h3>
+                 <span class="vn-chip vn-chip--progress">In Progress</span>
+               </div>
+               <div class="vn-shots">
+                 <img src="/img/vn/ch2-01.jpg" alt="..." loading="lazy" />
                </div>
              </div>
         -->
         <div class="vn-log">
 
           <div class="vn-entry">
-            <span class="vn-chip vn-chip--complete">Complete</span>
-            <div>
-              <p>Prologue — nine scenes, playable start to finish, with a turn-based fight.</p>
+            <div class="vn-entry-head">
+              <h3>Prologue</h3>
+              <span class="vn-chip vn-chip--complete">Complete</span>
             </div>
+            <!-- Screenshots to come. -->
           </div>
 
           <div class="vn-entry">
-            <span class="vn-chip vn-chip--progress">In progress</span>
-            <div>
-              <p>Chapter 1 — eight scenes wired. Timeskip next.</p>
+            <div class="vn-entry-head">
+              <h3>Chapter 1</h3>
+              <span class="vn-chip vn-chip--progress">In Progress</span>
             </div>
-          </div>
-
-          <div class="vn-entry">
-            <span class="vn-chip vn-chip--planned">Planned</span>
-            <div>
-              <p>Chapter 2.</p>
-            </div>
+            <!-- Screenshots to come. -->
           </div>
 
         </div>
@@ -203,127 +198,109 @@
       <!-- 5. How it works -->
       <section style="max-width: 720px; margin: 0 auto 3rem;">
         <div class="section-kicker">How It Works</div>
-        <h2>A bookkeeper, not a generator</h2>
+        <h2>Assembling a Visual Novel</h2>
         <p>
-          Every other server in this ecosystem makes something — a background, a character, a song. This
-          one makes almost nothing. It's the piece that keeps a branching story from falling apart, and
-          that turns out to be a different job entirely.
+          I have been experimenting with my MCP servers to create webcomic and animation prototypes, as
+          you've seen in my other pages. Characters, including character concept sheets, backgrounds and a
+          World Bible, and even theme songs for animated short videos, which include effects.
         </p>
         <p>
-          A visual novel is a graph. Labels, jumps, menus, flags, and a sprite for every character in every
-          mood. Miss one connection and a playthrough dead-ends somewhere no test will find, because the
-          only way to reach it was a specific combination of earlier choices. So the server derives the
-          graph by parsing the scripts rather than trusting anything written down about them: it reports
-          dangling jumps, undefined flags and unresolved sprites the moment a scene is saved, while the
-          context is still warm. Sixteen tools, and most of them exist to answer "is this still coherent?"
+          Then I had a thought. Aren't all these usable assets for assembling a visual novel?
+        </p>
+        <p>
+          Thus, this MCP server was born.
         </p>
 
-        <h3>The manuscript is the master, and the game is downstream of it</h3>
+        <h3>But why build an MCP server?</h3>
         <p>
-          I write the story in Word, because that's where writing happens. The game is Ren'Py. Two copies
-          of the same prose is the oldest failure in adaptation work: the author edits the document, nobody
-          notices the script didn't move, and the game quietly ships last week's wording.
+          Honestly, anyone using Claude Code, whether Opus 5 or Fable 5, can build a visual novel. All you
+          need to do is Ren'Py. However, building it is the easy part. A visual novel isn't simply coding
+          and using Ren'Py. To maintain consistency, you need to generate and register sprites for your
+          characters and keep track of the various routes.
         </p>
         <p>
-          So the document is compared against the script mechanically — block by block, 639 of them at last
-          count — and a difference gets reported rather than assumed away. Where copy has to live inside
-          the interface instead of in dialogue, as it does for the choice cards, it isn't typed into the
-          interface at all; it's generated out of the document. When the player is asked "Which technique
-          will you choose?" and weighs Wudang Sword Style against Divine Frost Yin Energy and the Dark
-          Crescent Shadow Sword, those three descriptions came out of the manuscript on the last build. If
-          the two ever disagree the tool refuses to write a partial screen, because a card silently missing
-          its description is precisely the bug the arrangement exists to prevent.
+          A visual novel is like a graph. I need to build and keep track of menus, choices (which determines
+          the route, so affection values, for example, or what scene happens after you select a specific
+          martial arts manual). I also need to register backgrounds — where the Heavenly Demon Divine Cult's
+          city is, the manors the characters live in, the throne room where the Heavenly Demon constantly
+          resides in, the orthodox factions' cities, etc.
+        </p>
+        <p>
+          I also needed to create selection cards, to signify a branching point. For example, choosing one
+          of three techniques should feel meaningful and impactful, and I wanted a better UI to reflect
+          that. Hence I turned that into cards. I even added a simple combat mechanic, similar to Pokemon,
+          because I thought it would make the visual novel more interactive. It also makes your choices more
+          meaningful — the techniques you choose to learn are the ones you actually get to use in actual
+          combat. Of course, this also means an entire list of skills and attacks I have to keep track of,
+          each categorized based on the options I offer the player. You're not going to unlock everything —
+          that defeats the purpose of having options. I want the player to feel that they are actively
+          choosing their path: Orthodox, Unorthodox (Magic) and Demonic. This means three separate tracks.
+        </p>
+        <p>
+          That's where an MCP server comes in. It registers the characters and backgrounds, keeps track of
+          choices and routes, ensures narrative and choice consistency, and even provides a prototype build
+          for me to play through and test. Basically, just like any Model Context Protocol server, it
+          provides <em>context</em>. Currently, my MCP server has 16 tools to help any aspiring visual novel
+          creator assemble their own game.
         </p>
 
-        <h3>A choice you weigh, not a line you pick</h3>
+        <h3>Is everything generated by AI?</h3>
         <p>
-          Ren'Py's built-in menu renders a choice as short strings over the background, which reads as
-          dialogue — fine for answering someone, wrong for the first real decision in the story. The
-          technique choice is three cards instead: the manual itself, its name, and what it costs you. All
-          three are learnable eventually and they combine, so it's a question of order rather than a locked
-          path, and the fight system reads whatever he's actually learned rather than a single stored
-          answer.
+          For now, almost everything — from CG to characters to background to music to code — is generated
+          by Claude Code. The story, however, is not.
+        </p>
+        <p>
+          I write the script, feed it to Claude Code, and have him wire it into the visual novel. He builds
+          a new version of the visual novel, I test it out and check for any discrepancies, and ask him to
+          make changes wherever necessary.
+        </p>
+        <p>
+          I am also in charge of developing the three different routes (one for each heroine), and I've
+          based them on alignment. The techniques you choose to learn along the story will influence which
+          route you'll end up in, and will show noticeable effects on the narrative. The following training
+          scene will reflect the technique you selected, rather than be a generic description. And yes, I
+          write all of that manually, because the story is mine and mine alone.
         </p>
 
-        <h3>The art comes from the rest of the ecosystem</h3>
+        <h3>Ecosystem workflow</h3>
         <p>
-          Backgrounds from the <a href="/projects/mcp-background.html">Background Generator</a>, characters
-          from the <a href="/projects/character-panel.html">Character &amp; Panel Generator</a>, the theme
-          from the <a href="/projects/music-generation.html">Music Generator</a>. What this server adds is
-          the bridge: matte a character once, then place hand-drawn face patches over that one body at
-          pixel offsets. Bodies are never re-rendered per expression, which is the whole reason a character
-          doesn't jitter when his mood changes mid-conversation.
+          As I mentioned earlier, I realized I already have all the assets required to assemble a visual
+          novel. Backgrounds from the <a href="/projects/mcp-background.html">background generator</a>,
+          characters from the <a href="/projects/character-panel.html">character and panel generator</a>,
+          the theme from the <a href="/projects/music-generation.html">music generator</a>. I can even use
+          the animated effects from <a href="/projects/anime-production.html">Anime Production</a> to
+          simulate fight scenes, much like how Fate/Stay Night does it, with flashes, slashes and even ice
+          effects. The visual novel MCP server adds to that process, first by matte-ing a character,
+          allowing them to be sprites that are ready to be dropped on top of a background.
         </p>
         <p>
-          Some things are drawn deterministically rather than generated, for the same reason as everywhere
-          else in this toolkit — a model can't be asked reliably for exact geometry. Night backgrounds are
-          one. Rather than dropping a blue tint over a daytime plate, the horizon is traced and the sky
-          replaced, so night is genuinely night and the buildings underneath keep their own lit windows.
+          When creating the visual novel, I discovered that I have to create two variants of the same
+          background. Originally, I only generated the day version, but when I wrote my story, many of the
+          scenes take place at night — something Claude Code flagged. Initially, I thought it would be fine
+          to just drop a dark tint on a day background, but as I played through the prototype, it felt
+          inauthentic and I could still see the bright blue day sky. In the end, I bit the bullet and
+          generated night versions, and it looks and plays better now.
         </p>
       </section>
 
-      <!-- 6. What Claude Code learned -->
-      <section style="max-width: 720px; margin: 0 auto 3rem;">
-        <div class="section-kicker">What Claude Code learned</div>
-        <h2>Four things that cost real time</h2>
-        <ul style="color: var(--text-body); line-height: 1.9;">
-          <li>
-            <strong>A tint is not a night.</strong> The obvious way to get a night version of a background
-            is to darken the day one. It reads as a photograph with the brightness pulled down, because
-            that's what it is — sky and lit windows dim together, and nothing in the picture believes it.
-            Replacing the sky properly means finding where it ends, and no per-pixel threshold can do that:
-            on the Demonic Cult city plate, sky and mountain measured identical in both brightness and
-            texture, so every threshold either ate the mountain or left the clouds. What worked was tracing
-            the ridge as a continuous contour and cutting along it. Four rounds of tuning failed first. The
-            fix was a different question, not a better number.
-          </li>
-          <li>
-            <strong>Text inside an interface is invisible to a diff.</strong> The tool comparing document
-            to script only sees dialogue. The three technique descriptions were written into the choice
-            screen, which sits outside that — so they became a second master immediately, edited in the
-            document and unchanged in the game, with nothing reporting it. Generating the screen from the
-            document closed it. The general form: anything a consistency check can't see will drift, and
-            you find out by eye, months later.
-          </li>
-          <li>
-            <strong>One sample can't tell a setting from a seed.</strong> This came up repeatedly and cost
-            real time each go. A render came back badly blurred on wording that was already correct, and
-            the fix was a re-roll, not a rewrite. A theory about why some character sheets produce a usable
-            back view survived three examples and died on the fourth. Change one thing, hold the seed, and
-            compare — or you'll confidently learn something untrue.
-          </li>
-          <li>
-            <strong>Local video can't animate cloth on flat cel art.</strong> Tested directly, hoping to
-            give the promo video some life. What comes back isn't fabric moving — it's a smooth periodic
-            displacement across the whole region, which is a heat-haze shader by another name. Cloth reads
-            as cloth because folds have edges that travel as a unit, and nothing that slides pixels
-            continuously imitates that. Flat color gives the model no fold structure to move, so it moves
-            the pixels instead. The still image and an additive glow won.
-          </li>
-        </ul>
-      </section>
-
-      <!-- 7. Ecosystem -->
+      <!-- 6. Ecosystem -->
       <section style="max-width: 720px; margin: 0 auto 3rem;">
         <div class="section-kicker">Ecosystem</div>
-        <h2>The assembler at the end of the chain</h2>
+        <h2>The latest member of my MCP ecosystem</h2>
         <p>
-          This is the newest piece of a wider webcomic and animation toolkit: the
-          <a href="/projects/mcp-background.html">Background Generator</a> for backgrounds, the
-          <a href="/projects/character-panel.html">Character &amp; Panel Generator</a> for consistent
-          characters, <a href="/projects/novel-translation.html">Novel Translation</a> for translating my
-          novel into other languages, <a href="/projects/music-generation.html">Music Generation</a> for
-          theme songs and BGM, and <a href="/projects/anime-production.html">Anime Production</a> for
-          animated videos. A speech bubble server is still to come.
-        </p>
-        <p>
-          Where Anime Production turns finished art into a video, this one turns it into something you
-          play. Same assets, same machine, different end product — and both of them assemble what the other
-          servers made rather than making anything of their own.
+          This is the newest server in a wider ecosystem of my self-built webcomic toolkit. The
+          <a href="/projects/mcp-background.html">Background Generator</a> generates backgrounds, the
+          <a href="/projects/character-panel.html">Character and Panel Generator</a> generates consistent
+          characters and panels, <a href="/projects/novel-translation.html">Novel Translation</a> translates
+          stories into other languages (and I plan to create Japanese and Korean versions of my visual novel
+          later), <a href="/projects/music-generation.html">Music Generator</a> generates theme songs and
+          background music, and <a href="/projects/anime-production.html">Anime Production</a> provides
+          visual effects and animated videos. I have a speech bubble server planned eventually, but I don't
+          know when that will come.
         </p>
       </section>
 
-      <!-- 8. Get it -->
+      <!-- 7. Get it -->
       <section style="display:flex; justify-content:center; margin: 0 auto 3rem;">
         <div class="pill-card" style="max-width:640px; width:100%;">
           <div class="section-kicker">For everyone's use</div>
