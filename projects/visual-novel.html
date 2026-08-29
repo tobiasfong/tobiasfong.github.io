@@ -65,10 +65,12 @@
       .vn-chip--complete { background: #14151a; color: #fff; }
       .vn-chip--progress { background: var(--accent-red); color: #fff; }
 
-      /* This section is 900px wide to hold three thumbnails, but .project-content
-         caps prose at 68ch (~605px), which left the synopsis visibly short of the
-         grid beneath it. Let the text run the full width of the section instead. */
-      .vn-showcase p { max-width: none; }
+      /* Sections here are 900px wide to hold three thumbnails across, but
+         style.css caps prose at 68ch (~605px), which left every paragraph
+         visibly short of its own section. Only affects this page — the rule
+         lives in this page's own style block. */
+      .project-content p,
+      .project-content li { max-width: none; }
 
       /* Three across, so a chapter reads as two tidy rows of three. Thumbnails
          are 600px files displayed at ~290px — enough for a retina screen — and
@@ -152,7 +154,7 @@
       </header>
 
       <!-- 3. The product -->
-      <section style="max-width: 720px; margin: 0 auto 3rem;">
+      <section style="max-width: 900px; margin: 0 auto 3rem;">
         <div class="section-kicker">The Product</div>
         <h2>A Visual Novel</h2>
         <p>
@@ -270,7 +272,7 @@
       </section>
 
       <!-- 5. How it works -->
-      <section style="max-width: 720px; margin: 0 auto 3rem;">
+      <section style="max-width: 900px; margin: 0 auto 3rem;">
         <div class="section-kicker">How It Works</div>
         <h2>Assembling a Visual Novel</h2>
         <p>
@@ -358,7 +360,7 @@
       </section>
 
       <!-- 6. Ecosystem -->
-      <section style="max-width: 720px; margin: 0 auto 3rem;">
+      <section style="max-width: 900px; margin: 0 auto 3rem;">
         <div class="section-kicker">Ecosystem</div>
         <h2>The latest member of my MCP ecosystem</h2>
         <p>
