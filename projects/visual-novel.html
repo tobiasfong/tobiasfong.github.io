@@ -93,18 +93,15 @@
 
     <!-- 1. Hero -->
     <div class="vn-hero">
-      <!-- Autoplay only works muted — every major browser blocks sound without a
-           user gesture. Controls stay so the theme can be unmuted, and the loop is
-           seamless because the track is locked to 33 bars. -->
+      <!-- Click to play, deliberately: autoplay is only permitted muted, and the
+           theme is half the point of this video. preload="metadata" keeps the 17MB
+           off the wire until someone actually presses play. -->
       <video
         src="https://github.com/tobiasfong/tobiasfong.github.io/releases/download/media-v1/promo-murim-mage.mp4"
         poster="/img/vn-murim-poster.jpg"
-        autoplay
-        muted
-        loop
         controls
         playsinline
-        preload="auto"
+        preload="metadata"
       ></video>
     </div>
 
