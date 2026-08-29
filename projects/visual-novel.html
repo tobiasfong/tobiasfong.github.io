@@ -65,6 +65,11 @@
       .vn-chip--complete { background: #14151a; color: #fff; }
       .vn-chip--progress { background: var(--accent-red); color: #fff; }
 
+      /* This section is 900px wide to hold three thumbnails, but .project-content
+         caps prose at 68ch (~605px), which left the synopsis visibly short of the
+         grid beneath it. Let the text run the full width of the section instead. */
+      .vn-showcase p { max-width: none; }
+
       /* Three across, so a chapter reads as two tidy rows of three. Thumbnails
          are 600px files displayed at ~290px — enough for a retina screen — and
          each links to the 1600px version, because the dialogue is the point and
@@ -166,7 +171,7 @@
       </section>
 
       <!-- 4. Showcase -->
-      <section style="max-width: 900px; margin: 0 auto 3rem;">
+      <section class="vn-showcase" style="max-width: 900px; margin: 0 auto 3rem;">
         <div class="section-kicker">Showcase</div>
         <h2>A Mage Transmigrated into a Murim World</h2>
         <p>
