@@ -153,8 +153,8 @@
         </p>
         <p>
           Like I said, thanks to the release of Opus 5, I am now able to add an Anime Production MCP server,
-          which possesses 20 tools, covering animation, frame editing, drawn effects, retiming, subtitles and
-          assembly. He now joins his brother skill in the Webcomic Toolkit repository, and theoretically,
+          which possesses 24 tools, covering animation, frame editing, drawn effects, artifact scanning,
+          retiming, subtitles and assembly. He now joins his brother skill in the Webcomic Toolkit repository, and theoretically,
           combining the both of them should be able to save you GPU and tokens. Apart from context-bloat, I
           was able to generate my own images/frames and videos fairly cheaply.
         </p>
@@ -305,6 +305,7 @@
           <li><strong>Beat-driven editing</strong> — cuts land on downbeats, and each shot declares a motion kind (loop / ping-pong / once / hold) that decides its timing.</li>
           <li><strong>A hand-drawn frame</strong> — holds portrait artwork inside a 16:9 canvas, with its leaves and blossoms individually animated so a long credits card never reads as a frozen video.</li>
           <li><strong>Burned-in bilingual subtitles</strong> — JP full size with EN beneath, plus a matching <code>.srt</code> generated from the same cue list so the two can't drift apart.</li>
+          <li><strong>Damage detection</strong> — the motion score can't see a face dissolving; in testing the highest-scoring take was the one whose face melted. <code>scan_artifacts</code> watches the linework's edge energy fall off its running peak, localizes where LTX blurred the lines away, and reports the last clean frame to cut on.</li>
         </ul>
       </section>
 
