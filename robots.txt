@@ -1,8 +1,9 @@
 User-agent: *
 Allow: /
 
-# Work-in-progress scratch pages, not meant to be indexed.
+# A components playground, linked from nowhere and not meant to be indexed.
+# /projects/prototype/ is deliberately NOT listed here — it is Prototype 1,
+# a finished project linked from the homepage and the projects index.
 Disallow: /projects/components/
-Disallow: /projects/prototype/
 
 Sitemap: https://tobiasfong.github.io/sitemap.xml
