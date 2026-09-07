@@ -72,6 +72,12 @@
       .project-content p,
       .project-content li { max-width: none; }
 
+      /* Dated log under the status chip. Add a line per milestone; newest last,
+         so it reads as a running record rather than a changelog. */
+      .vn-dates { list-style: none; padding: 0; margin: 0.25rem 0 0; }
+      .vn-dates li { margin-bottom: 0.35rem; }
+      .vn-dates strong { color: var(--text); }
+
       /* Three across, so a chapter reads as two tidy rows of three. Thumbnails
          are 600px files displayed at ~290px — enough for a retina screen — and
          each links to the 1600px version, because the dialogue is the point and
@@ -193,6 +199,10 @@
         <p>
           <span class="vn-chip vn-chip--progress">In Progress</span>
         </p>
+        <ul class="vn-dates">
+          <li><strong>August 29th 2026:</strong> Prologue completed, main theme added, Act 1 in progress.</li>
+          <li><strong>September 7th 2026:</strong> Act 1 completed, battle theme BGM added.</li>
+        </ul>
 
         <!-- To add a chapter: copy one .vn-entry block, change the label, the chip
              class (--complete / --progress) and the wording. Screenshots go inside
@@ -308,7 +318,6 @@
                   <img src="/img/vn/act1-21-thumb.jpg" alt="Bukgoong Ye Seol, a turtle beast and Moyong Jae Jun after the fight in the snow" loading="lazy" width="600" height="325" />
                 </a>
             </div>
-            <p style="margin-top:1.1rem;">Also generated and added battle theme BGM.</p>
           </div>
 
           <div class="vn-entry">
