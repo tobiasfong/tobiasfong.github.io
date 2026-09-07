@@ -74,9 +74,39 @@
 
       /* Dated log under the status chip. Add a line per milestone; newest last,
          so it reads as a running record rather than a changelog. */
-      .vn-dates { list-style: none; padding: 0; margin: 0.25rem 0 0; }
-      .vn-dates li { margin-bottom: 0.35rem; }
-      .vn-dates strong { color: var(--text); }
+      /* Status panel: the chip and the dated log are metadata, not prose, so
+         they get their own tinted block that the eye can skip to. Borrows
+         .pill-card's border treatment at a smaller radius. */
+      .vn-status {
+        background: var(--bg-alt);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 1.1rem 1.35rem 1.2rem;
+        margin-top: 1.75rem;
+      }
+
+      /* ul.vn-dates, not .vn-dates: style.css sets padding-left:20px on
+         .project-content ul, which outranks a single class and would leave the
+         dates indented as though invisible bullets were there. */
+      .project-content ul.vn-dates {
+        list-style: none;
+        padding-left: 0;
+        margin: 0.9rem 0 0;
+        gap: 0;
+      }
+      .vn-dates li {
+        display: grid;
+        grid-template-columns: 190px 1fr;
+        gap: 1rem;
+        padding: 0.55rem 0;
+        border-top: 1px solid var(--border);
+      }
+      .vn-dates li:first-child { border-top: 0; padding-top: 0; }
+      .vn-dates strong { color: var(--text); font-weight: 700; }
+
+      @media (max-width: 600px) {
+        .vn-dates li { grid-template-columns: 1fr; gap: 0.15rem; }
+      }
 
       /* Three across, so a chapter reads as two tidy rows of three. Thumbnails
          are 600px files displayed at ~290px — enough for a retina screen — and
@@ -196,13 +226,13 @@
           if they discover his true identity, they will do everything within their power to eliminate
           him.
         </p>
-        <p>
+        <div class="vn-status">
           <span class="vn-chip vn-chip--progress">In Progress</span>
-        </p>
-        <ul class="vn-dates">
-          <li><strong>August 29th 2026:</strong> Prologue completed, main theme added, Act 1 in progress.</li>
-          <li><strong>September 7th 2026:</strong> Act 1 completed, battle theme BGM added.</li>
-        </ul>
+          <ul class="vn-dates">
+            <li><strong>August 29th 2026</strong> Prologue completed, main theme added, Act 1 in progress.</li>
+            <li><strong>September 7th 2026</strong> Act 1 completed, battle theme BGM added.</li>
+          </ul>
+        </div>
 
         <!-- To add a chapter: copy one .vn-entry block, change the label, the chip
              class (--complete / --progress) and the wording. Screenshots go inside
