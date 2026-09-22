@@ -218,6 +218,42 @@
         .nuc-stop { width: 200px; padding: 0 0.9rem; }
       }
 
+      /* ══ Card modal ═════════════════════════════════
+         Same shape as the timeline modal on Sustainable Singapore, so the two
+         pages open a card the same way. */
+      .nuc-modal { position: fixed; inset: 0; z-index: 140; }
+      .nuc-modal[hidden] { display: none; }
+      .nuc-modal-back { position: absolute; inset: 0; background: rgba(15,15,15,0.55); }
+      .nuc-modal-box {
+        position: relative; margin: 5vh auto; max-width: 620px;
+        width: calc(100% - 32px); max-height: 90vh;
+        background: var(--bg); border-radius: 16px;
+        box-shadow: 0 24px 60px rgba(0,0,0,0.3); overflow: hidden;
+      }
+      .nuc-modal-scroll { overflow-y: auto; max-height: 90vh; padding: 26px 28px 30px; }
+      .nuc-modal-x {
+        position: absolute; top: 10px; right: 12px; z-index: 1;
+        border: 0; background: rgba(255,255,255,0.85); border-radius: 50%;
+        width: 32px; height: 32px; font-size: 21px; line-height: 1;
+        color: var(--text-body); cursor: pointer;
+      }
+      .nuc-modal-x:hover { background: var(--bg-alt); color: var(--text); }
+      .nuc-modal-date {
+        font-family: var(--font-heading); font-weight: 700; font-size: 13px;
+        letter-spacing: 0.06em; text-transform: uppercase;
+        color: var(--text-muted); margin-bottom: 6px;
+      }
+      .nuc-modal-box h3 { font-size: 20px; color: var(--text); margin: 0 0 14px; line-height: 1.25; }
+      .nuc-modal-box img {
+        width: 100%; aspect-ratio: 1024 / 576; object-fit: cover;
+        border-radius: 10px; display: block; margin: 0 0 16px; background: var(--bg-alt);
+      }
+      .nuc-modal-box p {
+        font-size: var(--fs-prose); color: var(--text-body); margin: 0; line-height: 1.65;
+      }
+      .nuc-modal-box p + p { margin-top: 0.9em; }
+      .nuc-modal-todo { color: var(--text-muted); font-style: italic; }
+
       /* ══ Prose ═════════════════════════════════════════════════ */
       .nuc-prose { max-width: 720px; margin: 0 auto 3.5rem; }
       .nuc-prose h2 em { font-style: italic; }
@@ -273,7 +309,7 @@
         <h2>Going critical</h2>
         <p style="max-width: 720px;">
           Eighty years of nuclear technology, from the first chain reaction to the reactors
-          Singapore is now studying. Hover to stop the strip, or use the arrows to step through it.
+          Singapore is now studying. Hover to stop the strip, use the arrows to step through it, and pick a card to read it.
         </p>
         <div class="nuc-strip" id="nuc-strip">
           <button type="button" class="nuc-arrow nuc-arrow--prev" id="nuc-prev"

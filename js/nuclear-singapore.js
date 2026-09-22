@@ -22,19 +22,19 @@
      renders a dashed ring until then. Dates are the event itself, not
      the announcement of it. */
   var EVENTS = [
-    { date: '2 December 1942',   name: 'Chicago Pile-1 goes critical',            img: null },
-    { date: '16 July 1945',      name: 'Trinity, and the Manhattan Project',      img: null },
-    { date: '6 and 9 August 1945', name: 'Hiroshima and Nagasaki',                img: null },
-    { date: '1 March 1954',      name: 'Castle Bravo, Bikini Atoll',              img: null },
-    { date: '27 June 1954',      name: 'Obninsk, the first reactor on a grid',    img: null },
-    { date: '29 September 1957', name: 'Kyshtym, the disaster kept secret',       img: null },
-    { date: '10 October 1957',   name: 'The Windscale fire',                      img: null },
-    { date: '5 August 1963',     name: 'The Partial Test Ban Treaty',             img: null },
-    { date: '28 March 1979',     name: 'Three Mile Island',                       img: null },
-    { date: '26 April 1986',     name: 'Chernobyl',                               img: null },
-    { date: '15 December 1995',  name: 'The Treaty of Bangkok',                   img: null },
-    { date: '11 March 2011',     name: 'Fukushima Daiichi',                       img: null },
-    { date: '2025–2026',    name: 'Singapore studies the option',            img: null }
+    { date: '2 December 1942',     name: 'Chicago Pile-1',           img: null, body: '' },
+    { date: '16 July 1945',        name: 'Trinity',                  img: null, body: '' },
+    { date: '6 and 9 August 1945', name: 'Hiroshima and Nagasaki',   img: null, body: '' },
+    { date: '1 March 1954',        name: 'Castle Bravo',             img: null, body: '' },
+    { date: '27 June 1954',        name: 'Obninsk',                  img: null, body: '' },
+    { date: '29 September 1957',   name: 'Kyshtym',                  img: null, body: '' },
+    { date: '10 October 1957',     name: 'Windscale',                img: null, body: '' },
+    { date: '5 August 1963',       name: 'Partial Test Ban Treaty',  img: null, body: '' },
+    { date: '28 March 1979',       name: 'Three Mile Island',        img: null, body: '' },
+    { date: '26 April 1986',       name: 'Chernobyl',                img: null, body: '' },
+    { date: '15 December 1995',    name: 'Treaty of Bangkok',        img: null, body: '' },
+    { date: '11 March 2011',       name: 'Fukushima Daiichi',        img: null, body: '' },
+    { date: '2025\u20132026',       name: 'Singapore\u2019s nuclear study', img: null, body: '' }
   ];
 
   function buildStrip() {
@@ -51,8 +51,77 @@
       b.innerHTML = plate +
         '<span class="nuc-date">' + ev.date + '</span>' +
         '<span class="nuc-name">' + ev.name + '</span>';
+      b.setAttribute('aria-haspopup', 'dialog');
+      b.addEventListener('click', function () { openModal(ev, b); });
       track.appendChild(b);
     });
+  }
+
+  /* -- The card modal ----------------------------------------------
+     Built once on first open rather than sitting in the HTML, so the page
+     ships without markup that most readers never see. Same shape as the
+     timeline modal on Sustainable Singapore.
+
+     modalOpen is read by the crawl: a strip that keeps sliding behind an
+     open card is motion the reader did not ask for. */
+  var modal = null, modalPrevFocus = null, modalOpen = false;
+
+  function buildModal() {
+    modal = document.createElement('div');
+    modal.className = 'nuc-modal';
+    modal.id = 'nuc-modal';
+    modal.hidden = true;
+    modal.innerHTML =
+      '<div class="nuc-modal-back" data-close></div>' +
+      '<div class="nuc-modal-box" role="dialog" aria-modal="true" aria-labelledby="nuc-modal-title">' +
+        '<button type="button" class="nuc-modal-x" data-close aria-label="Close">&times;</button>' +
+        '<div class="nuc-modal-scroll">' +
+          '<div class="nuc-modal-date" id="nuc-modal-date"></div>' +
+          '<h3 id="nuc-modal-title"></h3>' +
+          '<div id="nuc-modal-media"></div>' +
+          '<div id="nuc-modal-body"></div>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(modal);
+
+    modal.addEventListener('click', function (e) {
+      if (e.target.hasAttribute('data-close')) { closeModal(); }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (modal.hidden) { return; }
+      if (e.key === 'Escape') { closeModal(); return; }
+      if (e.key !== 'Tab') { return; }
+      // Keep Tab inside the dialog while it is open.
+      var f = modal.querySelectorAll('button, [href]');
+      if (!f.length) { return; }
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { last.focus(); e.preventDefault(); }
+      else if (!e.shiftKey && document.activeElement === last) { first.focus(); e.preventDefault(); }
+    });
+  }
+
+  function openModal(ev, trigger) {
+    if (!modal) { buildModal(); }
+    modalPrevFocus = trigger || document.activeElement;
+    el('nuc-modal-date').textContent = ev.date;
+    el('nuc-modal-title').textContent = ev.name;
+    el('nuc-modal-media').innerHTML = ev.img
+      ? '<img src="/img/nuclear/' + ev.img + '" alt="" />' : '';
+    el('nuc-modal-body').innerHTML = ev.body
+      ? '<p>' + ev.body + '</p>'
+      : '<p class="nuc-modal-todo">An account of this one goes here.</p>';
+    modal.hidden = false;
+    modalOpen = true;
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.nuc-modal-x').focus();
+  }
+
+  function closeModal() {
+    if (!modal || modal.hidden) { return; }
+    modal.hidden = true;
+    modalOpen = false;
+    document.body.style.overflow = '';
+    if (modalPrevFocus && modalPrevFocus.focus) { modalPrevFocus.focus(); }
   }
 
   /* ── The crawl ────────────────────────────────────────────────
@@ -121,7 +190,7 @@
       var dt = Math.min(t - last, 60);
       last = t;
       var max = maxScroll();
-      if (held) {
+      if (held || modalOpen) {
         // Follow the reader, including any arrow scroll still in flight, so
         // releasing carries on from there instead of snapping back.
         pos = view.scrollLeft;
