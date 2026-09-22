@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="What if Singapore goes nuclear? A history of nuclear technology, the Anthropocene, the hibakusha, and nuclear disaster in popular imagination." />
+
+    <meta property="og:site_name" content="Tobias Fong" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://tobiasfong.github.io/projects/nuclear-singapore.html" />
+    <meta property="og:title" content="Nuclear Singapore | Tobias Fong" />
+    <meta property="og:description" content="What if Singapore goes nuclear? A history of nuclear technology, the Anthropocene, the hibakusha, and nuclear disaster in popular imagination." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Nuclear Singapore | Tobias Fong" />
+    <meta name="twitter:description" content="What if Singapore goes nuclear? A history of nuclear technology and its long shadow." />
+
+    <title>Nuclear Singapore | Tobias Fong</title>
+    <link rel="canonical" href="https://tobiasfong.github.io/projects/nuclear-singapore.html" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="icon" type="image/jpeg" href="/img/rowlet-logo.jpg" />
+
+    <style>
+      /* ══ Page nav ══════════════════════════════════════════════
+         Shared shape with sustainable-singapore.html: one bar instead of the
+         site-wide .project-nav, site links on the left, then a Contents menu
+         holding this page's sections, then the sibling pages.
+
+         Kept as a copy in each page rather than lifted into style.css: the
+         site has no build step, and style.css is loaded by every page on the
+         site including ones that have no page nav at all. */
+      :root { --ss-nav-h: 56px; --ss-stick: var(--ss-nav-h); }
+
+      .ss-nav {
+        position: sticky; top: 0; z-index: 100;
+        /* style.css's bare `nav` rule is the home page's floating centered
+           pill. None of it suits a full-width bar, and left/transform in
+           particular have to be unset by hand. */
+        left: auto; right: auto; transform: none;
+        width: auto; max-width: none;
+        display: block; border: 0; border-radius: 0; box-shadow: none;
+        padding: 0; margin: 0;
+        border-bottom: 1px solid var(--border);
+        background: rgba(255,255,255,0.92);
+        backdrop-filter: saturate(180%) blur(20px);
+        -webkit-backdrop-filter: saturate(180%) blur(20px);
+      }
+      .ss-nav-inner {
+        max-width: 1080px; margin: 0 auto; padding: 0 48px;
+        display: flex; align-items: center; gap: 12px; min-height: 56px;
+      }
+      .ss-nav-home { flex: 0 0 auto; display: block; }
+      .ss-nav-home img {
+        width: 32px; height: 32px; border-radius: 50%;
+        object-fit: cover; display: block;
+      }
+      .ss-nav-back {
+        flex: 0 0 auto; font-size: 13px; font-weight: 600;
+        text-decoration: none; color: var(--text-muted); white-space: nowrap;
+      }
+      .ss-nav-back:hover { color: var(--text); }
+      .ss-nav-rule { flex: 0 0 auto; width: 1px; height: 20px; background: var(--border); }
+
+      /* One chip style for every clickable thing in the bar. */
+      .ss-nav-tab, .ss-nav-pages a, .ss-nav-panel a {
+        padding: 5px 11px; border-radius: 999px;
+        font-size: 13px; font-weight: 600; text-decoration: none;
+        color: var(--text-muted); white-space: nowrap;
+        transition: background 0.15s, color 0.15s;
+      }
+      .ss-nav-tab:hover, .ss-nav-pages a:hover, .ss-nav-panel a:hover {
+        color: var(--text); background: var(--bg-alt);
+      }
+      .ss-nav-panel a[aria-current="true"],
+      .ss-nav-pages a[aria-current="page"] { color: #fff; background: var(--accent-red); }
+
+      /* ── The Contents menu ──
+         Opens on hover for a mouse, on focus for a keyboard, and on click for
+         touch, where hover does not exist. The panel keeps id="ss-nav-links"
+         because the scroll spy looks that up by id. */
+      .ss-nav-menu { position: relative; flex: 0 0 auto; }
+      .ss-nav-tab {
+        appearance: none; border: 0; background: none; cursor: pointer;
+        font-family: inherit; display: inline-flex; align-items: center; gap: 5px;
+      }
+      .ss-nav-tab::after {
+        content: "\25BE"; font-size: 10px; line-height: 1;
+        transition: transform 0.15s;
+      }
+      .ss-nav-menu:hover .ss-nav-tab::after,
+      .ss-nav-tab[aria-expanded="true"]::after { transform: rotate(180deg); }
+      .ss-nav-panel {
+        position: absolute; top: calc(100% + 6px); left: 0; z-index: 120;
+        display: none; flex-direction: column; gap: 2px;
+        min-width: 196px; max-height: 70vh; overflow-y: auto;
+        padding: 8px; border: 1px solid var(--border); border-radius: 12px;
+        background: var(--bg); box-shadow: 0 12px 30px rgba(0,0,0,0.13);
+      }
+      .ss-nav-panel a { display: block; }
+      .ss-nav-menu:hover .ss-nav-panel,
+      .ss-nav-menu:focus-within .ss-nav-panel,
+      .ss-nav-panel[data-open="true"] { display: flex; }
+
+      /* The sibling pages take the space that is left and scroll inside it, so
+         the logo and Projects links are never pushed off the left edge. */
+      .ss-nav-pages {
+        flex: 1 1 auto; min-width: 0;
+        display: flex; gap: 4px; overflow-x: auto;
+        scrollbar-width: none; -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+      }
+      .ss-nav-pages::-webkit-scrollbar { display: none; }
+
+      /* Anchor jumps have to clear the bar, or the target heading lands
+         underneath it and the reader starts at the second paragraph. */
+      section[id] { scroll-margin-top: calc(var(--ss-stick) + 14px); }
+
+      @media (max-width: 760px) {
+        .ss-nav-inner { padding: 0 20px; gap: 8px; }
+      }
+
+      /* ══ Hero ══════════════════════════════════════════════════ */
+      .nuc-hero-card {
+        border: 1px dashed var(--border); border-radius: 16px;
+        background: var(--bg-alt);
+        padding: 4rem 2rem; text-align: center;
+        display: grid; place-items: center; gap: 10px;
+        min-height: 260px; margin: 0;
+      }
+      .nuc-hero-card .nuc-wip {
+        font-family: var(--font-heading); font-weight: 700;
+        font-size: 15px; letter-spacing: 0.14em; text-transform: uppercase;
+        color: var(--text-muted);
+      }
+      .nuc-hero-card .nuc-wip-sub {
+        font-size: var(--fs-caption); color: var(--text-muted); max-width: 40ch;
+      }
+
+      /* ══ The history strip ═════════════════════════════════════
+         A horizontal timeline of round plates on a single rule, after the
+         carousel in his JSC5203 week 2 lecture app. Same behavior as the tree
+         strip on the Sustainable Singapore page, and the same two rules that
+         came out of building it: the arrows sit in the container's padding,
+         OUTSIDE the scroller, so nothing ever covers a card, and an arrow
+         press never cancels the crawl — hovering is what holds it still. */
+      .nuc-strip { position: relative; padding: 0 56px 1rem; margin-top: 1.5rem; }
+      .nuc-view {
+        overflow-x: auto; scrollbar-width: none;
+        -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain;
+      }
+      .nuc-view::-webkit-scrollbar { display: none; }
+      .nuc-track {
+        display: flex; gap: 0; min-width: max-content;
+        position: relative; padding-top: 1.4rem;
+      }
+      /* The rule the plates sit on, pinned to the vertical middle of a plate. */
+      .nuc-track::before {
+        content: ""; position: absolute; top: calc(1.4rem + 60px);
+        left: 0; right: 0; height: 1px; background: var(--border);
+      }
+      .nuc-stop {
+        font: inherit; color: inherit; background: none; border: 0;
+        cursor: pointer; padding: 0 1.25rem;
+        display: flex; flex-direction: column; align-items: center;
+        gap: 0.7rem; width: 250px; position: relative; text-align: center;
+      }
+      .nuc-plate {
+        width: 120px; height: 120px; border-radius: 50%;
+        border: 2px solid var(--border); background: var(--bg-alt);
+        display: block; overflow: hidden;
+        transition: border-color 0.2s ease;
+      }
+      .nuc-plate img {
+        width: 100%; height: 100%; object-fit: cover; display: block;
+      }
+      /* Empty for now. The dashed ring reads as "a plate goes here" rather
+         than as a design choice, so an unfilled card looks unfinished on
+         purpose. */
+      .nuc-plate--empty { border-style: dashed; }
+      /* The dot where the plate meets the rule. */
+      .nuc-stop::after {
+        content: ""; position: absolute; top: calc(1.4rem + 60px - 5px);
+        left: 50%; width: 9px; height: 9px; margin-left: -4.5px;
+        border-radius: 50%; background: var(--bg);
+        border: 2px solid var(--text-muted); z-index: 2;
+        transition: background 0.2s ease, border-color 0.2s ease;
+      }
+      .nuc-date {
+        font-family: var(--font-heading); font-weight: 700;
+        font-size: 15px; letter-spacing: 0.01em; margin-top: 0.4rem;
+        color: var(--text);
+      }
+      .nuc-name {
+        font-size: var(--fs-caption); line-height: 1.4; color: var(--text-muted);
+      }
+      .nuc-stop:hover .nuc-plate, .nuc-stop:focus-visible .nuc-plate { border-color: var(--accent-red); }
+      .nuc-stop:hover::after, .nuc-stop:focus-visible::after {
+        background: var(--accent-red); border-color: var(--accent-red);
+      }
+      .nuc-stop:hover .nuc-date, .nuc-stop:focus-visible .nuc-date { color: var(--accent-red); }
+      .nuc-stop:focus-visible { outline: 2px solid var(--accent-red); outline-offset: 4px; }
+
+      .nuc-arrow {
+        position: absolute; top: calc(1.4rem + 60px - 21px);
+        width: 42px; height: 42px; border-radius: 50%;
+        border: 1px solid var(--border); background: var(--bg);
+        color: var(--text); font-size: 21px; line-height: 1;
+        display: grid; place-items: center; cursor: pointer;
+        padding: 0 0 0.12em; z-index: 4;
+        box-shadow: 0 1px 6px rgba(0,0,0,0.10);
+        transition: background 0.15s, border-color 0.15s, color 0.15s;
+      }
+      .nuc-arrow:hover { border-color: var(--accent-red); color: var(--accent-red); }
+      .nuc-arrow--prev { left: 0; }
+      .nuc-arrow--next { right: 0; }
+
+      @media (max-width: 760px) {
+        .nuc-strip { padding: 0 44px 1rem; }
+        .nuc-stop { width: 200px; padding: 0 0.9rem; }
+      }
+
+      /* ══ Prose ═════════════════════════════════════════════════ */
+      .nuc-prose { max-width: 720px; margin: 0 auto 3.5rem; }
+      .nuc-prose h2 em { font-style: italic; }
+    </style>
+  </head>
+
+  <body>
+    <!-- This page carries its own single bar instead of the shared
+         .project-nav, matching Sustainable Singapore. -->
+    <nav class="ss-nav" id="ss-nav" aria-label="Nuclear Singapore">
+      <div class="ss-nav-inner">
+        <a class="ss-nav-home" href="/" aria-label="Home"><img src="/img/rowlet-logo.jpg" alt="" width="32" height="32" /></a>
+        <a class="ss-nav-back" href="/projects/">&larr; Projects</a>
+        <span class="ss-nav-rule" aria-hidden="true"></span>
+        <div class="ss-nav-menu" id="ss-nav-menu">
+          <button type="button" class="ss-nav-tab" id="ss-nav-contents"
+                  aria-expanded="false" aria-controls="ss-nav-links">Contents</button>
+          <div class="ss-nav-panel" id="ss-nav-links">
+            <a href="#nuc-history">History</a>
+            <a href="#nuc-anthropocene">The Anthropocene</a>
+            <a href="#nuc-hibakusha">Hibakusha</a>
+            <a href="#nuc-imagination">Popular imagination</a>
+          </div>
+        </div>
+        <div class="ss-nav-pages">
+          <a href="/projects/sustainable-singapore.html">Sustainable Singapore</a>
+          <a href="/projects/nuclear-singapore.html" aria-current="page">Nuclear Singapore</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container project-content">
+      <p class="breadcrumb">
+        <a href="/projects/">&larr; Back to Projects</a>
+      </p>
+
+      <header class="project-hero" style="text-align:center; padding: 3rem 0 2rem;">
+        <h1>Nuclear Singapore</h1>
+        <p class="lead" style="max-width: 660px; margin: 0 auto 1.5rem;">
+          What if Singapore goes nuclear?
+        </p>
+        <figure class="nuc-hero-card">
+          <span class="nuc-wip">Currently a work in progress</span>
+          <span class="nuc-wip-sub">
+            The hero card goes here once there is something to put in it.
+          </span>
+        </figure>
+      </header>
+
+      <!-- ── The history strip ── -->
+      <section id="nuc-history" style="max-width: 1080px; margin: 0 auto 3.5rem;">
+        <div class="section-kicker">A short history</div>
+        <h2>Going critical</h2>
+        <p style="max-width: 720px;">
+          Eighty years of nuclear technology, from the first chain reaction to the reactors
+          Singapore is now studying. Hover to stop the strip, or use the arrows to step through it.
+        </p>
+        <div class="nuc-strip" id="nuc-strip">
+          <button type="button" class="nuc-arrow nuc-arrow--prev" id="nuc-prev"
+                  aria-controls="nuc-view" aria-label="Earlier">&lsaquo;</button>
+          <button type="button" class="nuc-arrow nuc-arrow--next" id="nuc-next"
+                  aria-controls="nuc-view" aria-label="Later">&rsaquo;</button>
+          <div class="nuc-view" id="nuc-view" tabindex="0" role="region"
+               aria-label="A timeline of nuclear history, scrolls sideways">
+            <div class="nuc-track" id="nuc-track"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── The Anthropocene ── -->
+      <section id="nuc-anthropocene" class="nuc-prose">
+        <div class="section-kicker">The Great Acceleration</div>
+        <h2>The Anthropocene</h2>
+        <p>
+          The Anthropocene, a geological era named after humans for the significant impact they
+          have on the environment. While many would point toward a spike in carbon content in the
+          atmosphere and the burning of fossil fuels as the driver of the Anthropocene, I argue
+          that the Great Acceleration actually starts right when nuclear technology is being
+          developed, with the spike beginning in the 1950s as constant nuclear experiments were
+          conducted.
+        </p>
+      </section>
+
+      <!-- ── Hibakusha ── -->
+      <section id="nuc-hibakusha" class="nuc-prose">
+        <h2><em>Hibakusha</em></h2>
+        <p>
+          The victims of nuclear weapons and radioactive disasters, the trauma of such technology
+          has been scorched into their psyches. It is not a solely Japanese concept, but a study of
+          the <em>Hibakusha</em> reveals the social anxieties around nuclear technology and
+          demonstrates a very clear lesson of what occurs if we're not careful with it. It is also
+          a way of dealing with memory and trauma, and should not be disregarded as we potentially
+          move forward with nuclear development. After all, those who don't learn from history are
+          doomed to repeat it.
+        </p>
+      </section>
+
+      <!-- ── Popular imagination ── -->
+      <section id="nuc-imagination" class="nuc-prose">
+        <h2>Nuclear disaster in popular imagination</h2>
+        <p>
+          A study of films, games and literature depicting nuclear apocalypses and why it's
+          important. They depict the social anxieties the public face when confronted with nuclear
+          technologies and disasters, and should not be dismissed as merely fiction. Probably
+          Timothy Morton's apocalypse books in academia and analyses of Japanese films and
+          animation such as Godzilla, Barefoot Gen, Gundam, Akira and many others touch upon it.
+        </p>
+      </section>
+    </main>
+
+    <script src="/js/nuclear-singapore.js?v=20260922a"></script>
+  </body>
+</html>

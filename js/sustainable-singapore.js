@@ -2074,6 +2074,35 @@
      rather than IntersectionObserver: the sections are wildly different
      heights (the timeline alone is several screens), and "whichever heading
      the sticky bars last passed" is the answer a reader expects. */
+  /* -- The Contents menu -------------------------------------------
+     CSS already opens it on hover and on focus-within. This adds the click
+     path, which is the only one a touch screen has, and closes it on Escape
+     or on a click outside. */
+  function wireNavMenu() {
+    var menu = el('ss-nav-menu'), btn = el('ss-nav-contents'), panel = el('ss-nav-links');
+    if (!menu || !btn || !panel) { return; }
+
+    function setOpen(open) {
+      if (open) { panel.setAttribute('data-open', 'true'); }
+      else { panel.removeAttribute('data-open'); }
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      setOpen(panel.getAttribute('data-open') !== 'true');
+    });
+    // Following a section link should put the menu away behind you.
+    panel.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') { setOpen(false); }
+    });
+    document.addEventListener('click', function (e) {
+      if (!menu.contains(e.target)) { setOpen(false); }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { setOpen(false); }
+    });
+  }
+
   function wirePageNav() {
     var nav = el('ss-nav'), strip = el('ss-nav-links');
     if (!nav || !strip) { return; }
@@ -2163,6 +2192,7 @@
     window.addEventListener('load', relayout);
 
     wireTabs('ss-live-tabs');
+    wireNavMenu();
     wirePageNav();
     wireConveyor('ss-conveyor', 'ss-conveyor-track');
 

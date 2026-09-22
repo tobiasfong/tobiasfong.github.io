@@ -400,23 +400,57 @@
       .ss-nav-back:hover { color: var(--text); }
       .ss-nav-rule { flex: 0 0 auto; width: 1px; height: 20px; background: var(--border); }
 
-      /* The section links take whatever width is left and scroll inside it, so
-         the home and Projects links are never pushed off the left edge. */
-      .ss-nav-links {
+      /* One chip style for every clickable thing in the bar. */
+      .ss-nav-tab, .ss-nav-pages a, .ss-nav-panel a {
+        padding: 5px 11px; border-radius: 999px;
+        font-size: 13px; font-weight: 600; text-decoration: none;
+        color: var(--text-muted); white-space: nowrap;
+        transition: background 0.15s, color 0.15s;
+      }
+      .ss-nav-tab:hover, .ss-nav-pages a:hover, .ss-nav-panel a:hover {
+        color: var(--text); background: var(--bg-alt);
+      }
+      .ss-nav-panel a[aria-current="true"],
+      .ss-nav-pages a[aria-current="page"] { color: #fff; background: var(--accent-red); }
+
+      /* ── The Contents menu ──
+         Thirteen section chips no longer fit beside the page links, so they
+         moved into a menu. It opens on hover for a mouse, on focus for a
+         keyboard, and on click for touch, where hover does not exist. The
+         panel keeps id="ss-nav-links" because the scroll spy looks it up by
+         id and marks the chips inside it. */
+      .ss-nav-menu { position: relative; flex: 0 0 auto; }
+      .ss-nav-tab {
+        appearance: none; border: 0; background: none; cursor: pointer;
+        font-family: inherit; display: inline-flex; align-items: center; gap: 5px;
+      }
+      .ss-nav-tab::after {
+        content: "\25BE"; font-size: 10px; line-height: 1;
+        transition: transform 0.15s;
+      }
+      .ss-nav-menu:hover .ss-nav-tab::after,
+      .ss-nav-tab[aria-expanded="true"]::after { transform: rotate(180deg); }
+      .ss-nav-panel {
+        position: absolute; top: calc(100% + 6px); left: 0; z-index: 120;
+        display: none; flex-direction: column; gap: 2px;
+        min-width: 196px; max-height: 70vh; overflow-y: auto;
+        padding: 8px; border: 1px solid var(--border); border-radius: 12px;
+        background: var(--bg); box-shadow: 0 12px 30px rgba(0,0,0,0.13);
+      }
+      .ss-nav-panel a { display: block; }
+      .ss-nav-menu:hover .ss-nav-panel,
+      .ss-nav-menu:focus-within .ss-nav-panel,
+      .ss-nav-panel[data-open="true"] { display: flex; }
+
+      /* The sibling pages take the space that is left and scroll inside it, so
+         the logo and Projects links are never pushed off the left edge. */
+      .ss-nav-pages {
         flex: 1 1 auto; min-width: 0;
         display: flex; gap: 4px; overflow-x: auto;
         scrollbar-width: none; -webkit-overflow-scrolling: touch;
         overscroll-behavior-x: contain;
       }
-      .ss-nav-links::-webkit-scrollbar { display: none; }
-      .ss-nav-links a {
-        flex: 0 0 auto; padding: 5px 11px; border-radius: 999px;
-        font-size: 13px; font-weight: 600; text-decoration: none;
-        color: var(--text-muted); white-space: nowrap;
-        transition: background 0.15s, color 0.15s;
-      }
-      .ss-nav-links a:hover { color: var(--text); background: var(--bg-alt); }
-      .ss-nav-links a[aria-current="true"] { color: #fff; background: var(--accent-red); }
+      .ss-nav-pages::-webkit-scrollbar { display: none; }
 
       /* Anchor jumps have to clear the bar, or the target heading lands
          underneath it and the reader starts at the second paragraph. */
@@ -736,7 +770,9 @@
            follows this automatically and the timeline header keeps clearing. */
         .ss-nav-inner { padding: 0 24px; gap: 9px; min-height: 50px; }
         .ss-nav-back { font-size: 12px; }
-        .ss-nav-links a { font-size: 12px; padding: 4px 9px; }
+        .ss-nav-tab, .ss-nav-pages a, .ss-nav-panel a {
+          font-size: 12px; padding: 4px 9px;
+        }
         .ss-tablist button { padding: 8px 11px; font-size: 13px; }
       }
     </style>
@@ -753,20 +789,28 @@
       <a class="ss-nav-home" href="/" aria-label="Home"><img src="/img/rowlet-logo.jpg" alt="" width="32" height="32" /></a>
       <a class="ss-nav-back" href="/projects/">← Projects</a>
       <span class="ss-nav-rule" aria-hidden="true"></span>
-      <div class="ss-nav-links" id="ss-nav-links">
-        <a href="#ss-overview">Overview</a>
-        <a href="#ss-live-sec">Live</a>
-        <a href="#ss-timeline">Timeline</a>
-        <a href="#ss-data">Data</a>
-        <a href="#ss-maps">Heatmap</a>
-        <a href="#ss-synthesis">Synthesis</a>
-        <a href="#ss-projection">Projection</a>
-        <a href="#ss-trees">Trees</a>
-        <a href="#ss-species">Species</a>
-        <a href="#ss-sim">Simulation</a>
-        <a href="#ss-nuclear">Nuclear</a>
-        <a href="#ss-takeaways">Takeaways</a>
-        <a href="#ss-refs-sec">References</a>
+      <div class="ss-nav-menu" id="ss-nav-menu">
+        <button type="button" class="ss-nav-tab" id="ss-nav-contents"
+                aria-expanded="false" aria-controls="ss-nav-links">Contents</button>
+        <div class="ss-nav-panel" id="ss-nav-links">
+          <a href="#ss-overview">Overview</a>
+          <a href="#ss-live-sec">Live</a>
+          <a href="#ss-timeline">Timeline</a>
+          <a href="#ss-data">Data</a>
+          <a href="#ss-maps">Heatmap</a>
+          <a href="#ss-synthesis">Synthesis</a>
+          <a href="#ss-projection">Projection</a>
+          <a href="#ss-trees">Trees</a>
+          <a href="#ss-species">Species</a>
+          <a href="#ss-sim">Simulation</a>
+          <a href="#ss-nuclear">Nuclear</a>
+          <a href="#ss-takeaways">Takeaways</a>
+          <a href="#ss-refs-sec">References</a>
+        </div>
+      </div>
+      <div class="ss-nav-pages">
+        <a href="/projects/sustainable-singapore.html" aria-current="page">Sustainable Singapore</a>
+        <a href="/projects/nuclear-singapore.html">Nuclear Singapore</a>
       </div>
     </div>
   </nav>
@@ -2000,6 +2044,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260821q"></script>
+    <script src="/js/sustainable-singapore.js?v=20260922a"></script>
   </body>
 </html>
