@@ -33,8 +33,7 @@
     { date: '28 March 1979',       name: 'Three Mile Island',        img: null, body: '' },
     { date: '26 April 1986',       name: 'Chernobyl',                img: null, body: '' },
     { date: '15 December 1995',    name: 'Treaty of Bangkok',        img: null, body: '' },
-    { date: '11 March 2011',       name: 'Fukushima Daiichi',        img: null, body: '' },
-    { date: '2025\u20132026',       name: 'Singapore\u2019s nuclear study', img: null, body: '' }
+    { date: '11 March 2011',       name: 'Fukushima Daiichi',        img: null, body: '' }
   ];
 
   function buildStrip() {
