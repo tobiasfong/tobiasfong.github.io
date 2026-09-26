@@ -94,18 +94,50 @@
         margin: 0;
         gap: 0;
       }
-      .vn-dates li {
+      /* > li, not li: an entry can now hold its own bullet list, and those
+         inner items must not pick up the date-row grid or its divider. */
+      .vn-dates > li {
         display: grid;
         grid-template-columns: 190px 1fr;
         gap: 1rem;
         padding: 0.55rem 0;
         border-top: 1px solid var(--border);
       }
-      .vn-dates li:first-child { border-top: 0; padding-top: 0; }
+      .vn-dates > li:first-child { border-top: 0; padding-top: 0; }
       .vn-dates strong { color: var(--text); font-weight: 700; }
 
+      /* Bullets inside an entry. list-style is inherited, and the outer list
+         sets none, so the disc has to be asked for explicitly. */
+      .project-content .vn-dates ul {
+        list-style: disc;
+        padding-left: 1.15rem;
+        margin: 0;
+        gap: 0.2rem;
+      }
+
+      /* Two mockups of the same phone at the same scale: flex-grow in the ratio
+         of their widths (421:900) keeps the portrait and landscape phones the
+         same physical size, bottom-aligned. */
+      .vn-phones {
+        display: flex;
+        align-items: flex-end;
+        gap: 14px;
+        width: 100%;
+        max-width: 560px;
+        margin: 0.7rem 0 0.4rem;
+      }
+      /* min-width:0 is load-bearing. A grid item defaults to min-width:auto,
+         which will not shrink below its content's minimum — and the phone
+         images' width attributes (421 and 900) set that minimum, so on a phone
+         the whole date column was pushed to ~580px and the page scrolled
+         sideways. */
+      .vn-dates > li > div { min-width: 0; }
+      .vn-phones img { display: block; height: auto; min-width: 0; }
+      .vn-phone-portrait  { flex: 421 1 0; }
+      .vn-phone-landscape { flex: 900 1 0; }
+
       @media (max-width: 600px) {
-        .vn-dates li { grid-template-columns: 1fr; gap: 0.15rem; }
+        .vn-dates > li { grid-template-columns: 1fr; gap: 0.15rem; }
       }
 
       /* Three across, so a chapter reads as two tidy rows of three. Thumbnails
@@ -233,6 +265,28 @@
           <ul class="vn-dates">
             <li><strong>August 29th 2026</strong> Prologue completed, main theme added, Act 1 in progress.</li>
             <li><strong>September 7th 2026</strong> Act 1 completed, battle theme BGM added.</li>
+            <li>
+              <strong>September 26th 2026</strong>
+              <div>
+                <ul>
+                  <li>UI improvements, including options to select bigger text, menu and navbar placement</li>
+                  <li>Expressions added for main characters</li>
+                  <li>
+                    Optimized for mobile version
+                    <div class="vn-phones">
+                      <img class="vn-phone-portrait" src="/img/vn/vn-mobile-portrait.webp"
+                        alt="The game's title screen on a phone held upright, the landscape game shown sideways"
+                        loading="lazy" width="421" height="900" />
+                      <img class="vn-phone-landscape" src="/img/vn/vn-mobile-landscape.webp"
+                        alt="The game's title screen on a phone turned sideways, with the Start, Load, Preferences and Help menu"
+                        loading="lazy" width="900" height="421" />
+                    </div>
+                  </li>
+                  <li>Improved combat mechanics and UI</li>
+                  <li>Fixed bugs</li>
+                </ul>
+              </div>
+            </li>
           </ul>
         </div>
 
@@ -358,7 +412,51 @@
               <span class="vn-chip vn-chip--progress">In Progress</span>
             </div>
             <div class="vn-shots">
-              <img src="/img/vn/act2-coming-soon.jpg" alt="Placeholder — screenshots for Act 2 are not available yet" loading="lazy" width="600" height="325" />
+                <a href="/img/vn/act2-01.jpg" target="_blank" rel="noopener noreferrer">
+                  <img src="/img/vn/act2-01-thumb.jpg" alt="Jeon Jung Seong, Sama Ryang and Cheon Ma in the red-lit hall, talking about the young lady of the Northern Ice Palace" loading="lazy" width="600" height="325" />
+                </a>
+                <a href="/img/vn/act2-02.jpg" target="_blank" rel="noopener noreferrer">
+                  <img src="/img/vn/act2-02-thumb.jpg" alt="Son Cheon Ryong proposing a spar with Jeon Jung Seong in the palace courtyard" loading="lazy" width="600" height="325" />
+                </a>
+                <a href="/img/vn/act2-03.jpg" target="_blank" rel="noopener noreferrer">
+                  <img src="/img/vn/act2-03-thumb.jpg" alt="The weapon choice screen — three swords: Tianlong Jian, Baekbing and Zhan Yue" loading="lazy" width="600" height="325" />
+                </a>
+                <a href="/img/vn/act2-04.jpg" target="_blank" rel="noopener noreferrer">
+                  <img src="/img/vn/act2-04-thumb.jpg" alt="Jeon Jung Seong taking a sword, beside the black turtle Hyeonmu and a man in gray robes" loading="lazy" width="600" height="325" />
+                </a>
+                <a href="/img/vn/act2-05.jpg" target="_blank" rel="noopener noreferrer">
+                  <img src="/img/vn/act2-05-thumb.jpg" alt="Ouyang Yeol calling out to Hong Ryeon in a room lined with ice sculptures" loading="lazy" width="600" height="325" />
+                </a>
+                <a href="/img/vn/act2-06.jpg" target="_blank" rel="noopener noreferrer">
+                  <img src="/img/vn/act2-06-thumb.jpg" alt="A man in the purple robes of the Sichuan Tang clan fleeing bandits in a bamboo clearing" loading="lazy" width="600" height="325" />
+                </a>
+                <a href="/img/vn/act2-07.jpg" target="_blank" rel="noopener noreferrer">
+                  <img src="/img/vn/act2-07-thumb.jpg" alt="Tang Ho Min asking Jeon Jung Seong whether he really defeated the bandits, in a bamboo forest" loading="lazy" width="600" height="325" />
+                </a>
+                <a href="/img/vn/act2-08.jpg" target="_blank" rel="noopener noreferrer">
+                  <img src="/img/vn/act2-08-thumb.jpg" alt="Hong Ryeon lying on a wooden floor scattered with red maple leaves" loading="lazy" width="600" height="325" />
+                </a>
+                <a href="/img/vn/act2-09.jpg" target="_blank" rel="noopener noreferrer">
+                  <img src="/img/vn/act2-09-thumb.jpg" alt="Jeon Jung Seong bursting in on Qingcheng Sect retainers with his sword drawn" loading="lazy" width="600" height="325" />
+                </a>
+                <a href="/img/vn/act2-10.jpg" target="_blank" rel="noopener noreferrer">
+                  <img src="/img/vn/act2-10-thumb.jpg" alt="Jeon Jung Seong and Ouyang Hong Ryeon in a wooden hut after her song restores his energy" loading="lazy" width="600" height="325" />
+                </a>
+                <a href="/img/vn/act2-11.jpg" target="_blank" rel="noopener noreferrer">
+                  <img src="/img/vn/act2-11-thumb.jpg" alt="Jeon Jung Seong and Tang Ho Min in a bamboo forest as he begins to sing" loading="lazy" width="600" height="325" />
+                </a>
+                <a href="/img/vn/act2-12.jpg" target="_blank" rel="noopener noreferrer">
+                  <img src="/img/vn/act2-12-thumb.jpg" alt="A green serpent dragon and a blazing red serpent clashing in boiling water beside a village" loading="lazy" width="600" height="325" />
+                </a>
+                <a href="/img/vn/act2-13.jpg" target="_blank" rel="noopener noreferrer">
+                  <img src="/img/vn/act2-13-thumb.jpg" alt="Tang Ho Min, Jeon Jung Seong, Ouyang Yeol and a blindfolded chief shaman in a mountain village" loading="lazy" width="600" height="325" />
+                </a>
+                <a href="/img/vn/act2-14.jpg" target="_blank" rel="noopener noreferrer">
+                  <img src="/img/vn/act2-14-thumb.jpg" alt="A battle screen — Jeon Jung Seong, Hyeonmu and Imugi against two Bulgasari and a Nue" loading="lazy" width="600" height="325" />
+                </a>
+                <a href="/img/vn/act2-15.jpg" target="_blank" rel="noopener noreferrer">
+                  <img src="/img/vn/act2-15-thumb.jpg" alt="Ouyang Hong Ryeon thanking Jeon Jung Seong beside her father Ouyang Yeol and Tang Ho Min" loading="lazy" width="600" height="325" />
+                </a>
             </div>
           </div>
 
