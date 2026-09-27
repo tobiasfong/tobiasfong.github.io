@@ -356,6 +356,25 @@
     });
   }
 
+  /* -- SMR cross-section: clicking a part toggles its label ---------- */
+  function wireDiagram() {
+    var fig = el('nuc-diagram');
+    if (!fig) { return; }
+    Array.prototype.forEach.call(fig.querySelectorAll('.nuc-part'), function (g) {
+      var lbl = el('nuc-lbl-' + g.getAttribute('data-part'));
+      var toggle = function () {
+        var open = !g.classList.contains('open');
+        g.classList.toggle('open', open);
+        g.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (lbl) { lbl.classList.toggle('open', open); }
+      };
+      g.addEventListener('click', toggle);
+      g.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+      });
+    });
+  }
+
   /* -- Footnotes -----------------------------------------------------
      Write a citation anywhere in the prose (HTML or an EVENTS body) as
      [^3]. It becomes a superscript link to the matching numbered source
@@ -406,6 +425,7 @@
     wireNavMenu();
     wirePageNav();
     wireRoom();
+    wireDiagram();
     expandCitations(document.querySelector('main'));
   }
 

@@ -287,6 +287,53 @@
       .nuc-refs a:hover { color: var(--text); }
       .nuc-prose h2 em { font-style: italic; }
 
+      /* ── SMR cross-section ── */
+      .nuc-diagram { margin: 1.75rem 0; }
+      .nuc-diagram svg { display: block; width: 100%; height: auto; max-height: 640px; }
+      .nuc-diagram .shell { fill: #dbe6f0; stroke: #2b3a4a; stroke-width: 3; }
+      .nuc-diagram .flange { fill: #c5d4e3; stroke: #2b3a4a; stroke-width: 2; }
+      .nuc-part { cursor: pointer; outline: none; }
+      .nuc-part > rect, .nuc-part > path { stroke: #2b3a4a; stroke-width: 2; transition: fill .2s ease, filter .2s ease; }
+      .nuc-part[data-part="pressurizer"] > path { fill: #a9c4de; }
+      .nuc-part[data-part="pumps"] > rect { fill: #8fb0cf; }
+      .nuc-part[data-part="steam"] > rect { fill: #e8f0f7; }
+      .nuc-part .coil { fill: none; stroke: #4c89c7; stroke-width: 3; }
+      .nuc-part .riser { fill: #b8c9da; }
+      .nuc-part[data-part="rods"] > rect { fill: #eef3f8; }
+      .nuc-part .rod { fill: none; stroke: #55657a; stroke-width: 5; stroke-linecap: round; }
+      .nuc-part[data-part="core"] > rect { fill: #3b4656; }
+      /* highlight: a warm glow on the part itself */
+      .nuc-part:hover, .nuc-part:focus-visible, .nuc-part.open {
+        filter: drop-shadow(0 0 6px rgba(240, 170, 70, 0.95)) brightness(1.08);
+      }
+      .nuc-lbl { opacity: 0; transition: opacity .25s ease; pointer-events: none; }
+      .nuc-lbl.open { opacity: 1; }
+      .nuc-lbl polyline { fill: none; stroke: #c98a2e; stroke-width: 2; }
+      .nuc-lbl circle { fill: #c98a2e; }
+      .nuc-lbl text { font-size: 17px; fill: var(--text-body); }
+      .nuc-lbl .t { font-family: var(--font-heading); font-weight: 700; font-size: 21px; fill: var(--text); }
+      @media (hover: none) and (pointer: coarse) {
+        .nuc-part { filter: drop-shadow(0 0 6px rgba(240, 170, 70, 0.95)); }
+      }
+
+      /* ── Three principle cards (Small modular reactors) ── */
+      .nuc-cards {
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 1.75rem;
+      }
+      .nuc-card {
+        border-radius: 14px; padding: 20px 22px; border-top: 5px solid;
+        background: var(--bg-alt);
+      }
+      .nuc-card h3 { margin: 0 0 8px; font-size: 19px; line-height: 1.3; }
+      .nuc-prose .nuc-card p { margin: 0; font-size: var(--fs-prose); color: var(--text-body); }
+      .nuc-card--blue  { border-color: #2f6fb3; background: rgba(47, 111, 179, 0.09); }
+      .nuc-card--blue h3 { color: #2f6fb3; }
+      .nuc-card--red   { border-color: var(--accent-red); background: rgba(200, 55, 40, 0.08); }
+      .nuc-card--red h3 { color: var(--accent-red); }
+      .nuc-card--green { border-color: #2e8a57; background: rgba(46, 138, 87, 0.09); }
+      .nuc-card--green h3 { color: #2e8a57; }
+      @media (max-width: 760px) { .nuc-cards { grid-template-columns: 1fr; } }
+
       /* ── Hibakusha room ─────────────────────────────────────────
          Full-bleed: breaks out of the 1080px section to the viewport's
          edges. body clips the overflow so 100vw (which includes the
@@ -521,10 +568,125 @@
       <!-- ── Small modular reactors ── -->
       <section id="nuc-smr" class="nuc-prose">
         <h2>Small modular reactors</h2>
+        <figure class="nuc-figure">
+          <img src="/img/nuclear/smr-factory.jpg" width="1024" height="576" loading="lazy"
+               alt="Two long rows of identical small modular reactor modules standing in a bright factory hall under a gantry crane." />
+        </figure>
         <p>
-          Smaller, still powerful...safer? This section weighs the risks of small modular reactors
-          and whether they’re safe enough for Singapore to use.
+          Singapore is exploring the option of nuclear power because our aim is sustainable
+          development. Compared to the carbon emissions from our current fossil fuel-based power,
+          nuclear promises cleaner energy with no carbon emissions.
         </p>
+        <p>
+          We have a limited range of options for alternative energy sources. Solar energy is
+          currently being rolled out, but the current technology hasn’t allowed us to rely solely on it.
+          Our geographical location means wind power is not dependable, and our lack of natural
+          resources means we have no feasible access to hydroelectricity.
+        </p>
+        <p>
+          However, given the history of nuclear disasters above, it is essential that we do not
+          plunge into nuclear power recklessly. An accident would be catastrophic, especially given
+          our tiny territory. A 30 kilometer exclusion zone means most of our densely populated
+          country has to be evacuated, and where would we house the evacuees? This is primarily
+          the reason why, for decades, Singapore has never adopted nuclear power.
+        </p>
+        <p>
+          Fortunately, nuclear technology has continued to advance and improve. Currently, the
+          development of small modular reactors has made it feasible for Singapore to cautiously
+          proceed on a new path. Compact and scalable, small modular reactors are only a fraction
+          of the size of conventional nuclear reactors, yet they are able to generate up to 300
+          megawatts per unit. They are safer, equipped with advanced features, such as passive safety systems
+          to reduce risk of accidents, and contain significantly less radioactive fuel. That means,
+          unlike Fukushima, there will be less decay heat to manage if the reactor does have a
+          meltdown. Furthermore, they can be prefabricated for easier transport and installation.
+        </p>
+        <!-- Cross-section of a small modular reactor. Drawn here, after the
+             Department of Energy's explainer; each part highlights on hover
+             (always, on phones) and shows its label when clicked. -->
+        <figure class="nuc-diagram" id="nuc-diagram">
+          <svg viewBox="0 0 1000 640" role="group" aria-label="Cross-section of a small modular reactor. Select a part to see what it does.">
+            <!-- vessel shell -->
+            <path class="shell" d="M300,130 A80,80 0 0 1 460,130 L460,560 Q460,610 410,610 L350,610 Q300,610 300,560 Z" />
+            <rect class="flange" x="286" y="296" width="188" height="16" rx="4" />
+            <rect class="flange" x="286" y="426" width="188" height="16" rx="4" />
+            <g class="nuc-part" data-part="pressurizer" role="button" tabindex="0" aria-label="Pressurizer" aria-expanded="false">
+              <path d="M318,140 A62,62 0 0 1 442,140 L442,176 L318,176 Z" />
+            </g>
+            <g class="nuc-part" data-part="pumps" role="button" tabindex="0" aria-label="Reactor coolant pumps" aria-expanded="false">
+              <rect x="268" y="178" width="32" height="46" rx="6" /><rect x="274" y="168" width="20" height="12" rx="3" />
+              <rect x="460" y="178" width="32" height="46" rx="6" /><rect x="466" y="168" width="20" height="12" rx="3" />
+            </g>
+            <g class="nuc-part" data-part="steam" role="button" tabindex="0" aria-label="Steam generator" aria-expanded="false">
+              <rect x="318" y="186" width="124" height="104" rx="6" />
+              <path class="coil" d="M322,198 L438,210 M322,216 L438,228 M322,234 L438,246 M322,252 L438,264 M322,270 L438,282" />
+              <rect class="riser" x="370" y="186" width="20" height="104" />
+            </g>
+            <g class="nuc-part" data-part="rods" role="button" tabindex="0" aria-label="Control rods" aria-expanded="false">
+              <rect x="318" y="320" width="124" height="100" rx="6" />
+              <path class="rod" d="M336,326 V476 M354,326 V476 M372,326 V476 M390,326 V476 M408,326 V476 M426,326 V476" />
+            </g>
+            <g class="nuc-part" data-part="core" role="button" tabindex="0" aria-label="Core" aria-expanded="false">
+              <rect x="322" y="450" width="116" height="140" rx="10" />
+            </g>
+            <g class="nuc-lbl" id="nuc-lbl-pressurizer">
+              <polyline points="442,150 600,96 626,96" />
+              <circle cx="442" cy="150" r="5" />
+              <text x="640" y="102"><tspan class="t" x="640">Pressurizer</tspan><tspan x="640" dy="1.35em">Keeps reactor coolant water under high</tspan><tspan x="640" dy="1.35em">pressure to prevent it from boiling.</tspan></text>
+            </g>
+            <g class="nuc-lbl" id="nuc-lbl-pumps">
+              <polyline points="492,200 600,184 626,184" />
+              <circle cx="492" cy="200" r="5" />
+              <text x="640" y="190"><tspan class="t" x="640">Reactor coolant pumps</tspan><tspan x="640" dy="1.35em">Circulate the reactor’s coolant.</tspan></text>
+            </g>
+            <g class="nuc-lbl" id="nuc-lbl-steam">
+              <polyline points="442,240 600,272 626,272" />
+              <circle cx="442" cy="240" r="5" />
+              <text x="640" y="278"><tspan class="t" x="640">Steam generator</tspan><tspan x="640" dy="1.35em">Converts water into steam to drive a</tspan><tspan x="640" dy="1.35em">turbine to generate electricity.</tspan></text>
+            </g>
+            <g class="nuc-lbl" id="nuc-lbl-rods">
+              <polyline points="442,370 600,380 626,380" />
+              <circle cx="442" cy="370" r="5" />
+              <text x="640" y="386"><tspan class="t" x="640">Control rods</tspan><tspan x="640" dy="1.35em">Control the power of a nuclear reactor,</tspan><tspan x="640" dy="1.35em">which includes shutting down the reaction.</tspan></text>
+            </g>
+            <g class="nuc-lbl" id="nuc-lbl-core">
+              <polyline points="438,520 600,500 626,500" />
+              <circle cx="438" cy="520" r="5" />
+              <text x="640" y="506"><tspan class="t" x="640">Core</tspan><tspan x="640" dy="1.35em">The heart of the reactor where nuclear</tspan><tspan x="640" dy="1.35em">fission generates heat.</tspan></text>
+            </g>
+          </svg>
+        </figure>
+        <p>
+          However, the disposal of nuclear waste remains a huge problem in land-scarce Singapore.
+          Worse, a study by Krall, Macfarlane and Ewing discovered that small modular reactors
+          produce between 2 to 30 times more waste per unit of energy than large reactors.[^33]
+          Current options consist of either storage of nuclear waste in a spent fuel pool for
+          between five to fifteen years before sending it to other countries to be extracted, or
+          burying and sealing the nuclear waste in a 2km deep hole.[^34] Perhaps we can explore
+          technology to neutralize radioactive waste, such as nanotechnology. In fact, Belgium’s
+          MYRRHA project is an example of how particle accelerators can transmute waste with long
+          half-lives into shorter-lived material.[^35] Though it’s not ready, perhaps it will be in
+          the future.
+        </p>
+        <p>
+          Furthermore, Singapore will possibly be able to construct offshore or underground nuclear
+          facilities. This would also mitigate the calamitous effects if any accidents do occur.
+          Theoretically, anyway. In any case, I do think it’s important to consider these three
+          approaches when thinking about nuclear power.
+        </p>
+        <div class="nuc-cards">
+          <div class="nuc-card nuc-card--blue">
+            <h3>Secure safeguards</h3>
+            <p>Prioritize safety above all.</p>
+          </div>
+          <div class="nuc-card nuc-card--red">
+            <h3>Combat complacency</h3>
+            <p>Stay vigilant and ensure all measures are in place to prevent accidents.</p>
+          </div>
+          <div class="nuc-card nuc-card--green">
+            <h3>Reactive response</h3>
+            <p>Have emergency protocols in place to swiftly respond to any issues.</p>
+          </div>
+        </div>
       </section>
 
       <!-- ── Waste heat ── -->
@@ -660,10 +822,19 @@
           <li id="ref-32">
             McCarthy, Francine M. G., R. Timothy Patterson, Martin J. Head, et al. <a href="https://doi.org/10.1177/20530196221149281" target="_blank" rel="noopener noreferrer">“The Varved Succession of Crawford Lake, Milton, Ontario, Canada as a Candidate Global Boundary Stratotype Section and Point for the Anthropocene Series.”</a> <em>The Anthropocene Review</em> 10, no. 1 (2023): 146–176.
           </li>
+          <li id="ref-33">
+            Krall, Lindsay M., Allison M. Macfarlane, and Rodney C. Ewing. <a href="https://doi.org/10.1073/pnas.2111833119" target="_blank" rel="noopener noreferrer">“Nuclear Waste from Small Modular Reactors.”</a> <em>Proceedings of the National Academy of Sciences</em> 119, no. 23 (2022): e2111833119.
+          </li>
+          <li id="ref-34">
+            Jacob, Charmaine. <a href="https://www.channelnewsasia.com/singapore/nuclear-energy-option-singapore-waste-and-public-perception-challenges-remain-4945996" target="_blank" rel="noopener noreferrer">“Small Nuclear Reactors a Viable Option for Singapore, but Managing Waste Is Key: Energy Experts.”</a> CNA, February 19, 2025.
+          </li>
+          <li id="ref-35">
+            SCK CEN. <a href="https://www.myrrha.be/" target="_blank" rel="noopener noreferrer">“MYRRHA.”</a> Belgian Nuclear Research Centre. Accessed September 28, 2026.
+          </li>
         </ol>
       </section>
     </main>
 
-    <script src="/js/nuclear-singapore.js?v=20260928h"></script>
+    <script src="/js/nuclear-singapore.js?v=20260928i"></script>
   </body>
 </html>
