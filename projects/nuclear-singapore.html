@@ -256,6 +256,9 @@
       /* ══ Prose ═════════════════════════════════════════════════ */
       /* Same width as the history strip and the hero. */
       .nuc-prose { max-width: 1080px; margin: 0 auto 3.5rem; }
+      /* style.css caps .project-content paragraphs at 68ch; here text runs
+         the full width of its section, level with the images. */
+      .nuc-prose p, .nuc-prose li { max-width: none; }
 
       /* ── Footnotes (same scheme as Sustainable Singapore) ── */
       .nuc-cite { font-size: 0.72em; line-height: 0; vertical-align: super; }
