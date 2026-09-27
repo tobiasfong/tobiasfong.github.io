@@ -308,10 +308,12 @@
       .nuc-zone-svg .areas { fill: none; stroke: #eef2f5; stroke-width: 0.12; }
       .nuc-zone-svg .dot { fill: #2b3a4a; }
       .nuc-zone-svg .zone { fill: rgba(200, 55, 40, 0.16); stroke: #c8372a; stroke-width: 0.35; stroke-dasharray: 1.2 0.8; }
-      .nuc-zone-svg .zone.smr { stroke-dasharray: none; stroke-width: 0.25; fill: rgba(200, 55, 40, 0.35); }
+      .nuc-zone-svg .zone.smr { stroke-dasharray: none; stroke-width: 0.12; fill: rgba(200, 55, 40, 0.3); }
       /* Only the reactor blocks touch scrolling, so a swipe over the map still scrolls the page. */
-      .nuc-zone-svg .reactor { fill: #c8372a; stroke: #fff; stroke-width: 0.35; cursor: grab; touch-action: none; }
+      .nuc-zone-svg .reactor { fill: #c8372a; stroke: #fff; stroke-width: 0.12; cursor: grab; touch-action: none; }
       .nuc-zone-svg .reactor:active { cursor: grabbing; }
+      /* The small dot keeps a wide, invisible stroke so a finger can still grab it. */
+      .nuc-zone-svg .reactor.small { stroke: rgba(255, 255, 255, 0.01); stroke-width: 2.4; }
       .nuc-zone-svg text { font-size: 1.15px; fill: #5b6776; font-family: var(--font-heading); letter-spacing: .08em; }
       .nuc-prose .nuc-zone-note { font-size: 13px; line-height: 1.55; color: var(--text-muted); margin-top: 10px; }
 
@@ -922,6 +924,6 @@
       </section>
     </main>
 
-    <script src="/js/nuclear-singapore.js?v=20260928n"></script>
+    <script src="/js/nuclear-singapore.js?v=20260928p"></script>
   </body>
 </html>

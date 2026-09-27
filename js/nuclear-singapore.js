@@ -416,6 +416,9 @@
       function draw() {
         zone.setAttribute('cx', cx); zone.setAttribute('cy', -cy); zone.setAttribute('r', R);
         zone.setAttribute('class', R < 1 ? 'zone smr' : 'zone');
+        // The dot must stay smaller than a 0.5 km zone, or it hides the zone entirely.
+        reactor.setAttribute('r', R < 1 ? 0.28 : (coarse ? 2.6 : 1.1));
+        reactor.setAttribute('class', R < 1 ? 'reactor small' : 'reactor');
         reactor.setAttribute('cx', cx); reactor.setAttribute('cy', -cy);
         count();
       }
