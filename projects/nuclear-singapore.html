@@ -302,9 +302,9 @@
         fill: rgba(255, 255, 255, 0); stroke: transparent; stroke-width: 4;
         stroke-linejoin: round; transition: fill .2s ease, stroke .2s ease;
       }
+      /* Hover lightens the object and names it: no outline, no dots. */
       .nuc-spot:hover polygon, .nuc-spot:focus-visible polygon {
-        fill: rgba(255, 236, 200, 0.16); stroke: var(--accent-red);
-        filter: drop-shadow(0 0 10px rgba(224, 69, 42, 0.85));
+        fill: rgba(255, 244, 222, 0.22);
       }
       .nuc-spot text {
         font-family: var(--font-heading); font-weight: 700; font-size: 30px;
@@ -313,15 +313,6 @@
         pointer-events: none;
       }
       .nuc-spot:hover text, .nuc-spot:focus-visible text { opacity: 1; }
-      /* A soft pulse on each object says "this is clickable", which hover
-         alone cannot say on a phone. */
-      .nuc-spot-dot {
-        fill: rgba(255, 244, 214, 0.9); stroke: var(--accent-red); stroke-width: 3;
-        transform-box: fill-box; transform-origin: center;
-        animation: nuc-pulse 2.2s ease-in-out infinite; pointer-events: none;
-      }
-      .nuc-spot:hover .nuc-spot-dot, .nuc-spot:focus-visible .nuc-spot-dot { opacity: 0; animation: none; }
-      @keyframes nuc-pulse { 0%, 100% { transform: scale(1); opacity: .9; } 50% { transform: scale(1.6); opacity: .35; } }
 
       /* The popup opens behind a flash, the pika of pika-don, then ash
          settles. Built once in the script; replayed on each open. */
@@ -340,7 +331,6 @@
         100% { opacity: 0; transform: translate(var(--x), 110vh); }
       }
       @media (prefers-reduced-motion: reduce) {
-        .nuc-spot-dot { animation: none; }
         .nuc-flash { display: none; }
       }
       .nuc-figure { margin: 0 0 1.5rem; }
@@ -492,17 +482,14 @@
           <svg class="nuc-room-map" viewBox="0 0 1392 752" preserveAspectRatio="none" aria-label="Objects in the ruined room">
             <g class="nuc-spot" data-theme="grief" role="button" tabindex="0" aria-label="Grief: the broken chest">
               <polygon points="88,478 105,462 440,462 452,520 440,600 420,642 225,642 95,608 70,560" />
-              <circle class="nuc-spot-dot" cx="262" cy="552" r="9" />
               <text x="262" y="444">Grief</text>
             </g>
             <g class="nuc-spot" data-theme="memory" role="button" tabindex="0" aria-label="Memory: the broken portrait">
               <polygon points="622,636 784,638 776,710 614,706" />
-              <circle class="nuc-spot-dot" cx="699" cy="673" r="9" />
               <text x="699" y="622">Memory</text>
             </g>
             <g class="nuc-spot" data-theme="trauma" role="button" tabindex="0" aria-label="Trauma: the bicycle">
               <polygon points="1045,377 1150,382 1178,420 1205,470 1205,600 1165,640 1000,655 900,615 895,555 915,500 1000,470" />
-              <circle class="nuc-spot-dot" cx="1052" cy="520" r="9" />
               <text x="1052" y="360">Trauma</text>
             </g>
           </svg>
@@ -656,6 +643,6 @@
       </section>
     </main>
 
-    <script src="/js/nuclear-singapore.js?v=20260928e"></script>
+    <script src="/js/nuclear-singapore.js?v=20260928f"></script>
   </body>
 </html>

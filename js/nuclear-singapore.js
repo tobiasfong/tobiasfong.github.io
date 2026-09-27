@@ -310,7 +310,7 @@
       name: 'Memory', img: 'hiroshima.jpg',
       paras: [
         'The atomic bombing of Hiroshima is remembered in a myriad of ways, from textbooks to tourism, preservation of ruins—such as the A-Bomb Dome—and survivor testimony. It influences the way Japan perceives itself, often not as an aggressor, but a victim of war, particularly atomic war. It is this same framing that drives much of their anti-nuclear movements, as it is the only nation to have suffered atomic bombing during war.',
-        'However, much of that memory covers only Japanese victims. Korean survivors are often left out, despite many of those who succumbed being of Korean origin. Memories of Japanese colonialization are glossed over and often, it is Japan’s peace that gets commemorated, with many victims of Japan’s war aggression overshadowed by the larger cloud of atomic fire.',
+        'However, much of that memory covers only Japanese victims. Korean survivors are often left out, despite many of those who succumbed being of Korean origin. Memories of Japanese colonization are glossed over and often, it is Japan’s peace that gets commemorated, with many victims of Japan’s war aggression overshadowed by the larger cloud of atomic fire.',
         'More recently, the 2024 Nobel Peace Prize was awarded to Nihon Hidankyo, which demonstrates through witness testimony and survivors’ stories how crucial it is that we never use nuclear weapons again.'
       ]
     },
