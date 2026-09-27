@@ -429,11 +429,13 @@
           });
         }).map(function (b) { return b.name; });
         el('nuc-zone-pct').textContent = (100 * n / total).toFixed(n && n / total < 0.001 ? 2 : 0) +
-          '% of Singapore’s residents' + (hit.length ? ' · also ' + hit.join(', ') : '');
+          '% of Singapore’s residents' + (R < 1 && hit.length ? ' · also ' + hit.join(', ') : '');
       }
       function draw() {
         zone.setAttribute('cx', cx); zone.setAttribute('cy', -cy); zone.setAttribute('r', R);
         zone.setAttribute('class', R < 1 ? 'zone smr' : 'zone');
+        // The named busy places only matter at the small zone's scale.
+        svg.classList.toggle('smr-mode', R < 1);
         // The dot must stay smaller than a 0.5 km zone, or it hides the zone entirely.
         reactor.setAttribute('r', R < 1 ? 0.28 : (coarse ? 2.6 : 1.1));
         reactor.setAttribute('class', R < 1 ? 'reactor small' : 'reactor');

@@ -309,6 +309,8 @@
       /* Busy places where almost nobody lives: hatched and named. */
       .nuc-zone-svg .busy { fill: url(#nuc-hatch); stroke: #8a97a6; stroke-width: 0.08; }
       .nuc-zone-svg .busy-label { font-size: 0.85px; fill: #3f4b58; letter-spacing: .02em; }
+      /* Shown only for the 0.5 km zone. */
+      .nuc-zone-svg:not(.smr-mode) .busy, .nuc-zone-svg:not(.smr-mode) .busy-label { display: none; }
       .nuc-zone-svg .dot { fill: #2b3a4a; }
       .nuc-zone-svg .zone { fill: rgba(200, 55, 40, 0.16); stroke: #c8372a; stroke-width: 0.35; stroke-dasharray: 1.2 0.8; }
       .nuc-zone-svg .zone.smr { stroke-dasharray: none; stroke-width: 0.12; fill: rgba(200, 55, 40, 0.3); }
@@ -929,6 +931,6 @@
       </section>
     </main>
 
-    <script src="/js/nuclear-singapore.js?v=20260928r"></script>
+    <script src="/js/nuclear-singapore.js?v=20260928s"></script>
   </body>
 </html>
