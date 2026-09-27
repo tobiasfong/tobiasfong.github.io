@@ -80,8 +80,18 @@
           '<div id="nuc-modal-media"></div>' +
           '<div id="nuc-modal-body"></div>' +
         '</div>' +
+        '<div class="nuc-flash" id="nuc-flash"><b></b></div>' +
       '</div>';
     document.body.appendChild(modal);
+    // Ash for the flash: a handful of flakes with their own drift and delay.
+    var fl = el('nuc-flash');
+    for (var k = 0; k < 18; k++) {
+      var a = document.createElement('i');
+      a.style.left = (4 + Math.random() * 92).toFixed(1) + '%';
+      a.style.setProperty('--x', ((Math.random() - 0.5) * 60).toFixed(0) + 'px');
+      a.style.setProperty('--d', (0.2 + Math.random() * 1.4).toFixed(2) + 's');
+      fl.appendChild(a);
+    }
 
     modal.addEventListener('click', function (e) {
       if (e.target.hasAttribute('data-close')) { closeModal(); return; }
@@ -108,14 +118,19 @@
     el('nuc-modal-title').textContent = ev.name;
     el('nuc-modal-media').innerHTML = ev.img
       ? '<img src="/img/nuclear/' + ev.img + '" alt="" />' : '';
-    el('nuc-modal-body').innerHTML = ev.body
-      ? '<p>' + ev.body + '</p>'
-      : '<p class="nuc-modal-todo">An account of this one goes here.</p>';
+    el('nuc-modal-body').innerHTML = ev.paras
+      ? '<p>' + ev.paras.join('</p><p>') + '</p>'
+      : ev.body
+        ? '<p>' + ev.body + '</p>'
+        : '<p class="nuc-modal-todo">An account of this one goes here.</p>';
     expandCitations(el('nuc-modal-body'));
     modal.hidden = false;
     modalOpen = true;
     document.body.style.overflow = 'hidden';
     modal.querySelector('.nuc-modal-x').focus();
+    var flash = el('nuc-flash');
+    flash.classList.remove('on');
+    if (ev.flash) { void flash.offsetWidth; flash.classList.add('on'); }
   }
 
   function closeModal() {
@@ -281,6 +296,55 @@
     window.addEventListener('resize', function () { measure(); update(); });
   }
 
+  /* -- Hibakusha: the three objects in the ruined room ---------------
+     Each opens the same popup as the history cards, with its own paragraphs.
+     His words; titles italicized. Memory reuses the A-Bomb Dome plate. */
+  var THEMES = {
+    trauma: {
+      name: 'Trauma', img: 'hibakusha-trauma.jpg',
+      paras: [
+        'The atomic bombing of Hiroshima left psychological effects on the survivors, a psychic numbing where they are forced to unconsciously shut off their emotions to deal with the overwhelming death and destruction. More recently, mothers from Fukushima tested food for radiation, and they ended up being stigmatized. The social anxiety, fear and hysteria are evoked in the 2012 film, <em>The Land of Hope</em> (希望の国), directed by Sono Sion.'
+      ]
+    },
+    memory: {
+      name: 'Memory', img: 'hiroshima.jpg',
+      paras: [
+        'The atomic bombing of Hiroshima is remembered in a myriad of ways, from textbooks to tourism, preservation of ruins—such as the A-Bomb Dome—and survivor testimony. It influences the way Japan perceives itself, often not as an aggressor, but a victim of war, particularly atomic war. It is this same framing that drives much of their anti-nuclear movements, as it is the only nation to have suffered atomic bombing during war.',
+        'However, much of that memory covers only Japanese victims. Korean survivors are often left out, despite many of those who succumbed being of Korean origin. Memories of Japanese colonialization are glossed over and often, it is Japan’s peace that gets commemorated, with many victims of Japan’s war aggression overshadowed by the larger cloud of atomic fire.',
+        'More recently, the 2024 Nobel Peace Prize was awarded to Nihon Hidankyo, which demonstrates through witness testimony and survivors’ stories how crucial it is that we never use nuclear weapons again.'
+      ]
+    },
+    grief: {
+      name: 'Grief', img: 'hibakusha-grief.jpg',
+      paras: [
+        'In the aftermath of Fukushima, a new genre emerges, known as <em>Shinsai Bungaku</em> (震災文学), or catastrophe literature. Also known as Fukushima fiction, these stories and films frequently express how Japan copes with grief over the loss of life in the tragic calamity, as well as their loss of faith in the government. Many are literary works or films like Tawada Yoko’s <em>The Emissary</em>, Furukawa Hideo’s <em>Horses, Horses, in the End the Light Remains Pure</em>, Kobayashi Erika’s <em>Trinity, Trinity, Trinity</em>, Kimura Yusuke’s <em>Sacred Cesium Ground</em> and <em>Isa’s Deluge</em>, Takahashi Genichiro’s <em>Koisuru Genpatsu</em>, Sono Sion’s <em>The Land of Hope</em> (希望の国) and even Anno Hideaki’s <em>Shin Godzilla</em>.'
+      ]
+    }
+  };
+
+  function wireRoom() {
+    var room = el('nuc-room');
+    if (!room) { return; }
+    var sbw = function () {
+      document.documentElement.style.setProperty('--sbw',
+        (window.innerWidth - document.documentElement.clientWidth) + 'px');
+    };
+    sbw();
+    window.addEventListener('resize', sbw);
+    var spots = room.querySelectorAll('.nuc-spot');
+    Array.prototype.forEach.call(spots, function (g) {
+      var t = THEMES[g.getAttribute('data-theme')];
+      if (!t) { return; }
+      var open = function () {
+        openModal({ date: 'Hibakusha', name: t.name, img: t.img, paras: t.paras, flash: true }, g);
+      };
+      g.addEventListener('click', open);
+      g.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+      });
+    });
+  }
+
   /* -- Footnotes -----------------------------------------------------
      Write a citation anywhere in the prose (HTML or an EVENTS body) as
      [^3]. It becomes a superscript link to the matching numbered source
@@ -330,6 +394,7 @@
     wireStrip();
     wireNavMenu();
     wirePageNav();
+    wireRoom();
     expandCitations(document.querySelector('main'));
   }
 

@@ -258,7 +258,7 @@
       .nuc-prose { max-width: 1080px; margin: 0 auto 3.5rem; }
       /* style.css caps .project-content paragraphs at 68ch; here text runs
          the full width of its section, level with the images. */
-      .nuc-prose p, .nuc-prose li { max-width: none; }
+      .nuc-prose p, .nuc-prose li, #nuc-history > p { max-width: none; }
 
       /* ── Footnotes (same scheme as Sustainable Singapore) ── */
       .nuc-cite { font-size: 0.72em; line-height: 0; vertical-align: super; }
@@ -283,6 +283,66 @@
       .nuc-refs a { color: var(--text-body); text-decoration: underline; text-underline-offset: 2px; }
       .nuc-refs a:hover { color: var(--text); }
       .nuc-prose h2 em { font-style: italic; }
+
+      /* ── Hibakusha room ─────────────────────────────────────────
+         Full-bleed: breaks out of the 1080px section to the viewport's
+         edges. body clips the overflow so 100vw (which includes the
+         scrollbar on Windows) never adds a sideways scroll. */
+      body { overflow-x: clip; }
+      /* --sbw is the scrollbar's width, set by the script: 100vw counts the
+         scrollbar on Windows, so without it the room hangs off the left edge. */
+      .nuc-room {
+        position: relative; width: calc(100vw - var(--sbw, 0px));
+        margin: 2rem 0 0 calc(50% - (100vw - var(--sbw, 0px)) / 2);
+      }
+      .nuc-room img { display: block; width: 100%; height: auto; }
+      .nuc-room-map { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .nuc-spot { cursor: pointer; outline: none; }
+      .nuc-spot polygon {
+        fill: rgba(255, 255, 255, 0); stroke: transparent; stroke-width: 4;
+        stroke-linejoin: round; transition: fill .2s ease, stroke .2s ease;
+      }
+      .nuc-spot:hover polygon, .nuc-spot:focus-visible polygon {
+        fill: rgba(255, 236, 200, 0.16); stroke: var(--accent-red);
+        filter: drop-shadow(0 0 10px rgba(224, 69, 42, 0.85));
+      }
+      .nuc-spot text {
+        font-family: var(--font-heading); font-weight: 700; font-size: 30px;
+        text-anchor: middle; fill: #fff; stroke: rgba(20, 20, 20, 0.85);
+        stroke-width: 6px; paint-order: stroke; opacity: 0; transition: opacity .2s ease;
+        pointer-events: none;
+      }
+      .nuc-spot:hover text, .nuc-spot:focus-visible text { opacity: 1; }
+      /* A soft pulse on each object says "this is clickable", which hover
+         alone cannot say on a phone. */
+      .nuc-spot-dot {
+        fill: rgba(255, 244, 214, 0.9); stroke: var(--accent-red); stroke-width: 3;
+        transform-box: fill-box; transform-origin: center;
+        animation: nuc-pulse 2.2s ease-in-out infinite; pointer-events: none;
+      }
+      .nuc-spot:hover .nuc-spot-dot, .nuc-spot:focus-visible .nuc-spot-dot { opacity: 0; animation: none; }
+      @keyframes nuc-pulse { 0%, 100% { transform: scale(1); opacity: .9; } 50% { transform: scale(1.6); opacity: .35; } }
+
+      /* The popup opens behind a flash, the pika of pika-don, then ash
+         settles. Built once in the script; replayed on each open. */
+      .nuc-flash { position: absolute; inset: 0; pointer-events: none; z-index: 3; overflow: hidden; border-radius: 16px; }
+      .nuc-flash b { position: absolute; inset: 0; background: #fffbea; opacity: 0; }
+      .nuc-flash i {
+        position: absolute; top: -10px; width: 5px; height: 5px; border-radius: 50%;
+        background: rgba(90, 86, 80, 0.7); opacity: 0;
+      }
+      .nuc-flash.on b { animation: nuc-flash .9s ease-out forwards; }
+      .nuc-flash.on i { animation: nuc-ash 3.2s linear forwards; animation-delay: var(--d); }
+      @keyframes nuc-flash { 0% { opacity: 1; } 30% { opacity: .85; } 100% { opacity: 0; } }
+      @keyframes nuc-ash {
+        0% { opacity: 0; transform: translate(0, 0); }
+        15% { opacity: .8; }
+        100% { opacity: 0; transform: translate(var(--x), 110vh); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .nuc-spot-dot { animation: none; }
+        .nuc-flash { display: none; }
+      }
       .nuc-figure { margin: 0 0 1.5rem; }
       .nuc-figure img {
         display: block; width: 100%; height: auto;
@@ -411,14 +471,42 @@
       <section id="nuc-hibakusha" class="nuc-prose">
         <h2><em>Hibakusha</em></h2>
         <p>
-          The victims of nuclear weapons and radioactive disasters, the trauma of such technology
-          has been scorched into their psyches. It is not a solely Japanese concept, but a study of
-          the <em>Hibakusha</em> reveals the social anxieties around nuclear technology and
-          demonstrates a very clear lesson of what occurs if we're not careful with it. It is also
-          a way of dealing with memory and trauma, and should not be disregarded as we potentially
-          move forward with nuclear development. After all, those who don't learn from history are
-          doomed to repeat it.
+          As we consider the pursuit of nuclear technology to combat climate change, we should also
+          consider why the public may be resistant to it. Such resistance and reticence are best
+          expressed in <em>Hibakusha</em> narratives—stories of the victims of nuclear weapons and
+          radioactive disasters and how they attempt to cope with such an overwhelming catastrophe.
+          The trauma has been seared into their psyches, and the way the use of nuclear weapons and
+          radioactive disasters are remembered often shapes how the technology is perceived.
         </p>
+        <p>
+          They provide clear lessons on how to proceed. Public memory is a powerful force that can
+          influence the trajectory of national policies, and any advancement must be executed with
+          delicacy and respect for those who have suffered the calamitous effects of such fearsome
+          technology.
+        </p>
+        <!-- The room: three objects in it open the three themes. Shapes are in the
+             image's own pixels (1392 x 752), so they scale with it. -->
+        <div class="nuc-room" id="nuc-room">
+          <img src="/img/nuclear/hibakusha-room.jpg" width="1392" height="752" loading="lazy"
+               alt="The inside of a Japanese wooden house after the atomic bombing: the roof blown away, a broken chest of drawers, a twisted, scorched bicycle, and a shattered family portrait on the floor." />
+          <svg class="nuc-room-map" viewBox="0 0 1392 752" preserveAspectRatio="none" aria-label="Objects in the ruined room">
+            <g class="nuc-spot" data-theme="grief" role="button" tabindex="0" aria-label="Grief: the broken chest">
+              <polygon points="88,478 105,462 440,462 452,520 440,600 420,642 225,642 95,608 70,560" />
+              <circle class="nuc-spot-dot" cx="262" cy="552" r="9" />
+              <text x="262" y="444">Grief</text>
+            </g>
+            <g class="nuc-spot" data-theme="memory" role="button" tabindex="0" aria-label="Memory: the broken portrait">
+              <polygon points="622,636 784,638 776,710 614,706" />
+              <circle class="nuc-spot-dot" cx="699" cy="673" r="9" />
+              <text x="699" y="622">Memory</text>
+            </g>
+            <g class="nuc-spot" data-theme="trauma" role="button" tabindex="0" aria-label="Trauma: the bicycle">
+              <polygon points="1045,377 1150,382 1178,420 1205,470 1205,600 1165,640 1000,655 900,615 895,555 915,500 1000,470" />
+              <circle class="nuc-spot-dot" cx="1052" cy="520" r="9" />
+              <text x="1052" y="360">Trauma</text>
+            </g>
+          </svg>
+        </div>
       </section>
 
 
@@ -568,6 +656,6 @@
       </section>
     </main>
 
-    <script src="/js/nuclear-singapore.js?v=20260928c"></script>
+    <script src="/js/nuclear-singapore.js?v=20260928e"></script>
   </body>
 </html>
