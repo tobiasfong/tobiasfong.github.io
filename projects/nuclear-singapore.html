@@ -310,8 +310,12 @@
       .nuc-lbl.open { opacity: 1; }
       .nuc-lbl polyline { fill: none; stroke: #c98a2e; stroke-width: 2; }
       .nuc-lbl circle { fill: #c98a2e; }
-      .nuc-lbl text { font-size: 17px; fill: var(--text-body); }
-      .nuc-lbl .t { font-family: var(--font-heading); font-weight: 700; font-size: 21px; fill: var(--text); }
+      /* Label cards match the blue "Secure safeguards" card: a pale blue
+         panel under a 5px blue top edge, with the heading in that blue. */
+      .nuc-lbl .card-edge { fill: #2f6fb3; }
+      .nuc-lbl .card { fill: #edf3f9; }
+      .nuc-lbl text { font-size: 17px; fill: #1f2d3a; }
+      .nuc-lbl .t { font-family: var(--font-heading); font-weight: 700; font-size: 21px; fill: #2f6fb3; }
       @media (hover: none) and (pointer: coarse) {
         .nuc-part { filter: drop-shadow(0 0 6px rgba(240, 170, 70, 0.95)); }
       }
@@ -631,26 +635,36 @@
             <g class="nuc-lbl" id="nuc-lbl-pressurizer">
               <polyline points="442,150 600,96 626,96" />
               <circle cx="442" cy="150" r="5" />
+              <rect class="card-edge" x="626" y="70" width="372" height="86" rx="14" />
+              <rect class="card" x="626" y="75" width="372" height="81" rx="11" />
               <text x="640" y="102"><tspan class="t" x="640">Pressurizer</tspan><tspan x="640" dy="1.35em">Keeps reactor coolant water under high</tspan><tspan x="640" dy="1.35em">pressure to prevent it from boiling.</tspan></text>
             </g>
             <g class="nuc-lbl" id="nuc-lbl-pumps">
               <polyline points="492,200 600,184 626,184" />
               <circle cx="492" cy="200" r="5" />
+              <rect class="card-edge" x="626" y="158" width="372" height="63" rx="14" />
+              <rect class="card" x="626" y="163" width="372" height="58" rx="11" />
               <text x="640" y="190"><tspan class="t" x="640">Reactor coolant pumps</tspan><tspan x="640" dy="1.35em">Circulate the reactor’s coolant.</tspan></text>
             </g>
             <g class="nuc-lbl" id="nuc-lbl-steam">
               <polyline points="442,240 600,272 626,272" />
               <circle cx="442" cy="240" r="5" />
+              <rect class="card-edge" x="626" y="246" width="372" height="86" rx="14" />
+              <rect class="card" x="626" y="251" width="372" height="81" rx="11" />
               <text x="640" y="278"><tspan class="t" x="640">Steam generator</tspan><tspan x="640" dy="1.35em">Converts water into steam to drive a</tspan><tspan x="640" dy="1.35em">turbine to generate electricity.</tspan></text>
             </g>
             <g class="nuc-lbl" id="nuc-lbl-rods">
               <polyline points="442,370 600,380 626,380" />
               <circle cx="442" cy="370" r="5" />
+              <rect class="card-edge" x="626" y="354" width="372" height="86" rx="14" />
+              <rect class="card" x="626" y="359" width="372" height="81" rx="11" />
               <text x="640" y="386"><tspan class="t" x="640">Control rods</tspan><tspan x="640" dy="1.35em">Control the power of a nuclear reactor,</tspan><tspan x="640" dy="1.35em">which includes shutting down the reaction.</tspan></text>
             </g>
             <g class="nuc-lbl" id="nuc-lbl-core">
               <polyline points="438,520 600,500 626,500" />
               <circle cx="438" cy="520" r="5" />
+              <rect class="card-edge" x="626" y="474" width="372" height="86" rx="14" />
+              <rect class="card" x="626" y="479" width="372" height="81" rx="11" />
               <text x="640" y="506"><tspan class="t" x="640">Core</tspan><tspan x="640" dy="1.35em">The heart of the reactor where nuclear</tspan><tspan x="640" dy="1.35em">fission generates heat.</tspan></text>
             </g>
           </svg>
