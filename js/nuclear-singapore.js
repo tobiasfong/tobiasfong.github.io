@@ -393,8 +393,19 @@
       mk('path', { d: D.neighbors, 'class': 'nb' });
       mk('path', { d: D.land, 'class': 'land' });
       mk('path', { d: D.areas, 'class': 'areas' });
+      var defs = mk('defs', {});
+      var pat = mk('pattern', { id: 'nuc-hatch', width: 0.6, height: 0.6,
+        patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, defs);
+      mk('rect', { width: 0.6, height: 0.6, fill: '#c3ccd5' }, pat);
+      mk('line', { x1: 0, y1: 0, x2: 0, y2: 0.6, stroke: '#9aa6b3', 'stroke-width': 0.22 }, pat);
+      var busy = D.busy || [];
+      busy.forEach(function (b) { mk('path', { d: b.d, 'class': 'busy' }); });
       var lab = function (x, y, t) { var n = mk('text', { x: x, y: -y, 'text-anchor': 'middle' }); n.textContent = t; };
       lab(-15, 16, 'MALAYSIA');
+      busy.forEach(function (b) {
+        var t = mk('text', { x: b.at[0], y: -b.at[1] + 0.3, 'text-anchor': 'middle', 'class': 'busy-label' });
+        t.textContent = b.name;
+      });
       var zone = mk('circle', { 'class': 'zone', r: 30 });
       // A fingertip needs a bigger target than a mouse pointer.
       var coarse = window.matchMedia && matchMedia('(pointer: coarse)').matches;
@@ -410,8 +421,15 @@
           if (dx * dx + dy * dy <= r2) { n += cells[i][2]; }
         }
         el('nuc-zone-count').textContent = Math.round(n).toLocaleString('en-US') + ' residents inside the zone';
+        // Name any busy, non-residential place the zone reaches.
+        var hit = busy.filter(function (b) {
+          return b.pts.some(function (q) {
+            var dx = q[0] - cx, dy = q[1] - cy;
+            return dx * dx + dy * dy <= r2;
+          });
+        }).map(function (b) { return b.name; });
         el('nuc-zone-pct').textContent = (100 * n / total).toFixed(n && n / total < 0.001 ? 2 : 0) +
-          '% of Singapore’s residents';
+          '% of Singapore’s residents' + (hit.length ? ' · also ' + hit.join(', ') : '');
       }
       function draw() {
         zone.setAttribute('cx', cx); zone.setAttribute('cy', -cy); zone.setAttribute('r', R);
@@ -427,7 +445,8 @@
           b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
         });
       }
-      function place(x, y) { cx = x; cy = y; draw(); }
+      // Kept on the map, whether dragged or moved with the arrow keys.
+      function place(x, y) { cx = Math.max(-25, Math.min(31, x)); cy = Math.max(-18, Math.min(17, y)); draw(); }
       Array.prototype.forEach.call(root.querySelectorAll('[data-radius]'), function (b) {
         b.addEventListener('click', function () {
           R = parseFloat(b.getAttribute('data-radius'));
