@@ -325,12 +325,14 @@
   function wireRoom() {
     var room = el('nuc-room');
     if (!room) { return; }
-    var sbw = function () {
-      document.documentElement.style.setProperty('--sbw',
-        (window.innerWidth - document.documentElement.clientWidth) + 'px');
-    };
-    sbw();
-    window.addEventListener('resize', sbw);
+    // The scrollbar's own width, from a hidden scrolling box. Reading
+    // innerWidth - clientWidth instead breaks on phones, where anything wider
+    // than the screen inflates innerWidth.
+    var probe = document.createElement('div');
+    probe.style.cssText = 'position:absolute;top:-999px;width:100px;height:100px;overflow:scroll;';
+    document.body.appendChild(probe);
+    document.documentElement.style.setProperty('--sbw', (probe.offsetWidth - probe.clientWidth) + 'px');
+    document.body.removeChild(probe);
     var spots = room.querySelectorAll('.nuc-spot');
     Array.prototype.forEach.call(spots, function (g) {
       var t = THEMES[g.getAttribute('data-theme')];
@@ -339,6 +341,15 @@
         openModal({ date: 'Hibakusha', name: t.name, img: t.img, paras: t.paras, flash: true }, g);
       };
       g.addEventListener('click', open);
+      var glow = room.querySelector('.nuc-glow[data-theme="' + g.getAttribute('data-theme') + '"]');
+      if (glow) {
+        var on = function () { glow.classList.add('on'); };
+        var off = function () { glow.classList.remove('on'); };
+        g.addEventListener('mouseenter', on);
+        g.addEventListener('mouseleave', off);
+        g.addEventListener('focus', on);
+        g.addEventListener('blur', off);
+      }
       g.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
       });

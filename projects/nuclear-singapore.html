@@ -124,6 +124,9 @@
         background: var(--bg-alt) url(/img/nuclear/hero.jpg) center / cover no-repeat;
         padding: 2rem; text-align: center;
         display: grid; place-items: center;
+        /* width is pinned: with only aspect-ratio and min-height, a narrow
+           screen widened the card to 513px and the whole page with it. */
+        width: 100%; box-sizing: border-box;
         aspect-ratio: 1344 / 576; min-height: 220px; margin: 0;
       }
       /* The label sits on its own dark chip so it reads over any part of the plate. */
@@ -302,9 +305,18 @@
         fill: rgba(255, 255, 255, 0); stroke: transparent; stroke-width: 4;
         stroke-linejoin: round; transition: fill .2s ease, stroke .2s ease;
       }
-      /* Hover lightens the object and names it: no outline, no dots. */
-      .nuc-spot:hover polygon, .nuc-spot:focus-visible polygon {
-        fill: rgba(255, 244, 222, 0.22);
+      /* The polygons are only click targets now. What lights up is a cutout of
+         the object itself, so the glow follows its silhouette. */
+      .nuc-glow {
+        position: absolute; height: auto; pointer-events: none; opacity: 0;
+        filter: brightness(1.35) drop-shadow(0 0 5px rgba(255, 238, 200, 0.95))
+                drop-shadow(0 0 14px rgba(255, 214, 150, 0.6));
+        transition: opacity .25s ease;
+      }
+      .nuc-room .nuc-glow.on { opacity: 1; }
+      /* Phones have no hover, so there the objects glow all the time. */
+      @media (hover: none) and (pointer: coarse) {
+        .nuc-room .nuc-glow { opacity: 1; }
       }
       .nuc-spot text {
         font-family: var(--font-heading); font-weight: 700; font-size: 30px;
@@ -479,6 +491,12 @@
         <div class="nuc-room" id="nuc-room">
           <img src="/img/nuclear/hibakusha-room.jpg" width="1392" height="752" loading="lazy"
                alt="The inside of a Japanese wooden house after the atomic bombing: the roof blown away, a broken chest of drawers, a twisted, scorched bicycle, and a shattered family portrait on the floor." />
+          <img class="nuc-glow" data-theme="grief" src="/img/nuclear/hibakusha-glow-grief.png" alt="" aria-hidden="true"
+               style="left:4.095%; top:58.777%; width:30.172%;" />
+          <img class="nuc-glow" data-theme="memory" src="/img/nuclear/hibakusha-glow-memory.png" alt="" aria-hidden="true"
+               style="left:44.828%; top:85.638%; width:10.848%;" />
+          <img class="nuc-glow" data-theme="trauma" src="/img/nuclear/hibakusha-glow-trauma.png" alt="" aria-hidden="true"
+               style="left:64.224%; top:50.000%; width:21.049%;" />
           <svg class="nuc-room-map" viewBox="0 0 1392 752" preserveAspectRatio="none" aria-label="Objects in the ruined room">
             <g class="nuc-spot" data-theme="grief" role="button" tabindex="0" aria-label="Grief: the broken chest">
               <polygon points="88,478 105,462 440,462 452,520 440,600 420,642 225,642 95,608 70,560" />
@@ -643,6 +661,6 @@
       </section>
     </main>
 
-    <script src="/js/nuclear-singapore.js?v=20260928f"></script>
+    <script src="/js/nuclear-singapore.js?v=20260928h"></script>
   </body>
 </html>
