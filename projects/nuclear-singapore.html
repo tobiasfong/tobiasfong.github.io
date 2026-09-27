@@ -287,6 +287,34 @@
       .nuc-refs a:hover { color: var(--text); }
       .nuc-prose h2 em { font-style: italic; }
 
+      /* ── Exclusion-zone map ── */
+      .nuc-zone { margin-top: 1.5rem; }
+      .nuc-zone-bar { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-bottom: 14px; }
+      .nuc-zone-group { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+      .nuc-zone-group button {
+        font: inherit; font-size: 14px; padding: 7px 14px; border-radius: 999px; cursor: pointer;
+        border: 1px solid var(--border); background: var(--bg); color: var(--text-body);
+      }
+      .nuc-zone-group button[aria-pressed="true"] { background: #2f6fb3; border-color: #2f6fb3; color: #fff; }
+      .nuc-zone-read { margin-bottom: 10px; }
+      .nuc-zone-read strong { font-family: var(--font-heading); font-size: 26px; color: var(--accent-red); }
+      .nuc-zone-read span { margin-left: 8px; color: var(--text-muted); }
+      .nuc-zone-svg {
+        display: block; width: 100%; height: auto; max-height: 78vh;
+        background: #eef5fb; border-radius: 14px;
+      }
+      .nuc-zone-svg .nb { fill: #dfe3e7; }
+      .nuc-zone-svg .land { fill: #cfd8e0; }
+      .nuc-zone-svg .areas { fill: none; stroke: #eef2f5; stroke-width: 0.12; }
+      .nuc-zone-svg .dot { fill: #2b3a4a; }
+      .nuc-zone-svg .zone { fill: rgba(200, 55, 40, 0.16); stroke: #c8372a; stroke-width: 0.35; stroke-dasharray: 1.2 0.8; }
+      .nuc-zone-svg .zone.smr { stroke-dasharray: none; stroke-width: 0.25; fill: rgba(200, 55, 40, 0.35); }
+      /* Only the reactor blocks touch scrolling, so a swipe over the map still scrolls the page. */
+      .nuc-zone-svg .reactor { fill: #c8372a; stroke: #fff; stroke-width: 0.35; cursor: grab; touch-action: none; }
+      .nuc-zone-svg .reactor:active { cursor: grabbing; }
+      .nuc-zone-svg text { font-size: 1.15px; fill: #5b6776; font-family: var(--font-heading); letter-spacing: .08em; }
+      .nuc-prose .nuc-zone-note { font-size: 13px; line-height: 1.55; color: var(--text-muted); margin-top: 10px; }
+
       /* ── SMR cross-section ── */
       .nuc-diagram { margin: 1.75rem 0; }
       .nuc-diagram svg { display: block; width: 100%; height: auto; max-height: 640px; }
@@ -423,6 +451,7 @@
             <a href="#nuc-anthropocene">The Anthropocene</a>
             <a href="#nuc-hibakusha">Hibakusha</a>
             <a href="#nuc-smr">Small modular reactors</a>
+            <a href="#nuc-zone">Exclusion zone</a>
             <a href="#nuc-wasteheat">Waste heat</a>
             <a href="#nuc-fusion">Nuclear fusion</a>
             <a href="#nuc-imagination">Popular imagination</a>
@@ -703,6 +732,38 @@
         </div>
       </section>
 
+      <!-- ── Exclusion zone ── -->
+      <section id="nuc-zone" class="nuc-prose">
+        <h2>A hypothetical exclusion zone</h2>
+        <p>
+          What happens if a nuclear accident occurs in Singapore? Here’s a theoretical
+          extrapolation of what emergency zones look like.
+        </p>
+        <!-- Drag the reactor, or pick a site; the count sums a 250 m grid of
+             Singapore residents inside the zone. Data: data/nuclear-zone.json. -->
+        <div class="nuc-zone" id="nuc-zone">
+          <div class="nuc-zone-bar">
+            <div class="nuc-zone-group" role="group" aria-label="Reactor type">
+              <button type="button" data-radius="30" aria-pressed="true">Conventional reactor · 30 km</button>
+              <button type="button" data-radius="0.5" aria-pressed="false">Small modular reactor · 0.5 km</button>
+            </div>
+          </div>
+          <div class="nuc-zone-read" aria-live="polite">
+            <strong id="nuc-zone-count">…</strong>
+            <span id="nuc-zone-pct"></span>
+          </div>
+          <svg class="nuc-zone-svg" id="nuc-zone-svg" viewBox="-26 -18 58 37" role="img"
+               aria-label="Map of Singapore with a circular emergency zone around a reactor site. Drag the reactor to move it."></svg>
+          <p class="nuc-zone-note">
+            Drag the reactor to anywhere on the map.[^36][^38] Currently, the 4,044,210 residents
+            figure is from the 2020 Census, and covers only Singaporean citizens and permanent
+            residents.[^37] You can switch between the conventional reactor and the small modular
+            reactor, and the latter’s zone is based on NuScale’s approved target of an emergency
+            zone, 0.5 km, in case of any incident.[^39]
+          </p>
+        </div>
+      </section>
+
       <!-- ── Waste heat ── -->
       <section id="nuc-wasteheat" class="nuc-prose">
         <h2>Don’t waste heat waste</h2>
@@ -845,10 +906,22 @@
           <li id="ref-35">
             SCK CEN. <a href="https://www.myrrha.be/" target="_blank" rel="noopener noreferrer">“MYRRHA.”</a> Belgian Nuclear Research Centre. Accessed September 28, 2026.
           </li>
+          <li id="ref-36">
+            Urban Redevelopment Authority. <a href="https://data.gov.sg/datasets/d_8594ae9ff96d0c708bc2af633048edfb/view" target="_blank" rel="noopener noreferrer">“Master Plan 2019 Subzone Boundary (No Sea).”</a> Data.gov.sg. Accessed September 28, 2026. Made available under the Singapore Open Data Licence.
+          </li>
+          <li id="ref-37">
+            Department of Statistics, Singapore. <a href="https://data.gov.sg/datasets/d_7f243956483d5901f237e6f87b096636/view" target="_blank" rel="noopener noreferrer">“Resident Population by Planning Area/Subzone of Residence and Type of Dwelling (Census of Population 2020).”</a> Data.gov.sg. Accessed September 28, 2026. Made available under the Singapore Open Data Licence.
+          </li>
+          <li id="ref-38">
+            Natural Earth. <a href="https://www.naturalearthdata.com/downloads/10m-physical-vectors/10m-land/" target="_blank" rel="noopener noreferrer">“Land,” 1:10m Physical Vectors.</a> Public domain. Accessed September 28, 2026.
+          </li>
+          <li id="ref-39">
+            <em>World Nuclear News</em>. <a href="https://www.world-nuclear-news.org/Articles/US-regulator-approves-methodology-for-SMR-emergenc" target="_blank" rel="noopener noreferrer">“US Regulator Approves Methodology for SMR Emergency Planning.”</a> October 28, 2022.
+          </li>
         </ol>
       </section>
     </main>
 
-    <script src="/js/nuclear-singapore.js?v=20260928i"></script>
+    <script src="/js/nuclear-singapore.js?v=20260928m"></script>
   </body>
 </html>

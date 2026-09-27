@@ -375,6 +375,101 @@
     });
   }
 
+  /* -- Exclusion zone: a draggable reactor over a population grid ------
+     data/nuclear-zone.json holds Singapore residents (Census 2020) on a
+     250 m grid, in km from 103.82E 1.35N; the SVG draws north up, so every
+     y is negated. The count is a plain sum of cells inside the circle. */
+  function wireZone() {
+    var root = el('nuc-zone'), svg = el('nuc-zone-svg');
+    if (!root || !svg || !window.fetch) { return; }
+    var NS = 'http://www.w3.org/2000/svg';
+    var mk = function (tag, attrs, parent) {
+      var n = document.createElementNS(NS, tag);
+      for (var k in attrs) { n.setAttribute(k, attrs[k]); }
+      (parent || svg).appendChild(n);
+      return n;
+    };
+    fetch('/data/nuclear-zone.json').then(function (r) { return r.json(); }).then(function (D) {
+      mk('path', { d: D.neighbors, 'class': 'nb' });
+      mk('path', { d: D.land, 'class': 'land' });
+      mk('path', { d: D.areas, 'class': 'areas' });
+      var lab = function (x, y, t) { var n = mk('text', { x: x, y: -y, 'text-anchor': 'middle' }); n.textContent = t; };
+      lab(-15, 16, 'MALAYSIA');
+      var zone = mk('circle', { 'class': 'zone', r: 30 });
+      // A fingertip needs a bigger target than a mouse pointer.
+      var coarse = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+      var reactor = mk('circle', { 'class': 'reactor', r: coarse ? 2.6 : 1.1, tabindex: 0, role: 'button',
+        'aria-label': 'Reactor. Drag to move; arrow keys also move it.' });
+      var R = 30, cx = 0, cy = 0;
+      var cells = D.cells, total = D.total;
+
+      function count() {
+        var n = 0, r2 = R * R;
+        for (var i = 0; i < cells.length; i++) {
+          var dx = cells[i][0] - cx, dy = cells[i][1] - cy;
+          if (dx * dx + dy * dy <= r2) { n += cells[i][2]; }
+        }
+        el('nuc-zone-count').textContent = Math.round(n).toLocaleString('en-US') + ' residents inside the zone';
+        el('nuc-zone-pct').textContent = (100 * n / total).toFixed(n && n / total < 0.001 ? 2 : 0) +
+          '% of Singapore’s residents';
+      }
+      function draw() {
+        zone.setAttribute('cx', cx); zone.setAttribute('cy', -cy); zone.setAttribute('r', R);
+        zone.setAttribute('class', R < 1 ? 'zone smr' : 'zone');
+        reactor.setAttribute('cx', cx); reactor.setAttribute('cy', -cy);
+        count();
+      }
+      function press(group, btn) {
+        Array.prototype.forEach.call(root.querySelectorAll(group + ' button'), function (b) {
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+        });
+      }
+      function place(x, y) { cx = x; cy = y; draw(); }
+      Array.prototype.forEach.call(root.querySelectorAll('[data-radius]'), function (b) {
+        b.addEventListener('click', function () {
+          R = parseFloat(b.getAttribute('data-radius'));
+          Array.prototype.forEach.call(root.querySelectorAll('[data-radius]'), function (o) {
+            o.setAttribute('aria-pressed', o === b ? 'true' : 'false');
+          });
+          draw();
+        });
+      });
+
+      // dragging: pointer position -> map km through the SVG's own transform
+      var dragging = false;
+      function at(e) {
+        var pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+        var m = svg.getScreenCTM(); if (!m) { return null; }
+        var q = pt.matrixTransform(m.inverse());
+        return [q.x, -q.y];
+      }
+      function move(e) {
+        if (!dragging) { return; }
+        var p = at(e); if (!p) { return; }
+        place(Math.max(-25, Math.min(31, p[0])), Math.max(-18, Math.min(17, p[1])));
+        e.preventDefault();
+      }
+      reactor.addEventListener('pointerdown', function (e) {
+        dragging = true; reactor.setPointerCapture(e.pointerId); e.preventDefault();
+      });
+      reactor.addEventListener('pointermove', move);
+      reactor.addEventListener('pointerup', function () { dragging = false; });
+      reactor.addEventListener('pointercancel', function () { dragging = false; });
+      reactor.addEventListener('keydown', function (e) {
+        var d = e.shiftKey ? 2 : 0.5, k = e.key;
+        if (k === 'ArrowLeft') { place(cx - d, cy); }
+        else if (k === 'ArrowRight') { place(cx + d, cy); }
+        else if (k === 'ArrowUp') { place(cx, cy + d); }
+        else if (k === 'ArrowDown') { place(cx, cy - d); }
+        else { return; }
+        e.preventDefault();
+      });
+
+      // Starts on Jurong Island; drag it anywhere.
+      place(D.sites.jurong[0], D.sites.jurong[1]);
+    });
+  }
+
   /* -- Footnotes -----------------------------------------------------
      Write a citation anywhere in the prose (HTML or an EVENTS body) as
      [^3]. It becomes a superscript link to the matching numbered source
@@ -426,6 +521,7 @@
     wirePageNav();
     wireRoom();
     wireDiagram();
+    wireZone();
     expandCitations(document.querySelector('main'));
   }
 
