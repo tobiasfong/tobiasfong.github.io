@@ -329,13 +329,16 @@
       /* The popup opens behind a flash, the pika of pika-don, then ash
          settles. Built once in the script; replayed on each open. */
       .nuc-flash { position: absolute; inset: 0; pointer-events: none; z-index: 3; overflow: hidden; border-radius: 16px; }
+      /* The thumbnail stays in front of the flash and the falling ash. */
+      #nuc-modal-media img { position: relative; z-index: 4; }
       .nuc-flash b { position: absolute; inset: 0; background: #fffbea; opacity: 0; }
       .nuc-flash i {
         position: absolute; top: -10px; width: 5px; height: 5px; border-radius: 50%;
         background: rgba(90, 86, 80, 0.7); opacity: 0;
       }
       .nuc-flash.on b { animation: nuc-flash .9s ease-out forwards; }
-      .nuc-flash.on i { animation: nuc-ash 3.2s linear forwards; animation-delay: var(--d); }
+      /* The ash keeps falling for as long as the popup is open. */
+      .nuc-flash.on i { animation: nuc-ash 3.2s linear infinite; animation-delay: var(--d); }
       @keyframes nuc-flash { 0% { opacity: 1; } 30% { opacity: .85; } 100% { opacity: 0; } }
       @keyframes nuc-ash {
         0% { opacity: 0; transform: translate(0, 0); }
