@@ -429,7 +429,7 @@
           });
         }).map(function (b) { return b.name; });
         el('nuc-zone-pct').textContent = (100 * n / total).toFixed(n && n / total < 0.001 ? 2 : 0) +
-          '% of Singapore’s residents' + (R < 1 && hit.length ? ' · also ' + hit.join(', ') : '');
+          '% of Singapore’s residents' + (R < 1 && hit.length ? ' · ' + hit.join(', ') : '');
       }
       function draw() {
         zone.setAttribute('cx', cx); zone.setAttribute('cy', -cy); zone.setAttribute('r', R);
