@@ -120,16 +120,18 @@
 
       /* ══ Hero ══════════════════════════════════════════════════ */
       .nuc-hero-card {
-        border: 1px dashed var(--border); border-radius: 16px;
-        background: var(--bg-alt);
-        padding: 4rem 2rem; text-align: center;
-        display: grid; place-items: center; gap: 10px;
-        min-height: 260px; margin: 0;
+        border-radius: 16px; overflow: hidden;
+        background: var(--bg-alt) url(/img/nuclear/hero.jpg) center / cover no-repeat;
+        padding: 2rem; text-align: center;
+        display: grid; place-items: center;
+        aspect-ratio: 1344 / 576; min-height: 220px; margin: 0;
       }
+      /* The label sits on its own dark chip so it reads over any part of the plate. */
       .nuc-hero-card .nuc-wip {
         font-family: var(--font-heading); font-weight: 700;
         font-size: 15px; letter-spacing: 0.14em; text-transform: uppercase;
-        color: var(--text-muted);
+        color: #fff; background: rgba(20, 20, 20, 0.62);
+        padding: 10px 18px; border-radius: 999px;
       }
 
       /* ══ The history strip ═════════════════════════════════════
@@ -253,7 +255,35 @@
 
       /* ══ Prose ═════════════════════════════════════════════════ */
       .nuc-prose { max-width: 720px; margin: 0 auto 3.5rem; }
+
+      /* ── Footnotes (same scheme as Sustainable Singapore) ── */
+      .nuc-cite { font-size: 0.72em; line-height: 0; vertical-align: super; }
+      .nuc-cite a {
+        color: var(--accent-red); text-decoration: none;
+        font-weight: 700; padding: 0 1px;
+      }
+      .nuc-cite a:hover { text-decoration: underline; }
+      .nuc-refs { list-style: none; counter-reset: nucref; padding: 0; margin: 0; }
+      .nuc-refs > li {
+        counter-increment: nucref;
+        position: relative; padding-left: 30px; margin-bottom: 13px;
+        font-size: var(--fs-caption); color: var(--text-body); line-height: 1.55;
+        scroll-margin-top: 90px;
+      }
+      .nuc-refs > li::before {
+        content: counter(nucref) ".";
+        position: absolute; left: 0; top: 0;
+        font-weight: 700; color: var(--accent-red);
+        font-variant-numeric: tabular-nums;
+      }
+      .nuc-refs a { color: var(--text-body); text-decoration: underline; text-underline-offset: 2px; }
+      .nuc-refs a:hover { color: var(--text); }
       .nuc-prose h2 em { font-style: italic; }
+      .nuc-figure { margin: 0 0 1.5rem; }
+      .nuc-figure img {
+        display: block; width: 100%; height: auto;
+        aspect-ratio: 1024 / 576; border-radius: 12px;
+      }
     </style>
   </head>
 
@@ -272,10 +302,11 @@
             <a href="#nuc-history">History</a>
             <a href="#nuc-anthropocene">The Anthropocene</a>
             <a href="#nuc-hibakusha">Hibakusha</a>
-            <a href="#nuc-imagination">Popular imagination</a>
             <a href="#nuc-smr">Small modular reactors</a>
             <a href="#nuc-wasteheat">Waste heat</a>
             <a href="#nuc-fusion">Nuclear fusion</a>
+            <a href="#nuc-imagination">Popular imagination</a>
+            <a href="#nuc-sources">Sources</a>
           </div>
         </div>
         <div class="ss-nav-pages">
@@ -322,13 +353,53 @@
       <section id="nuc-anthropocene" class="nuc-prose">
         <div class="section-kicker">The Great Acceleration</div>
         <h2>The Anthropocene</h2>
+        <figure class="nuc-figure">
+          <img src="/img/nuclear/anthropocene.jpg" width="1024" height="576" loading="lazy"
+               alt="A half-globe floating in the sky, its flat top split between a green city and scorched ground under smoking cooling towers, a man standing on the line between them." />
+        </figure>
         <p>
-          The Anthropocene, a geological epoch named after humans for the significant impact they
-          have on the environment. While many would point toward a spike in carbon content in the
-          atmosphere and the burning of fossil fuels as the driver of the Anthropocene, I argue
-          that the Great Acceleration began around the same time that nuclear technology was being
-          developed, with the spike beginning in the 1950s as constant nuclear experiments were
-          conducted.
+          The advent of nuclear technology coincides with the phenomenon known as the Great
+          Acceleration, which is the dramatic and exponential surge in human activity that has
+          visible and tremendous impact on the global environment. The Great Acceleration also
+          marks the beginning of the Anthropocene epoch, though several scholars point to the
+          burning of coal in the Industrial Revolution of the 18th century as the actual origins,
+          particularly the advent of James Watt’s steam engine in 1784.[^30]
+        </p>
+        <p>
+          Regardless, the Anthropocene—defined as the geological epoch during which human
+          activity becomes the dominant influence on the global climate and environment—remains
+          an important term used in environmental humanities, even if it has yet to be officially
+          recognized (we’re still in the Holocene). Even so, they acknowledge that the
+          Anthropocene remains an invaluable descriptor in understanding the relationship between
+          humans and the environment.[^31] What interests me is that while discussion
+          around the Anthropocene is primarily centered on the increase in carbon content and
+          carbon dioxide emissions, along with other greenhouse gases that lead to climate change
+          and global warming, the spike in human activity that impacted the environment during
+          the Great Acceleration also includes nuclear weapons testing, especially the hydrogen
+          bomb experiments in the 1950s. The radioactive fallout is just as significant a marker
+          of environmental impact by human activities as the burning of fossil fuels and carbon
+          emissions. The Anthropocene Working Group also proposed a boundary marker at Crawford
+          Lake, pointing toward the release of plutonium from hydrogen bomb tests during the
+          1950s.[^32]
+        </p>
+        <p>
+          The Anthropocene has spawned more perspectives in environmental humanities on how we
+          should examine the relationship between humanity and the environment, such as Donna
+          Haraway’s Chthulucene, which focuses on interspecies relationships and vast biodiversity
+          that eliminates an ecological hierarchy where humans are ranked at the top. Similarly, Timothy Morton’s concept of the hyperobject is a way to
+          explain how humans attempt to conceive an entity so vast and beyond human comprehension
+          (such as Cthulhu, who can be used as an example of how we interpret hyperobjects as a
+          cosmic horror of astronomical scale). The world doesn’t belong to us alone.
+        </p>
+        <p>
+          And radiation—nuclear power—can also be understood as a hyperobject. Radioactive
+          materials such as uranium and plutonium have extremely long half-lives, extending to
+          thousands or even billions of years, far beyond the lifespan of any human. To try and grasp this
+          hyperobject of radiation, we often conceive it as monstrous—that is where films such
+          as <em>Godzilla</em> or other kaiju movies, nuclear dystopian games, and science fiction
+          novels and animations come in useful, as they tell us about humanity’s attempts to
+          imagine the hyperobject known as radiation in a physical form we can find
+          understandable.
         </p>
       </section>
 
@@ -346,18 +417,6 @@
         </p>
       </section>
 
-      <!-- ── Popular imagination ── -->
-      <section id="nuc-imagination" class="nuc-prose">
-        <h2>Nuclear disaster in popular imagination</h2>
-        <p>
-          A study of films, games and literature depicting nuclear apocalypses and why it's
-          important. They depict the social anxieties the public face when confronted with nuclear
-          technologies and disasters, and should not be dismissed as merely fiction. Probably Tom
-          Moylan's dystopia books and Timothy Morton's <em>Hyperobjects</em> in academia, and
-          analyses of Japanese films and animation such as Godzilla, Barefoot Gen, Gundam, Akira
-          and many others touch upon it.
-        </p>
-      </section>
 
       <!-- ── Small modular reactors ── -->
       <section id="nuc-smr" class="nuc-prose">
@@ -385,8 +444,126 @@
           Can we make science fiction a reality?
         </p>
       </section>
+
+      <!-- ── Popular imagination ── -->
+      <section id="nuc-imagination" class="nuc-prose">
+        <h2>Nuclear disaster in popular imagination</h2>
+        <p>
+          A study of films, games and literature depicting nuclear apocalypses and why it's
+          important. They depict the social anxieties the public face when confronted with nuclear
+          technologies and disasters, and should not be dismissed as merely fiction. Probably Tom
+          Moylan's dystopia books and Timothy Morton's <em>Hyperobjects</em> in academia, and
+          analyses of Japanese films and animation such as Godzilla, Barefoot Gen, Gundam, Akira
+          and many others touch upon it.
+        </p>
+      </section>
+
+      <!-- ── Sources ──
+           Cite in the prose as [^n]; the script turns it into a superscript link to
+           the matching entry here. Same scheme as Sustainable Singapore. -->
+      <section id="nuc-sources" class="nuc-prose">
+        <h2>Sources</h2>
+        <ol class="nuc-refs">
+          <li id="ref-1">
+            National Museum of Nuclear Science &amp; History (Atomic Heritage Foundation). <a href="https://ahf.nuclearmuseum.org/ahf/history/chicago-pile-1/" target="_blank" rel="noopener noreferrer">“Chicago Pile-1.”</a> Accessed September 23, 2026.
+          </li>
+          <li id="ref-2">
+            Nobel Prize Outreach. <a href="https://www.nobelprize.org/prizes/physics/1938/summary/" target="_blank" rel="noopener noreferrer">“The Nobel Prize in Physics 1938.”</a> NobelPrize.org. Accessed September 27, 2026.
+          </li>
+          <li id="ref-3">
+            National Museum of Nuclear Science &amp; History (Atomic Heritage Foundation). <a href="https://ahf.nuclearmuseum.org/ahf/history/trinity-test-1945/" target="_blank" rel="noopener noreferrer">“Trinity Test — 1945.”</a> Accessed September 23, 2026.
+          </li>
+          <li id="ref-4">
+            Moran, Patrick Healy. <a href="https://nuclearweaponsedproj.mit.edu/orders-of-magnitude/" target="_blank" rel="noopener noreferrer">“Orders of Magnitude.”</a> Nuclear Weapons Education Project, Massachusetts Institute of Technology. Accessed September 27, 2026.
+          </li>
+          <li id="ref-5">
+            National Museum of Nuclear Science &amp; History (Atomic Heritage Foundation). <a href="https://ahf.nuclearmuseum.org/ahf/history/bombings-hiroshima-and-nagasaki-1945/" target="_blank" rel="noopener noreferrer">“Bombings of Hiroshima and Nagasaki — 1945.”</a> June 5, 2014.
+          </li>
+          <li id="ref-6">
+            City of Hiroshima. <a href="https://www.city.hiroshima.lg.jp/english/peace/1029920/1009857.html" target="_blank" rel="noopener noreferrer">“The Realities of the Atomic Bombing.”</a> Accessed September 23, 2026.
+          </li>
+          <li id="ref-7">
+            Manhattan Engineer District. <a href="https://avalon.law.yale.edu/20th_century/mp10.asp" target="_blank" rel="noopener noreferrer">“The Atomic Bombings of Hiroshima and Nagasaki,” chapter 10, “Total Casualties.”</a> 1946. The Avalon Project, Yale Law School. Accessed September 27, 2026.
+          </li>
+          <li id="ref-8">
+            National Museum of Nuclear Science &amp; History (Atomic Heritage Foundation). <a href="https://ahf.nuclearmuseum.org/ahf/history/castle-bravo/" target="_blank" rel="noopener noreferrer">“Castle Bravo.”</a> March 1, 2017.
+          </li>
+          <li id="ref-9">
+            Burr, William, ed. <a href="https://nsarchive.gwu.edu/briefing-book/nuclear-vault/2024-02-29/castle-bravo-70-worst-nuclear-test-us-history" target="_blank" rel="noopener noreferrer">“Castle BRAVO at 70: The Worst Nuclear Test in U.S. History.”</a> National Security Archive, George Washington University, February 29, 2024.
+          </li>
+          <li id="ref-10">
+            National Museum of Nuclear Science &amp; History (Atomic Heritage Foundation). <a href="https://ahf.nuclearmuseum.org/ahf/history/gojira-1954/" target="_blank" rel="noopener noreferrer">“Gojira (1954).”</a> November 14, 2018.
+          </li>
+          <li id="ref-11">
+            International Atomic Energy Agency. <a href="https://www.iaea.org/newscenter/news/obninsk-beyond-nuclear-power-conference-looks-future" target="_blank" rel="noopener noreferrer">“From Obninsk Beyond: Nuclear Power Conference Looks to Future.”</a> Accessed September 23, 2026.
+          </li>
+          <li id="ref-12">
+            World Nuclear Association. <a href="https://world-nuclear.org/information-library/country-profiles/countries-o-s/russia-nuclear-power" target="_blank" rel="noopener noreferrer">“Nuclear Power in Russia.”</a> Accessed September 23, 2026.
+          </li>
+          <li id="ref-13">
+            Rabl, Thomas. <a href="https://doi.org/10.5282/rcc/4967" target="_blank" rel="noopener noreferrer">“The Nuclear Disaster of Kyshtym 1957 and the Politics of the Cold War.”</a> <em>Arcadia</em>, no. 20 (2012). Rachel Carson Center for Environment and Society.
+          </li>
+          <li id="ref-14">
+            Wakeford, Richard. <a href="https://doi.org/10.1088/0952-4746/27/3/E02" target="_blank" rel="noopener noreferrer">“The Windscale Reactor Accident—50 Years On.”</a> <em>Journal of Radiological Protection</em> 27, no. 3 (2007): 211–215.
+          </li>
+          <li id="ref-15">
+            Associated Press. <a href="https://www.newspapers.com/article/the-index-journal-suppressed-1957-windsc/1957216/" target="_blank" rel="noopener noreferrer">“Info Withheld on Nuclear Accident, Papers Show.”</a> <em>Index-Journal</em> (Greenwood, SC), January 3, 1989, 13.
+          </li>
+          <li id="ref-16">
+            Yale Law School, Lillian Goldman Law Library. <a href="https://avalon.law.yale.edu/20th_century/usmu015.asp" target="_blank" rel="noopener noreferrer">“Treaty Banning Nuclear Weapon Tests in the Atmosphere, in Outer Space and Under Water; August 5, 1963.”</a> The Avalon Project. Accessed September 23, 2026.
+          </li>
+          <li id="ref-17">
+            National Museum of Nuclear Science &amp; History (Atomic Heritage Foundation). <a href="https://ahf.nuclearmuseum.org/ahf/history/limited-or-partial-test-ban-treaty-ltbtptbt/" target="_blank" rel="noopener noreferrer">“Limited or Partial Test Ban Treaty (LTBT/PTBT).”</a> June 10, 2016.
+          </li>
+          <li id="ref-18">
+            U.S. Nuclear Regulatory Commission. <a href="https://www.nrc.gov/regulations-legislation/fact-sheets-brochures/backgrounder-on-the-three-mile-island-accident" target="_blank" rel="noopener noreferrer">“Backgrounder on the Three Mile Island Accident.”</a> Accessed September 23, 2026.
+          </li>
+          <li id="ref-19">
+            Hultman, Nathan, and Jonathan Koomey. <a href="https://doi.org/10.1177/0096340213485949" target="_blank" rel="noopener noreferrer">“Three Mile Island: The Driver of US Nuclear Power’s Decline?”</a> <em>Bulletin of the Atomic Scientists</em> 69, no. 3 (2013): 63–70.
+          </li>
+          <li id="ref-20">
+            International Atomic Energy Agency. <a href="https://www.iaea.org/newscenter/pressreleases/chernobyl-true-scale-accident" target="_blank" rel="noopener noreferrer">“Chernobyl: The True Scale of the Accident.”</a> Press release 2005/12, September 4, 2005.
+          </li>
+          <li id="ref-21">
+            United Nations Scientific Committee on the Effects of Atomic Radiation. <a href="https://www.unscear.org/unscear/en/areas-of-work/chernobyl.html" target="_blank" rel="noopener noreferrer">“The Chornobyl Accident.”</a> Accessed September 23, 2026.
+          </li>
+          <li id="ref-22">
+            James Martin Center for Nonproliferation Studies. <a href="https://web.archive.org/web/20100407204211/http://cns.miis.edu/inventory/pdfs/seanwfz.pdf" target="_blank" rel="noopener noreferrer">“Southeast Asia Nuclear-Weapon-Free Zone Treaty (Treaty of Bangkok).”</a> Inventory of International Nonproliferation Organizations and Regimes. Last updated June 12, 2009.
+          </li>
+          <li id="ref-23">
+            ASEAN Secretariat. <a href="https://agreement.asean.org/media/download/20131230234315.pdf" target="_blank" rel="noopener noreferrer">“Treaty on the Southeast Asia Nuclear Weapon-Free Zone.”</a> Bangkok, December 15, 1995.
+          </li>
+          <li id="ref-24">
+            International Atomic Energy Agency. <a href="https://www.iaea.org/topics/response/fukushima-daiichi-nuclear-accident" target="_blank" rel="noopener noreferrer">“Fukushima Daiichi Nuclear Accident.”</a> Accessed September 23, 2026.
+          </li>
+          <li id="ref-25">
+            Fukushima Prefectural Government. <a href="https://www.pref.fukushima.lg.jp/site/portal-english/en-1-4-1.html" target="_blank" rel="noopener noreferrer">“Transition of the Number of Evacuees.”</a> Fukushima Revitalization Information Portal. Updated August 17, 2026.
+          </li>
+          <li id="ref-26">
+            Tabuchi, Hiroko. <a href="https://www.nytimes.com/2011/07/14/world/asia/14japan.html" target="_blank" rel="noopener noreferrer">“Japan Premier Wants Shift Away From Nuclear Power.”</a> <em>New York Times</em>, July 13, 2011.
+          </li>
+          <li id="ref-27">
+            United Press International. <a href="http://www.upiasia.com/Top-News/2013/06/02/60000-protest-Japans-plan-to-restart-nuclear-power-plants/UPI-34961370197818/" target="_blank" rel="noopener noreferrer">“60,000 Protest Japan’s Plan to Restart Nuclear Power Plants.”</a> June 2, 2013.
+          </li>
+          <li id="ref-28">
+            <em>Asahi Shimbun</em>. <a href="https://web.archive.org/web/20140413220411/http://ajw.asahi.com/article/behind_news/politics/AJ201310250045" target="_blank" rel="noopener noreferrer">“Abe Dismisses Koizumi’s Call for Zero Nuclear Power Plants.”</a> <em>Asia &amp; Japan Watch</em>, October 25, 2013.
+          </li>
+          <li id="ref-29">
+            CNA. <a href="https://www.channelnewsasia.com/east-asia/japan-kashiwazaki-kariwa-nuclear-station-restart-operations-6133851" target="_blank" rel="noopener noreferrer">“Japan Restarts Operations at World’s Largest Nuclear Plant, 15 Years after Fukushima Disaster.”</a> May 21, 2026.
+          </li>
+          <li id="ref-30">
+            Crutzen, Paul J., and Eugene F. Stoermer. <a href="http://www.igbp.net/publications/globalchangemagazine/globalchangemagazine/globalchangenewslettersno4159.5.5831d9ad13275d51c098000309.html" target="_blank" rel="noopener noreferrer">“The ‘Anthropocene.’”</a> <em>IGBP Global Change Newsletter</em>, no. 41 (May 2000): 17–18.
+          </li>
+          <li id="ref-31">
+            International Union of Geological Sciences and International Commission on Stratigraphy. <a href="https://www.iugs.org/wp-content/uploads/2024/03/Anthropocene_extended_IUGS-ICS_Statement-1.pdf" target="_blank" rel="noopener noreferrer">“The Anthropocene.”</a> Joint statement, March 20, 2024.
+          </li>
+          <li id="ref-32">
+            McCarthy, Francine M. G., R. Timothy Patterson, Martin J. Head, et al. <a href="https://doi.org/10.1177/20530196221149281" target="_blank" rel="noopener noreferrer">“The Varved Succession of Crawford Lake, Milton, Ontario, Canada as a Candidate Global Boundary Stratotype Section and Point for the Anthropocene Series.”</a> <em>The Anthropocene Review</em> 10, no. 1 (2023): 146–176.
+          </li>
+        </ol>
+      </section>
     </main>
 
-    <script src="/js/nuclear-singapore.js?v=20260927x"></script>
+    <script src="/js/nuclear-singapore.js?v=20260928c"></script>
   </body>
 </html>

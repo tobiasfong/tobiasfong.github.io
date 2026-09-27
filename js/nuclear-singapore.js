@@ -22,18 +22,18 @@
      renders a dashed ring until then. Dates are the event itself, not
      the announcement of it. */
   var EVENTS = [
-    { date: '2 December 1942',     name: 'Chicago Pile-1',           img: 'chicago-pile-1.jpg', body: 'The first artificial nuclear reactor that successfully set off a self-sustaining nuclear chain reaction, a major milestone in the Manhattan Project, which was conceived to create nuclear weapons during World War II. It was led by Enrico Fermi, a winner of the Nobel Prize in Physics in 1938. He’s also known for the Fermi paradox, which questions where intelligent extraterrestrial life is and why they haven’t reached out to us (perhaps they’ve wiped each other out in interstellar nuclear warfare?).' },
-    { date: '16 July 1945',        name: 'Trinity',                  img: 'trinity.jpg', body: 'The first detonation of a nuclear weapon, as part of the Manhattan Project, conducted in New Mexico. Built in a lab run by J. Robert Oppenheimer, who many of you will be familiar with through Chris Nolan’s 2023 film, it was a plutonium bomb that released approximately 88 terajoules of explosive energy.' },
-    { date: '6 and 9 August 1945', name: 'Atomic bombings of Hiroshima and Nagasaki', img: 'hiroshima.jpg', body: 'The first and only use of nuclear weapons in war. The enriched uranium fission bomb, “Little Boy,” was dropped on Hiroshima, and the plutonium nuclear weapon—similar to Trinity—“Fat Man,” was unleashed on Nagasaki. About 140,000 people were killed or injured by the bombing in Hiroshima, including those who died from the effects of radiation by the end of 1945. In Nagasaki, there were approximately 65,000 casualties, also including those who succumbed to radiation effects by the end of the year.' },
-    { date: '1 March 1954',        name: 'Castle Bravo',             img: 'castle-bravo.jpg', body: 'A high-yield thermonuclear weapons test by the United States, it was conducted at Bikini Atoll in the Marshall Islands. Releasing 63 petajoules, the hydrogen bomb explosion is known more for the radioactive fallout that led to victims of radioactive poisoning among the inhabitants on Rongelap and Utirik, and also the Japanese crew of the <em>Daigo Fukuryumaru</em> (Lucky Dragon Number 5). The latter, particularly, inspired the creation of the 1954 film, <em>Godzilla</em>.' },
-    { date: 'June 1954',           name: 'Obninsk',                  img: 'obninsk.jpg', body: 'The Soviet Union started operations of the world’s first nuclear power plant to generate electricity for a public power grid, building a city next to it.' },
-    { date: '29 September 1957',   name: 'Kyshtym disaster',         img: 'kyshtym.jpg', body: 'A radioactive contamination accident where an improperly stored underground tank of nuclear waste exploded. Occurring in a plutonium reprocessing plant for nuclear weapons, radioactive material was spread across over 20,000 square kilometers, exposing over 20 villages to highly toxic particles.' },
-    { date: '10 October 1957',     name: 'Windscale fire', img: 'windscale.jpg', body: 'A fire burned in a graphite-moderated reactor in Cumberland, England, for three days, releasing radioactive fallout that spread across the United Kingdom and the rest of Europe. The reactors were built as part of the British postwar atomic bomb project. It appeared to not be an isolated incident, with a leak of radioactive strontium-90 earlier that year, which was later revealed to have contributed to the contamination even before the fire.' },
-    { date: '5 August 1963',       name: 'Partial Nuclear Test Ban Treaty', img: 'partial-test-ban-treaty.jpg', body: 'Formally known as the Treaty Banning Nuclear Weapon Tests in the Atmosphere, in Outer Space and Under Water, it was signed by the governments of the Soviet Union, United States and the United Kingdom in Moscow. Prohibiting all test detonations of nuclear weapons, except underground ones, over 120 other countries have joined the treaty since.' },
-    { date: '28 March 1979',       name: 'Three Mile Island accident', img: 'three-mile-island.jpg', body: 'A partial nuclear meltdown of a reactor in Pennsylvania saw the release of radioactive gases and iodine into the environment. This contributed to a slowdown in the construction of nuclear power plants in the US from 1980 to 1998.' },
-    { date: '26 April 1986',       name: 'Chernobyl disaster', img: 'chernobyl.jpg', body: 'An explosion of a reactor in the Chernobyl Nuclear Power Plant, near Pripyat in Ukraine, hurled particles of nuclear fuel and dangerous fission products into the air, dousing the surroundings in lethal doses of radiation. Almost 120,000 people were evacuated from the 30 kilometers exclusion zone around the power plant, with over a hundred workers suffering from acute radiation syndrome or long-term effects of exposure to radiation. It remains the worst nuclear disaster in history.' },
-    { date: '15 December 1995',    name: 'Treaty of Bangkok', img: 'treaty-of-bangkok.jpg', body: 'Formally known as the Southeast Asia Nuclear-Weapon-Free Zone Treaty, it was signed in Bangkok by 10 members of ASEAN. Brunei, Cambodia, Indonesia, Laos, Malaysia, Myanmar, Philippines, Singapore, Thailand and Vietnam all agreed to not develop, manufacture or possess nuclear weapons. Nuclear weapons are effectively banned in the region. It includes an article that allows for civilian nuclear power, so ASEAN can still build reactors as long as they don’t weaponize them.' },
-    { date: '11 March 2011',       name: 'Fukushima nuclear accident', img: 'fukushima.jpg', body: 'The Tohoku earthquake and tsunami, in addition to causing significant casualties, also damaged the reactors in the Fukushima Daiichi Nuclear Power Plant, releasing radioactive contaminants into the surrounding environment. Over 164,000 residents were evacuated. In addition to the death toll from the earlier earthquake and tsunami, the nuclear accident and the Japanese government’s handling of the evacuation and aftermath led to a loss of public confidence, as well as anxieties over the effects of radiation and nuclear technology, almost 70 years after the nation had atomic bombs dropped on two of its cities. The ruling party of that time, the Democratic Party of Japan, and the then prime minister, Kan Naoto, and his successor, Noda Yoshihiko, instituted shutdowns of nuclear power plants while petitioning citizens to conserve electricity (<em>setsuden</em>). In 2012, the Liberal Democratic Party regained power through a victory in the elections, and announced they would restart the nuclear power plants.' }
+    { date: '2 December 1942',     name: 'Chicago Pile-1',           img: 'chicago-pile-1.jpg', body: 'The first artificial nuclear reactor that successfully set off a self-sustaining nuclear chain reaction, a major milestone in the Manhattan Project, which was conceived to create nuclear weapons during World War II.[^1] It was led by Enrico Fermi, a winner of the Nobel Prize in Physics in 1938.[^2] He’s also known for the Fermi paradox, which questions where intelligent extraterrestrial life is and why they haven’t reached out to us (perhaps they’ve wiped each other out in interstellar nuclear warfare?).' },
+    { date: '16 July 1945',        name: 'Trinity',                  img: 'trinity.jpg', body: 'The first detonation of a nuclear weapon, as part of the Manhattan Project, conducted in New Mexico.[^3] Built in a lab run by J. Robert Oppenheimer, who many of you will be familiar with through Chris Nolan’s 2023 film, it was a plutonium bomb that released approximately 88 terajoules of explosive energy.[^4]' },
+    { date: '6 and 9 August 1945', name: 'Atomic bombings of Hiroshima and Nagasaki', img: 'hiroshima.jpg', body: 'The first and only use of nuclear weapons in war. The enriched uranium fission bomb, “Little Boy,” was dropped on Hiroshima, and the plutonium nuclear weapon—similar to Trinity—“Fat Man,” was unleashed on Nagasaki.[^5] About 140,000 people were killed or injured by the bombing in Hiroshima, including those who died from the effects of radiation by the end of 1945.[^6] In Nagasaki, there were approximately 65,000 casualties, also including those who succumbed to radiation effects by the end of the year.[^7]' },
+    { date: '1 March 1954',        name: 'Castle Bravo',             img: 'castle-bravo.jpg', body: 'A high-yield thermonuclear weapons test by the United States, it was conducted at Bikini Atoll in the Marshall Islands.[^8] Releasing 63 petajoules, the hydrogen bomb explosion is known more for the radioactive fallout that led to victims of radioactive poisoning among the inhabitants on Rongelap and Utirik, and also the Japanese crew of the <em>Daigo Fukuryumaru</em> (Lucky Dragon Number 5).[^9] The latter, particularly, inspired the creation of the 1954 film, <em>Godzilla</em>.[^10]' },
+    { date: 'June 1954',           name: 'Obninsk',                  img: 'obninsk.jpg', body: 'The Soviet Union started operations of the world’s first nuclear power plant to generate electricity for a public power grid, building a city next to it.[^11][^12]' },
+    { date: '29 September 1957',   name: 'Kyshtym disaster',         img: 'kyshtym.jpg', body: 'A radioactive contamination accident where an improperly stored underground tank of nuclear waste exploded. Occurring in a plutonium reprocessing plant for nuclear weapons, radioactive material was spread across over 20,000 square kilometers, exposing over 20 villages to highly toxic particles.[^13]' },
+    { date: '10 October 1957',     name: 'Windscale fire', img: 'windscale.jpg', body: 'A fire burned in a graphite-moderated reactor in Cumberland, England, for three days, releasing radioactive fallout that spread across the United Kingdom and the rest of Europe. The reactors were built as part of the British postwar atomic bomb project.[^14] It appeared to not be an isolated incident, with a leak of radioactive strontium-90 earlier that year, which was later revealed to have contributed to the contamination even before the fire.[^15]' },
+    { date: '5 August 1963',       name: 'Partial Nuclear Test Ban Treaty', img: 'partial-test-ban-treaty.jpg', body: 'Formally known as the Treaty Banning Nuclear Weapon Tests in the Atmosphere, in Outer Space and Under Water, it was signed by the governments of the Soviet Union, United States and the United Kingdom in Moscow.[^16] Prohibiting all test detonations of nuclear weapons, except underground ones, over 120 other countries have joined the treaty since.[^17]' },
+    { date: '28 March 1979',       name: 'Three Mile Island accident', img: 'three-mile-island.jpg', body: 'A partial nuclear meltdown of a reactor in Pennsylvania saw the release of radioactive gases and iodine into the environment.[^18] This contributed to a slowdown in the construction of nuclear power plants in the US from 1980 to 1998.[^19]' },
+    { date: '26 April 1986',       name: 'Chernobyl disaster', img: 'chernobyl.jpg', body: 'An explosion of a reactor in the Chernobyl Nuclear Power Plant, near Pripyat in Ukraine, hurled particles of nuclear fuel and dangerous fission products into the air, dousing the surroundings in lethal doses of radiation. Almost 120,000 people were evacuated from the 30 kilometers exclusion zone around the power plant, with over a hundred workers suffering from acute radiation syndrome or long-term effects of exposure to radiation.[^20][^21] It remains the worst nuclear disaster in history.' },
+    { date: '15 December 1995',    name: 'Treaty of Bangkok', img: 'treaty-of-bangkok.jpg', body: 'Formally known as the Southeast Asia Nuclear-Weapon-Free Zone Treaty, it was signed in Bangkok by 10 members of ASEAN.[^22] Brunei, Cambodia, Indonesia, Laos, Malaysia, Myanmar, Philippines, Singapore, Thailand and Vietnam all agreed to not develop, manufacture or possess nuclear weapons. Nuclear weapons are effectively banned in the region. It includes an article that allows for civilian nuclear power, so ASEAN can still build reactors as long as they don’t weaponize them.[^23]' },
+    { date: '11 March 2011',       name: 'Fukushima nuclear accident', img: 'fukushima.jpg', body: 'The Tohoku earthquake and tsunami, in addition to causing significant casualties, also damaged the reactors in the Fukushima Daiichi Nuclear Power Plant, releasing radioactive contaminants into the surrounding environment.[^24] Over 164,000 residents were evacuated.[^25] In addition to the death toll from the earlier earthquake and tsunami, the nuclear accident and the Japanese government’s handling of the evacuation and aftermath led to a loss of public confidence, as well as anxieties over the effects of radiation and nuclear technology, almost 70 years after the nation had atomic bombs dropped on two of its cities. The ruling party of that time, the Democratic Party of Japan, and the then prime minister, Kan Naoto, and his successor, Noda Yoshihiko, instituted shutdowns of nuclear power plants while petitioning citizens to conserve electricity (<em>setsuden</em>).[^26] In 2012, the Liberal Democratic Party regained power through a victory in the elections, and announced they would restart the nuclear power plants.[^27][^28][^29]' }
   ];
 
   function buildStrip() {
@@ -84,7 +84,9 @@
     document.body.appendChild(modal);
 
     modal.addEventListener('click', function (e) {
-      if (e.target.hasAttribute('data-close')) { closeModal(); }
+      if (e.target.hasAttribute('data-close')) { closeModal(); return; }
+      // A footnote jumps to the source list, which the open card would cover.
+      if (e.target.closest && e.target.closest('.nuc-cite a')) { closeModal(); }
     });
     document.addEventListener('keydown', function (e) {
       if (modal.hidden) { return; }
@@ -109,6 +111,7 @@
     el('nuc-modal-body').innerHTML = ev.body
       ? '<p>' + ev.body + '</p>'
       : '<p class="nuc-modal-todo">An account of this one goes here.</p>';
+    expandCitations(el('nuc-modal-body'));
     modal.hidden = false;
     modalOpen = true;
     document.body.style.overflow = 'hidden';
@@ -278,11 +281,56 @@
     window.addEventListener('resize', function () { measure(); update(); });
   }
 
+  /* -- Footnotes -----------------------------------------------------
+     Write a citation anywhere in the prose (HTML or an EVENTS body) as
+     [^3]. It becomes a superscript link to the matching numbered source
+     at the bottom of the page. Ported from Sustainable Singapore. */
+  function expandCitations(root) {
+    if (!root) { return; }
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        var p = n.parentNode;
+        if (!p) { return NodeFilter.FILTER_REJECT; }
+        var tag = p.nodeName;
+        if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'TEXTAREA') {
+          return NodeFilter.FILTER_REJECT;
+        }
+        if (p.closest && p.closest('.nuc-cite, .nuc-refs')) {
+          return NodeFilter.FILTER_REJECT;
+        }
+        return /\[\^\d+\]/.test(n.nodeValue)
+          ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    var targets = [], n;
+    while ((n = walker.nextNode())) { targets.push(n); }
+    targets.forEach(function (node) {
+      var frag = document.createDocumentFragment();
+      node.nodeValue.split(/(\[\^\d+\])/).forEach(function (part) {
+        var m = part.match(/^\[\^(\d+)\]$/);
+        if (m) {
+          var sup = document.createElement('sup');
+          sup.className = 'nuc-cite';
+          var a = document.createElement('a');
+          a.href = '#ref-' + m[1];
+          a.textContent = m[1];
+          a.setAttribute('aria-label', 'See reference ' + m[1]);
+          sup.appendChild(a);
+          frag.appendChild(sup);
+        } else if (part) {
+          frag.appendChild(document.createTextNode(part));
+        }
+      });
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
   function boot() {
     buildStrip();
     wireStrip();
     wireNavMenu();
     wirePageNav();
+    expandCitations(document.querySelector('main'));
   }
 
   if (document.readyState === 'loading') {
