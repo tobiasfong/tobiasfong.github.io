@@ -287,6 +287,93 @@
       .nuc-refs a:hover { color: var(--text); }
       .nuc-prose h2 em { font-style: italic; }
 
+      /* ── Waste-heat minigame ── */
+      .nuc-game { margin-top: 1.75rem; }
+      .nuc-prose .nuc-game-hint { font-size: 14px; color: var(--text-muted); margin-bottom: 12px; }
+      .nuc-game-slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+      .nuc-slot {
+        position: relative; aspect-ratio: 1; border: 2px dashed var(--border); border-radius: 14px;
+        background: var(--bg-alt); display: flex; align-items: flex-end; justify-content: center;
+        overflow: hidden; cursor: pointer; outline: none;
+      }
+      .nuc-slot:not(:last-child)::after {
+        content: "→"; position: absolute; right: -11px; top: 45%; font-size: 18px; color: var(--text-muted);
+      }
+      .nuc-slot.ready { border-color: #2f6fb3; background: rgba(47, 111, 179, 0.08); }
+      .nuc-slot.over { border-color: var(--accent-red); }
+      .nuc-slot.filled { border-style: solid; border-color: #2f6fb3; }
+      .nuc-slot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .nuc-slot-label {
+        position: relative; z-index: 1; margin: 8px; padding: 3px 10px; border-radius: 999px;
+        background: rgba(255, 255, 255, 0.92); font-size: 13px; font-weight: 700; color: var(--text);
+        text-align: center;
+      }
+      .nuc-game-tray { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+      .nuc-part {
+        width: 118px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg);
+        padding: 6px; cursor: grab; touch-action: none; user-select: none; text-align: center;
+      }
+      .nuc-part img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; pointer-events: none; }
+      .nuc-part span { display: block; font-size: 12.5px; line-height: 1.3; margin-top: 5px; color: var(--text-body); }
+      .nuc-part small { display: block; font-size: 11px; color: var(--text-muted); }
+      .nuc-part.picked { outline: 3px solid #2f6fb3; }
+      .nuc-part.used { opacity: 0.35; }
+      .nuc-ghost { position: fixed; z-index: 200; width: 90px; pointer-events: none; opacity: 0.9; transform: translate(-50%, -50%); }
+      .nuc-ghost img { width: 100%; border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+
+      /* The result: a big card rising from below, rating on the left. */
+      .nuc-game-result {
+        display: grid; grid-template-columns: 190px 1fr; gap: 22px; margin-top: 22px;
+        border-radius: 16px; padding: 22px; background: var(--bg-alt);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12); animation: nuc-rise .45s ease-out;
+      }
+      .nuc-game-result[hidden] { display: none; }
+      @keyframes nuc-rise { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+      .nuc-result-rating { display: flex; align-items: center; justify-content: center; border-radius: 12px; }
+      .nuc-result-rating span { font-family: var(--font-heading); font-weight: 800; font-size: 46px; color: #fff; }
+      .nuc-game-result[data-level="High"] .nuc-result-rating { background: #2e8a57; }
+      .nuc-game-result[data-level="Medium"] .nuc-result-rating { background: #c98a2e; }
+      .nuc-game-result[data-level="Low"] .nuc-result-rating { background: var(--accent-red); }
+      .nuc-prose .nuc-result-body > p { margin: 0 0 14px; }
+      .nuc-result-cards { display: grid; gap: 14px; }
+      .nuc-result-cards.two { grid-template-columns: 1fr 1fr; }
+      .nuc-game-reset {
+        margin-top: 14px; font: inherit; font-size: 14px; padding: 8px 16px; border-radius: 999px;
+        border: 1px solid #2f6fb3; background: #2f6fb3; color: #fff; cursor: pointer;
+      }
+      @media (max-width: 760px) {
+        .nuc-game-slots { grid-template-columns: repeat(2, 1fr); }
+        .nuc-slot:nth-child(2)::after { display: none; }
+        .nuc-part { width: calc(33.3% - 7px); }
+        .nuc-game-result { grid-template-columns: 1fr; }
+        .nuc-result-rating { padding: 14px 0; }
+        .nuc-result-cards.two { grid-template-columns: 1fr; }
+      }
+      @media (prefers-reduced-motion: reduce) { .nuc-game-result { animation: none; } }
+      .nuc-game-all {
+        display: block; margin-top: 18px; padding: 0; border: 0; background: none; cursor: pointer;
+        font: inherit; font-size: 14px; color: #2f6fb3; text-decoration: underline; text-underline-offset: 3px;
+      }
+      .nuc-options[hidden] { display: none; }
+
+      /* ── Waste heat: four option cards, two by two ── */
+      .nuc-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 1.75rem; }
+      /* The image fills the card; the text sits on a dark fade at the bottom so it stays legible. */
+      .nuc-option {
+        position: relative; border-radius: 14px; overflow: hidden; background: #2b3a4a;
+        aspect-ratio: 1024 / 576; min-height: 240px; display: flex; flex-direction: column; justify-content: flex-end;
+      }
+      .nuc-option img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .nuc-option::before {
+        content: ""; position: absolute; inset: 0;
+        background: linear-gradient(to top, rgba(12, 18, 26, 0.92) 0%, rgba(12, 18, 26, 0.78) 45%, rgba(12, 18, 26, 0) 80%);
+      }
+      .nuc-option h3 { position: relative; margin: 0 20px 6px; font-size: 19px; line-height: 1.3; color: #fff; }
+      .nuc-prose .nuc-option p {
+        position: relative; margin: 0 20px 18px; font-size: 15px; line-height: 1.55; color: #e6ecf2;
+      }
+      @media (max-width: 760px) { .nuc-options { grid-template-columns: 1fr; } }
+
       /* ── Exclusion-zone map ── */
       .nuc-zone { margin-top: 1.5rem; }
       .nuc-zone-bar { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-bottom: 14px; }
@@ -789,10 +876,84 @@
       <section id="nuc-wasteheat" class="nuc-prose">
         <h2>Don’t waste heat waste</h2>
         <p>
-          Exploring ways of making use of the excessive heat produced by nuclear reactors.
-          Through this research, I’m trying to see if there’s a way to make use of waste heat
-          for productive purposes. And in doing so, I hope to contribute to heat resilience.
+          All said and done, nuclear reactors—even small modular reactors—generate immense
+          quantities of excess heat, especially when compared to fossil fuel plants. A nuclear
+          reactor has an approximately 33% efficiency of converting heat to electricity, but the
+          rest becomes waste heat that requires water coolant.[^40] In contrast, modern fossil fuel
+          plants are more efficient, being able to convert about 50% of their fuel to electricity.[^41]
+          This leads to less waste heat. Furthermore, some of the waste heat is emitted from the
+          chimney and into the air instead of water. While we strive for a net-zero emissions goal,
+          which is why we’re considering the nuclear alternative, I would like to raise the issue
+          of the urban heat island effect, and Singapore’s rising temperatures since the 1960s.
         </p>
+        <p>
+          I’m exploring options to see if there’s a way to make use of waste heat for productive
+          purposes. I hope, by tackling this problem, I can contribute to heat resilience in
+          Singapore. It might seem strange to seriously consider the nuclear option when we
+          consider how reactors might cause more heat issues and temperatures to rise. But if we
+          can harness that heat and mitigate it, wouldn’t it contribute to keeping temperatures
+          cool and maintaining a healthy heat resilience?
+        </p>
+        <p>
+          Here’s one possibility. While I’m worried about the urban heat island effect,
+          thankfully, studies have shown that a coastal reactor’s waste heat is dumped into the
+          sea, rather than the city. Instead, it’s air conditioning and buildings that heat up the
+          city. I wonder if one possibility is to use the reactor’s waste heat to run cooling in
+          place of electric air conditioners, which will mitigate the heat that’s often dumped into
+          our urban environment. That’s one innovative way of using waste heat to lower the city
+          temperatures, as well as avoiding damage to the marine life by dumping it into the sea.
+        </p>
+        <!-- Minigame: fill the four slots, and the result card reveals the option
+             that machine stands for, with a High / Medium / Low rating. The option
+             cards' text lives in the templates below. -->
+        <div class="nuc-game" id="nuc-game">
+          <p class="nuc-game-hint">Drag a part into each slot, or tap a part and then a slot.</p>
+          <div class="nuc-game-slots">
+            <div class="nuc-slot" data-kind="source" role="button" tabindex="0"><span class="nuc-slot-label">Heat source</span></div>
+            <div class="nuc-slot" data-kind="tap" role="button" tabindex="0"><span class="nuc-slot-label">Heat tap</span></div>
+            <div class="nuc-slot" data-kind="machine" role="button" tabindex="0"><span class="nuc-slot-label">Machine</span></div>
+            <div class="nuc-slot" data-kind="storage" role="button" tabindex="0"><span class="nuc-slot-label">Storage</span></div>
+          </div>
+          <div class="nuc-game-tray" id="nuc-game-tray"></div>
+          <div class="nuc-game-result" id="nuc-game-result" hidden>
+            <div class="nuc-result-rating"><span id="nuc-result-level"></span></div>
+            <div class="nuc-result-body">
+              <p id="nuc-result-why"></p>
+              <div class="nuc-result-cards" id="nuc-result-cards"></div>
+              <button type="button" class="nuc-game-reset" id="nuc-game-reset">Build another</button>
+            </div>
+          </div>
+          <template id="nuc-opt-cooling">
+            <div class="nuc-option">
+              <img src="/img/nuclear/option-cooling.jpg" width="1024" height="576" alt="" />
+              <h3>District cooling by using absorption chillers</h3>
+              <p>Using the waste heat in absorption chillers to chill water from heat instead of electricity, then feed it into a district cooling network, such as in Marina Bay.</p>
+            </div>
+          </template>
+          <template id="nuc-opt-desalination">
+            <div class="nuc-option">
+              <img src="/img/nuclear/option-desalination.jpg" width="1024" height="576" alt="" />
+              <h3>Desalination</h3>
+              <p>By using reactor heat to distill seawater, which complements Singapore’s desalination plants and also enhances our water resilience. Already achieved in Kazakhstan, Japan and India.</p>
+            </div>
+          </template>
+          <template id="nuc-opt-storage">
+            <div class="nuc-option">
+              <img src="/img/nuclear/option-storage.jpg" width="1024" height="576" alt="" />
+              <h3>Cold storage</h3>
+              <p>No, not the supermarket franchise. I’m referring to a steadily running reactor with a chilled-water tank ready to release its contents to the buildings on the network upon demand.</p>
+            </div>
+          </template>
+          <template id="nuc-opt-steam">
+            <div class="nuc-option">
+              <img src="/img/nuclear/option-steam.jpg" width="1024" height="576" alt="" />
+              <h3>Industrial steam for Jurong Island</h3>
+              <p>By channeling the waste heat into Jurong Island’s chemical plants for their use. In fact, Jurong Island already pipes waste steam from neighboring power plants to power their processes.</p>
+            </div>
+          </template>
+          <button type="button" class="nuc-game-all" id="nuc-game-all" aria-expanded="false">For those who would rather cheat than construct.</button>
+          <div class="nuc-options" id="nuc-game-options" hidden></div>
+        </div>
       </section>
 
       <!-- ── Fusion ── -->
@@ -939,10 +1100,16 @@
           <li id="ref-39">
             <em>World Nuclear News</em>. <a href="https://www.world-nuclear-news.org/Articles/US-regulator-approves-methodology-for-SMR-emergenc" target="_blank" rel="noopener noreferrer">“US Regulator Approves Methodology for SMR Emergency Planning.”</a> October 28, 2022.
           </li>
+          <li id="ref-40">
+            World Nuclear Association. <a href="https://world-nuclear.org/information-library/nuclear-power-reactors/overview/nuclear-power-reactors" target="_blank" rel="noopener noreferrer">“Nuclear Power Reactors.”</a> Information Library. Accessed September 28, 2026.
+          </li>
+          <li id="ref-41">
+            Energy Market Authority. <a href="https://www.ema.gov.sg/resources/singapore-energy-statistics/chapter2" target="_blank" rel="noopener noreferrer">“Energy Transformation.”</a> <em>Singapore Energy Statistics</em>, chap. 2. Accessed September 28, 2026.
+          </li>
         </ol>
       </section>
     </main>
 
-    <script src="/js/nuclear-singapore.js?v=20260928t"></script>
+    <script src="/js/nuclear-singapore.js?v=20260928w"></script>
   </body>
 </html>
