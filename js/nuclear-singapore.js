@@ -545,13 +545,18 @@
     var game = el('nuc-game');
     if (!game) { return; }
     var tray = el('nuc-game-tray'), result = el('nuc-game-result');
+    // Dragging only with a mouse or pen. On touch screens a drag and a scroll
+    // look the same, so parts are placed by tapping, and swipes scroll.
+    var canDrag = !(window.matchMedia && matchMedia('(pointer: coarse)').matches);
+    game.classList.toggle('can-drag', canDrag);
+    if (!canDrag) { el('nuc-game-hint').textContent = 'Tap a part, then tap its socket in the reactor.'; }
     var slots = {}, build = {}, picked = null;
     Array.prototype.forEach.call(game.querySelectorAll('.nuc-slot'), function (s) { slots[s.getAttribute('data-kind')] = s; });
 
     var tiles = {};
     PARTS.forEach(function (p) {
       var t = document.createElement('div');
-      t.className = 'nuc-part';
+      t.className = 'nuc-piece';
       t.setAttribute('role', 'button');
       t.setAttribute('tabindex', '0');
       t.setAttribute('data-kind', p.kind);
@@ -563,6 +568,7 @@
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(p); }
       });
       // drag with the pointer; a press without movement counts as a tap
+      if (!canDrag) { t.addEventListener('click', function () { pick(p); }); return; }
       t.addEventListener('pointerdown', function (e) {
         var sx = e.clientX, sy = e.clientY, ghost = null, over = null;
         t.setPointerCapture(e.pointerId);
@@ -634,7 +640,15 @@
       });
     });
 
+    function pipes() {
+      Array.prototype.forEach.call(game.querySelectorAll('.pipe'), function (p) {
+        p.classList.toggle('on', !!(build[p.getAttribute('data-a')] && build[p.getAttribute('data-b')]));
+      });
+      var done = !!(build.source && build.tap && build.machine && build.storage);
+      el('nuc-machine').classList.toggle('running', done);
+    }
     function check() {
+      pipes();
       if (!(build.source && build.tap && build.machine && build.storage)) { result.hidden = true; return; }
       var r = rateBuild(build);
       result.setAttribute('data-level', r.level);
@@ -665,6 +679,7 @@
     });
     el('nuc-game-reset').addEventListener('click', function () {
       build = {}; picked = null; result.hidden = true;
+      pipes();
       var labels = { source: 'Heat source', tap: 'Heat tap', machine: 'Machine', storage: 'Storage' };
       Object.keys(slots).forEach(function (k) {
         var s = slots[k], im = s.querySelector('img');
