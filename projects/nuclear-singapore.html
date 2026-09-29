@@ -551,6 +551,86 @@
         display: block; width: 100%; height: auto;
         aspect-ratio: 1024 / 576; border-radius: 12px;
       }
+      /* Fusion: the mecha builds the reactor (wireframe ghost, rising build line, beam). */
+      .nuc-fz { position: relative; aspect-ratio: 1328 / 800; margin: 1.5rem 0; border-radius: 14px; overflow: hidden; background: #0d2440; user-select: none; }
+      .nuc-fz > img, .nuc-fz-fx { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .nuc-fz-fx { pointer-events: none; }
+      .nuc-fz-reactor { position: absolute; left: 57%; top: 21.5%; width: 40%; aspect-ratio: 620 / 588; outline: none; }
+      .nuc-fz-reactor img { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .nuc-fz-shadow { position: absolute; left: -4%; right: -4%; bottom: -3%; height: 9%; border-radius: 50%;
+        background: radial-gradient(closest-side, rgba(10, 30, 60, 0.45), transparent); opacity: 0; transition: opacity .6s; }
+      .nuc-fz-wire { opacity: 0; transition: opacity .7s ease; filter: drop-shadow(0 0 3px rgba(120, 235, 255, 0.9)); }
+      .nuc-fz-solid { clip-path: inset(100% 0 0 0); }
+      .nuc-fz-scan { position: absolute; left: -3%; right: -3%; height: 3px; top: 100%; opacity: 0; border-radius: 3px;
+        background: linear-gradient(90deg, transparent, #c9fbff 12%, #fff 50%, #c9fbff 88%, transparent);
+        box-shadow: 0 0 10px 3px rgba(110, 230, 255, 0.85), 0 0 26px 8px rgba(60, 170, 255, 0.45); }
+      .nuc-fz-core { position: absolute; left: 51%; top: 45%; width: 44%; aspect-ratio: 1; transform: translate(-50%, -50%);
+        border-radius: 50%; opacity: 0; pointer-events: none; mix-blend-mode: screen;
+        background: radial-gradient(closest-side, rgba(255, 255, 255, 0.95), rgba(150, 215, 255, 0.75) 45%, rgba(90, 120, 255, 0.35) 70%, transparent); }
+      .nuc-fz.built .nuc-fz-core { opacity: 1; animation: nuc-fz-pulse 2.6s ease-in-out infinite; }
+      .nuc-fz.built .nuc-fz-reactor { cursor: pointer; }
+      .nuc-fz.built .nuc-fz-reactor:hover .nuc-fz-solid, .nuc-fz.built .nuc-fz-reactor:focus-visible .nuc-fz-solid { filter: drop-shadow(0 0 12px rgba(140, 230, 255, 0.9)); }
+      @keyframes nuc-fz-pulse { 0%, 100% { transform: translate(-50%, -50%) scale(0.92); opacity: .75; } 50% { transform: translate(-50%, -50%) scale(1.08); opacity: 1; } }
+      .nuc-fz-beam { fill: url(#nuc-fz-grad); mix-blend-mode: screen; }
+      .nuc-fz-muzzle { fill: #eaffff; filter: url(#nuc-fz-blur); }
+      .nuc-fz-sparks circle { fill: #f4ffff; }
+      .nuc-fz-replay, .nuc-fz-hint { position: absolute; bottom: 12px; padding: 5px 12px; border-radius: 999px;
+        font: 600 13px/1.3 var(--font-body, system-ui); opacity: 0; transition: opacity .4s; pointer-events: none; }
+      .nuc-fz-replay { right: 12px; border: 0; background: rgba(255, 255, 255, 0.92); color: var(--text); cursor: pointer; }
+      .nuc-fz-hint { left: 50%; transform: translateX(-50%); background: rgba(8, 20, 38, 0.72); color: #fff; white-space: nowrap; }
+      .nuc-fz.built .nuc-fz-replay { opacity: 1; pointer-events: auto; }
+      .nuc-fz.built .nuc-fz-hint { opacity: 1; }
+      @media (max-width: 640px) {
+        .nuc-fz { border-radius: 10px; }
+        .nuc-fz-replay, .nuc-fz-hint { bottom: 8px; font-size: 11.5px; padding: 3px 9px; }
+        .nuc-fz-hint { left: 8px; transform: none; }
+        .nuc-fz-replay { right: 8px; }
+      }
+      @media (prefers-reduced-motion: reduce) { .nuc-fz.built .nuc-fz-core { animation: none; } }
+      .nuc-card--solo { margin: 1.5rem 0; }
+      .nuc-prose .nuc-card--solo p + p { margin-top: 0.8em; }
+
+      /* Fusion popup: a timeline, achieved above "today", targets below. */
+      .nuc-tl-group { font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--text); margin: 4px 0 10px; }
+      .nuc-tl { list-style: none; margin: 0; padding: 0 0 0 30px; position: relative; }
+      .nuc-tl::before { content: ""; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: #c9d3dd; }
+      .nuc-tl li { position: relative; padding: 0 0 16px; }
+      .nuc-tl li::before { content: ""; position: absolute; left: -30px; top: 3px; width: 16px; height: 16px; border-radius: 50%; box-sizing: border-box; }
+      .nuc-tl--done li::before { background: #1f2f44; box-shadow: 0 0 0 3px var(--bg); }
+      .nuc-tl--done li:nth-child(2)::before { background: #2b3f5c; }
+      .nuc-tl--done li:nth-child(3)::before { background: #16384a; }
+      .nuc-tl--done li:nth-child(4)::before { background: #33304f; }
+      .nuc-tl--goal li::before { background: var(--bg); border: 3px solid var(--accent-red); }
+      .nuc-tl-date { display: block; font-family: var(--font-heading); font-weight: 700; font-size: 12.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px; }
+      .nuc-modal-box .nuc-tl p { font-size: 15.5px; line-height: 1.6; }
+      .nuc-tl-today { position: relative; display: flex; align-items: center; gap: 10px; margin: 2px 0 18px; }
+      .nuc-tl-today::before, .nuc-tl-today::after { content: ""; flex: 1; border-top: 2px dashed var(--accent-red); opacity: .55; }
+      .nuc-tl-today span { font-family: var(--font-heading); font-weight: 700; font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-red); white-space: nowrap; }
+
+      /* Plasma demo */
+      .nuc-plasma { margin: 1.5rem 0; border-radius: 14px; overflow: hidden; background: #081424; }
+      .nuc-plasma-canvas { display: block; width: 100%; aspect-ratio: 16 / 8; }
+      .nuc-plasma-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; padding: 12px 14px 10px; background: #0e1e33; color: #dfe9f4; font-size: 14px; }
+      .nuc-plasma-btn { border: 1px solid #3d5675; background: #13263f; color: #eaf2fb; border-radius: 999px; padding: 5px 13px; font: 600 13px/1.3 var(--font-body, system-ui); cursor: pointer; }
+      .nuc-plasma-btn:hover { border-color: #7fb4e8; }
+      .nuc-plasma-btn.is-on { background: #2f6fb3; border-color: #2f6fb3; }
+      .nuc-plasma-heat { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; flex: 1 1 320px; }
+      .nuc-plasma-heat input { flex: 1; accent-color: #ff8a3d; min-width: 120px; }
+      .nuc-plasma-heat output { min-width: 128px; font-variant-numeric: tabular-nums; font-weight: 700; color: #ffd9a8; }
+      .nuc-plasma-mag { display: inline-flex; gap: 6px; }
+      .nuc-plasma-reheat { margin-left: auto; }
+      .nuc-plasma-status { margin: 0; padding: 0 14px 14px; background: #0e1e33; color: #dfe9f4; font-size: 15px; line-height: 1.5; min-height: 3em; }
+      .nuc-plasma-status b { font-weight: 700; }
+      .nuc-plasma-status.cold b { color: #9ec9ff; }
+      .nuc-plasma-status.fusion b { color: #7ee0a0; }
+      .nuc-plasma-status.wobble b { color: #ffc15e; }
+      .nuc-plasma-status.out b { color: #ff7b6b; }
+      @media (max-width: 640px) {
+        .nuc-plasma-canvas { aspect-ratio: 4 / 3; }
+        .nuc-plasma-heat { flex-basis: 100%; }
+        .nuc-plasma-heat output { min-width: 0; }
+        .nuc-plasma-status { font-size: 14px; }
+      }
     </style>
   </head>
 
@@ -1018,6 +1098,93 @@
         <p>
           Can we make science fiction a reality?
         </p>
+        <p>
+          You probably have heard of the nuclear fusion reactor, which is heralded as the Holy
+          Grail of clean energy. Harnessing the same reaction that powers the sun, nuclear fusion
+          merges two light atomic nuclei into a new element, e.g. hydrogen to helium. The
+          resultant energy it releases is immense, and there is abundant fuel for it&mdash;the
+          deuterium it uses can be easily extracted from seawater. Moreover, it produces far less
+          and shorter-lived radioactive waste compared to fission reactors. Like fission reactors,
+          fusion reactors also promise clean energy as they do not produce any carbon emissions.
+        </p>
+        <p>
+          The issue, though, is creating a sustainable confinement device that can withstand the
+          plasma created. Plasma is a fourth state of matter, formed when gases are heated to a
+          few thousand degrees Celsius. However, in a fusion reactor, it is heated to temperatures
+          way beyond that&mdash;over 100 million degrees Celsius&mdash;and currently, no physical
+          matter can contain it. Therefore, creating a fusion reactor means relying on something
+          like a tokamak, which uses powerful magnetic fields to suspend and control plasma.
+        </p>
+
+        <!-- The build: a still hall and mecha; the reactor is built over it in code. -->
+        <div class="nuc-fz" id="nuc-fz">
+          <img class="nuc-fz-hall" src="/img/nuclear/fusion-hall.jpg" alt="A blocky construction mecha in a factory hall builds a fusion reactor with a beam of light" loading="lazy" />
+          <div class="nuc-fz-reactor" id="nuc-fz-reactor" role="button" tabindex="0" aria-label="The fusion reactor: how close are we?">
+            <div class="nuc-fz-shadow"></div>
+            <img class="nuc-fz-wire" src="/img/nuclear/fusion-reactor-wire.webp" alt="" />
+            <img class="nuc-fz-solid" src="/img/nuclear/fusion-reactor.webp" alt="" />
+            <div class="nuc-fz-scan"></div>
+            <div class="nuc-fz-core"></div>
+          </div>
+          <svg class="nuc-fz-fx" viewBox="0 0 1328 800" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="nuc-fz-grad" gradientUnits="userSpaceOnUse" x1="450" y1="470" x2="1000" y2="400">
+                <stop offset="0" stop-color="#ffffff" stop-opacity=".95" />
+                <stop offset=".6" stop-color="#8ff0ff" stop-opacity=".55" />
+                <stop offset="1" stop-color="#59c8ff" stop-opacity=".3" />
+              </linearGradient>
+              <filter id="nuc-fz-blur"><feGaussianBlur stdDeviation="4" /></filter>
+            </defs>
+            <polygon class="nuc-fz-beam" id="nuc-fz-beam" points="" />
+            <circle class="nuc-fz-muzzle" id="nuc-fz-muzzle" cx="452" cy="468" r="0" />
+            <g class="nuc-fz-sparks" id="nuc-fz-sparks"></g>
+          </svg>
+          <span class="nuc-fz-hint">Click the reactor</span>
+          <button class="nuc-fz-replay" id="nuc-fz-replay" type="button">Build again</button>
+        </div>
+
+        <div class="nuc-card nuc-card--blue nuc-card--solo">
+          <h3>Where does Singapore come in?</h3>
+          <p>
+            Though not a part of ITER, Singapore is involved in various nuclear fusion projects.
+            The Nanyang Technological University has a $6 million professorship funded by Temasek
+            in 2021,[^53] and the National Research Foundation funds an $11.6 million fusion program
+            that runs plasma simulations.[^54] Temasek has also invested in Commonwealth Fusion
+            Systems,[^55][^56] who A*STAR also signed a five-year deal with to develop technology for
+            commercial plants.[^57]
+          </p>
+          <p>
+            Singapore might not be building its own fusion power in the near future, but by
+            investing in the companies and building the skills needed, who&rsquo;s to say we
+            won&rsquo;t in the far future?
+          </p>
+        </div>
+
+        <p>
+          This is a mock-up of a plasma simulation that shows how a tokamak works.
+        </p>
+        <!-- A toy model of magnetic confinement, computed live in the browser. -->
+        <div class="nuc-plasma" id="nuc-plasma">
+          <canvas class="nuc-plasma-canvas" id="nuc-plasma-canvas" role="img"
+            aria-label="A cross-section of a tokamak: hot plasma held in the middle by a magnetic cage. Turn up the heat and the plasma pushes harder on the cage; past the magnets' limit it breaks loose, touches the wall, and goes out."></canvas>
+          <div class="nuc-plasma-bar">
+            <label class="nuc-plasma-heat" for="nuc-plasma-heat">Heat
+              <input type="range" id="nuc-plasma-heat" min="0" max="250" step="5" value="60" />
+              <output id="nuc-plasma-temp" for="nuc-plasma-heat">60 million °C</output>
+            </label>
+            <span class="nuc-plasma-mag" role="group" aria-label="Magnets">
+              <button type="button" class="nuc-plasma-btn is-on" data-b="1" aria-pressed="true">Standard magnets</button>
+              <button type="button" class="nuc-plasma-btn" data-b="1.6" aria-pressed="false">Stronger magnets</button>
+            </span>
+            <button type="button" class="nuc-plasma-btn nuc-plasma-reheat" id="nuc-plasma-reset">Reheat</button>
+          </div>
+          <p class="nuc-plasma-status" id="nuc-plasma-status" aria-live="polite"></p>
+        </div>
+        <p>
+          A fusion reactor that loses control simply peters out instead of melting down, as there
+          is no chain reaction. This makes it comparatively safer than fission reactors, where a
+          rampaging chain reaction or heat-emanating fuel despite shutdown can lead to a meltdown.
+        </p>
       </section>
 
       <!-- ── Popular imagination ── -->
@@ -1162,10 +1329,58 @@
           <li id="ref-41">
             Energy Market Authority. <a href="https://www.ema.gov.sg/resources/singapore-energy-statistics/chapter2" target="_blank" rel="noopener noreferrer">“Energy Transformation.”</a> <em>Singapore Energy Statistics</em>, chap. 2. Accessed September 28, 2026.
           </li>
+          <li id="ref-42">
+            CEA, Institute for Magnetic Fusion Research. <a href="https://irfm.cea.fr/en/2025/02/west-sets-a-new-plasma-duration-record/" target="_blank" rel="noopener noreferrer">“WEST Sets a New Plasma Duration Record.”</a> February 19, 2025.
+          </li>
+          <li id="ref-43">
+            Chinese Academy of Sciences. <a href="https://english.cas.cn/newsroom/cas_media/202501/t20250121_899052.shtml" target="_blank" rel="noopener noreferrer">“Chinese ‘Artificial Sun’ Sets New Record in Milestone Step Toward Fusion Power Generation.”</a> January 21, 2025.
+          </li>
+          <li id="ref-44">
+            Lawrence Livermore National Laboratory, National Ignition Facility &amp; Photon Science. <a href="https://lasers.llnl.gov/news/target-breakthrough-enabled-fusion-record-nif" target="_blank" rel="noopener noreferrer">“Target Breakthrough Enabled Fusion Record at NIF.”</a> Accessed September 29, 2026.
+          </li>
+          <li id="ref-45">
+            Liu, Jiaxing, Ping Zhu, Dominique Franck Escande, et al. <a href="https://doi.org/10.1126/sciadv.adz3040" target="_blank" rel="noopener noreferrer">“Accessing the Density-Free Regime with ECRH-Assisted Ohmic Start-Up on EAST.”</a> <em>Science Advances</em> 12, no. 1 (2026): eadz3040.
+          </li>
+          <li id="ref-46">
+            <em>South China Morning Post</em>. <a href="https://www.scmp.com/news/china/science/article/3369086/chinese-commercial-reactor-achieves-nuclear-fusion-clean-hydrogen-boron-fuel" target="_blank" rel="noopener noreferrer">“Chinese Commercial Reactor Achieves Nuclear Fusion with Clean Hydrogen-Boron Fuel.”</a> September 29, 2026.
+          </li>
+          <li id="ref-47">
+            Commonwealth Fusion Systems. <a href="https://cfs.energy/technology/sparc/" target="_blank" rel="noopener noreferrer">“SPARC: Proving Commercial Fusion Energy Is Possible.”</a> Accessed September 29, 2026.
+          </li>
+          <li id="ref-48">
+            Chinese Academy of Sciences. <a href="https://english.cas.cn/newsroom/cas_media/202510/t20251010_1088962.shtml" target="_blank" rel="noopener noreferrer">“China Achieves Milestone in Compact Fusion Project with Key Component Installation.”</a> October 10, 2025.
+          </li>
+          <li id="ref-49">
+            Helion Energy. <a href="https://www.helionenergy.com/newsroom/helion-announces-worlds-first-fusion-ppa-with-microsoft" target="_blank" rel="noopener noreferrer">“Helion Announces World’s First Fusion Energy Purchase Agreement with Microsoft.”</a> Press release, May 10, 2023.
+          </li>
+          <li id="ref-50">
+            Helion Energy. <a href="https://www.helionenergy.com/newsroom/helion-clears-key-regulatory-milestone-on-the-path-to-building-and-operating-the-worlds-first-fusion-power-plant" target="_blank" rel="noopener noreferrer">“Helion Clears Key Regulatory Milestone on the Path to Building and Operating the World’s First Fusion Power Plant.”</a> June 16, 2026.
+          </li>
+          <li id="ref-51">
+            Max Planck Institute for Plasma Physics. <a href="https://www.ipp.mpg.de/5434926/ITER_baseline_2024" target="_blank" rel="noopener noreferrer">“New ITER Schedule.”</a> July 3, 2024.
+          </li>
+          <li id="ref-52">
+            ITER Organization. <a href="https://www.iter.org/node/20687/new-baseline-prioritize-robust-start-exploitation" target="_blank" rel="noopener noreferrer">“New Baseline to Prioritize Robust Start to Exploitation.”</a> July 3, 2024.
+          </li>
+          <li id="ref-53">
+            Nanyang Technological University. <a href="https://www.ntu.edu.sg/news/detail/new-chair-professorship-with-6-million-endowment-from-temasek" target="_blank" rel="noopener noreferrer">“New Chair Professorship with $6 Million Endowment from Temasek.”</a> September 29, 2021.
+          </li>
+          <li id="ref-54">
+            National Supercomputing Centre Singapore. <a href="https://www.nscc.sg/portfolio/item/powering-the-future-singapores-path-into-fusion-energy/" target="_blank" rel="noopener noreferrer">“Powering the Future: Singapore’s Path into Fusion Energy.”</a> Accessed September 29, 2026.
+          </li>
+          <li id="ref-55">
+            Commonwealth Fusion Systems. <a href="https://cfs.energy/news-and-media/commonwealth-fusion-systems-84-million-in-a2-round/" target="_blank" rel="noopener noreferrer">“Commonwealth Fusion Systems Raises $84 Million in A2 Round.”</a> May 26, 2020.
+          </li>
+          <li id="ref-56">
+            Commonwealth Fusion Systems. <a href="https://www.cfs.energy/news-and-media/commonwealth-fusion-systems-closes-1-8-billion-series-b-round/" target="_blank" rel="noopener noreferrer">“Commonwealth Fusion Systems Raises $1.8 Billion in Funding to Commercialize Fusion Energy.”</a> December 1, 2021.
+          </li>
+          <li id="ref-57">
+            <em>The Straits Times</em>. <a href="https://www.edb.gov.sg/en/news-and-insights/worlds-largest-nuclear-fusion-firm-partners-a-star-to-develop-commercial-power-plant-tech" target="_blank" rel="noopener noreferrer">“World’s Largest Nuclear Fusion Firm Partners A*STAR to Develop Commercial Power Plant Tech.”</a> May 20, 2026. Republished by the Singapore Economic Development Board.
+          </li>
         </ol>
       </section>
     </main>
 
-    <script src="/js/nuclear-singapore.js?v=20260928za"></script>
+    <script src="/js/nuclear-singapore.js?v=20260929g"></script>
   </body>
 </html>

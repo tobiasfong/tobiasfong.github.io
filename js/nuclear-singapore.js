@@ -118,7 +118,7 @@
     el('nuc-modal-title').textContent = ev.name;
     el('nuc-modal-media').innerHTML = ev.img
       ? '<img src="/img/nuclear/' + ev.img + '" alt="" />' : '';
-    el('nuc-modal-body').innerHTML = ev.paras
+    el('nuc-modal-body').innerHTML = ev.html ? ev.html : ev.paras
       ? '<p>' + ev.paras.join('</p><p>') + '</p>'
       : ev.body
         ? '<p>' + ev.body + '</p>'
@@ -735,6 +735,328 @@
     });
   }
 
+  /* ── Fusion: the mecha builds the reactor ────────────────────────
+     Supreme Commander's build effect, in code: a wireframe ghost of the
+     reactor, then the solid reactor rising behind a build line while the
+     beam from the mecha's forearm plays along it. Runs once when the scene
+     scrolls into view; "Build again" replays it. The finished reactor
+     opens the popup. Coordinates are in the 1328 x 800 hall plate. */
+  // Achieved (solid dots) above the "today" line, targets (hollow red) below. His text.
+  var FUSION_DONE = [
+    ['February 2025', 'France’s WEST tokamak is able to contain its plasma for 1,337 seconds,[^42] beating China’s EAST tokamak’s achievement of 1,066 seconds a month earlier.[^43]'],
+    ['April 2025', 'The US National Ignition Facility produced 8.6 megajoules of energy from 2.08 megajoules of laser energy, over four times the input.[^44] Though this does not include the electricity powering the lasers, which will shift the calculations toward a large net loss.'],
+    ['January 2026', 'China’s EAST held stable plasma at 1.3–1.65 times the density believed to be the limit.[^45]'],
+    ['September 2026', 'ENN’s Xuanlong-50U achieved a hydrogen-boron fusion reaction.[^46] Hydrogen-boron fusion releases almost no neutrons, which means fusion reactors that use this fuel will produce almost no radioactive waste.']
+  ];
+  var FUSION_GOALS = [
+    ['2027', 'SPARC, from the US company Commonwealth Fusion Systems, and China’s BEST are aiming to produce plasma in 2027.[^47][^48]'],
+    ['2028', 'Helion aims to deliver power to Microsoft through the grid by 2028,[^49] having acquired the world’s first fusion power-plant operating licenses in June 2026.[^50]'],
+    ['2034 and 2039', 'ITER still aims to launch research operations in 2034,[^51] and begin with real fusion reactor fuel in 2039.[^52]']
+  ];
+  function timeline(items, cls) {
+    return '<ol class="nuc-tl ' + cls + '">' + items.map(function (it) {
+      return '<li><span class="nuc-tl-date">' + it[0] + '</span><p>' + it[1] + '</p></li>';
+    }).join('') + '</ol>';
+  }
+  var FUSION = {
+    date: 'As of September 2026', name: 'How close are we?',
+    html: '<div class="nuc-tl-group">What we have achieved so far</div>' + timeline(FUSION_DONE, 'nuc-tl--done') +
+      '<div class="nuc-tl-today"><span>Today · September 2026</span></div>' +
+      '<div class="nuc-tl-group">Targets</div>' + timeline(FUSION_GOALS, 'nuc-tl--goal')
+  };
+
+  function wireFusion() {
+    var stage = el('nuc-fz');
+    if (!stage) { return; }
+    var reactor = el('nuc-fz-reactor');
+    var wire = stage.querySelector('.nuc-fz-wire'), solid = stage.querySelector('.nuc-fz-solid');
+    var scan = stage.querySelector('.nuc-fz-scan'), shadow = stage.querySelector('.nuc-fz-shadow');
+    var beam = el('nuc-fz-beam'), muzzle = el('nuc-fz-muzzle'), sparksG = el('nuc-fz-sparks');
+    var NS = 'http://www.w3.org/2000/svg';
+    var NOZ = { x: 452, y: 468 };
+    var R = { x: 0.57 * 1328, y: 0.215 * 800, w: 0.40 * 1328 };
+    R.h = R.w * 588 / 620;
+    var GHOST = 900, BUILD = 5200, running = false, sparks = [];
+
+    function reset() {
+      stage.classList.remove('built');
+      wire.style.opacity = 0; shadow.style.opacity = 0;
+      solid.style.clipPath = 'inset(100% 0 0 0)';
+      scan.style.opacity = 0; beam.setAttribute('points', ''); muzzle.setAttribute('r', 0);
+      sparks.forEach(function (s) { s.el.remove(); }); sparks = [];
+    }
+    function finish() {
+      running = false;
+      wire.style.opacity = 0; scan.style.opacity = 0; shadow.style.opacity = 1;
+      solid.style.clipPath = 'inset(0 0 0 0)';
+      beam.setAttribute('points', ''); muzzle.setAttribute('r', 0);
+      stage.classList.add('built');
+    }
+    function spark(x, y) {
+      var c = document.createElementNS(NS, 'circle');
+      c.setAttribute('r', 1.5 + Math.random() * 2);
+      sparksG.appendChild(c);
+      var a = Math.random() * Math.PI * 2, v = 90 + Math.random() * 220;
+      sparks.push({ el: c, x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 120, life: 0, max: 0.35 + Math.random() * 0.4 });
+    }
+    function run() {
+      if (running) { return; }
+      reset(); running = true;
+      if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) { finish(); return; }
+      wire.style.opacity = 0.9;
+      var t0 = performance.now(), last = t0;
+      function frame(now) {
+        var dt = Math.min(0.05, (now - last) / 1000); last = now;
+        var t = now - t0;
+        if (running && t > GHOST) {
+          var p = Math.min(1, (t - GHOST) / BUILD);
+          var e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;   // ease in-out
+          solid.style.clipPath = 'inset(' + ((1 - e) * 100).toFixed(2) + '% 0 0 0)';
+          scan.style.top = ((1 - e) * 100).toFixed(2) + '%';
+          scan.style.opacity = 1; shadow.style.opacity = e;
+          // the beam plays back and forth along the build line
+          var ty = R.y + (1 - e) * R.h;
+          var tx = R.x + R.w * (0.5 + 0.36 * Math.sin(t / 260));
+          var spread = 26 + 10 * Math.sin(t / 90);
+          beam.setAttribute('points', [NOZ.x, NOZ.y - 3, tx - spread, ty, tx + spread, ty, NOZ.x, NOZ.y + 3].join(' '));
+          beam.style.opacity = 0.75 + Math.random() * 0.25;
+          muzzle.setAttribute('r', 7 + Math.random() * 3);
+          if (Math.random() < 0.8) { spark(tx + (Math.random() - 0.5) * spread, ty); }
+          if (p >= 1) { finish(); }
+        }
+        sparks = sparks.filter(function (s) {
+          s.life += dt;
+          if (s.life > s.max) { s.el.remove(); return false; }
+          s.vy += 520 * dt; s.x += s.vx * dt; s.y += s.vy * dt;
+          s.el.setAttribute('cx', s.x.toFixed(1)); s.el.setAttribute('cy', s.y.toFixed(1));
+          s.el.setAttribute('opacity', (1 - s.life / s.max).toFixed(2));
+          return true;
+        });
+        if (running || sparks.length) { requestAnimationFrame(frame); }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (es) {
+        if (es[0].isIntersecting) { io.disconnect(); run(); }
+      }, { threshold: 0.45 });
+      io.observe(stage);
+    } else { finish(); }
+    el('nuc-fz-replay').addEventListener('click', run);
+    function open() { if (stage.classList.contains('built')) { openModal(FUSION, reactor); } }
+    reactor.addEventListener('click', open);
+    reactor.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+    });
+  }
+
+  /* ── Plasma demo: can the magnets hold it? ───────────────────────
+     A mock-up, not a research simulation. The magnets make an invisible
+     cage in the middle of the chamber. Hotter plasma moves faster and
+     pushes harder on the cage, so it swells. Each set of magnets has a
+     limit: past it the cage starts to wobble, the plasma works its way
+     out, touches the wall and cools in an instant (a disruption). Fusion
+     then simply stops; there is no chain reaction to run away. Stronger
+     magnets raise the limit. Temperatures are in millions of °C: fusion
+     needs about 100. The limits (130 and 208) are illustrative. */
+  function wirePlasma() {
+    var box = el('nuc-plasma');
+    if (!box) { return; }
+    var cv = el('nuc-plasma-canvas'), ctx = cv.getContext('2d');
+    var heat = el('nuc-plasma-heat'), out = el('nuc-plasma-temp'), status = el('nuc-plasma-status');
+    var magBtns = box.querySelectorAll('.nuc-plasma-mag button');
+    var N = 260, KAPPA = 1.45, FUSE = 100, LIMIT = 130;
+    var parts = [], sparks = [], hits = [], B = 1, T = +heat.value, shownT = T;
+    var mode = 'ok', wob = 0, clock = 0, downFor = 0, lastMsg = '';
+    var W = 0, H = 0, A = 0, CX = 0, CY = 0, last = 0, visible = false;
+
+    function size() {
+      var r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+      W = r.width; H = r.height;
+      cv.width = Math.round(W * d); cv.height = Math.round(H * d);
+      ctx.setTransform(d, 0, 0, d, 0, 0);
+      A = Math.min(W * 0.34, (H * 0.43) / KAPPA); CX = W / 2; CY = H / 2 + 6;
+      ctx.fillStyle = '#081424'; ctx.fillRect(0, 0, W, H);
+    }
+    function fill() {
+      parts = []; sparks = []; hits = []; mode = 'ok'; wob = 0; downFor = 0; shownT = T;
+      for (var i = 0; i < N; i++) {
+        var r = 0.25 * Math.sqrt(Math.random()), th = Math.random() * Math.PI * 2, a = Math.random() * Math.PI * 2;
+        parts.push({ u: r * Math.cos(th), v: r * Math.sin(th), du: Math.cos(a), dv: Math.sin(a), alive: true });
+      }
+    }
+    function gauss() { return Math.sqrt(-2 * Math.log(Math.random() + 1e-9)) * Math.cos(2 * Math.PI * Math.random()); }
+    function px(u) { return CX + A * u; }
+    function py(v) { return CY - A * KAPPA * v; }
+    function limit() { return LIMIT * B; }
+    // the cage's edge at angle th: swells with heat, wobbles when over the limit
+    function cage(th) {
+      var beta = Math.min(T / limit(), 1.25);
+      var base = 0.2 + 0.5 * Math.min(beta, 1) + (beta > 1 ? 0.25 * (beta - 1) : 0);
+      var amp = 0.025 + wob;
+      return base * (1 + amp * Math.sin(3 * th + clock * 4) + amp * 0.5 * Math.sin(2 * th - clock * 3));
+    }
+    function color(t, alpha) {
+      // deep orange when cool, yellow, then white-hot
+      var k = Math.min(1, t / 220);
+      var r = 255, g = Math.round(110 + 140 * k), b = Math.round(60 + 190 * Math.max(0, k - 0.4) / 0.6);
+      return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+    }
+    function say(cls, head, rest) {
+      var msg = cls + head;
+      if (msg === lastMsg) { return; }
+      lastMsg = msg;
+      status.className = 'nuc-plasma-status ' + cls;
+      status.innerHTML = '<b>' + head + '</b> ' + rest;
+    }
+    function tell() {
+      if (mode === 'out') {
+        say('out', 'Disruption.', 'The plasma broke through the cage, touched the wall and cooled in an instant, so fusion stopped on its own. No meltdown, but the wall can be damaged. Press Reheat to try again.');
+      } else if (T > limit()) {
+        say('wobble', 'Too hot for these magnets.', 'The plasma is pushing harder than the magnetic cage can hold, and it is starting to break loose.');
+      } else if (T >= FUSE) {
+        say('fusion', 'Hot enough for fusion,', 'and the magnets are holding it. The bright flashes are fusion reactions.');
+      } else {
+        say('cold', 'Too cold for fusion.', 'The magnets hold the plasma easily, but it needs about 100 million °C before atoms start to fuse.');
+      }
+    }
+
+    function step(dt) {
+      clock += dt;
+      if (mode === 'ok') {
+        if (T > limit()) { wob = Math.min(0.45, wob + dt * (0.06 + 0.25 * (T / limit() - 1))); }
+        else { wob = Math.max(0, wob - dt * 0.5); }
+      }
+      var speed = 0.15 + 0.85 * (mode === 'out' ? 0.9 : T / 250);
+      var leak = mode === 'ok' ? Math.max(0, (wob - 0.22) * 1.6) : 1;
+      parts.forEach(function (p) {
+        if (!p.alive) { return; }
+        p.du += gauss() * 3 * dt; p.dv += gauss() * 3 * dt;
+        var m = Math.sqrt(p.du * p.du + p.dv * p.dv) || 1;
+        p.du /= m; p.dv /= m;
+        p.u += p.du * speed * dt; p.v += p.dv * speed * dt;
+        var r = Math.sqrt(p.u * p.u + p.v * p.v), th = Math.atan2(p.v, p.u);
+        if (mode === 'ok' && r > cage(th) && Math.random() > leak * dt * 6) {
+          // turned back by the cage
+          if (p.u * p.du + p.v * p.dv > 0) { p.du = -p.du + gauss() * 0.3; p.dv = -p.dv + gauss() * 0.3; }
+          var c = cage(th) / r; p.u *= c; p.v *= c;
+        }
+        if (r >= 1) {
+          p.alive = false;
+          hits.push({ u: p.u / r, v: p.v / r, t: 0 });
+          if (mode === 'ok') { mode = 'out'; downFor = 0; }
+        }
+      });
+      if (mode === 'out') {
+        downFor += dt;
+        shownT = Math.max(0, shownT - dt * shownT * 5 - dt * 20);
+      } else {
+        shownT += (T - shownT) * Math.min(1, dt * 4);
+        if (T >= FUSE && T <= limit() * 1.1) {
+          var rate = 3 + 22 * Math.min(1, (T - FUSE) / 100);
+          if (Math.random() < rate * dt) {
+            var q = parts[Math.floor(Math.random() * parts.length)];
+            if (q && q.alive) { sparks.push({ u: q.u, v: q.v, t: 0 }); }
+          }
+        }
+      }
+      tell();
+    }
+    function draw(dt) {
+      ctx.fillStyle = 'rgba(8, 20, 36, 0.28)'; ctx.fillRect(0, 0, W, H);
+      // the chamber wall
+      ctx.lineWidth = 6; ctx.strokeStyle = '#8fa6bf';
+      ctx.beginPath(); ctx.ellipse(CX, CY, A + 4, A * KAPPA + 4, 0, 0, Math.PI * 2); ctx.stroke();
+      // the magnetic cage: three glowing rings that follow the cage's edge
+      if (mode === 'ok') {
+        ctx.save();
+        ctx.shadowColor = 'rgba(90, 200, 255, 0.9)'; ctx.shadowBlur = 8;
+        [1.06, 1.16, 1.26].forEach(function (k, i) {
+          ctx.lineWidth = (B > 1 ? 2.6 : 1.6) - i * 0.3;
+          ctx.strokeStyle = 'rgba(110, 210, 255,' + (0.75 - i * 0.2) + ')';
+          ctx.beginPath();
+          for (var a = 0; a <= 64; a++) {
+            var th = a / 64 * Math.PI * 2, r = Math.min(0.97, cage(th) * k);
+            var x = px(r * Math.cos(th)), y = py(r * Math.sin(th));
+            if (a) { ctx.lineTo(x, y); } else { ctx.moveTo(x, y); }
+          }
+          ctx.stroke();
+        });
+        ctx.restore();
+      }
+      // plasma
+      var fade = mode === 'out' ? Math.max(0, 1 - downFor / 0.8) : 1;
+      ctx.fillStyle = color(shownT, (0.9 * fade).toFixed(2));
+      parts.forEach(function (p) {
+        if (!p.alive) { return; }
+        ctx.beginPath(); ctx.arc(px(p.u), py(p.v), 2.1, 0, Math.PI * 2); ctx.fill();
+      });
+      if (mode === 'out' && downFor > 0.8) { parts.forEach(function (p) { p.alive = false; }); }
+      // fusion flashes
+      sparks = sparks.filter(function (f) {
+        f.t += dt;
+        if (f.t > 0.35) { return false; }
+        var k = 1 - f.t / 0.35;
+        ctx.fillStyle = 'rgba(255, 255, 255,' + k.toFixed(2) + ')';
+        ctx.beginPath(); ctx.arc(px(f.u), py(f.v), 2 + 9 * f.t / 0.35, 0, Math.PI * 2); ctx.fill();
+        return true;
+      });
+      // where plasma strikes the wall
+      hits = hits.filter(function (f) {
+        f.t += dt;
+        if (f.t > 0.7) { return false; }
+        ctx.fillStyle = 'rgba(255, 150, 90,' + (1 - f.t / 0.7).toFixed(2) + ')';
+        ctx.beginPath(); ctx.arc(px(f.u), py(f.v), 4 + 14 * f.t, 0, Math.PI * 2); ctx.fill();
+        return true;
+      });
+      // labels
+      ctx.font = '600 12.5px system-ui, sans-serif'; ctx.textAlign = 'left';
+      ctx.fillStyle = 'rgba(223, 233, 244, 0.8)';
+      ctx.fillText('Inside a tokamak', 14, 22);
+      ctx.fillStyle = color(shownT, 1);
+      ctx.fillText('Plasma: ' + Math.round(shownT) + ' million °C', 14, 41);
+      ctx.fillStyle = 'rgba(223, 233, 244, 0.6)';
+      ctx.fillText((B > 1 ? 'Stronger' : 'Standard') + ' magnets hold up to about ' + limit() + ' million °C', 14, 60);
+    }
+    function frame(now) {
+      if (!visible) { last = 0; return; }
+      var dt = last ? Math.min(0.05, (now - last) / 1000) : 0; last = now;
+      step(dt); draw(dt);
+      requestAnimationFrame(frame);
+    }
+
+    function setHeat() {
+      T = +heat.value;
+      out.textContent = T + ' million °C';
+      if (!visible) { tell(); draw(0); }
+    }
+    heat.addEventListener('input', setHeat);
+    Array.prototype.forEach.call(magBtns, function (b) {
+      b.addEventListener('click', function () {
+        B = +b.getAttribute('data-b');
+        Array.prototype.forEach.call(magBtns, function (o) {
+          o.classList.toggle('is-on', o === b); o.setAttribute('aria-pressed', o === b ? 'true' : 'false');
+        });
+        if (!visible) { tell(); draw(0); }
+      });
+    });
+    el('nuc-plasma-reset').addEventListener('click', function () {
+      fill(); ctx.fillStyle = '#081424'; ctx.fillRect(0, 0, W, H); lastMsg = ''; tell();
+    });
+
+    size(); fill(); tell(); draw(0);
+    window.addEventListener('resize', function () { size(); draw(0); });
+    // Only animate while on screen.
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        var was = visible;
+        visible = es[0].isIntersecting;
+        if (visible && !was) { last = 0; requestAnimationFrame(frame); }
+      }, { threshold: 0.15 }).observe(box);
+    } else { visible = true; requestAnimationFrame(frame); }
+  }
+
   function boot() {
     buildStrip();
     wireStrip();
@@ -744,6 +1066,8 @@
     wireDiagram();
     wireZone();
     wireGame();
+    wireFusion();
+    wirePlasma();
     expandCitations(document.querySelector('main'));
   }
 
