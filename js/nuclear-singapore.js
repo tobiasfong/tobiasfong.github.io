@@ -1085,20 +1085,20 @@
   var KAIJU_SPRITE = {"w":32,"h":32,"pal":{"K":"#14161c","D":"#343a48","B":"#2f80e6","L":"#beebff","Y":"#ffd640","W":"#ececec","R":"#961e28"},"frames":{"down1":["................................",".............KKKKKK.............","............KKKKKKKK............","...........KKKKKKKKKK...........","........BB.KKYKKKKYKK.BB........",".......BBBBKKKKKKKKKKBBBB.......","......BBBBBKKKKKKKKKKBBBBB......","............KKWKKWKK............","............KKRRRRKK............","........BB.KKKKKKKKKK.BB........",".......BBBKKKKKKKKKKKKBBB.......","......KKKBKKKKKDDKKKKKBKKK......","......KKKKKKKKDDDDKKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKDDDDDDDDKKKKKK......","......K.KKKKDDDDDDDDKKKK.K......",".........KKKDDDDDDDDKKK.........",".........KKKKDDDDDDKKKK.........","..........KKKDDDDDDKKK..........","..........KKKDDDDDDKKK..........",".........KKKKKDDDDKKKKK...KKK...",".........KKKKKKDDKKKKKK...KKK...",".........KKKKK....KKKKKKKKKK....",".........KKKKK....KKKKKKKKKK....",".........KKKKK....KKKKK.........","........KKKKKK....KKKKK.........","........KKKKK.....KKKKK.........","..................KKKKKK........","...................KKKKK........","................................"],"down2":["................................",".............KKKKKK.............","............KKKKKKKK............","...........KKKKKKKKKK...........","........BB.KKYKKKKYKK.BB........",".......BBBBKKKKKKKKKKBBBB.......","......BBBBBKKKKKKKKKKBBBBB......","............KKWKKWKK............","............KKRRRRKK............","........BB.KKKKKKKKKK.BB........",".......BBBKKKKKKKKKKKKBBB.......","......KKKBKKKKKDDKKKKKBKKK......","......KKKKKKKKDDDDKKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKDDDDDDDDKKKKKK......","......K.KKKKDDDDDDDDKKKK.K......",".........KKKDDDDDDDDKKK.........",".........KKKKDDDDDDKKKK.........","..........KKKDDDDDDKKK..........","..........KKKDDDDDDKKK..........",".........KKKKKDDDDKKKKK...KKK...",".........KKKKKKDDKKKKKK...KKK...",".........KKKKK....KKKKKKKKKK....",".........KKKKK....KKKKKKKKKK....",".........KKKKK....KKKKK.........",".........KKKKK....KKKKKK........",".........KKKKK.....KKKKK........","........KKKKKK..................","........KKKKK...................","................................"],"downB":["................................",".............KKKKKK.............","............KKKKKKKK............","...........KKKKKKKKKK...........","........BB.KKYKKKKYKK.BB........",".......BBBBKKKKKKKKKKBBBB.......","......BBBBBKKKKKKKKKKBBBBB......","............KKKKKKKK............","............KWRRRRWK............","........BB.KKRRRRRRKK.BB........",".......BBBKKKWRRRRWKKKBBB.......","......KKKBKKKKKDDKKKKKBKKK......","......KKKKKKKKDDDDKKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKDDDDDDDDKKKKKK......","......K.KKKKDDDDDDDDKKKK.K......",".........KKKDDDDDDDDKKK.........",".........KKKKDDDDDDKKKK.........","..........KKKDDDDDDKKK..........","..........KKKDDDDDDKKK..........",".........KKKKKDDDDKKKKK...KKK...",".........KKKKKKDDKKKKKK...KKK...",".........KKKKK....KKKKKKKKKK....",".........KKKKK....KKKKKKKKKK....",".........KKKKK....KKKKK.........","........KKKKKK....KKKKK.........","........KKKKK.....KKKKK.........","..................KKKKKK........","...................KKKKK........","................................"],"up1":["................................",".............KKKKKK.............","............KKKBBKKK............","...........KKKBBBBKKK...........","...........KKBBBBBBKK...........","...........KKKKKKKKKK...........","...........KKKKKKKKKK...........","............KKKBBKKK............","............KKBBBBKK............","...........KKBBBBBBKK...........","..........KKKKKKKKKKKK..........","..........KKKKKKKKKKKK..........","......KKKKKKKKKBBKKKKKKKKK......","......KKKKKKKKBBBBKKKKKKKK......","......KKKKKKKBBBBBBKKKKKKK......","......KKKKKKKKKKKKKKKKKKKK......",".........KKKKKKKKKKKKKK.........",".........KKKKKKBBKKKKKK.........",".........KKKKKBBBBKKKKK.........",".........KKKKBBBBBBKKKK.........","..........KKKKKKKKKKKK..........","..........KKKKKKKKKKKK..........",".........KKKKKKBBKKKKKK.........",".........KKKKKBBBBKKKKK.........",".........KKKKBBBBBBKKKK.........",".........KKKKKKKKKKKKKK.........",".........KKKKKKKKKKKKKK.........","........KKKKKKKBBKKKKKK.........","........KKKKK.KBBKKKKKK.........","..............KKKKKKKKKK........","...............KK..KKKKK........","...............KK..............."],"up2":["................................",".............KKKKKK.............","............KKKBBKKK............","...........KKKBBBBKKK...........","...........KKBBBBBBKK...........","...........KKKKKKKKKK...........","...........KKKKKKKKKK...........","............KKKBBKKK............","............KKBBBBKK............","...........KKBBBBBBKK...........","..........KKKKKKKKKKKK..........","..........KKKKKKKKKKKK..........","......KKKKKKKKKBBKKKKKKKKK......","......KKKKKKKKBBBBKKKKKKKK......","......KKKKKKKBBBBBBKKKKKKK......","......KKKKKKKKKKKKKKKKKKKK......",".........KKKKKKKKKKKKKK.........",".........KKKKKKBBKKKKKK.........",".........KKKKKBBBBKKKKK.........",".........KKKKBBBBBBKKKK.........","..........KKKKKKKKKKKK..........","..........KKKKKKKKKKKK..........",".........KKKKKKBBKKKKKK.........",".........KKKKKBBBBKKKKK.........",".........KKKKBBBBBBKKKK.........",".........KKKKKKKKKKKKKK.........",".........KKKKKKKKKKKKKK.........",".........KKKKKKBBKKKKKKK........",".........KKKKKKBBK.KKKKK........","........KKKKKKKKKK..............","........KKKKK..KK...............","...............KK..............."],"side1":["................................","................................","................................","....................KKKKK.......","..................KKKKKKKKK.....",".................BKKKKKKYKKK....","................BBKKKKKKKKKKK...","..............BBBKKKKKKKKKKKKK..",".................KKKKKKKWKWKK...","................BKKKKKKRRRRR....",".............BBKKKKKKKKWKWK.....","............BBBKKKKKKKKKK.......","...............KKKKKKDDKK.......","............BKKKKKKKDDDKKK......","...........BBKKKKKKKDDDKDKK.....","..........BBBKKKKKKKDDDK.KKK....","...........KKKKKKKKKDDDK..KK....","..........BKKKKKKKKKDDDK........",".........BBKKKKKKKKKDDDK........","......BBBKKKKKKKKKKKDDKK........",".........KKKKKKKKKKKDDK.........","........BKKKKKKKKKKKDKK.........",".......KKKKKKKKKKKKKKK..........","...BBKKKKKKKKKKKKKKKKK..........","...KKKKKKKK.KKKKKKKKKK..........","KKKKKKK.....KKKKKKKKK...........","KKKK........KKKKK.KKKK..........","............KKKK...KKKK.........","...........KKKK.....KKKK........","..........KKKK.......KKK........",".........KKKKK......KKKKK.......","........KKKKKK.....KKKKKK......."],"side2":["................................","................................","................................","....................KKKKK.......","..................KKKKKKKKK.....",".................BKKKKKKYKKK....","................BBKKKKKKKKKKK...","..............BBBKKKKKKKKKKKKK..",".................KKKKKKKWKWKK...","................BKKKKKKRRRRR....",".............BBKKKKKKKKWKWK.....","............BBBKKKKKKKKKK.......","...............KKKKKKDDKK.......","............BKKKKKKKDDDKKK......","...........BBKKKKKKKDDDKDKK.....","..........BBBKKKKKKKDDDK.KKK....","...........KKKKKKKKKDDDK..KK....","..........BKKKKKKKKKDDDK........",".........BBKKKKKKKKKDDDK........","......BBBKKKKKKKKKKKDDKK........",".........KKKKKKKKKKKDDK.........","........BKKKKKKKKKKKDKK.........",".......KKKKKKKKKKKKKKK..........","...BBKKKKKKKKKKKKKKKKK..........","...KKKKKKKK.KKKKKKKKKK..........","KKKKKKK.....KKKKKKKKK...........",".KKKK.......KKKKKKKKK...........","............KKKKKKKK............","............KKKKKKK.............","............KKKKKK..............","...........KKKKKKK..............","..........KKKKKKKK.............."],"sideB":["................................","................................","................................","....................KKKKK.......","..................KKKKKKKKK.....",".................LKKKKKKYKKK....","................LLKKKKKKKKKKK...","..............LLLKKKKKKKKKKKKK..",".................KKKKKKKWKW.....","................LKKKKKKRRR......",".............LLKKKKKKKKRRR......","............LLLKKKKKKKKKKWKWK...","...............KKKKKKDDKK.......","............LKKKKKKKDDDKKK......","...........LLKKKKKKKDDDKDKK.....","..........LLLKKKKKKKDDDK.KKK....","...........KKKKKKKKKDDDK..KK....","..........LKKKKKKKKKDDDK........",".........LLKKKKKKKKKDDDK........","......LLLKKKKKKKKKKKDDKK........",".........KKKKKKKKKKKDDK.........","........LKKKKKKKKKKKDKK.........",".......KKKKKKKKKKKKKKK..........","...LLKKKKKKKKKKKKKKKKK..........","...KKKKKKKK.KKKKKKKKKK..........","KKKKKKK.....KKKKKKKKK...........","KKKK........KKKKK.KKKK..........","............KKKK...KKKK.........","...........KKKK.....KKKK........","..........KKKK.......KKK........",".........KKKKK......KKKKK.......","........KKKKKK.....KKKKKK......."]}};
 
   // Skyscrapers: [base column, base row, width, height] in tiles, in KAIJU_CITY order, top to bottom
-  var KAIJU_TOWERS = [[3, 5, 3, 5], [16, 7, 3, 6], [9, 10, 3, 4], [18, 13, 3, 5], [3, 15, 3, 4], [12, 17, 3, 6], [19, 21, 3, 6],
-                      [4, 23, 3, 4], [13, 26, 3, 5], [19, 29, 3, 6], [5, 31, 3, 4], [13, 35, 3, 5], [19, 39, 3, 5]];
-  var KAIJU_HOUSES = [[9, 3], [20, 3], [1, 9], [6, 12], [7, 19], [1, 27], [9, 24], [8, 28], [16, 32], [2, 37], [8, 41], [16, 42], [7, 15], [16, 23], [1, 33]];
-  var KAIJU_TREES = [[1, 2], [6, 1], [13, 2], [22, 1], [12, 6], [1, 12], [22, 10], [7, 13], [16, 15], [22, 14], [1, 20], [10, 22], [17, 24],
-                     [22, 27], [2, 30], [11, 31], [22, 33], [6, 34], [18, 36], [1, 40], [11, 38], [22, 41], [13, 43], [5, 9], [15, 21], [9, 33]];
-  var KAIJU_LAMPS = [[7, 7], [14, 9], [5, 17], [17, 20], [9, 25], [21, 31], [10, 36], [15, 40]];
-  var KAIJU_FENCES = [[12, 4], [1, 23], [16, 28], [4, 39]];
+  var KAIJU_TOWERS = [[3, 9, 3, 5], [16, 11, 3, 7], [9, 14, 3, 4], [18, 17, 3, 5], [3, 19, 3, 4], [12, 21, 3, 6], [19, 25, 3, 8],
+                      [4, 27, 3, 4], [13, 30, 3, 5], [19, 33, 3, 6], [5, 35, 3, 4], [13, 39, 3, 5], [19, 43, 3, 5]];
+  var KAIJU_HOUSES = [[9, 7], [20, 7], [1, 13], [6, 16], [7, 23], [1, 31], [9, 28], [8, 32], [16, 36], [2, 41], [8, 45], [16, 46], [7, 19], [16, 27], [1, 37]];
+  var KAIJU_TREES = [[1, 6], [6, 5], [13, 6], [22, 5], [12, 10], [1, 16], [22, 14], [7, 17], [16, 19], [22, 18], [1, 24], [10, 26], [17, 28],
+                     [22, 31], [2, 34], [11, 35], [22, 37], [6, 38], [18, 40], [1, 44], [11, 42], [22, 45], [13, 47], [5, 13], [15, 25], [9, 37]];
+  var KAIJU_LAMPS = [[7, 11], [14, 13], [5, 21], [17, 24], [9, 29], [21, 35], [10, 40], [15, 44]];
+  var KAIJU_FENCES = [[12, 8], [1, 27], [16, 32], [4, 43]];
 
   function wireKaiju() {
     var root = el('nuc-kj');
     if (!root) { return; }
     var cv = el('nuc-kj-screen'), g = cv.getContext('2d');
     var fire = el('nuc-kj-fire'), stage = el('nuc-kj-stage'), isOpen = false;
-    var SP = KAIJU_SPRITE, T = 16, COLS = 24, ROWS = 44, W = COLS * T, H = 200, S = 1, STEP = 0.16;
+    var SP = KAIJU_SPRITE, T = 16, COLS = 24, ROWS = 48, SEA = 4, W = COLS * T, H = 200, S = 1, STEP = 0.16;
     var Z = 2, KW = SP.w * Z, KH = SP.h * Z;   // drawn at double size: a kaiju stands as tall as a tower
     var INK = '#1c1a19';
     var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1132,14 +1132,17 @@
     var TONES = ['#8fa3b8', '#b8a88c', '#8e9d8a', '#a8929e', '#9aa9c2', '#c4b59c', '#86969f'];
     var towers = KAIJU_CITY.map(function (c, i) {
       var t = KAIJU_TOWERS[i];
-      return { c: c, x: t[0], y: t[1], w: t[2], h: t[3], tone: TONES[i % TONES.length], style: i % 4, story: true, down: false, fall: 0 };
+      // two landmarks: Godzilla's building is Tokyo Tower, Akira's is Tokyo Skytree
+      var kind = c.key === 'godzilla' ? 'tokyo-tower' : c.key === 'akira' ? 'skytree' : 'block';
+      return { c: c, x: t[0], y: t[1], w: t[2], h: t[3], tone: TONES[i % TONES.length], style: i % 4, kind: kind, story: true, down: false, fall: 0 };
     });
     var houses = KAIJU_HOUSES.map(function (p) { return { x: p[0], y: p[1], w: 3, h: 3, story: false, down: false, fall: 0 }; });
+    houses.push({ x: 18, y: 3, w: 4, h: 4, kind: 'odaiba', story: false, down: false, fall: 0 });
     var blocks = towers.concat(houses);
 
     var m, keys, order, parts, shake, camY = 0, follow = true, goal = null, visible = false, last = 0, pending = null, clock = 0;
     function reset() {
-      m = { tx: 11, ty: 4, face: 'down', from: null, t: 0, stepN: 0, state: 'idle', st: 0, target: null, end: null, queued: false };
+      m = { tx: 11, ty: 5, face: 'down', from: null, t: 0, stepN: 0, state: 'idle', st: 0, target: null, end: null, queued: false };
       keys = { up: false, down: false, left: false, right: false }; order = [];
       parts = []; shake = 0; pending = null; goal = null;
       blocks.forEach(function (b) { b.down = false; b.fall = 0; });
@@ -1178,17 +1181,30 @@
       if (hit) { blow(hit); return; }
       m.from = { x: m.tx, y: m.ty }; m.tx = nx; m.ty = ny; m.t = 0; m.stepN++;
     }
-    // the first building in his line of fire, up to eight tiles out
+    // The first building the beam crosses, up to ten tiles out. The beam is
+    // tested against each building as drawn (its whole face, not the row it
+    // stands on), with a few pixels' grace, because it leaves his mouth well
+    // above his feet and would otherwise pass through a tower without a hit.
+    var REACH = 10 * T, GRACE = 5;
+    function face(b) {
+      var base = (b.y + 1) * T;
+      return { x0: b.x * T, x1: (b.x + b.w) * T, top: base - (b.story || b.kind ? b.h * T : 32), base: base };
+    }
     function lane() {
-      var d = DIRS[m.face];
-      for (var k = 1; k <= 8; k++) {
-        var hit;
-        if (d[0] > 0) { hit = blockAt(m.tx + 1 + k, m.ty); }
-        else if (d[0] < 0) { hit = blockAt(m.tx - k, m.ty); }
-        else { hit = blockAt(m.tx, m.ty + d[1] * k) || blockAt(m.tx + 1, m.ty + d[1] * k); }
-        if (hit) { return { b: hit, k: k }; }
-      }
-      return null;
+      var mo = mouth(), d = DIRS[m.face], best = null;
+      blocks.forEach(function (b) {
+        if (b.down) { return; }
+        var f = face(b), dist;
+        if (d[0]) {
+          if (mo.y < f.top - GRACE || mo.y > f.base + GRACE) { return; }
+          dist = d[0] > 0 ? f.x0 - mo.x : mo.x - f.x1;
+        } else {
+          if (mo.x < f.x0 - GRACE || mo.x > f.x1 + GRACE) { return; }
+          dist = d[1] < 0 ? mo.y - f.base : f.top - mo.y;
+        }
+        if (dist >= -GRACE * 2 && dist <= REACH && (!best || dist < best.dist)) { best = { b: b, dist: dist, f: f }; }
+      });
+      return best;
     }
     function pos() {
       // his position in pixels, part-way through a step
@@ -1233,12 +1249,12 @@
           m.state = 'breath'; m.st = 0;
           var l = lane(), mo = mouth(), d = DIRS[m.face];
           m.target = l ? l.b : null;
-          if (m.target) {
-            var b = m.target;
-            m.end = d[0] > 0 ? { x: b.x * T, y: mo.y } : d[0] < 0 ? { x: (b.x + b.w) * T, y: mo.y }
-                  : d[1] < 0 ? { x: mo.x, y: (b.y + 1) * T - 4 } : { x: mo.x, y: b.y * T + 6 };
+          if (l) {
+            // stop the beam a little way into the building's face
+            m.end = d[0] > 0 ? { x: l.f.x0 + 4, y: mo.y } : d[0] < 0 ? { x: l.f.x1 - 4, y: mo.y }
+                  : d[1] < 0 ? { x: mo.x, y: l.f.base - 6 } : { x: mo.x, y: l.f.top + 6 };
           } else {
-            m.end = { x: mo.x + d[0] * 8 * T, y: mo.y + d[1] * 8 * T };
+            m.end = { x: mo.x + d[0] * REACH, y: mo.y + d[1] * REACH };
           }
         }
       } else if (m.state === 'breath') {
@@ -1266,7 +1282,56 @@
 
     // ---- drawing, in the lecture apps' flat style: ink outlines, muted fills ----
     function box(x, y, w, hh, fill) { g.fillStyle = INK; g.fillRect(x, y, w, hh); g.fillStyle = fill; g.fillRect(x + 1, y + 1, w - 2, hh - 2); }
+    // Tokyo Tower: a tapering lattice in red and white bands, two decks, an antenna
+    function drawTokyoTower(b) {
+      if (b.down && b.fall >= 1) { rubble(b); return; }
+      var x = b.x * T, base = (b.y + 1) * T, w = b.w * T, cx = x + w / 2;
+      var hh = Math.max(4, Math.round((b.h * T - 14) * (1 - b.fall)));
+      for (var yy = 0; yy < hh; yy++) {
+        var t = yy / hh, half = Math.round(2 + (w / 2 - 3) * Math.pow(1 - t, 1.9)), y = base - 1 - yy;
+        g.fillStyle = INK; g.fillRect(cx - half - 1, y, half * 2 + 2, 1);
+        g.fillStyle = Math.floor(yy / 9) % 2 ? '#f3efe6' : '#e0442e'; g.fillRect(cx - half, y, half * 2, 1);
+        // the arch between the legs
+        if (yy < 12) { var gap = Math.round((12 - yy) * 1.3); g.fillStyle = '#f2eee2'; g.fillRect(cx - gap, y, gap * 2, 1); }
+        // lattice
+        if (half > 4 && yy % 3 === 0) { g.fillStyle = 'rgba(28,26,25,.28)'; g.fillRect(cx - half + ((yy * 2) % (half * 2)), y, 1, 1); }
+      }
+      if (b.fall > 0) { return; }
+      [[0.42, 11, 5], [0.7, 6, 4]].forEach(function (d) {
+        var y = base - Math.round(hh * d[0]), half = Math.round(2 + (w / 2 - 3) * Math.pow(1 - d[0], 1.9)) + d[1] / 2;
+        g.fillStyle = INK; g.fillRect(cx - half - 1, y - d[2] - 1, half * 2 + 2, d[2] + 2);
+        g.fillStyle = '#f3efe6'; g.fillRect(cx - half, y - d[2], half * 2, d[2]);
+        g.fillStyle = '#7fa6c9'; g.fillRect(cx - half + 1, y - d[2] + 1, half * 2 - 2, 2);
+      });
+      g.fillStyle = INK; g.fillRect(cx - 1, base - hh - 12, 2, 12);
+      g.fillStyle = '#e0442e'; g.fillRect(cx - 1, base - hh - 12, 2, 3); g.fillRect(cx - 1, base - hh - 6, 2, 3);
+    }
+    // Tokyo Skytree: a pale lattice spire on a tripod base, two round decks, a mast
+    function drawSkytree(b) {
+      if (b.down && b.fall >= 1) { rubble(b); return; }
+      var x = b.x * T, base = (b.y + 1) * T, w = b.w * T, cx = x + w / 2;
+      var hh = Math.max(4, Math.round((b.h * T - 18) * (1 - b.fall)));
+      for (var yy = 0; yy < hh; yy++) {
+        var t = yy / hh, half = t < 0.22 ? Math.round(18 - 12 * (t / 0.22)) : Math.round(6 - 2.5 * (t - 0.22) / 0.78), y = base - 1 - yy;
+        g.fillStyle = INK; g.fillRect(cx - half - 1, y, half * 2 + 2, 1);
+        g.fillStyle = '#e6ebf1'; g.fillRect(cx - half, y, half * 2, 1);
+        g.fillStyle = '#9fb0c2';
+        for (var xx = -half; xx < half; xx++) { if ((xx + yy) % 5 === 0 || (xx - yy) % 5 === 0) { g.fillRect(cx + xx, y, 1, 1); } }
+        if (yy < 10) { var gap = Math.round((10 - yy) * 1.2); g.fillStyle = '#f2eee2'; g.fillRect(cx - gap, y, gap * 2, 1); }
+      }
+      if (b.fall > 0) { return; }
+      [[0.6, 12, 6], [0.76, 8, 4]].forEach(function (d) {
+        var y = base - Math.round(hh * d[0]);
+        g.fillStyle = INK; g.fillRect(cx - d[1] - 1, y - d[2] - 1, d[1] * 2 + 2, d[2] + 2);
+        g.fillStyle = '#f7f9fb'; g.fillRect(cx - d[1], y - d[2], d[1] * 2, d[2]);
+        g.fillStyle = '#6f8fb0'; g.fillRect(cx - d[1] + 1, y - d[2] + 2, d[1] * 2 - 2, 2);
+      });
+      g.fillStyle = '#8a97a6'; g.fillRect(cx - 1, base - hh - 16, 2, 16);
+      g.fillStyle = INK; g.fillRect(cx - 1, base - hh - 17, 2, 1);
+    }
     function drawTower(b) {
+      if (b.kind === 'tokyo-tower') { drawTokyoTower(b); return; }
+      if (b.kind === 'skytree') { drawSkytree(b); return; }
       var x = b.x * T, base = (b.y + 1) * T, w = b.w * T;
       var full = b.h * T - 4, hh = Math.max(4, Math.round(full * (1 - b.fall))), top = base - hh;
       if (b.down && b.fall >= 1) { rubble(b); return; }
@@ -1283,6 +1348,44 @@
       if (b.style === 1) { box(x + 8, top - 5, w - 16, 6, b.tone); }
       if (b.style === 2) { box(x + 10, top - 7, 10, 8, '#8a7358'); }
       if (b.style === 3) { box(x, top - 2, w, 4, '#6f7a88'); }
+    }
+    // The bay across the top of the map, with Odaiba's island on the right
+    function drawSea() {
+      var shore = SEA * T - 4;
+      g.fillStyle = '#86b9dc'; g.fillRect(-4, -4, W + 8, shore + 4);
+      g.fillStyle = '#6fa6cf'; g.fillRect(-4, shore - 14, W + 8, 14);
+      // waves drift slowly along the bay
+      g.fillStyle = '#d8ecf8';
+      for (var i = 0; i < 26; i++) {
+        var wx = ((i * 53 + clock * 9 * (i % 2 ? 1 : -1)) % (W + 40) + W + 40) % (W + 40) - 20, wy = 6 + (i * 29) % (shore - 16);
+        g.fillRect(Math.round(wx), wy, 6, 1); g.fillRect(Math.round(wx) + 2, wy - 1, 3, 1);
+      }
+      // the island
+      g.fillStyle = '#d9c9a0'; g.fillRect(16 * T + 4, 1 * T, 8 * T, shore - T + 2);
+      g.fillStyle = '#f2eee2'; g.fillRect(16 * T + 8, 1 * T + 4, 8 * T, shore - T - 6);
+      // the beach and its foam line
+      g.fillStyle = '#eef6fb'; g.fillRect(-4, shore - 2, W + 8, 2);
+      g.fillStyle = '#e3d3a8'; g.fillRect(-4, shore, W + 8, 5);
+    }
+    // Fuji TV's headquarters in Odaiba: two towers joined by a lattice, with the silver sphere
+    function drawOdaiba(b) {
+      if (b.down && b.fall >= 1) { rubble(b); return; }
+      var x = b.x * T, base = (b.y + 1) * T, w = b.w * T, k = 1 - b.fall;
+      var hh = Math.max(4, Math.round((b.h * T - 6) * k)), top = base - hh;
+      box(x + 2, top, 18, hh, '#b9c4cf'); box(x + w - 20, top, 18, hh, '#b9c4cf');
+      // the lattice between them
+      g.fillStyle = INK;
+      for (var yy = top + 6; yy < base - 4; yy += 10) { g.fillRect(x + 19, yy, w - 38, 3); }
+      g.fillRect(x + 19, top + 2, 2, hh - 4); g.fillRect(x + w - 21, top + 2, 2, hh - 4);
+      g.fillStyle = '#e9eef3';
+      for (var wy = top + 4; wy < base - 6; wy += 5) { g.fillRect(x + 6, wy, 2, 2); g.fillRect(x + 12, wy, 2, 2); g.fillRect(x + w - 16, wy, 2, 2); g.fillRect(x + w - 10, wy, 2, 2); }
+      if (b.fall > 0) { return; }
+      // the sphere
+      var cx = x + w / 2, cy = top + 17, r = 10;
+      g.fillStyle = INK; g.beginPath(); g.arc(cx, cy, r + 1, 0, Math.PI * 2); g.fill();
+      g.fillStyle = '#c9d1d9'; g.beginPath(); g.arc(cx, cy, r, 0, Math.PI * 2); g.fill();
+      g.fillStyle = '#eef2f6'; g.fillRect(cx - 5, cy - 6, 4, 3);
+      g.fillStyle = '#9aa6b3'; g.fillRect(cx - r + 1, cy + 1, r * 2 - 2, 1);
     }
     function drawHouse(b) {
       if (b.down && b.fall >= 1) { rubble(b); return; }
@@ -1346,10 +1449,11 @@
       g.fillStyle = '#e9e4d8';
       for (var gx = 0; gx <= W; gx += T) { g.fillRect(gx, camY - 4, 1, H + 8); }
       for (var gy = Math.floor(camY / T) * T, gEnd = camY + Math.min(H, ROWS * T) + T; gy < gEnd; gy += T) { g.fillRect(-4, gy, W + 8, 1); }
+      if (camY < SEA * T) { drawSea(); }
       // everything standing, drawn back to front
       var items = [];
       towers.forEach(function (b) { items.push({ y: (b.y + 1) * T, f: function () { drawTower(b); } }); });
-      houses.forEach(function (b) { items.push({ y: (b.y + 1) * T, f: function () { drawHouse(b); } }); });
+      houses.forEach(function (b) { items.push({ y: (b.y + 1) * T, f: function () { if (b.kind === 'odaiba') { drawOdaiba(b); } else { drawHouse(b); } } }); });
       KAIJU_TREES.forEach(function (t) { items.push({ y: (t[1] + 1) * T - 1, f: function () { drawTree(t); } }); });
       KAIJU_LAMPS.forEach(function (t) { items.push({ y: (t[1] + 1) * T - 1, f: function () { drawLamp(t); } }); });
       KAIJU_FENCES.forEach(function (t) { items.push({ y: (t[1] + 1) * T - 1, f: function () { drawFence(t); } }); });
@@ -1437,7 +1541,7 @@
       var r = cv.getBoundingClientRect(), wx = (e.clientX - r.left) / S, wy = (e.clientY - r.top) / S + camY;
       var cx = Math.floor(wx / T), cy = Math.floor(wy / T), hitB = null;
       blocks.forEach(function (b) {
-        var top = (b.y + 1) * T - (b.story ? b.h * T : 34);
+        var top = (b.y + 1) * T - (b.story || b.kind ? b.h * T : 34);
         if (!b.down && wx >= b.x * T && wx < (b.x + b.w) * T && wy >= top && wy < (b.y + 1) * T) { hitB = b; }
       });
       // aim for the tile in front of a building, or just below where he was sent
