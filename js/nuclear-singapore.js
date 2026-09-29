@@ -118,7 +118,7 @@
     el('nuc-modal-title').textContent = ev.name;
     el('nuc-modal-media').innerHTML = ev.img
       ? '<img src="/img/nuclear/' + ev.img + '" alt="" />' : '';
-    el('nuc-modal-body').innerHTML = ev.html ? ev.html : ev.paras
+    el('nuc-modal-body').innerHTML = ev.html != null ? ev.html : ev.paras
       ? '<p>' + ev.paras.join('</p><p>') + '</p>'
       : ev.body
         ? '<p>' + ev.body + '</p>'
@@ -1215,7 +1215,7 @@
         pending.t -= dt;
         if (pending.t <= 0) {
           var c = pending.b.c; pending = null;
-          openModal({ date: c.date, name: c.name, img: c.img, body: c.body }, root);
+          openModal({ date: c.date, name: c.name, img: c.img, html: c.body ? '<p>' + c.body + '</p>' : '' }, root);
         }
       }
       camX = Math.max(0, Math.min(WORLD - W, m.x + KW / 2 - W / 2));
