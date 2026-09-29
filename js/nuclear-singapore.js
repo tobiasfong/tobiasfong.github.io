@@ -1158,14 +1158,19 @@
     function blockAt(cx, cy) {
       for (var i = 0; i < blocks.length; i++) {
         var b = blocks[i];
-        if (!b.down && cy === b.y && cx >= b.x && cx < b.x + b.w) { return b; }
+        if ((!b.down || b.story) && cy === b.y && cx >= b.x && cx < b.x + b.w) { return b; }
       }
       return null;
     }
     var DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
 
+    function card(b) {
+      var c = b.c;
+      openModal({ date: c.date, name: c.name, img: c.img, html: c.body ? '<p>' + c.body + '</p>' : '' }, root);
+    }
     function blow(b) {
-      if (b.down) { return; }
+      // a ruin already standing just opens its story again
+      if (b.down) { if (b.story && b.fall >= 1 && !pending) { card(b); } return; }
       b.down = true; b.fall = 0.001;
       shake = reduce ? 0 : (b.story ? 0.35 : 0.15);
       var cx = (b.x + b.w / 2) * T, cy = (b.y + 1 - b.h / 2) * T, n = b.story ? 80 : 26;
@@ -1194,12 +1199,13 @@
     var REACH = 10 * T, GRACE = 5;
     function face(b) {
       var base = (b.y + 1) * T;
-      return { x0: b.x * T, x1: (b.x + b.w) * T, top: base - (b.story || b.kind ? b.h * T : 32), base: base };
+      var tall = b.story || b.kind ? b.h * T * (b.story && b.down ? 0.5 : 1) : 32;
+      return { x0: b.x * T, x1: (b.x + b.w) * T, top: base - tall, base: base };
     }
     function lane() {
       var mo = mouth(), d = DIRS[m.face], best = null;
       blocks.forEach(function (b) {
-        if (b.down) { return; }
+        if (b.down && !b.story) { return; }
         var f = face(b), dist;
         if (d[0]) {
           if (mo.y < f.top - GRACE || mo.y > f.base + GRACE) { return; }
@@ -1278,8 +1284,8 @@
       if (pending) {
         pending.t -= dt;
         if (pending.t <= 0) {
-          var c = pending.b.c; pending = null;
-          openModal({ date: c.date, name: c.name, img: c.img, html: c.body ? '<p>' + c.body + '</p>' : '' }, root);
+          var pb = pending.b; pending = null;
+          card(pb);
         }
       }
       if (follow) { camY = pos().y - H / 2 + 8; }
@@ -1290,9 +1296,8 @@
     function box(x, y, w, hh, fill) { g.fillStyle = INK; g.fillRect(x, y, w, hh); g.fillStyle = fill; g.fillRect(x + 1, y + 1, w - 2, hh - 2); }
     // Tokyo Tower: a tapering lattice in red and white bands, two decks, an antenna
     function drawTokyoTower(b) {
-      if (b.down && b.fall >= 1) { rubble(b); return; }
       var x = b.x * T, base = (b.y + 1) * T, w = b.w * T, cx = x + w / 2;
-      var hh = Math.max(4, Math.round((b.h * T - 14) * (1 - b.fall)));
+      var hh = Math.max(4, Math.round((b.h * T - 14) * (1 - 0.5 * b.fall)));
       for (var yy = 0; yy < hh; yy++) {
         var t = yy / hh, half = Math.round(2 + (w / 2 - 3) * Math.pow(1 - t, 1.9)), y = base - 1 - yy;
         g.fillStyle = INK; g.fillRect(cx - half - 1, y, half * 2 + 2, 1);
@@ -1314,9 +1319,8 @@
     }
     // Tokyo Skytree: a pale lattice spire on a tripod base, two round decks, a mast
     function drawSkytree(b) {
-      if (b.down && b.fall >= 1) { rubble(b); return; }
       var x = b.x * T, base = (b.y + 1) * T, w = b.w * T, cx = x + w / 2;
-      var hh = Math.max(4, Math.round((b.h * T - 18) * (1 - b.fall)));
+      var hh = Math.max(4, Math.round((b.h * T - 18) * (1 - 0.5 * b.fall)));
       for (var yy = 0; yy < hh; yy++) {
         var t = yy / hh, half = t < 0.22 ? Math.round(18 - 12 * (t / 0.22)) : Math.round(6 - 2.5 * (t - 0.22) / 0.78), y = base - 1 - yy;
         g.fillStyle = INK; g.fillRect(cx - half - 1, y, half * 2 + 2, 1);
@@ -1336,12 +1340,29 @@
       g.fillStyle = INK; g.fillRect(cx - 1, base - hh - 17, 2, 1);
     }
     function drawTower(b) {
-      if (b.kind === 'odaiba') { drawOdaiba(b); return; }
-      if (b.kind === 'tokyo-tower') { drawTokyoTower(b); return; }
-      if (b.kind === 'skytree') { drawSkytree(b); return; }
+      if (b.kind === 'odaiba') { drawOdaiba(b); }
+      else if (b.kind === 'tokyo-tower') { drawTokyoTower(b); }
+      else if (b.kind === 'skytree') { drawSkytree(b); }
+      else { drawBlock(b); }
+      if (b.down && b.fall >= 1) { drawRuin(b); }
+    }
+    // A ruin: a broken, scorched top, and a soft gold glow that says it can still be opened
+    function drawRuin(b) {
+      var f = face(b), x0 = f.x0 + 2, x1 = f.x1 - 2, top = f.top;
+      g.fillStyle = '#f2eee2';
+      for (var x = x0, i = 0; x < x1; x += 3, i++) { g.fillRect(x, top - 1, 3, 1 + [2, 5, 1, 4, 3, 6][i % 6]); }
+      g.fillStyle = 'rgba(28, 26, 25, .22)'; g.fillRect(x0 + 2, top + 3, x1 - x0 - 4, 10);
+      var pulse = 0.5 + 0.5 * Math.sin(clock * 3.2);
+      g.save();
+      g.strokeStyle = 'rgba(255, 196, 64,' + (0.55 + 0.4 * pulse).toFixed(2) + ')';
+      g.lineWidth = 2;
+      g.shadowColor = 'rgba(255, 196, 64, 0.9)'; g.shadowBlur = (5 + 5 * pulse) * S * dpr;
+      g.strokeRect(f.x0 - 1, top - 5, f.x1 - f.x0 + 2, f.base - top + 5);
+      g.restore();
+    }
+    function drawBlock(b) {
       var x = b.x * T, base = (b.y + 1) * T, w = b.w * T;
-      var full = b.h * T - 4, hh = Math.max(4, Math.round(full * (1 - b.fall))), top = base - hh;
-      if (b.down && b.fall >= 1) { rubble(b); return; }
+      var full = b.h * T - 4, hh = Math.max(4, Math.round(full * (1 - 0.5 * b.fall))), top = base - hh;
       box(x + 2, top, w - 4, hh, b.tone);
       g.fillStyle = 'rgba(255,255,255,.16)'; g.fillRect(x + 3, top + 1, 3, hh - 2);
       // windows
@@ -1376,8 +1397,7 @@
     }
     // Fuji TV's headquarters in Odaiba: two towers joined by a lattice, with the silver sphere
     function drawOdaiba(b) {
-      if (b.down && b.fall >= 1) { rubble(b); return; }
-      var x = b.x * T, base = (b.y + 1) * T, w = b.w * T, k = 1 - b.fall;
+      var x = b.x * T, base = (b.y + 1) * T, w = b.w * T, k = 1 - 0.5 * b.fall;
       var hh = Math.max(4, Math.round((b.h * T - 6) * k)), top = base - hh;
       box(x + 2, top, 18, hh, '#b9c4cf'); box(x + w - 20, top, 18, hh, '#b9c4cf');
       // the lattice between them
@@ -1548,9 +1568,10 @@
       var r = cv.getBoundingClientRect(), wx = (e.clientX - r.left) / S, wy = (e.clientY - r.top) / S + camY;
       var cx = Math.floor(wx / T), cy = Math.floor(wy / T), hitB = null;
       blocks.forEach(function (b) {
-        var top = (b.y + 1) * T - (b.story || b.kind ? b.h * T : 34);
-        if (!b.down && wx >= b.x * T && wx < (b.x + b.w) * T && wy >= top && wy < (b.y + 1) * T) { hitB = b; }
+        var top = b.story ? face(b).top - 4 : (b.y + 1) * T - 34;
+        if ((!b.down || b.story) && wx >= b.x * T && wx < (b.x + b.w) * T && wy >= top && wy < (b.y + 1) * T) { hitB = b; }
       });
+      if (hitB && hitB.down) { if (hitB.fall >= 1) { card(hitB); } return; }
       // aim for the tile in front of a building, or just below where he was sent
       if (hitB) { cx = Math.max(0, Math.min(COLS - 2, hitB.x + Math.floor(hitB.w / 2) - 1)); cy = hitB.y + 1; }
       goal = { x: Math.max(0, Math.min(COLS - 2, cx - (hitB ? 0 : 1))), y: Math.max(1, Math.min(ROWS - 1, cy)) };
