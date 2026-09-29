@@ -1151,7 +1151,7 @@
       m = { tx: 11, ty: 5, face: 'down', from: null, t: 0, stepN: 0, state: 'idle', st: 0, target: null, end: null, queued: false };
       keys = { up: false, down: false, left: false, right: false }; order = [];
       parts = []; shake = 0; pending = null; goal = null;
-      blocks.forEach(function (b) { b.down = false; b.fall = 0; });
+      blocks.forEach(function (b) { b.down = false; b.fall = 0; b.ruin = null; });
     }
     reset();
 
@@ -1339,26 +1339,46 @@
       g.fillStyle = '#8a97a6'; g.fillRect(cx - 1, base - hh - 16, 2, 16);
       g.fillStyle = INK; g.fillRect(cx - 1, base - hh - 17, 2, 1);
     }
-    function drawTower(b) {
+    function drawShape(b) {
       if (b.kind === 'odaiba') { drawOdaiba(b); }
       else if (b.kind === 'tokyo-tower') { drawTokyoTower(b); }
       else if (b.kind === 'skytree') { drawSkytree(b); }
       else { drawBlock(b); }
-      if (b.down && b.fall >= 1) { drawRuin(b); }
     }
-    // A ruin: a broken, scorched top, and a soft gold glow that says it can still be opened
-    function drawRuin(b) {
-      var f = face(b), x0 = f.x0 + 2, x1 = f.x1 - 2, top = f.top;
-      g.fillStyle = '#f2eee2';
-      for (var x = x0, i = 0; x < x1; x += 3, i++) { g.fillRect(x, top - 1, 3, 1 + [2, 5, 1, 4, 3, 6][i % 6]); }
-      g.fillStyle = 'rgba(28, 26, 25, .22)'; g.fillRect(x0 + 2, top + 3, x1 - x0 - 4, 10);
-      var pulse = 0.5 + 0.5 * Math.sin(clock * 3.2);
+    function drawTower(b) {
+      if (!(b.down && b.fall >= 1)) { drawShape(b); return; }
+      // A ruin glows like the objects in the Hibakusha room: a soft, pulsing
+      // gold halo that follows its own outline, so it reads as still openable.
+      if (!b.ruin) { b.ruin = paintRuin(b); }
+      var r = b.ruin, pulse = 0.5 + 0.5 * Math.sin(clock * 3);
       g.save();
-      g.strokeStyle = 'rgba(255, 196, 64,' + (0.55 + 0.4 * pulse).toFixed(2) + ')';
-      g.lineWidth = 2;
-      g.shadowColor = 'rgba(255, 196, 64, 0.9)'; g.shadowBlur = (5 + 5 * pulse) * S * dpr;
-      g.strokeRect(f.x0 - 1, top - 5, f.x1 - f.x0 + 2, f.base - top + 5);
+      g.shadowColor = 'rgba(255, 196, 70,' + (0.55 + 0.4 * pulse).toFixed(2) + ')';
+      g.shadowBlur = (4 + 9 * pulse) * S * dpr;
+      g.drawImage(r.c, r.x, r.y); g.drawImage(r.c, r.x, r.y);
+      g.shadowBlur = 0; g.shadowColor = 'transparent';
+      g.globalCompositeOperation = 'lighter'; g.globalAlpha = 0.1 + 0.12 * pulse;
+      g.drawImage(r.c, r.x, r.y);
       g.restore();
+    }
+    // Draws the ruin once into its own small canvas (broken top, scorch marks),
+    // so the glow can follow its silhouette.
+    function paintRuin(b) {
+      var f = face(b), pad = 10, x0 = f.x0 - pad, y0 = f.top - pad;
+      var c = document.createElement('canvas'), main = g;
+      c.width = f.x1 - f.x0 + pad * 2; c.height = f.base - f.top + pad * 2;
+      g = c.getContext('2d'); g.translate(-x0, -y0);
+      drawShape(b);
+      // the arches between the towers' legs are painted in the ground's color; clear them
+      var img = g.getImageData(0, 0, c.width, c.height), d = img.data;
+      for (var k = 0; k < d.length; k += 4) { if (d[k] === 242 && d[k + 1] === 238 && d[k + 2] === 226) { d[k + 3] = 0; } }
+      g.putImageData(img, 0, 0);
+      // a broken top: bites taken out of the roofline
+      g.globalCompositeOperation = 'destination-out';
+      for (var x = f.x0 + 2, i = 0; x < f.x1 - 2; x += 3, i++) { g.fillRect(x, f.top - 2, 3, 2 + [2, 5, 1, 4, 3, 6][i % 6]); }
+      g.globalCompositeOperation = 'source-atop';
+      g.fillStyle = 'rgba(28, 26, 25, .28)'; g.fillRect(f.x0, f.top, f.x1 - f.x0, 14);
+      g = main;
+      return { c: c, x: x0, y: y0 };
     }
     function drawBlock(b) {
       var x = b.x * T, base = (b.y + 1) * T, w = b.w * T;
