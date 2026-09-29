@@ -631,6 +631,56 @@
         .nuc-plasma-heat output { min-width: 0; }
         .nuc-plasma-status { font-size: 14px; }
       }
+
+      /* ══ Popular imagination: the kaiju console ══════════════════ */
+      .nuc-kj {
+        --shell: #cfc9d9; --shell-2: #b7b0c4; --bez: #3b3a48;
+        display: grid; grid-template-columns: 1fr minmax(0, 520px) 1fr; align-items: center; gap: 22px;
+        margin: 1.75rem auto; padding: 22px 26px; max-width: 900px; border-radius: 34px 34px 90px 90px / 34px 34px 60px 60px;
+        background: linear-gradient(180deg, var(--shell), var(--shell-2)); outline: none; user-select: none;
+        box-shadow: inset 0 -6px 0 rgba(0,0,0,.08), 0 10px 26px rgba(20,20,40,.18);
+      }
+      .nuc-kj:focus-visible { box-shadow: 0 0 0 3px #2f6fb3, 0 10px 26px rgba(20,20,40,.18); }
+      .nuc-kj-bezel { background: var(--bez); border-radius: 14px 14px 40px 14px; padding: 12px 18px 10px; }
+      .nuc-kj-led { display: flex; align-items: center; gap: 6px; font: 700 9px/1 system-ui, sans-serif; letter-spacing: .12em; color: #a9a6b8; margin: 0 0 8px 2px; }
+      .nuc-kj-led i { width: 7px; height: 7px; border-radius: 50%; background: #ff3b3b; box-shadow: 0 0 6px #ff3b3b; }
+      .nuc-kj-glass { position: relative; aspect-ratio: 3 / 2; background: #0b1630; overflow: hidden; border-radius: 3px; }
+      .nuc-kj-glass canvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; image-rendering: crisp-edges; }
+      .nuc-kj-brand { margin-top: 8px; text-align: center; font: italic 800 13px/1 system-ui, sans-serif; letter-spacing: .14em; color: #c9c5dc; }
+      .nuc-kj-hud { position: absolute; top: 5px; right: 7px; font: 700 11px/1 ui-monospace, Consolas, monospace; color: #ffe9a8; text-shadow: 1px 1px 0 #000; letter-spacing: .06em; }
+      .nuc-kj-say { position: absolute; left: 6px; right: 6px; bottom: 6px; padding: 5px 8px; border: 2px solid #f4f1e6; border-radius: 4px;
+        background: rgba(8, 12, 28, .86); color: #f4f1e6; font: 700 12px/1.35 ui-monospace, Consolas, monospace; letter-spacing: .02em; }
+      .nuc-kj-cover { position: absolute; inset: 0; border: 0; cursor: pointer; background: rgba(6, 10, 24, .55); color: #fff;
+        font: 800 15px/1 ui-monospace, Consolas, monospace; letter-spacing: .12em; text-transform: uppercase; }
+      .nuc-kj-cover:hover { background: rgba(6, 10, 24, .4); }
+      .nuc-kj-cover[hidden] { display: none; }
+      /* the pad: a cross; left and right walk */
+      .nuc-kj-pad { display: flex; justify-content: center; }
+      .nuc-kj-cross { position: relative; width: 104px; height: 104px; }
+      .nuc-kj-cross > * { position: absolute; background: #2b2a33; border: 0; padding: 0; box-shadow: inset 0 -3px 0 rgba(0,0,0,.35); }
+      .nuc-kj-cross .up, .nuc-kj-cross .down { left: 35px; width: 34px; height: 36px; }
+      .nuc-kj-cross .up { top: 0; border-radius: 6px 6px 0 0; } .nuc-kj-cross .down { bottom: 0; border-radius: 0 0 6px 6px; }
+      .nuc-kj-cross .left, .nuc-kj-cross .right { top: 35px; width: 36px; height: 34px; cursor: pointer; touch-action: none; }
+      .nuc-kj-cross .left { left: 0; border-radius: 6px 0 0 6px; } .nuc-kj-cross .right { right: 0; border-radius: 0 6px 6px 0; }
+      .nuc-kj-cross .mid { left: 35px; top: 35px; width: 34px; height: 34px; box-shadow: none; }
+      .nuc-kj-cross .left::after, .nuc-kj-cross .right::after { content: ""; position: absolute; top: 11px; border: 6px solid transparent; }
+      .nuc-kj-cross .left::after { left: 8px; border-right-color: #57556a; } .nuc-kj-cross .right::after { right: 8px; border-left-color: #57556a; }
+      .nuc-kj-cross .is-down { background: #1b1a22; box-shadow: none; }
+      .nuc-kj-btns { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+      .nuc-kj-ab { display: flex; gap: 14px; transform: rotate(-22deg); }
+      .nuc-kj-ab button { width: 52px; height: 52px; border-radius: 50%; border: 0; cursor: pointer; touch-action: none;
+        background: #a3245a; color: rgba(255,255,255,.75); font: 800 15px/1 system-ui, sans-serif; box-shadow: inset 0 -4px 0 rgba(0,0,0,.3); }
+      .nuc-kj-ab .a { margin-top: -18px; }
+      .nuc-kj-ab button.is-down { box-shadow: none; transform: translateY(2px); }
+      .nuc-kj-start { border: 0; border-radius: 999px; padding: 5px 14px; cursor: pointer; background: #7b7690; color: #fff;
+        font: 700 10px/1 system-ui, sans-serif; letter-spacing: .12em; }
+      @media (max-width: 700px) {
+        .nuc-kj { grid-template-columns: 1fr 1fr; grid-template-areas: "screen screen" "pad btns"; padding: 16px 14px 20px;
+          border-radius: 24px 24px 60px 24px; gap: 16px 8px; }
+        .nuc-kj-bezel { grid-area: screen; padding: 10px 10px 8px; border-radius: 10px 10px 28px 10px; }
+        .nuc-kj-pad { grid-area: pad; } .nuc-kj-btns { grid-area: btns; }
+        .nuc-kj-say { font-size: 10.5px; padding: 4px 6px; } .nuc-kj-hud { font-size: 10px; }
+      }
     </style>
   </head>
 
@@ -1191,13 +1241,40 @@
       <section id="nuc-imagination" class="nuc-prose">
         <h2>Nuclear disaster in popular imagination</h2>
         <p>
-          A study of films, games and literature depicting nuclear apocalypses and why it's
-          important. They depict the social anxieties the public face when confronted with nuclear
-          technologies and disasters, and should not be dismissed as merely fiction. Probably Tom
-          Moylan's dystopia books and Timothy Morton's <em>Hyperobjects</em> in academia, and
-          analyses of Japanese films and animation such as Godzilla, Barefoot Gen, Gundam, Akira
-          and many others touch upon it.
+          Films, games and literature depicting nuclear apocalypses or the threat of one are
+          important because they are expressions of social anxieties the public faces when
+          confronted with nuclear technologies and disasters.
         </p>
+
+        <!-- A handheld console: walk the kaiju through a city of stories. Each
+             building he smashes opens that story's card. -->
+        <div class="nuc-kj" id="nuc-kj" tabindex="0" aria-label="Kaiju game. Arrow keys to walk, E for atomic breath. Each building opens a story about nuclear disaster.">
+          <div class="nuc-kj-pad" aria-hidden="true">
+            <span class="nuc-kj-cross">
+              <i class="up"></i><i class="down"></i>
+              <button type="button" class="left" data-k="left" tabindex="-1" aria-label="Walk left"></button>
+              <button type="button" class="right" data-k="right" tabindex="-1" aria-label="Walk right"></button>
+              <i class="mid"></i>
+            </span>
+          </div>
+          <div class="nuc-kj-bezel">
+            <div class="nuc-kj-led"><i></i>POWER</div>
+            <div class="nuc-kj-glass">
+              <canvas id="nuc-kj-screen" width="240" height="160"></canvas>
+              <div class="nuc-kj-hud" id="nuc-kj-hud"></div>
+              <div class="nuc-kj-say" id="nuc-kj-say" aria-live="polite"></div>
+              <button type="button" class="nuc-kj-cover" id="nuc-kj-cover">Click to play</button>
+            </div>
+            <div class="nuc-kj-brand">KAIJU POCKET</div>
+          </div>
+          <div class="nuc-kj-btns">
+            <div class="nuc-kj-ab">
+              <button type="button" class="b" data-k="b" tabindex="-1" aria-label="Atomic breath">B</button>
+              <button type="button" class="a" data-k="a" tabindex="-1" aria-label="Atomic breath">A</button>
+            </div>
+            <button type="button" class="nuc-kj-start" data-k="start" tabindex="-1">START</button>
+          </div>
+        </div>
       </section>
 
       <!-- ── Sources ──
@@ -1381,6 +1458,6 @@
       </section>
     </main>
 
-    <script src="/js/nuclear-singapore.js?v=20260929g"></script>
+    <script src="/js/nuclear-singapore.js?v=20260930c"></script>
   </body>
 </html>

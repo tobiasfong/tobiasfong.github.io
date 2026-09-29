@@ -1057,6 +1057,311 @@
     } else { visible = true; requestAnimationFrame(frame); }
   }
 
+  /* ── Popular imagination: the kaiju console ───────────────────────
+     A not-Godzilla walks a night street of thirteen buildings, one per
+     story, in date order. Walking into a building or hitting it with the
+     atomic breath (E, or A/B on the console) blows it up, and the story's
+     card opens. START rebuilds the city. Drawn on a 240 x 160 canvas and
+     scaled up with crisp pixels; keys only count while the console has
+     focus, so the arrow keys still scroll the page otherwise. */
+  var KAIJU_CITY = [
+    { key: 'astro-boy', name: 'Tetsuwan Atomu', date: '1952', img: 'imagination-astro-boy.jpg' },
+    { key: 'godzilla', name: 'Godzilla franchise', date: 'Since 1954', img: 'imagination-godzilla.jpg' },
+    { key: 'strangelove', name: 'Dr. Strangelove', date: '1964', img: 'imagination-strangelove.jpg' },
+    { key: 'barefoot-gen', name: 'Barefoot Gen', date: '1973', img: 'imagination-barefoot-gen.jpg' },
+    { key: 'yamato', name: 'Uchu Senkan Yamato', date: '1974', img: 'imagination-yamato.jpg' },
+    { key: 'gundam', name: 'Gundam', date: 'Since 1979', img: 'imagination-gundam.jpg' },
+    { key: 'akira', name: 'Akira', date: '1982 and 1988', img: 'imagination-akira.jpg' },
+    { key: 'day-after', name: 'The Day After', date: '1983', img: 'imagination-day-after.jpg' },
+    { key: 'nausicaa', name: 'Kaze no Tani no Nausicaa', date: '1982 and 1984', img: 'imagination-nausicaa.jpg' },
+    { key: 'terminator', name: 'Terminator franchise', date: 'Since 1984', img: 'imagination-terminator.jpg' },
+    { key: 'fallout', name: 'Fallout franchise', date: 'Since 1997', img: 'imagination-fallout.jpg' },
+    { key: 'chernobyl', name: 'Chernobyl', date: '2019', img: 'imagination-chernobyl.jpg' },
+    { key: 'oppenheimer', name: 'Oppenheimer', date: '2023', img: 'imagination-oppenheimer.jpg' }
+  ];
+  var KAIJU_SPRITE = {"w":32,"h":29,"pal":{"K":"#14161c","D":"#343a48","B":"#2f80e6","L":"#beebff","Y":"#ffd640","W":"#ececec","R":"#961e28"},"frames":{"walk1":["....................KKKKK.......","..................KKKKKKKKK.....",".................BKKKKKKYKKK....","................BBKKKKKKKKKKK...","..............BBBKKKKKKKKKKKKK..",".................KKKKKKKWKWKK...","................BKKKKKKRRRRR....",".............BBKKKKKKKKWKWK.....","............BBBKKKKKKKKKK.......","...............KKKKKKDDKK.......","............BKKKKKKKDDDKKK......","...........BBKKKKKKKDDDKDKK.....","..........BBBKKKKKKKDDDK.KKK....","...........KKKKKKKKKDDDK..KK....","..........BKKKKKKKKKDDDK........",".........BBKKKKKKKKKDDDK........","......BBBKKKKKKKKKKKDDKK........",".........KKKKKKKKKKKDDK.........","........BKKKKKKKKKKKDKK.........",".......KKKKKKKKKKKKKKK..........","...BBKKKKKKKKKKKKKKKKK..........","...KKKKKKKK.KKKKKKKKKK..........","KKKKKKK.....KKKKKKKKK...........","KKKK........KKKKK.KKKK..........","............KKKK...KKKK.........","...........KKKK.....KKKK........","..........KKKK.......KKK........",".........KKKKK......KKKKK.......","........KKKKKK.....KKKKKK......."],"walk2":["....................KKKKK.......","..................KKKKKKKKK.....",".................BKKKKKKYKKK....","................BBKKKKKKKKKKK...","..............BBBKKKKKKKKKKKKK..",".................KKKKKKKWKWKK...","................BKKKKKKRRRRR....",".............BBKKKKKKKKWKWK.....","............BBBKKKKKKKKKK.......","...............KKKKKKDDKK.......","............BKKKKKKKDDDKKK......","...........BBKKKKKKKDDDKDKK.....","..........BBBKKKKKKKDDDK.KKK....","...........KKKKKKKKKDDDK..KK....","..........BKKKKKKKKKDDDK........",".........BBKKKKKKKKKDDDK........","......BBBKKKKKKKKKKKDDKK........",".........KKKKKKKKKKKDDK.........","........BKKKKKKKKKKKDKK.........",".......KKKKKKKKKKKKKKK..........","...BBKKKKKKKKKKKKKKKKK..........","...KKKKKKKK.KKKKKKKKKK..........","KKKKKKK.....KKKKKKKKK...........",".KKKK.......KKKKKKKKK...........","............KKKKKKKK............","............KKKKKKK.............","............KKKKKK..............","...........KKKKKKK..............","..........KKKKKKKK.............."],"charge":["....................KKKKK.......","..................KKKKKKKKK.....",".................LKKKKKKYKKK....","................LLKKKKKKKKKKK...","..............LLLKKKKKKKKKKKKK..",".................KKKKKKKWKWKK...","................LKKKKKKRRRRR....",".............LLKKKKKKKKWKWK.....","............LLLKKKKKKKKKK.......","...............KKKKKKDDKK.......","............LKKKKKKKDDDKKK......","...........LLKKKKKKKDDDKDKK.....","..........LLLKKKKKKKDDDK.KKK....","...........KKKKKKKKKDDDK..KK....","..........LKKKKKKKKKDDDK........",".........LLKKKKKKKKKDDDK........","......LLLKKKKKKKKKKKDDKK........",".........KKKKKKKKKKKDDK.........","........LKKKKKKKKKKKDKK.........",".......KKKKKKKKKKKKKKK..........","...LLKKKKKKKKKKKKKKKKK..........","...KKKKKKKK.KKKKKKKKKK..........","KKKKKKK.....KKKKKKKKK...........","KKKK........KKKKK.KKKK..........","............KKKK...KKKK.........","...........KKKK.....KKKK........","..........KKKK.......KKK........",".........KKKKK......KKKKK.......","........KKKKKK.....KKKKKK......."],"breath":["....................KKKKK.......","..................KKKKKKKKK.....",".................LKKKKKKYKKK....","................LLKKKKKKKKKKK...","..............LLLKKKKKKKKKKKKK..",".................KKKKKKKWKW.....","................LKKKKKKRRR......",".............LLKKKKKKKKRRR......","............LLLKKKKKKKKKKWKWK...","...............KKKKKKDDKK.......","............LKKKKKKKDDDKKK......","...........LLKKKKKKKDDDKDKK.....","..........LLLKKKKKKKDDDK.KKK....","...........KKKKKKKKKDDDK..KK....","..........LKKKKKKKKKDDDK........",".........LLKKKKKKKKKDDDK........","......LLLKKKKKKKKKKKDDKK........",".........KKKKKKKKKKKDDK.........","........LKKKKKKKKKKKDKK.........",".......KKKKKKKKKKKKKKK..........","...LLKKKKKKKKKKKKKKKKK..........","...KKKKKKKK.KKKKKKKKKK..........","KKKKKKK.....KKKKKKKKK...........","KKKK........KKKKK.KKKK..........","............KKKK...KKKK.........","...........KKKK.....KKKK........","..........KKKK.......KKK........",".........KKKKK......KKKKK.......","........KKKKKK.....KKKKKK......."]}};
+
+  function wireKaiju() {
+    var root = el('nuc-kj');
+    if (!root) { return; }
+    var cv = el('nuc-kj-screen'), g = cv.getContext('2d');
+    var say = el('nuc-kj-say'), hud = el('nuc-kj-hud'), cover = el('nuc-kj-cover');
+    var SP = KAIJU_SPRITE, W = 240, H = 160, GROUND = 140, STEP = 52, FIRST = 100;
+    var Z = 2, KW = SP.w * Z, KH = SP.h * Z;   // he is drawn at double size, to tower over the street
+    var WORLD = FIRST + STEP * KAIJU_CITY.length + 60;
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var coarse = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+    if (coarse) { cover.textContent = 'Tap to play'; }
+
+    // sprite frames, drawn once, facing right [0] and left [1]
+    function paint(rows, flip) {
+      var c = document.createElement('canvas'), x;
+      c.width = KW; c.height = KH; x = c.getContext('2d');
+      rows.forEach(function (r, y) {
+        for (var i = 0; i < r.length; i++) {
+          if (r[i] === '.') { continue; }
+          x.fillStyle = SP.pal[r[i]];
+          x.fillRect((flip ? SP.w - 1 - i : i) * Z, y * Z, Z, Z);
+        }
+      });
+      return c;
+    }
+    var FR = {};
+    Object.keys(SP.frames).forEach(function (k) { FR[k] = [paint(SP.frames[k], false), paint(SP.frames[k], true)]; });
+    // the spines alone, for the glow that climbs them before the breath
+    var spineRows = SP.frames.walk1.map(function (r) { return r.replace(/[^B]/g, '.').replace(/B/g, 'L'); });
+    FR.spines = [paint(spineRows, false), paint(spineRows, true)];
+
+    // a small seeded random, so the city looks the same every visit
+    var seed = 7;
+    function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+    var COLORS = ['#3d4a6b', '#4b3f63', '#35535a', '#5a4a3a', '#3f5570', '#584060', '#3a4658'];
+    var blds = KAIJU_CITY.map(function (c, i) {
+      var w = 26 + Math.floor(rnd() * 8), hgt = 30 + Math.floor(rnd() * 30);
+      var lit = [];
+      for (var k = 0; k < 60; k++) { lit.push(rnd() < 0.55); }
+      return { c: c, x: FIRST + i * STEP, w: w, h: hgt, h0: hgt, color: COLORS[i % COLORS.length],
+               style: i % 3, lit: lit, down: false, fall: 0 };
+    });
+    var far = [];
+    for (var f = 0, fx = 0; fx < WORLD * 0.6 + W; f++) { var fw = 14 + Math.floor(rnd() * 20); far.push({ x: fx, w: fw, h: 20 + Math.floor(rnd() * 40) }); fx += fw + 2; }
+    var stars = [];
+    for (var st = 0; st < 40; st++) { stars.push({ x: Math.floor(rnd() * W), y: Math.floor(rnd() * 70) }); }
+
+    var m, keys, parts, shake, camX, active = false, visible = false, last = 0, pending = null;
+    function reset() {
+      m = { x: 24, face: 0, walkT: 0, frame: 0, state: 'idle', t: 0, target: null };
+      keys = { left: false, right: false };
+      parts = []; shake = 0; camX = 0; pending = null;
+      blds.forEach(function (b) { b.down = false; b.fall = 0; b.h = b.h0; });
+    }
+    reset();
+
+    function front() { return m.face === 0 ? m.x + 54 : m.x + 8; }
+    function mouth() { return { x: m.face === 0 ? m.x + 58 : m.x + 4, y: GROUND - KH + 13 }; }
+    function ahead() {
+      // the nearest standing building in the direction he faces
+      var best = null, fx = front();
+      blds.forEach(function (b) {
+        if (b.down) { return; }
+        var d = m.face === 0 ? b.x - fx : fx - (b.x + b.w);
+        if (d >= -2 && (!best || d < best.d)) { best = { b: b, d: d }; }
+      });
+      return best;
+    }
+    function smashed() { return blds.filter(function (b) { return b.down; }).length; }
+
+    function blow(b) {
+      if (b.down) { return; }
+      b.down = true; b.fall = 0.001;
+      shake = reduce ? 0 : 0.35;
+      var cx = b.x + b.w / 2, cy = GROUND - b.h / 2;
+      var cols = ['#fff6cf', '#ffd35a', '#ff8a2e', '#e0441f', '#8d8d99', '#5e5e6c'];
+      for (var i = 0; i < 70; i++) {
+        var a = Math.random() * Math.PI * 2, v = 20 + Math.random() * 90;
+        parts.push({ x: cx + (Math.random() - 0.5) * b.w, y: cy + (Math.random() - 0.5) * b.h, vx: Math.cos(a) * v,
+                     vy: Math.sin(a) * v - 40, life: 0, max: 0.5 + Math.random() * 0.7, c: cols[Math.floor(Math.random() * cols.length)] });
+      }
+      pending = { b: b, t: 0.85 };
+      hud.textContent = 'SMASHED ' + smashed() + '/' + blds.length;
+    }
+    function breathe() {
+      if (m.state !== 'idle' && m.state !== 'walk') { return; }
+      m.state = 'charge'; m.t = 0; m.target = null;
+    }
+
+    function step(dt) {
+      if (modalOpen) { keys.left = keys.right = false; return; }
+      var moving = false;
+      if (m.state === 'idle' || m.state === 'walk') {
+        var dir = keys.right ? 1 : keys.left ? -1 : 0;
+        if (dir) {
+          m.face = dir > 0 ? 0 : 1;
+          var nx = m.x + dir * 44 * dt, hit = null;
+          blds.forEach(function (b) {
+            if (b.down) { return; }
+            var f = dir > 0 ? nx + 54 : nx + 8;
+            if (f > b.x && f < b.x + b.w) { hit = b; }
+          });
+          if (hit) { blow(hit); } else { m.x = Math.max(0, Math.min(WORLD - KW, nx)); moving = true; }
+        }
+        m.state = moving ? 'walk' : 'idle';
+        m.walkT += moving ? dt : 0;
+        m.frame = moving ? Math.floor(m.walkT / 0.18) % 2 : 0;
+      } else if (m.state === 'charge') {
+        m.t += dt;
+        if (m.t > 0.45) {
+          m.state = 'breath'; m.t = 0;
+          var ah = ahead(), mo0 = mouth();
+          m.target = ah && ah.d < 190 ? ah.b : null;
+          // the beam's end is fixed when he fires, so it stops where the building stood
+          m.end = m.target
+            ? { x: m.face === 0 ? m.target.x : m.target.x + m.target.w, y: Math.max(mo0.y, GROUND - m.target.h + 6) }
+            : { x: mo0.x + (m.face === 0 ? 200 : -200), y: mo0.y };
+        }
+      } else if (m.state === 'breath') {
+        m.t += dt;
+        if (m.target && m.t > 0.18) { blow(m.target); m.target = null; }
+        if (m.t > 0.6) { m.state = 'idle'; }
+      }
+      blds.forEach(function (b) { if (b.down && b.fall < 1) { b.fall = Math.min(1, b.fall + dt * 2.2); b.h = Math.max(7, b.h0 * (1 - b.fall)); } });
+      parts = parts.filter(function (p) {
+        p.life += dt; if (p.life > p.max) { return false; }
+        p.vy += 140 * dt; p.x += p.vx * dt; p.y = Math.min(GROUND, p.y + p.vy * dt);
+        return true;
+      });
+      shake = Math.max(0, shake - dt);
+      if (pending) {
+        pending.t -= dt;
+        if (pending.t <= 0) {
+          var c = pending.b.c; pending = null;
+          openModal({ date: c.date, name: c.name, img: c.img, body: c.body }, root);
+        }
+      }
+      camX = Math.max(0, Math.min(WORLD - W, m.x + KW / 2 - W / 2));
+      tell();
+    }
+
+    var lastSay = '';
+    function tell() {
+      var t, ah = ahead();
+      if (m.state === 'charge' || m.state === 'breath') { t = 'ATOMIC BREATH!'; }
+      else if (smashed() === blds.length) { t = 'The whole city is rubble. Press START to rebuild it.'; }
+      else if (ah && ah.d < 70) { t = ah.b.c.name + ' (' + ah.b.c.date + ')'; }
+      else { t = coarse ? '◀ ▶ to walk · A for atomic breath' : '← → to walk · E for atomic breath'; }
+      if (t !== lastSay) { say.textContent = t; lastSay = t; }
+    }
+
+    function drawBld(b) {
+      var x = Math.round(b.x - camX), top = GROUND - Math.round(b.h);
+      if (x > W || x + b.w < 0) { return; }
+      if (b.down && b.fall >= 1) {
+        // rubble
+        g.fillStyle = '#4a4650';
+        for (var i = 0; i < b.w; i += 3) { var rh = 3 + ((i * 7 + b.x) % 5); g.fillRect(x + i, GROUND - rh, 3, rh); }
+        return;
+      }
+      g.fillStyle = b.color; g.fillRect(x, top, b.w, Math.round(b.h));
+      g.fillStyle = 'rgba(255,255,255,0.08)'; g.fillRect(x, top, 2, Math.round(b.h));
+      if (b.style === 0) { g.fillStyle = b.color; g.fillRect(x + Math.floor(b.w / 2), top - 7, 1, 7); }
+      if (b.style === 1) { g.fillStyle = b.color; g.fillRect(x + 4, top - 5, b.w - 8, 5); }
+      if (b.style === 2) { g.fillStyle = '#2a3148'; g.fillRect(x - 1, top, b.w + 2, 2); }
+      // windows
+      var k = 0;
+      for (var wy = top + 4; wy < GROUND - 5; wy += 6) {
+        for (var wx = x + 3; wx < x + b.w - 3; wx += 5) {
+          g.fillStyle = b.lit[k++ % b.lit.length] ? '#ffd76a' : '#1c2233';
+          g.fillRect(wx, wy, 2, 3);
+        }
+      }
+    }
+    function draw() {
+      var sx = shake > 0 ? Math.round((Math.random() - 0.5) * 4) : 0, sy = shake > 0 ? Math.round((Math.random() - 0.5) * 3) : 0;
+      g.save(); g.translate(sx, sy);
+      // sky
+      var sky = ['#08112a', '#0b1733', '#0f1d3d', '#132349', '#182a55'];
+      sky.forEach(function (c, i) { g.fillStyle = c; g.fillRect(-4, i * 22, W + 8, 23); });
+      g.fillStyle = '#1c2f5c'; g.fillRect(-4, 110, W + 8, 40);
+      g.fillStyle = '#c8d4ff';
+      stars.forEach(function (p) { g.fillRect(p.x, p.y, 1, 1); });
+      g.fillStyle = '#f2ecd0'; g.fillRect(196, 16, 10, 10); g.fillRect(195, 18, 12, 6); g.fillRect(198, 15, 6, 12);
+      // far skyline, half speed
+      g.fillStyle = '#16213f';
+      far.forEach(function (b) { var x = Math.round(b.x - camX * 0.5); if (x < W && x + b.w > 0) { g.fillRect(x, GROUND - b.h, b.w, b.h); } });
+      // buildings
+      blds.forEach(drawBld);
+      // street
+      g.fillStyle = '#23232b'; g.fillRect(-4, GROUND, W + 8, H - GROUND);
+      g.fillStyle = '#4b4b55';
+      for (var d = -((camX * 1) % 16); d < W; d += 16) { g.fillRect(Math.round(d), GROUND + 9, 8, 1); }
+      // the kaiju
+      var kx = Math.round(m.x - camX), ky = GROUND - KH + 2;
+      var fr = m.state === 'breath' ? 'breath' : (m.frame && m.state === 'walk' ? 'walk2' : 'walk1');
+      g.drawImage(FR[fr][m.face], kx, ky);
+      if (m.state === 'charge' || m.state === 'breath') {
+        // the glow climbs the spines from the tail to the head, then holds
+        var p = m.state === 'charge' ? Math.min(1, m.t / 0.4) : 1;
+        var cut = Math.round(KH * (1 - p));
+        var sp = FR.spines[m.face], pulse = 0.35 + 0.25 * Math.sin(performance.now() / 45);
+        g.save();
+        g.beginPath(); g.rect(kx - 4, ky + cut, KW + 8, KH - cut); g.clip();
+        g.globalAlpha = pulse;
+        [[-2, 0], [2, 0], [0, -2], [0, 2], [-3, -1], [-1, -3]].forEach(function (o) { g.drawImage(sp, kx + o[0], ky + o[1]); });
+        g.globalAlpha = 1;
+        g.drawImage(sp, kx, ky);
+        g.restore();
+      }
+      // the beam: from his mouth to the face of the building it hits, angled down when the building is shorter than he is
+      if (m.state === 'breath') {
+        var mo = mouth(), ex = m.end.x, ey = m.end.y;
+        var k = Math.min(1, m.t / 0.15);
+        var x1 = mo.x - camX, y1 = mo.y, x2 = x1 + (ex - mo.x) * k, y2 = y1 + (ey - mo.y) * k;
+        g.lineCap = 'round';
+        g.strokeStyle = 'rgba(80, 170, 255, 0.5)'; g.lineWidth = 7 + Math.random() * 3;
+        g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke();
+        g.strokeStyle = '#bfeaff'; g.lineWidth = 3;
+        g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke();
+        g.strokeStyle = '#ffffff'; g.lineWidth = 1;
+        g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke();
+        g.fillStyle = 'rgba(210, 245, 255, 0.9)'; g.fillRect(Math.round(x2) - 3, Math.round(y2) - 3, 6, 6);
+      }
+      // blasts
+      parts.forEach(function (p) {
+        g.globalAlpha = Math.max(0, 1 - p.life / p.max);
+        g.fillStyle = p.c; g.fillRect(Math.round(p.x - camX), Math.round(p.y), 2, 2);
+      });
+      g.globalAlpha = 1;
+      g.restore();
+    }
+    function frame(now) {
+      if (!visible) { last = 0; return; }
+      var dt = last ? Math.min(0.05, (now - last) / 1000) : 0; last = now;
+      step(dt); draw();
+      requestAnimationFrame(frame);
+    }
+
+    // input: keys only while the console has focus
+    var KEYS = { ArrowLeft: 'left', a: 'left', A: 'left', ArrowRight: 'right', d: 'right', D: 'right' };
+    root.addEventListener('keydown', function (e) {
+      if (modalOpen) { return; }
+      if (KEYS[e.key]) { keys[KEYS[e.key]] = true; e.preventDefault(); play(); }
+      else if (e.key === 'e' || e.key === 'E' || e.key === ' ') { breathe(); e.preventDefault(); play(); }
+      else if (e.key === 'Enter') { play(); }
+      else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); }
+    });
+    root.addEventListener('keyup', function (e) { if (KEYS[e.key]) { keys[KEYS[e.key]] = false; } });
+    root.addEventListener('blur', function () { keys.left = keys.right = false; });
+    function play() {
+      if (!active) { active = true; cover.hidden = true; }
+      if (document.activeElement !== root) { root.focus({ preventScroll: true }); }
+    }
+    cover.addEventListener('click', play);
+    Array.prototype.forEach.call(root.querySelectorAll('[data-k]'), function (btn) {
+      var k = btn.getAttribute('data-k');
+      function down(e) {
+        e.preventDefault(); play(); btn.classList.add('is-down');
+        if (k === 'left' || k === 'right') { keys[k] = true; }
+        else if (k === 'a' || k === 'b') { breathe(); }
+        else if (k === 'start') { reset(); hud.textContent = 'SMASHED 0/' + blds.length; }
+      }
+      function up() { btn.classList.remove('is-down'); if (k === 'left' || k === 'right') { keys[k] = false; } }
+      btn.addEventListener('pointerdown', down);
+      btn.addEventListener('pointerup', up);
+      btn.addEventListener('pointerleave', up);
+      btn.addEventListener('pointercancel', up);
+    });
+
+    hud.textContent = 'SMASHED 0/' + blds.length;
+    tell(); draw();
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        var was = visible;
+        visible = es[0].isIntersecting;
+        if (visible && !was) { last = 0; requestAnimationFrame(frame); }
+      }, { threshold: 0.1 }).observe(root);
+    } else { visible = true; requestAnimationFrame(frame); }
+  }
+
   function boot() {
     buildStrip();
     wireStrip();
@@ -1068,6 +1373,7 @@
     wireGame();
     wireFusion();
     wirePlasma();
+    wireKaiju();
     expandCitations(document.querySelector('main'));
   }
 
