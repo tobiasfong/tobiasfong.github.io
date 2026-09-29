@@ -1057,13 +1057,14 @@
     } else { visible = true; requestAnimationFrame(frame); }
   }
 
-  /* ── Popular imagination: the kaiju console ───────────────────────
-     A not-Godzilla walks a night street of thirteen buildings, one per
-     story, in date order. Walking into a building or hitting it with the
-     atomic breath (E, or A/B on the console) blows it up, and the story's
-     card opens. START rebuilds the city. Drawn on a 240 x 160 canvas and
-     scaled up with crisp pixels; keys only count while the console has
-     focus, so the arrow keys still scroll the page otherwise. */
+  /* ── Popular imagination: the kaiju in town ──────────────────────
+     The lecture apps' walker, as a kaiju. A daytime town seen from above
+     like the old handheld games: thirteen skyscrapers, one per story, among
+     houses, trees, lamps and fences. Walking into a skyscraper or hitting it
+     with the atomic breath (E, or A/B on the console) blows it up and opens
+     its card; houses just flatten. START rebuilds the town. Drawn on a
+     320 x 200 canvas on a 16-pixel grid, scaled up with crisp pixels; keys
+     only count while the console has focus, so the page still scrolls. */
   var KAIJU_CITY = [
     { key: 'astro-boy', name: 'Tetsuwan Atomu', date: '1952', img: 'imagination-astro-boy.jpg' },
     { key: 'godzilla', name: 'Godzilla franchise', date: 'Since 1954', img: 'imagination-godzilla.jpg' },
@@ -1079,135 +1080,157 @@
     { key: 'chernobyl', name: 'Chernobyl', date: '2019', img: 'imagination-chernobyl.jpg' },
     { key: 'oppenheimer', name: 'Oppenheimer', date: '2023', img: 'imagination-oppenheimer.jpg' }
   ];
-  var KAIJU_SPRITE = {"w":32,"h":29,"pal":{"K":"#14161c","D":"#343a48","B":"#2f80e6","L":"#beebff","Y":"#ffd640","W":"#ececec","R":"#961e28"},"frames":{"walk1":["....................KKKKK.......","..................KKKKKKKKK.....",".................BKKKKKKYKKK....","................BBKKKKKKKKKKK...","..............BBBKKKKKKKKKKKKK..",".................KKKKKKKWKWKK...","................BKKKKKKRRRRR....",".............BBKKKKKKKKWKWK.....","............BBBKKKKKKKKKK.......","...............KKKKKKDDKK.......","............BKKKKKKKDDDKKK......","...........BBKKKKKKKDDDKDKK.....","..........BBBKKKKKKKDDDK.KKK....","...........KKKKKKKKKDDDK..KK....","..........BKKKKKKKKKDDDK........",".........BBKKKKKKKKKDDDK........","......BBBKKKKKKKKKKKDDKK........",".........KKKKKKKKKKKDDK.........","........BKKKKKKKKKKKDKK.........",".......KKKKKKKKKKKKKKK..........","...BBKKKKKKKKKKKKKKKKK..........","...KKKKKKKK.KKKKKKKKKK..........","KKKKKKK.....KKKKKKKKK...........","KKKK........KKKKK.KKKK..........","............KKKK...KKKK.........","...........KKKK.....KKKK........","..........KKKK.......KKK........",".........KKKKK......KKKKK.......","........KKKKKK.....KKKKKK......."],"walk2":["....................KKKKK.......","..................KKKKKKKKK.....",".................BKKKKKKYKKK....","................BBKKKKKKKKKKK...","..............BBBKKKKKKKKKKKKK..",".................KKKKKKKWKWKK...","................BKKKKKKRRRRR....",".............BBKKKKKKKKWKWK.....","............BBBKKKKKKKKKK.......","...............KKKKKKDDKK.......","............BKKKKKKKDDDKKK......","...........BBKKKKKKKDDDKDKK.....","..........BBBKKKKKKKDDDK.KKK....","...........KKKKKKKKKDDDK..KK....","..........BKKKKKKKKKDDDK........",".........BBKKKKKKKKKDDDK........","......BBBKKKKKKKKKKKDDKK........",".........KKKKKKKKKKKDDK.........","........BKKKKKKKKKKKDKK.........",".......KKKKKKKKKKKKKKK..........","...BBKKKKKKKKKKKKKKKKK..........","...KKKKKKKK.KKKKKKKKKK..........","KKKKKKK.....KKKKKKKKK...........",".KKKK.......KKKKKKKKK...........","............KKKKKKKK............","............KKKKKKK.............","............KKKKKK..............","...........KKKKKKK..............","..........KKKKKKKK.............."],"charge":["....................KKKKK.......","..................KKKKKKKKK.....",".................LKKKKKKYKKK....","................LLKKKKKKKKKKK...","..............LLLKKKKKKKKKKKKK..",".................KKKKKKKWKWKK...","................LKKKKKKRRRRR....",".............LLKKKKKKKKWKWK.....","............LLLKKKKKKKKKK.......","...............KKKKKKDDKK.......","............LKKKKKKKDDDKKK......","...........LLKKKKKKKDDDKDKK.....","..........LLLKKKKKKKDDDK.KKK....","...........KKKKKKKKKDDDK..KK....","..........LKKKKKKKKKDDDK........",".........LLKKKKKKKKKDDDK........","......LLLKKKKKKKKKKKDDKK........",".........KKKKKKKKKKKDDK.........","........LKKKKKKKKKKKDKK.........",".......KKKKKKKKKKKKKKK..........","...LLKKKKKKKKKKKKKKKKK..........","...KKKKKKKK.KKKKKKKKKK..........","KKKKKKK.....KKKKKKKKK...........","KKKK........KKKKK.KKKK..........","............KKKK...KKKK.........","...........KKKK.....KKKK........","..........KKKK.......KKK........",".........KKKKK......KKKKK.......","........KKKKKK.....KKKKKK......."],"breath":["....................KKKKK.......","..................KKKKKKKKK.....",".................LKKKKKKYKKK....","................LLKKKKKKKKKKK...","..............LLLKKKKKKKKKKKKK..",".................KKKKKKKWKW.....","................LKKKKKKRRR......",".............LLKKKKKKKKRRR......","............LLLKKKKKKKKKKWKWK...","...............KKKKKKDDKK.......","............LKKKKKKKDDDKKK......","...........LLKKKKKKKDDDKDKK.....","..........LLLKKKKKKKDDDK.KKK....","...........KKKKKKKKKDDDK..KK....","..........LKKKKKKKKKDDDK........",".........LLKKKKKKKKKDDDK........","......LLLKKKKKKKKKKKDDKK........",".........KKKKKKKKKKKDDK.........","........LKKKKKKKKKKKDKK.........",".......KKKKKKKKKKKKKKK..........","...LLKKKKKKKKKKKKKKKKK..........","...KKKKKKKK.KKKKKKKKKK..........","KKKKKKK.....KKKKKKKKK...........","KKKK........KKKKK.KKKK..........","............KKKK...KKKK.........","...........KKKK.....KKKK........","..........KKKK.......KKK........",".........KKKKK......KKKKK.......","........KKKKKK.....KKKKKK......."]}};
+  var KAIJU_SPRITE = {"w":32,"h":32,"pal":{"K":"#14161c","D":"#343a48","B":"#2f80e6","L":"#beebff","Y":"#ffd640","W":"#ececec","R":"#961e28"},"frames":{"down1":["................................",".............KKKKKK.............","............KKKKKKKK............","...........KKKKKKKKKK...........","........BB.KKYKKKKYKK.BB........",".......BBBBKKKKKKKKKKBBBB.......","......BBBBBKKKKKKKKKKBBBBB......","............KKWKKWKK............","............KKRRRRKK............","........BB.KKKKKKKKKK.BB........",".......BBBKKKKKKKKKKKKBBB.......","......KKKBKKKKKDDKKKKKBKKK......","......KKKKKKKKDDDDKKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKDDDDDDDDKKKKKK......","......K.KKKKDDDDDDDDKKKK.K......",".........KKKDDDDDDDDKKK.........",".........KKKKDDDDDDKKKK.........","..........KKKDDDDDDKKK..........","..........KKKDDDDDDKKK..........",".........KKKKKDDDDKKKKK...KKK...",".........KKKKKKDDKKKKKK...KKK...",".........KKKKK....KKKKKKKKKK....",".........KKKKK....KKKKKKKKKK....",".........KKKKK....KKKKK.........","........KKKKKK....KKKKK.........","........KKKKK.....KKKKK.........","..................KKKKKK........","...................KKKKK........","................................"],"down2":["................................",".............KKKKKK.............","............KKKKKKKK............","...........KKKKKKKKKK...........","........BB.KKYKKKKYKK.BB........",".......BBBBKKKKKKKKKKBBBB.......","......BBBBBKKKKKKKKKKBBBBB......","............KKWKKWKK............","............KKRRRRKK............","........BB.KKKKKKKKKK.BB........",".......BBBKKKKKKKKKKKKBBB.......","......KKKBKKKKKDDKKKKKBKKK......","......KKKKKKKKDDDDKKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKDDDDDDDDKKKKKK......","......K.KKKKDDDDDDDDKKKK.K......",".........KKKDDDDDDDDKKK.........",".........KKKKDDDDDDKKKK.........","..........KKKDDDDDDKKK..........","..........KKKDDDDDDKKK..........",".........KKKKKDDDDKKKKK...KKK...",".........KKKKKKDDKKKKKK...KKK...",".........KKKKK....KKKKKKKKKK....",".........KKKKK....KKKKKKKKKK....",".........KKKKK....KKKKK.........",".........KKKKK....KKKKKK........",".........KKKKK.....KKKKK........","........KKKKKK..................","........KKKKK...................","................................"],"downB":["................................",".............KKKKKK.............","............KKKKKKKK............","...........KKKKKKKKKK...........","........BB.KKYKKKKYKK.BB........",".......BBBBKKKKKKKKKKBBBB.......","......BBBBBKKKKKKKKKKBBBBB......","............KKKKKKKK............","............KWRRRRWK............","........BB.KKRRRRRRKK.BB........",".......BBBKKKWRRRRWKKKBBB.......","......KKKBKKKKKDDKKKKKBKKK......","......KKKKKKKKDDDDKKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKDDDDDDDDKKKKKK......","......K.KKKKDDDDDDDDKKKK.K......",".........KKKDDDDDDDDKKK.........",".........KKKKDDDDDDKKKK.........","..........KKKDDDDDDKKK..........","..........KKKDDDDDDKKK..........",".........KKKKKDDDDKKKKK...KKK...",".........KKKKKKDDKKKKKK...KKK...",".........KKKKK....KKKKKKKKKK....",".........KKKKK....KKKKKKKKKK....",".........KKKKK....KKKKK.........","........KKKKKK....KKKKK.........","........KKKKK.....KKKKK.........","..................KKKKKK........","...................KKKKK........","................................"],"up1":["................................",".............KKKKKK.............","............KKKBBKKK............","...........KKKBBBBKKK...........","...........KKBBBBBBKK...........","...........KKKKKKKKKK...........","...........KKKKKKKKKK...........","............KKKBBKKK............","............KKBBBBKK............","...........KKBBBBBBKK...........","..........KKKKKKKKKKKK..........","..........KKKKKKKKKKKK..........","......KKKKKKKKKBBKKKKKKKKK......","......KKKKKKKKBBBBKKKKKKKK......","......KKKKKKKBBBBBBKKKKKKK......","......KKKKKKKKKKKKKKKKKKKK......",".........KKKKKKKKKKKKKK.........",".........KKKKKKBBKKKKKK.........",".........KKKKKBBBBKKKKK.........",".........KKKKBBBBBBKKKK.........","..........KKKKKKKKKKKK..........","..........KKKKKKKKKKKK..........",".........KKKKKKBBKKKKKK.........",".........KKKKKBBBBKKKKK.........",".........KKKKBBBBBBKKKK.........",".........KKKKKKKKKKKKKK.........",".........KKKKKKKKKKKKKK.........","........KKKKKKKBBKKKKKK.........","........KKKKK.KBBKKKKKK.........","..............KKKKKKKKKK........","...............KK..KKKKK........","...............KK..............."],"up2":["................................",".............KKKKKK.............","............KKKBBKKK............","...........KKKBBBBKKK...........","...........KKBBBBBBKK...........","...........KKKKKKKKKK...........","...........KKKKKKKKKK...........","............KKKBBKKK............","............KKBBBBKK............","...........KKBBBBBBKK...........","..........KKKKKKKKKKKK..........","..........KKKKKKKKKKKK..........","......KKKKKKKKKBBKKKKKKKKK......","......KKKKKKKKBBBBKKKKKKKK......","......KKKKKKKBBBBBBKKKKKKK......","......KKKKKKKKKKKKKKKKKKKK......",".........KKKKKKKKKKKKKK.........",".........KKKKKKBBKKKKKK.........",".........KKKKKBBBBKKKKK.........",".........KKKKBBBBBBKKKK.........","..........KKKKKKKKKKKK..........","..........KKKKKKKKKKKK..........",".........KKKKKKBBKKKKKK.........",".........KKKKKBBBBKKKKK.........",".........KKKKBBBBBBKKKK.........",".........KKKKKKKKKKKKKK.........",".........KKKKKKKKKKKKKK.........",".........KKKKKKBBKKKKKKK........",".........KKKKKKBBK.KKKKK........","........KKKKKKKKKK..............","........KKKKK..KK...............","...............KK..............."],"side1":["................................","................................","................................","....................KKKKK.......","..................KKKKKKKKK.....",".................BKKKKKKYKKK....","................BBKKKKKKKKKKK...","..............BBBKKKKKKKKKKKKK..",".................KKKKKKKWKWKK...","................BKKKKKKRRRRR....",".............BBKKKKKKKKWKWK.....","............BBBKKKKKKKKKK.......","...............KKKKKKDDKK.......","............BKKKKKKKDDDKKK......","...........BBKKKKKKKDDDKDKK.....","..........BBBKKKKKKKDDDK.KKK....","...........KKKKKKKKKDDDK..KK....","..........BKKKKKKKKKDDDK........",".........BBKKKKKKKKKDDDK........","......BBBKKKKKKKKKKKDDKK........",".........KKKKKKKKKKKDDK.........","........BKKKKKKKKKKKDKK.........",".......KKKKKKKKKKKKKKK..........","...BBKKKKKKKKKKKKKKKKK..........","...KKKKKKKK.KKKKKKKKKK..........","KKKKKKK.....KKKKKKKKK...........","KKKK........KKKKK.KKKK..........","............KKKK...KKKK.........","...........KKKK.....KKKK........","..........KKKK.......KKK........",".........KKKKK......KKKKK.......","........KKKKKK.....KKKKKK......."],"side2":["................................","................................","................................","....................KKKKK.......","..................KKKKKKKKK.....",".................BKKKKKKYKKK....","................BBKKKKKKKKKKK...","..............BBBKKKKKKKKKKKKK..",".................KKKKKKKWKWKK...","................BKKKKKKRRRRR....",".............BBKKKKKKKKWKWK.....","............BBBKKKKKKKKKK.......","...............KKKKKKDDKK.......","............BKKKKKKKDDDKKK......","...........BBKKKKKKKDDDKDKK.....","..........BBBKKKKKKKDDDK.KKK....","...........KKKKKKKKKDDDK..KK....","..........BKKKKKKKKKDDDK........",".........BBKKKKKKKKKDDDK........","......BBBKKKKKKKKKKKDDKK........",".........KKKKKKKKKKKDDK.........","........BKKKKKKKKKKKDKK.........",".......KKKKKKKKKKKKKKK..........","...BBKKKKKKKKKKKKKKKKK..........","...KKKKKKKK.KKKKKKKKKK..........","KKKKKKK.....KKKKKKKKK...........",".KKKK.......KKKKKKKKK...........","............KKKKKKKK............","............KKKKKKK.............","............KKKKKK..............","...........KKKKKKK..............","..........KKKKKKKK.............."],"sideB":["................................","................................","................................","....................KKKKK.......","..................KKKKKKKKK.....",".................LKKKKKKYKKK....","................LLKKKKKKKKKKK...","..............LLLKKKKKKKKKKKKK..",".................KKKKKKKWKW.....","................LKKKKKKRRR......",".............LLKKKKKKKKRRR......","............LLLKKKKKKKKKKWKWK...","...............KKKKKKDDKK.......","............LKKKKKKKDDDKKK......","...........LLKKKKKKKDDDKDKK.....","..........LLLKKKKKKKDDDK.KKK....","...........KKKKKKKKKDDDK..KK....","..........LKKKKKKKKKDDDK........",".........LLKKKKKKKKKDDDK........","......LLLKKKKKKKKKKKDDKK........",".........KKKKKKKKKKKDDK.........","........LKKKKKKKKKKKDKK.........",".......KKKKKKKKKKKKKKK..........","...LLKKKKKKKKKKKKKKKKK..........","...KKKKKKKK.KKKKKKKKKK..........","KKKKKKK.....KKKKKKKKK...........","KKKK........KKKKK.KKKK..........","............KKKK...KKKK.........","...........KKKK.....KKKK........","..........KKKK.......KKK........",".........KKKKK......KKKKK.......","........KKKKKK.....KKKKKK......."]}};
+
+  // Skyscrapers: [base column, base row, width, height] in tiles, in KAIJU_CITY order
+  var KAIJU_TOWERS = [[4, 7, 3, 5], [13, 6, 3, 6], [22, 8, 3, 4], [31, 7, 3, 5], [6, 15, 3, 4], [15, 16, 3, 6], [24, 15, 3, 6],
+                      [33, 16, 3, 4], [4, 24, 3, 5], [12, 25, 3, 6], [20, 24, 3, 4], [28, 25, 3, 5], [35, 24, 3, 5]];
+  var KAIJU_HOUSES = [[9, 3], [18, 3], [27, 4], [36, 3], [10, 11], [19, 12], [29, 11], [1, 12], [36, 12], [9, 20], [19, 20], [29, 20], [16, 27], [24, 27], [1, 19]];
+  var KAIJU_TREES = [[2, 2], [7, 1], [15, 1], [24, 1], [33, 2], [38, 5], [1, 7], [9, 8], [18, 8], [27, 9], [37, 9], [3, 13], [13, 12],
+                     [23, 12], [33, 12], [11, 16], [21, 17], [30, 17], [38, 17], [2, 21], [14, 21], [26, 21], [34, 21], [8, 26], [31, 27], [39, 26]];
+  var KAIJU_LAMPS = [[11, 5], [20, 6], [29, 6], [7, 11], [26, 13], [17, 18], [36, 19], [10, 23], [25, 23]];
+  var KAIJU_FENCES = [[1, 4], [16, 10], [32, 9], [5, 18], [22, 20], [38, 22], [14, 27]];
 
   function wireKaiju() {
     var root = el('nuc-kj');
     if (!root) { return; }
     var cv = el('nuc-kj-screen'), g = cv.getContext('2d');
-    var say = el('nuc-kj-say'), hud = el('nuc-kj-hud'), cover = el('nuc-kj-cover');
-    var SP = KAIJU_SPRITE, W = 240, H = 160, GROUND = 140, STEP = 52, FIRST = 100;
-    var Z = 2, KW = SP.w * Z, KH = SP.h * Z;   // he is drawn at double size, to tower over the street
-    var WORLD = FIRST + STEP * KAIJU_CITY.length + 60;
+    var hud = el('nuc-kj-hud'), cover = el('nuc-kj-cover');
+    var SP = KAIJU_SPRITE, T = 16, COLS = 40, ROWS = 28, W = 320, H = 200, STEP = 0.16;
+    var Z = 2, KW = SP.w * Z, KH = SP.h * Z;   // drawn at double size: a kaiju stands as tall as a tower
+    var INK = '#1c1a19';
     var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     var coarse = window.matchMedia && matchMedia('(pointer: coarse)').matches;
-    if (coarse) { cover.textContent = 'Tap to play'; }
+    if (coarse) { cover.innerHTML = '<b>Tap to play</b><span>Pad to walk · A for atomic breath</span>'; }
 
-    // sprite frames, drawn once, facing right [0] and left [1]
-    function paint(rows, flip) {
+    // sprite frames, drawn once; [0] as drawn, [1] mirrored (side view facing left)
+    function paint(rows, flip, only) {
       var c = document.createElement('canvas'), x;
       c.width = KW; c.height = KH; x = c.getContext('2d');
       rows.forEach(function (r, y) {
         for (var i = 0; i < r.length; i++) {
-          if (r[i] === '.') { continue; }
-          x.fillStyle = SP.pal[r[i]];
+          var ch = r[i];
+          if (ch === '.' || (only && ch !== 'B')) { continue; }
+          x.fillStyle = only ? SP.pal.L : SP.pal[ch];
           x.fillRect((flip ? SP.w - 1 - i : i) * Z, y * Z, Z, Z);
         }
       });
       return c;
     }
-    var FR = {};
-    Object.keys(SP.frames).forEach(function (k) { FR[k] = [paint(SP.frames[k], false), paint(SP.frames[k], true)]; });
-    // the spines alone, for the glow that climbs them before the breath
-    var spineRows = SP.frames.walk1.map(function (r) { return r.replace(/[^B]/g, '.').replace(/B/g, 'L'); });
-    FR.spines = [paint(spineRows, false), paint(spineRows, true)];
-
-    // a small seeded random, so the city looks the same every visit
-    var seed = 7;
-    function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
-    var COLORS = ['#3d4a6b', '#4b3f63', '#35535a', '#5a4a3a', '#3f5570', '#584060', '#3a4658'];
-    var blds = KAIJU_CITY.map(function (c, i) {
-      var w = 26 + Math.floor(rnd() * 8), hgt = 30 + Math.floor(rnd() * 30);
-      var lit = [];
-      for (var k = 0; k < 60; k++) { lit.push(rnd() < 0.55); }
-      return { c: c, x: FIRST + i * STEP, w: w, h: hgt, h0: hgt, color: COLORS[i % COLORS.length],
-               style: i % 3, lit: lit, down: false, fall: 0 };
+    var FR = {}, GLOW = {};
+    Object.keys(SP.frames).forEach(function (k) {
+      FR[k] = [paint(SP.frames[k], false), paint(SP.frames[k], true)];
+      GLOW[k] = [paint(SP.frames[k], false, true), paint(SP.frames[k], true, true)];
     });
-    var far = [];
-    for (var f = 0, fx = 0; fx < WORLD * 0.6 + W; f++) { var fw = 14 + Math.floor(rnd() * 20); far.push({ x: fx, w: fw, h: 20 + Math.floor(rnd() * 40) }); fx += fw + 2; }
-    var stars = [];
-    for (var st = 0; st < 40; st++) { stars.push({ x: Math.floor(rnd() * W), y: Math.floor(rnd() * 70) }); }
 
-    var m, keys, parts, shake, camX, active = false, visible = false, last = 0, pending = null;
+    // the town
+    var TONES = ['#8fa3b8', '#b8a88c', '#8e9d8a', '#a8929e', '#9aa9c2', '#c4b59c', '#86969f'];
+    var towers = KAIJU_CITY.map(function (c, i) {
+      var t = KAIJU_TOWERS[i];
+      return { c: c, x: t[0], y: t[1], w: t[2], h: t[3], tone: TONES[i % TONES.length], style: i % 4, story: true, down: false, fall: 0 };
+    });
+    var houses = KAIJU_HOUSES.map(function (p) { return { x: p[0], y: p[1], w: 3, h: 3, story: false, down: false, fall: 0 }; });
+    var blocks = towers.concat(houses);
+
+    var m, keys, order, parts, shake, camX, camY, active = false, visible = false, last = 0, pending = null, clock = 0;
     function reset() {
-      m = { x: 24, face: 0, walkT: 0, frame: 0, state: 'idle', t: 0, target: null };
-      keys = { left: false, right: false };
-      parts = []; shake = 0; camX = 0; pending = null;
-      blds.forEach(function (b) { b.down = false; b.fall = 0; b.h = b.h0; });
+      m = { tx: 18, ty: 10, face: 'down', from: null, t: 0, stepN: 0, state: 'idle', st: 0, target: null, end: null };
+      keys = { up: false, down: false, left: false, right: false }; order = [];
+      parts = []; shake = 0; pending = null;
+      blocks.forEach(function (b) { b.down = false; b.fall = 0; });
+      hud.textContent = 'SMASHED 0/' + towers.length;
     }
     reset();
 
-    function front() { return m.face === 0 ? m.x + 54 : m.x + 8; }
-    function mouth() { return { x: m.face === 0 ? m.x + 58 : m.x + 4, y: GROUND - KH + 13 }; }
-    function ahead() {
-      // the nearest standing building in the direction he faces
-      var best = null, fx = front();
-      blds.forEach(function (b) {
-        if (b.down) { return; }
-        var d = m.face === 0 ? b.x - fx : fx - (b.x + b.w);
-        if (d >= -2 && (!best || d < best.d)) { best = { b: b, d: d }; }
-      });
-      return best;
+    function blockAt(cx, cy) {
+      for (var i = 0; i < blocks.length; i++) {
+        var b = blocks[i];
+        if (!b.down && cy === b.y && cx >= b.x && cx < b.x + b.w) { return b; }
+      }
+      return null;
     }
-    function smashed() { return blds.filter(function (b) { return b.down; }).length; }
+    var DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
+    function smashed() { return towers.filter(function (b) { return b.down; }).length; }
 
     function blow(b) {
       if (b.down) { return; }
       b.down = true; b.fall = 0.001;
-      shake = reduce ? 0 : 0.35;
-      var cx = b.x + b.w / 2, cy = GROUND - b.h / 2;
-      var cols = ['#fff6cf', '#ffd35a', '#ff8a2e', '#e0441f', '#8d8d99', '#5e5e6c'];
-      for (var i = 0; i < 70; i++) {
-        var a = Math.random() * Math.PI * 2, v = 20 + Math.random() * 90;
-        parts.push({ x: cx + (Math.random() - 0.5) * b.w, y: cy + (Math.random() - 0.5) * b.h, vx: Math.cos(a) * v,
-                     vy: Math.sin(a) * v - 40, life: 0, max: 0.5 + Math.random() * 0.7, c: cols[Math.floor(Math.random() * cols.length)] });
+      shake = reduce ? 0 : (b.story ? 0.35 : 0.15);
+      var cx = (b.x + b.w / 2) * T, cy = (b.y + 1 - b.h / 2) * T, n = b.story ? 80 : 26;
+      var cols = ['#fff6cf', '#ffd35a', '#ff8a2e', '#e0441f', '#9a948a', '#6e685f'];
+      for (var i = 0; i < n; i++) {
+        var a = Math.random() * Math.PI * 2, v = 20 + Math.random() * (b.story ? 110 : 60);
+        parts.push({ x: cx + (Math.random() - 0.5) * b.w * T, y: cy + (Math.random() - 0.5) * b.h * T * 0.8, vx: Math.cos(a) * v,
+                     vy: Math.sin(a) * v - 40, life: 0, max: 0.5 + Math.random() * 0.7, c: cols[Math.floor(Math.random() * cols.length)],
+                     floor: (b.y + 1) * T + Math.random() * 6 });
       }
-      pending = { b: b, t: 0.85 };
-      hud.textContent = 'SMASHED ' + smashed() + '/' + blds.length;
+      if (b.story) { pending = { b: b, t: 0.85 }; hud.textContent = 'SMASHED ' + smashed() + '/' + towers.length; }
+    }
+
+    function tryStep(dir) {
+      m.face = dir;
+      var d = DIRS[dir], nx = m.tx + d[0], ny = m.ty + d[1];
+      if (nx < 0 || nx + 1 >= COLS || ny < 1 || ny >= ROWS) { return; }
+      var hit = blockAt(nx, ny) || blockAt(nx + 1, ny);
+      if (hit) { blow(hit); return; }
+      m.from = { x: m.tx, y: m.ty }; m.tx = nx; m.ty = ny; m.t = 0; m.stepN++;
+    }
+    // the first building in his line of fire, up to eight tiles out
+    function lane() {
+      var d = DIRS[m.face];
+      for (var k = 1; k <= 8; k++) {
+        var hit;
+        if (d[0] > 0) { hit = blockAt(m.tx + 1 + k, m.ty); }
+        else if (d[0] < 0) { hit = blockAt(m.tx - k, m.ty); }
+        else { hit = blockAt(m.tx, m.ty + d[1] * k) || blockAt(m.tx + 1, m.ty + d[1] * k); }
+        if (hit) { return { b: hit, k: k }; }
+      }
+      return null;
+    }
+    function pos() {
+      // his position in pixels, part-way through a step
+      var p = m.from ? Math.min(1, m.t / STEP) : 1, fx = m.from ? m.from.x : m.tx, fy = m.from ? m.from.y : m.ty;
+      return { x: (fx + (m.tx - fx) * p) * T, y: (fy + (m.ty - fy) * p) * T };
+    }
+    function mouth() {
+      var p = pos(), left = p.x + T - KW / 2, top = p.y + T - KH + 2;
+      if (m.face === 'down') { return { x: left + 32, y: top + 20 }; }
+      if (m.face === 'up') { return { x: left + 32, y: top + 4 }; }
+      return { x: left + (m.face === 'right' ? 58 : 4), y: top + 19 };
     }
     function breathe() {
-      if (m.state !== 'idle' && m.state !== 'walk') { return; }
-      m.state = 'charge'; m.t = 0; m.target = null;
+      if (m.state !== 'idle' || m.from) { return; }
+      m.state = 'charge'; m.st = 0;
     }
 
     function step(dt) {
-      if (modalOpen) { keys.left = keys.right = false; return; }
-      var moving = false;
-      if (m.state === 'idle' || m.state === 'walk') {
-        var dir = keys.right ? 1 : keys.left ? -1 : 0;
-        if (dir) {
-          m.face = dir > 0 ? 0 : 1;
-          var nx = m.x + dir * 44 * dt, hit = null;
-          blds.forEach(function (b) {
-            if (b.down) { return; }
-            var f = dir > 0 ? nx + 54 : nx + 8;
-            if (f > b.x && f < b.x + b.w) { hit = b; }
-          });
-          if (hit) { blow(hit); } else { m.x = Math.max(0, Math.min(WORLD - KW, nx)); moving = true; }
-        }
-        m.state = moving ? 'walk' : 'idle';
-        m.walkT += moving ? dt : 0;
-        m.frame = moving ? Math.floor(m.walkT / 0.18) % 2 : 0;
-      } else if (m.state === 'charge') {
-        m.t += dt;
-        if (m.t > 0.45) {
-          m.state = 'breath'; m.t = 0;
-          var ah = ahead(), mo0 = mouth();
-          m.target = ah && ah.d < 190 ? ah.b : null;
-          // the beam's end is fixed when he fires, so it stops where the building stood
-          m.end = m.target
-            ? { x: m.face === 0 ? m.target.x : m.target.x + m.target.w, y: Math.max(mo0.y, GROUND - m.target.h + 6) }
-            : { x: mo0.x + (m.face === 0 ? 200 : -200), y: mo0.y };
+      clock += dt;
+      if (modalOpen) { keys.up = keys.down = keys.left = keys.right = false; order = []; return; }
+      if (m.from) { m.t += dt; if (m.t >= STEP) { m.from = null; } }
+      if (m.state === 'idle' && !m.from && order.length) { tryStep(order[order.length - 1]); }
+      if (m.state === 'charge') {
+        m.st += dt;
+        if (m.st > 0.45) {
+          m.state = 'breath'; m.st = 0;
+          var l = lane(), mo = mouth(), d = DIRS[m.face];
+          m.target = l ? l.b : null;
+          if (m.target) {
+            var b = m.target;
+            m.end = d[0] > 0 ? { x: b.x * T, y: mo.y } : d[0] < 0 ? { x: (b.x + b.w) * T, y: mo.y }
+                  : d[1] < 0 ? { x: mo.x, y: (b.y + 1) * T - 4 } : { x: mo.x, y: b.y * T + 6 };
+          } else {
+            m.end = { x: mo.x + d[0] * 8 * T, y: mo.y + d[1] * 8 * T };
+          }
         }
       } else if (m.state === 'breath') {
-        m.t += dt;
-        if (m.target && m.t > 0.18) { blow(m.target); m.target = null; }
-        if (m.t > 0.6) { m.state = 'idle'; }
+        m.st += dt;
+        if (m.target && m.st > 0.18) { blow(m.target); m.target = null; }
+        if (m.st > 0.6) { m.state = 'idle'; }
       }
-      blds.forEach(function (b) { if (b.down && b.fall < 1) { b.fall = Math.min(1, b.fall + dt * 2.2); b.h = Math.max(7, b.h0 * (1 - b.fall)); } });
-      parts = parts.filter(function (p) {
-        p.life += dt; if (p.life > p.max) { return false; }
-        p.vy += 140 * dt; p.x += p.vx * dt; p.y = Math.min(GROUND, p.y + p.vy * dt);
+      blocks.forEach(function (b) { if (b.down && b.fall < 1) { b.fall = Math.min(1, b.fall + dt * 2.2); } });
+      parts = parts.filter(function (q) {
+        q.life += dt; if (q.life > q.max) { return false; }
+        q.vy += 150 * dt; q.x += q.vx * dt; q.y = Math.min(q.floor, q.y + q.vy * dt);
         return true;
       });
       shake = Math.max(0, shake - dt);
@@ -1218,97 +1241,114 @@
           openModal({ date: c.date, name: c.name, img: c.img, html: c.body ? '<p>' + c.body + '</p>' : '' }, root);
         }
       }
-      camX = Math.max(0, Math.min(WORLD - W, m.x + KW / 2 - W / 2));
-      tell();
+      var p = pos();
+      camX = Math.max(0, Math.min(COLS * T - W, p.x + T - W / 2));
+      camY = Math.max(0, Math.min(ROWS * T - H, p.y - H / 2 + 8));
     }
 
-    var lastSay = '';
-    function tell() {
-      var t, ah = ahead();
-      if (m.state === 'charge' || m.state === 'breath') { t = 'ATOMIC BREATH!'; }
-      else if (smashed() === blds.length) { t = 'The whole city is rubble. Press START to rebuild it.'; }
-      else if (ah && ah.d < 70) { t = ah.b.c.name + ' (' + ah.b.c.date + ')'; }
-      else { t = coarse ? '◀ ▶ to walk · A for atomic breath' : '← → to walk · E for atomic breath'; }
-      if (t !== lastSay) { say.textContent = t; lastSay = t; }
-    }
-
-    function drawBld(b) {
-      var x = Math.round(b.x - camX), top = GROUND - Math.round(b.h);
-      if (x > W || x + b.w < 0) { return; }
-      if (b.down && b.fall >= 1) {
-        // rubble
-        g.fillStyle = '#4a4650';
-        for (var i = 0; i < b.w; i += 3) { var rh = 3 + ((i * 7 + b.x) % 5); g.fillRect(x + i, GROUND - rh, 3, rh); }
-        return;
-      }
-      g.fillStyle = b.color; g.fillRect(x, top, b.w, Math.round(b.h));
-      g.fillStyle = 'rgba(255,255,255,0.08)'; g.fillRect(x, top, 2, Math.round(b.h));
-      if (b.style === 0) { g.fillStyle = b.color; g.fillRect(x + Math.floor(b.w / 2), top - 7, 1, 7); }
-      if (b.style === 1) { g.fillStyle = b.color; g.fillRect(x + 4, top - 5, b.w - 8, 5); }
-      if (b.style === 2) { g.fillStyle = '#2a3148'; g.fillRect(x - 1, top, b.w + 2, 2); }
+    // ---- drawing, in the lecture apps' flat style: ink outlines, muted fills ----
+    function box(x, y, w, hh, fill) { g.fillStyle = INK; g.fillRect(x, y, w, hh); g.fillStyle = fill; g.fillRect(x + 1, y + 1, w - 2, hh - 2); }
+    function drawTower(b) {
+      var x = b.x * T, base = (b.y + 1) * T, w = b.w * T;
+      var full = b.h * T - 4, hh = Math.max(4, Math.round(full * (1 - b.fall))), top = base - hh;
+      if (b.down && b.fall >= 1) { rubble(b); return; }
+      box(x + 2, top, w - 4, hh, b.tone);
+      g.fillStyle = 'rgba(255,255,255,.16)'; g.fillRect(x + 3, top + 1, 3, hh - 2);
       // windows
-      var k = 0;
-      for (var wy = top + 4; wy < GROUND - 5; wy += 6) {
-        for (var wx = x + 3; wx < x + b.w - 3; wx += 5) {
-          g.fillStyle = b.lit[k++ % b.lit.length] ? '#ffd76a' : '#1c2233';
-          g.fillRect(wx, wy, 2, 3);
-        }
+      g.fillStyle = '#e9eef3';
+      for (var wy = top + 5; wy < base - 9; wy += 6) { for (var wx = x + 7; wx < x + w - 8; wx += 6) { g.fillRect(wx, wy, 3, 3); } }
+      // door
+      g.fillStyle = INK; g.fillRect(x + w / 2 - 4, base - 8, 8, 8); g.fillStyle = '#5b4a3a'; g.fillRect(x + w / 2 - 3, base - 7, 6, 7);
+      if (b.fall > 0) { return; }
+      // crowns
+      if (b.style === 0) { g.fillStyle = INK; g.fillRect(x + w / 2 - 1, top - 9, 2, 9); g.fillStyle = '#c8372d'; g.fillRect(x + w / 2 - 1, top - 10, 2, 2); }
+      if (b.style === 1) { box(x + 8, top - 5, w - 16, 6, b.tone); }
+      if (b.style === 2) { box(x + 10, top - 7, 10, 8, '#8a7358'); }
+      if (b.style === 3) { box(x, top - 2, w, 4, '#6f7a88'); }
+    }
+    function drawHouse(b) {
+      if (b.down && b.fall >= 1) { rubble(b); return; }
+      var x = b.x * T, base = (b.y + 1) * T, w = b.w * T, k = 1 - b.fall;
+      var wallH = Math.round(18 * k), roofH = Math.round(14 * k);
+      box(x + 6, base - wallH, w - 12, wallH, '#e8e0cf');
+      g.fillStyle = INK; g.fillRect(x + w / 2 - 3, base - 10 * k, 6, 10 * k);
+      g.fillStyle = '#a89066';
+      g.beginPath(); g.moveTo(x + 2, base - wallH); g.lineTo(x + w / 2, base - wallH - roofH); g.lineTo(x + w - 2, base - wallH); g.closePath(); g.fill();
+      g.strokeStyle = '#6d5c40'; g.lineWidth = 1; g.stroke();
+    }
+    function rubble(b) {
+      var x = b.x * T, base = (b.y + 1) * T;
+      for (var i = 0; i < b.w * T; i += 4) {
+        var rh = 3 + ((i * 7 + b.x * 13) % 6);
+        g.fillStyle = i % 8 ? '#9a948a' : '#6e685f'; g.fillRect(x + i, base - rh, 4, rh);
+      }
+    }
+    function drawTree(t) {
+      var x = t[0] * T, base = (t[1] + 1) * T;
+      g.fillStyle = '#5a4636'; g.fillRect(x + 7, base - 8, 3, 8);
+      g.fillStyle = '#2f6b45'; g.fillRect(x + 2, base - 20, 13, 12);
+      g.fillStyle = '#3a8a57'; g.fillRect(x + 4, base - 22, 9, 6);
+    }
+    function drawLamp(t) {
+      var x = t[0] * T, base = (t[1] + 1) * T;
+      g.fillStyle = '#3d4a5a'; g.fillRect(x + 7, base - 20, 2, 20); g.fillRect(x + 5, base - 2, 6, 2);
+      g.fillStyle = INK; g.fillRect(x + 5, base - 24, 6, 5); g.fillStyle = '#f4dc7c'; g.fillRect(x + 6, base - 23, 4, 3);
+    }
+    function drawFence(t) {
+      var x = t[0] * T, base = (t[1] + 1) * T;
+      g.fillStyle = '#8a7358';
+      for (var i = 0; i < 4; i++) { g.fillRect(x + i * 8, base - 11, 2, 11); }
+      g.fillStyle = '#a08a68'; g.fillRect(x, base - 9, 26, 2); g.fillRect(x, base - 5, 26, 2);
+    }
+    function drawKaiju() {
+      var p = pos(), left = Math.round(p.x + T - KW / 2), top = Math.round(p.y + T - KH + 2);
+      var moving = !!m.from, flip = m.face === 'left' ? 1 : 0;
+      var two = moving && Math.min(1, m.t / STEP) > 0.5 ? (m.stepN % 2) : 0;
+      var k = m.face === 'down' ? 'down' : m.face === 'up' ? 'up' : 'side';
+      var f = m.state === 'breath' && k !== 'up' ? k + 'B' : k + (two ? '2' : '1');
+      g.fillStyle = 'rgba(28, 26, 25, .18)'; g.fillRect(left + 14, top + KH - 5, 36, 6);
+      g.drawImage(FR[f][flip], left, top);
+      if (m.state === 'charge' || m.state === 'breath') {
+        // the glow climbs the plates from the tail up to the head, then holds
+        var pr = m.state === 'charge' ? Math.min(1, m.st / 0.4) : 1, cut = Math.round(KH * (1 - pr));
+        var gl = GLOW[f][flip], pulse = 0.35 + 0.25 * Math.sin(clock * 22);
+        g.save(); g.beginPath(); g.rect(left - 4, top + cut, KW + 8, KH + 4 - cut); g.clip();
+        g.globalAlpha = pulse;
+        [[-2, 0], [2, 0], [0, -2], [0, 2], [-3, -1], [3, -1], [0, -3]].forEach(function (o) { g.drawImage(gl, left + o[0], top + o[1]); });
+        g.globalAlpha = 1; g.drawImage(gl, left, top);
+        g.restore();
       }
     }
     function draw() {
       var sx = shake > 0 ? Math.round((Math.random() - 0.5) * 4) : 0, sy = shake > 0 ? Math.round((Math.random() - 0.5) * 3) : 0;
-      g.save(); g.translate(sx, sy);
-      // sky
-      var sky = ['#08112a', '#0b1733', '#0f1d3d', '#132349', '#182a55'];
-      sky.forEach(function (c, i) { g.fillStyle = c; g.fillRect(-4, i * 22, W + 8, 23); });
-      g.fillStyle = '#1c2f5c'; g.fillRect(-4, 110, W + 8, 40);
-      g.fillStyle = '#c8d4ff';
-      stars.forEach(function (p) { g.fillRect(p.x, p.y, 1, 1); });
-      g.fillStyle = '#f2ecd0'; g.fillRect(196, 16, 10, 10); g.fillRect(195, 18, 12, 6); g.fillRect(198, 15, 6, 12);
-      // far skyline, half speed
-      g.fillStyle = '#16213f';
-      far.forEach(function (b) { var x = Math.round(b.x - camX * 0.5); if (x < W && x + b.w > 0) { g.fillRect(x, GROUND - b.h, b.w, b.h); } });
-      // buildings
-      blds.forEach(drawBld);
-      // street
-      g.fillStyle = '#23232b'; g.fillRect(-4, GROUND, W + 8, H - GROUND);
-      g.fillStyle = '#4b4b55';
-      for (var d = -((camX * 1) % 16); d < W; d += 16) { g.fillRect(Math.round(d), GROUND + 9, 8, 1); }
-      // the kaiju
-      var kx = Math.round(m.x - camX), ky = GROUND - KH + 2;
-      var fr = m.state === 'breath' ? 'breath' : (m.frame && m.state === 'walk' ? 'walk2' : 'walk1');
-      g.drawImage(FR[fr][m.face], kx, ky);
-      if (m.state === 'charge' || m.state === 'breath') {
-        // the glow climbs the spines from the tail to the head, then holds
-        var p = m.state === 'charge' ? Math.min(1, m.t / 0.4) : 1;
-        var cut = Math.round(KH * (1 - p));
-        var sp = FR.spines[m.face], pulse = 0.35 + 0.25 * Math.sin(performance.now() / 45);
-        g.save();
-        g.beginPath(); g.rect(kx - 4, ky + cut, KW + 8, KH - cut); g.clip();
-        g.globalAlpha = pulse;
-        [[-2, 0], [2, 0], [0, -2], [0, 2], [-3, -1], [-1, -3]].forEach(function (o) { g.drawImage(sp, kx + o[0], ky + o[1]); });
-        g.globalAlpha = 1;
-        g.drawImage(sp, kx, ky);
-        g.restore();
-      }
-      // the beam: from his mouth to the face of the building it hits, angled down when the building is shorter than he is
-      if (m.state === 'breath') {
-        var mo = mouth(), ex = m.end.x, ey = m.end.y;
-        var k = Math.min(1, m.t / 0.15);
-        var x1 = mo.x - camX, y1 = mo.y, x2 = x1 + (ex - mo.x) * k, y2 = y1 + (ey - mo.y) * k;
+      g.save(); g.translate(-Math.round(camX) + sx, -Math.round(camY) + sy);
+      // ground: the lecture apps' paper and faint grid
+      g.fillStyle = '#f2eee2'; g.fillRect(camX - 4, camY - 4, W + 8, H + 8);
+      g.fillStyle = '#e9e4d8';
+      for (var gx = Math.floor(camX / T) * T; gx < camX + W + T; gx += T) { g.fillRect(gx, camY - 4, 1, H + 8); }
+      for (var gy = Math.floor(camY / T) * T; gy < camY + H + T; gy += T) { g.fillRect(camX - 4, gy, W + 8, 1); }
+      // everything standing, drawn back to front
+      var items = [];
+      towers.forEach(function (b) { items.push({ y: (b.y + 1) * T, f: function () { drawTower(b); } }); });
+      houses.forEach(function (b) { items.push({ y: (b.y + 1) * T, f: function () { drawHouse(b); } }); });
+      KAIJU_TREES.forEach(function (t) { items.push({ y: (t[1] + 1) * T - 1, f: function () { drawTree(t); } }); });
+      KAIJU_LAMPS.forEach(function (t) { items.push({ y: (t[1] + 1) * T - 1, f: function () { drawLamp(t); } }); });
+      KAIJU_FENCES.forEach(function (t) { items.push({ y: (t[1] + 1) * T - 1, f: function () { drawFence(t); } }); });
+      items.push({ y: pos().y + T + 0.5, f: drawKaiju });
+      items.sort(function (a, b) { return a.y - b.y; }).forEach(function (it) { it.f(); });
+      // the beam
+      if (m.state === 'breath' && m.end) {
+        var mo = mouth(), kk = Math.min(1, m.st / 0.15);
+        var x2 = mo.x + (m.end.x - mo.x) * kk, y2 = mo.y + (m.end.y - mo.y) * kk;
         g.lineCap = 'round';
-        g.strokeStyle = 'rgba(80, 170, 255, 0.5)'; g.lineWidth = 7 + Math.random() * 3;
-        g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke();
-        g.strokeStyle = '#bfeaff'; g.lineWidth = 3;
-        g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke();
-        g.strokeStyle = '#ffffff'; g.lineWidth = 1;
-        g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke();
+        [['rgba(80, 170, 255, 0.5)', 7 + Math.random() * 3], ['#bfeaff', 3], ['#ffffff', 1]].forEach(function (s) {
+          g.strokeStyle = s[0]; g.lineWidth = s[1]; g.beginPath(); g.moveTo(mo.x, mo.y); g.lineTo(x2, y2); g.stroke();
+        });
         g.fillStyle = 'rgba(210, 245, 255, 0.9)'; g.fillRect(Math.round(x2) - 3, Math.round(y2) - 3, 6, 6);
       }
-      // blasts
-      parts.forEach(function (p) {
-        g.globalAlpha = Math.max(0, 1 - p.life / p.max);
-        g.fillStyle = p.c; g.fillRect(Math.round(p.x - camX), Math.round(p.y), 2, 2);
+      parts.forEach(function (q) {
+        g.globalAlpha = Math.max(0, 1 - q.life / q.max);
+        g.fillStyle = q.c; g.fillRect(Math.round(q.x), Math.round(q.y), 2, 2);
       });
       g.globalAlpha = 1;
       g.restore();
@@ -1320,17 +1360,19 @@
       requestAnimationFrame(frame);
     }
 
-    // input: keys only while the console has focus
-    var KEYS = { ArrowLeft: 'left', a: 'left', A: 'left', ArrowRight: 'right', d: 'right', D: 'right' };
+    // input: keys only while the console has focus; the newest held direction wins
+    function press(k) { if (order.indexOf(k) < 0) { order.push(k); } keys[k] = true; }
+    function release(k) { order = order.filter(function (o) { return o !== k; }); keys[k] = false; }
+    var KEYS = { ArrowLeft: 'left', a: 'left', A: 'left', ArrowRight: 'right', d: 'right', D: 'right',
+                 ArrowUp: 'up', w: 'up', W: 'up', ArrowDown: 'down', s: 'down', S: 'down' };
     root.addEventListener('keydown', function (e) {
       if (modalOpen) { return; }
-      if (KEYS[e.key]) { keys[KEYS[e.key]] = true; e.preventDefault(); play(); }
+      if (KEYS[e.key]) { press(KEYS[e.key]); e.preventDefault(); play(); }
       else if (e.key === 'e' || e.key === 'E' || e.key === ' ') { breathe(); e.preventDefault(); play(); }
       else if (e.key === 'Enter') { play(); }
-      else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); }
     });
-    root.addEventListener('keyup', function (e) { if (KEYS[e.key]) { keys[KEYS[e.key]] = false; } });
-    root.addEventListener('blur', function () { keys.left = keys.right = false; });
+    root.addEventListener('keyup', function (e) { if (KEYS[e.key]) { release(KEYS[e.key]); } });
+    root.addEventListener('blur', function () { order = []; keys.up = keys.down = keys.left = keys.right = false; });
     function play() {
       if (!active) { active = true; cover.hidden = true; }
       if (document.activeElement !== root) { root.focus({ preventScroll: true }); }
@@ -1340,19 +1382,18 @@
       var k = btn.getAttribute('data-k');
       function down(e) {
         e.preventDefault(); play(); btn.classList.add('is-down');
-        if (k === 'left' || k === 'right') { keys[k] = true; }
+        if (DIRS[k]) { press(k); }
         else if (k === 'a' || k === 'b') { breathe(); }
-        else if (k === 'start') { reset(); hud.textContent = 'SMASHED 0/' + blds.length; }
+        else if (k === 'start') { reset(); }
       }
-      function up() { btn.classList.remove('is-down'); if (k === 'left' || k === 'right') { keys[k] = false; } }
+      function up() { btn.classList.remove('is-down'); if (DIRS[k]) { release(k); } }
       btn.addEventListener('pointerdown', down);
       btn.addEventListener('pointerup', up);
       btn.addEventListener('pointerleave', up);
       btn.addEventListener('pointercancel', up);
     });
 
-    hud.textContent = 'SMASHED 0/' + blds.length;
-    tell(); draw();
+    step(0); draw();
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (es) {
         var was = visible;
