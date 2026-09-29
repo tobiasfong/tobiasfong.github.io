@@ -1057,14 +1057,16 @@
     } else { visible = true; requestAnimationFrame(frame); }
   }
 
-  /* ── Popular imagination: the kaiju in town ──────────────────────
-     The lecture apps' walker, as a kaiju. A daytime town seen from above
-     like the old handheld games: thirteen skyscrapers, one per story, among
-     houses, trees, lamps and fences. Walking into a skyscraper or hitting it
-     with the atomic breath (E, or A/B on the console) blows it up and opens
-     its card; houses just flatten. START rebuilds the town. Drawn on a
-     320 x 200 canvas on a 16-pixel grid, scaled up with crisp pixels; keys
-     only count while the console has focus, so the page still scrolls. */
+  /* ── Popular imagination: the kaiju in the lecture apps' map ────
+     The lecture apps' walker, as a kaiju: a full-width map, one screen
+     tall, of a town that runs on downward, with the camera following him
+     and the mouse wheel looking ahead. Thirteen skyscrapers hold the
+     stories, among houses, trees, lamps and fences. In the page it is a
+     full-width window onto the town; clicking it opens the map full screen,
+     where it plays: walking into a skyscraper or hitting it with the breath
+     attack (E) blows it up and opens its card, and houses just flatten.
+     Clicking or tapping the map walks him there. Keys only count while it
+     is open, so the arrow keys scroll the page as usual. */
   var KAIJU_CITY = [
     { key: 'astro-boy', name: 'Tetsuwan Atomu', date: '1952', img: 'imagination-astro-boy.jpg' },
     { key: 'godzilla', name: 'Godzilla franchise', date: 'Since 1954', img: 'imagination-godzilla.jpg' },
@@ -1082,26 +1084,29 @@
   ];
   var KAIJU_SPRITE = {"w":32,"h":32,"pal":{"K":"#14161c","D":"#343a48","B":"#2f80e6","L":"#beebff","Y":"#ffd640","W":"#ececec","R":"#961e28"},"frames":{"down1":["................................",".............KKKKKK.............","............KKKKKKKK............","...........KKKKKKKKKK...........","........BB.KKYKKKKYKK.BB........",".......BBBBKKKKKKKKKKBBBB.......","......BBBBBKKKKKKKKKKBBBBB......","............KKWKKWKK............","............KKRRRRKK............","........BB.KKKKKKKKKK.BB........",".......BBBKKKKKKKKKKKKBBB.......","......KKKBKKKKKDDKKKKKBKKK......","......KKKKKKKKDDDDKKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKDDDDDDDDKKKKKK......","......K.KKKKDDDDDDDDKKKK.K......",".........KKKDDDDDDDDKKK.........",".........KKKKDDDDDDKKKK.........","..........KKKDDDDDDKKK..........","..........KKKDDDDDDKKK..........",".........KKKKKDDDDKKKKK...KKK...",".........KKKKKKDDKKKKKK...KKK...",".........KKKKK....KKKKKKKKKK....",".........KKKKK....KKKKKKKKKK....",".........KKKKK....KKKKK.........","........KKKKKK....KKKKK.........","........KKKKK.....KKKKK.........","..................KKKKKK........","...................KKKKK........","................................"],"down2":["................................",".............KKKKKK.............","............KKKKKKKK............","...........KKKKKKKKKK...........","........BB.KKYKKKKYKK.BB........",".......BBBBKKKKKKKKKKBBBB.......","......BBBBBKKKKKKKKKKBBBBB......","............KKWKKWKK............","............KKRRRRKK............","........BB.KKKKKKKKKK.BB........",".......BBBKKKKKKKKKKKKBBB.......","......KKKBKKKKKDDKKKKKBKKK......","......KKKKKKKKDDDDKKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKDDDDDDDDKKKKKK......","......K.KKKKDDDDDDDDKKKK.K......",".........KKKDDDDDDDDKKK.........",".........KKKKDDDDDDKKKK.........","..........KKKDDDDDDKKK..........","..........KKKDDDDDDKKK..........",".........KKKKKDDDDKKKKK...KKK...",".........KKKKKKDDKKKKKK...KKK...",".........KKKKK....KKKKKKKKKK....",".........KKKKK....KKKKKKKKKK....",".........KKKKK....KKKKK.........",".........KKKKK....KKKKKK........",".........KKKKK.....KKKKK........","........KKKKKK..................","........KKKKK...................","................................"],"downB":["................................",".............KKKKKK.............","............KKKKKKKK............","...........KKKKKKKKKK...........","........BB.KKYKKKKYKK.BB........",".......BBBBKKKKKKKKKKBBBB.......","......BBBBBKKKKKKKKKKBBBBB......","............KKKKKKKK............","............KWRRRRWK............","........BB.KKRRRRRRKK.BB........",".......BBBKKKWRRRRWKKKBBB.......","......KKKBKKKKKDDKKKKKBKKK......","......KKKKKKKKDDDDKKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKKDDDDDDKKKKKKK......","......KKKKKKDDDDDDDDKKKKKK......","......K.KKKKDDDDDDDDKKKK.K......",".........KKKDDDDDDDDKKK.........",".........KKKKDDDDDDKKKK.........","..........KKKDDDDDDKKK..........","..........KKKDDDDDDKKK..........",".........KKKKKDDDDKKKKK...KKK...",".........KKKKKKDDKKKKKK...KKK...",".........KKKKK....KKKKKKKKKK....",".........KKKKK....KKKKKKKKKK....",".........KKKKK....KKKKK.........","........KKKKKK....KKKKK.........","........KKKKK.....KKKKK.........","..................KKKKKK........","...................KKKKK........","................................"],"up1":["................................",".............KKKKKK.............","............KKKBBKKK............","...........KKKBBBBKKK...........","...........KKBBBBBBKK...........","...........KKKKKKKKKK...........","...........KKKKKKKKKK...........","............KKKBBKKK............","............KKBBBBKK............","...........KKBBBBBBKK...........","..........KKKKKKKKKKKK..........","..........KKKKKKKKKKKK..........","......KKKKKKKKKBBKKKKKKKKK......","......KKKKKKKKBBBBKKKKKKKK......","......KKKKKKKBBBBBBKKKKKKK......","......KKKKKKKKKKKKKKKKKKKK......",".........KKKKKKKKKKKKKK.........",".........KKKKKKBBKKKKKK.........",".........KKKKKBBBBKKKKK.........",".........KKKKBBBBBBKKKK.........","..........KKKKKKKKKKKK..........","..........KKKKKKKKKKKK..........",".........KKKKKKBBKKKKKK.........",".........KKKKKBBBBKKKKK.........",".........KKKKBBBBBBKKKK.........",".........KKKKKKKKKKKKKK.........",".........KKKKKKKKKKKKKK.........","........KKKKKKKBBKKKKKK.........","........KKKKK.KBBKKKKKK.........","..............KKKKKKKKKK........","...............KK..KKKKK........","...............KK..............."],"up2":["................................",".............KKKKKK.............","............KKKBBKKK............","...........KKKBBBBKKK...........","...........KKBBBBBBKK...........","...........KKKKKKKKKK...........","...........KKKKKKKKKK...........","............KKKBBKKK............","............KKBBBBKK............","...........KKBBBBBBKK...........","..........KKKKKKKKKKKK..........","..........KKKKKKKKKKKK..........","......KKKKKKKKKBBKKKKKKKKK......","......KKKKKKKKBBBBKKKKKKKK......","......KKKKKKKBBBBBBKKKKKKK......","......KKKKKKKKKKKKKKKKKKKK......",".........KKKKKKKKKKKKKK.........",".........KKKKKKBBKKKKKK.........",".........KKKKKBBBBKKKKK.........",".........KKKKBBBBBBKKKK.........","..........KKKKKKKKKKKK..........","..........KKKKKKKKKKKK..........",".........KKKKKKBBKKKKKK.........",".........KKKKKBBBBKKKKK.........",".........KKKKBBBBBBKKKK.........",".........KKKKKKKKKKKKKK.........",".........KKKKKKKKKKKKKK.........",".........KKKKKKBBKKKKKKK........",".........KKKKKKBBK.KKKKK........","........KKKKKKKKKK..............","........KKKKK..KK...............","...............KK..............."],"side1":["................................","................................","................................","....................KKKKK.......","..................KKKKKKKKK.....",".................BKKKKKKYKKK....","................BBKKKKKKKKKKK...","..............BBBKKKKKKKKKKKKK..",".................KKKKKKKWKWKK...","................BKKKKKKRRRRR....",".............BBKKKKKKKKWKWK.....","............BBBKKKKKKKKKK.......","...............KKKKKKDDKK.......","............BKKKKKKKDDDKKK......","...........BBKKKKKKKDDDKDKK.....","..........BBBKKKKKKKDDDK.KKK....","...........KKKKKKKKKDDDK..KK....","..........BKKKKKKKKKDDDK........",".........BBKKKKKKKKKDDDK........","......BBBKKKKKKKKKKKDDKK........",".........KKKKKKKKKKKDDK.........","........BKKKKKKKKKKKDKK.........",".......KKKKKKKKKKKKKKK..........","...BBKKKKKKKKKKKKKKKKK..........","...KKKKKKKK.KKKKKKKKKK..........","KKKKKKK.....KKKKKKKKK...........","KKKK........KKKKK.KKKK..........","............KKKK...KKKK.........","...........KKKK.....KKKK........","..........KKKK.......KKK........",".........KKKKK......KKKKK.......","........KKKKKK.....KKKKKK......."],"side2":["................................","................................","................................","....................KKKKK.......","..................KKKKKKKKK.....",".................BKKKKKKYKKK....","................BBKKKKKKKKKKK...","..............BBBKKKKKKKKKKKKK..",".................KKKKKKKWKWKK...","................BKKKKKKRRRRR....",".............BBKKKKKKKKWKWK.....","............BBBKKKKKKKKKK.......","...............KKKKKKDDKK.......","............BKKKKKKKDDDKKK......","...........BBKKKKKKKDDDKDKK.....","..........BBBKKKKKKKDDDK.KKK....","...........KKKKKKKKKDDDK..KK....","..........BKKKKKKKKKDDDK........",".........BBKKKKKKKKKDDDK........","......BBBKKKKKKKKKKKDDKK........",".........KKKKKKKKKKKDDK.........","........BKKKKKKKKKKKDKK.........",".......KKKKKKKKKKKKKKK..........","...BBKKKKKKKKKKKKKKKKK..........","...KKKKKKKK.KKKKKKKKKK..........","KKKKKKK.....KKKKKKKKK...........",".KKKK.......KKKKKKKKK...........","............KKKKKKKK............","............KKKKKKK.............","............KKKKKK..............","...........KKKKKKK..............","..........KKKKKKKK.............."],"sideB":["................................","................................","................................","....................KKKKK.......","..................KKKKKKKKK.....",".................LKKKKKKYKKK....","................LLKKKKKKKKKKK...","..............LLLKKKKKKKKKKKKK..",".................KKKKKKKWKW.....","................LKKKKKKRRR......",".............LLKKKKKKKKRRR......","............LLLKKKKKKKKKKWKWK...","...............KKKKKKDDKK.......","............LKKKKKKKDDDKKK......","...........LLKKKKKKKDDDKDKK.....","..........LLLKKKKKKKDDDK.KKK....","...........KKKKKKKKKDDDK..KK....","..........LKKKKKKKKKDDDK........",".........LLKKKKKKKKKDDDK........","......LLLKKKKKKKKKKKDDKK........",".........KKKKKKKKKKKDDK.........","........LKKKKKKKKKKKDKK.........",".......KKKKKKKKKKKKKKK..........","...LLKKKKKKKKKKKKKKKKK..........","...KKKKKKKK.KKKKKKKKKK..........","KKKKKKK.....KKKKKKKKK...........","KKKK........KKKKK.KKKK..........","............KKKK...KKKK.........","...........KKKK.....KKKK........","..........KKKK.......KKK........",".........KKKKK......KKKKK.......","........KKKKKK.....KKKKKK......."]}};
 
-  // Skyscrapers: [base column, base row, width, height] in tiles, in KAIJU_CITY order
-  var KAIJU_TOWERS = [[4, 7, 3, 5], [13, 6, 3, 6], [22, 8, 3, 4], [31, 7, 3, 5], [6, 15, 3, 4], [15, 16, 3, 6], [24, 15, 3, 6],
-                      [33, 16, 3, 4], [4, 24, 3, 5], [12, 25, 3, 6], [20, 24, 3, 4], [28, 25, 3, 5], [35, 24, 3, 5]];
-  var KAIJU_HOUSES = [[9, 3], [18, 3], [27, 4], [36, 3], [10, 11], [19, 12], [29, 11], [1, 12], [36, 12], [9, 20], [19, 20], [29, 20], [16, 27], [24, 27], [1, 19]];
-  var KAIJU_TREES = [[2, 2], [7, 1], [15, 1], [24, 1], [33, 2], [38, 5], [1, 7], [9, 8], [18, 8], [27, 9], [37, 9], [3, 13], [13, 12],
-                     [23, 12], [33, 12], [11, 16], [21, 17], [30, 17], [38, 17], [2, 21], [14, 21], [26, 21], [34, 21], [8, 26], [31, 27], [39, 26]];
-  var KAIJU_LAMPS = [[11, 5], [20, 6], [29, 6], [7, 11], [26, 13], [17, 18], [36, 19], [10, 23], [25, 23]];
-  var KAIJU_FENCES = [[1, 4], [16, 10], [32, 9], [5, 18], [22, 20], [38, 22], [14, 27]];
+  // Skyscrapers: [base column, base row, width, height] in tiles, in KAIJU_CITY order, top to bottom
+  var KAIJU_TOWERS = [[3, 5, 3, 5], [16, 7, 3, 6], [9, 10, 3, 4], [18, 13, 3, 5], [3, 15, 3, 4], [12, 17, 3, 6], [19, 21, 3, 6],
+                      [4, 23, 3, 4], [13, 26, 3, 5], [19, 29, 3, 6], [5, 31, 3, 4], [13, 35, 3, 5], [19, 39, 3, 5]];
+  var KAIJU_HOUSES = [[9, 3], [20, 3], [1, 9], [6, 12], [7, 19], [1, 27], [9, 24], [8, 28], [16, 32], [2, 37], [8, 41], [16, 42], [7, 15], [16, 23], [1, 33]];
+  var KAIJU_TREES = [[1, 2], [6, 1], [13, 2], [22, 1], [12, 6], [1, 12], [22, 10], [7, 13], [16, 15], [22, 14], [1, 20], [10, 22], [17, 24],
+                     [22, 27], [2, 30], [11, 31], [22, 33], [6, 34], [18, 36], [1, 40], [11, 38], [22, 41], [13, 43], [5, 9], [15, 21], [9, 33]];
+  var KAIJU_LAMPS = [[7, 7], [14, 9], [5, 17], [17, 20], [9, 25], [21, 31], [10, 36], [15, 40]];
+  var KAIJU_FENCES = [[12, 4], [1, 23], [16, 28], [4, 39]];
 
   function wireKaiju() {
     var root = el('nuc-kj');
     if (!root) { return; }
     var cv = el('nuc-kj-screen'), g = cv.getContext('2d');
-    var hud = el('nuc-kj-hud'), cover = el('nuc-kj-cover');
-    var SP = KAIJU_SPRITE, T = 16, COLS = 40, ROWS = 28, W = 320, H = 200, STEP = 0.16;
+    var fire = el('nuc-kj-fire'), stage = el('nuc-kj-stage'), isOpen = false;
+    var SP = KAIJU_SPRITE, T = 16, COLS = 24, ROWS = 44, W = COLS * T, H = 200, S = 1, STEP = 0.16;
     var Z = 2, KW = SP.w * Z, KH = SP.h * Z;   // drawn at double size: a kaiju stands as tall as a tower
     var INK = '#1c1a19';
     var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     var coarse = window.matchMedia && matchMedia('(pointer: coarse)').matches;
-    if (coarse) { cover.innerHTML = '<b>Tap to play</b><span>Pad to walk · A for atomic breath</span>'; }
+    if (coarse) {
+      el('nuc-kj-play').textContent = 'Tap to play';
+      el('nuc-kj-keys').textContent = 'Tap the map to walk there';
+    }
 
     // sprite frames, drawn once; [0] as drawn, [1] mirrored (side view facing left)
     function paint(rows, flip, only) {
@@ -1132,13 +1137,12 @@
     var houses = KAIJU_HOUSES.map(function (p) { return { x: p[0], y: p[1], w: 3, h: 3, story: false, down: false, fall: 0 }; });
     var blocks = towers.concat(houses);
 
-    var m, keys, order, parts, shake, camX, camY, active = false, visible = false, last = 0, pending = null, clock = 0;
+    var m, keys, order, parts, shake, camY = 0, follow = true, goal = null, visible = false, last = 0, pending = null, clock = 0;
     function reset() {
-      m = { tx: 18, ty: 10, face: 'down', from: null, t: 0, stepN: 0, state: 'idle', st: 0, target: null, end: null };
+      m = { tx: 11, ty: 4, face: 'down', from: null, t: 0, stepN: 0, state: 'idle', st: 0, target: null, end: null, queued: false };
       keys = { up: false, down: false, left: false, right: false }; order = [];
-      parts = []; shake = 0; pending = null;
+      parts = []; shake = 0; pending = null; goal = null;
       blocks.forEach(function (b) { b.down = false; b.fall = 0; });
-      hud.textContent = 'SMASHED 0/' + towers.length;
     }
     reset();
 
@@ -1150,7 +1154,6 @@
       return null;
     }
     var DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
-    function smashed() { return towers.filter(function (b) { return b.down; }).length; }
 
     function blow(b) {
       if (b.down) { return; }
@@ -1164,7 +1167,7 @@
                      vy: Math.sin(a) * v - 40, life: 0, max: 0.5 + Math.random() * 0.7, c: cols[Math.floor(Math.random() * cols.length)],
                      floor: (b.y + 1) * T + Math.random() * 6 });
       }
-      if (b.story) { pending = { b: b, t: 0.85 }; hud.textContent = 'SMASHED ' + smashed() + '/' + towers.length; }
+      if (b.story) { pending = { b: b, t: 0.85 }; }
     }
 
     function tryStep(dir) {
@@ -1198,16 +1201,32 @@
       if (m.face === 'up') { return { x: left + 32, y: top + 4 }; }
       return { x: left + (m.face === 'right' ? 58 : 4), y: top + 19 };
     }
+    // pressed mid-step, the breath waits for the step to finish
     function breathe() {
-      if (m.state !== 'idle' || m.from) { return; }
-      m.state = 'charge'; m.st = 0;
+      if (m.state !== 'idle' || m.from) { m.queued = m.state === 'idle'; return; }
+      m.state = 'charge'; m.st = 0; m.queued = false;
     }
 
     function step(dt) {
       clock += dt;
       if (modalOpen) { keys.up = keys.down = keys.left = keys.right = false; order = []; return; }
       if (m.from) { m.t += dt; if (m.t >= STEP) { m.from = null; } }
-      if (m.state === 'idle' && !m.from && order.length) { tryStep(order[order.length - 1]); }
+      if (m.state === 'idle' && !m.from && m.queued) { breathe(); }
+      else if (m.state === 'idle' && !m.from && order.length) { goal = null; follow = true; tryStep(order[order.length - 1]); }
+      else if (m.state === 'idle' && !m.from && goal) {
+        var gx = goal.x - m.tx, gy = goal.y - m.ty;
+        if (!gx && !gy) { if (goal.after && !goal.after.down) { tryStep('up'); } goal = null; }
+        else {
+          var was = { x: m.tx, y: m.ty };
+          tryStep(Math.abs(gx) >= Math.abs(gy) ? (gx > 0 ? 'right' : 'left') : (gy > 0 ? 'down' : 'up'));
+          if (m.tx === was.x && m.ty === was.y && !pending) {
+            // blocked by the map's edge or by rubble still falling: try the other axis once, then give up
+            if (gx && gy) { tryStep(Math.abs(gx) >= Math.abs(gy) ? (gy > 0 ? 'down' : 'up') : (gx > 0 ? 'right' : 'left')); }
+            if (m.tx === was.x && m.ty === was.y) { goal = null; }
+          }
+          if (pending) { goal = null; }
+        }
+      }
       if (m.state === 'charge') {
         m.st += dt;
         if (m.st > 0.45) {
@@ -1241,9 +1260,8 @@
           openModal({ date: c.date, name: c.name, img: c.img, html: c.body ? '<p>' + c.body + '</p>' : '' }, root);
         }
       }
-      var p = pos();
-      camX = Math.max(0, Math.min(COLS * T - W, p.x + T - W / 2));
-      camY = Math.max(0, Math.min(ROWS * T - H, p.y - H / 2 + 8));
+      if (follow) { camY = pos().y - H / 2 + 8; }
+      camY = Math.max(0, Math.min(ROWS * T - H, camY));
     }
 
     // ---- drawing, in the lecture apps' flat style: ink outlines, muted fills ----
@@ -1321,12 +1339,13 @@
     }
     function draw() {
       var sx = shake > 0 ? Math.round((Math.random() - 0.5) * 4) : 0, sy = shake > 0 ? Math.round((Math.random() - 0.5) * 3) : 0;
-      g.save(); g.translate(-Math.round(camX) + sx, -Math.round(camY) + sy);
+      g.setTransform(S * dpr, 0, 0, S * dpr, 0, 0); g.imageSmoothingEnabled = false;
+      g.save(); g.translate(sx, -Math.round(camY) + sy);
       // ground: the lecture apps' paper and faint grid
-      g.fillStyle = '#f2eee2'; g.fillRect(camX - 4, camY - 4, W + 8, H + 8);
+      g.fillStyle = '#f2eee2'; g.fillRect(-4, camY - 4, W + 8, H + 8);
       g.fillStyle = '#e9e4d8';
-      for (var gx = Math.floor(camX / T) * T; gx < camX + W + T; gx += T) { g.fillRect(gx, camY - 4, 1, H + 8); }
-      for (var gy = Math.floor(camY / T) * T; gy < camY + H + T; gy += T) { g.fillRect(camX - 4, gy, W + 8, 1); }
+      for (var gx = 0; gx <= W; gx += T) { g.fillRect(gx, camY - 4, 1, H + 8); }
+      for (var gy = Math.floor(camY / T) * T, gEnd = camY + Math.min(H, ROWS * T) + T; gy < gEnd; gy += T) { g.fillRect(-4, gy, W + 8, 1); }
       // everything standing, drawn back to front
       var items = [];
       towers.forEach(function (b) { items.push({ y: (b.y + 1) * T, f: function () { drawTower(b); } }); });
@@ -1360,39 +1379,77 @@
       requestAnimationFrame(frame);
     }
 
-    // input: keys only while the console has focus; the newest held direction wins
+    // size: the map is 24 tiles across the full width; however many rows fit, show
+    var dpr = 1;
+    function size() {
+      var r = stage.getBoundingClientRect();
+      if (!(r.width > 0 && r.height > 0)) { return; }
+      dpr = window.devicePixelRatio || 1;
+      S = r.width / W; H = r.height / S;
+      cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr);
+      draw();
+    }
+    // open full screen to play; Esc or the close button returns to the page
+    var opener = null;
+    function openMap() {
+      if (isOpen) { return; }
+      isOpen = true; opener = document.activeElement;
+      stage.classList.add('is-full'); document.body.classList.add('nuc-kj-open');
+      el('nuc-kj-close').focus({ preventScroll: true });
+      size();
+    }
+    function closeMap() {
+      if (!isOpen) { return; }
+      isOpen = false; order = []; goal = null; keys.up = keys.down = keys.left = keys.right = false;
+      stage.classList.remove('is-full'); document.body.classList.remove('nuc-kj-open');
+      size();
+      if (opener && opener.focus) { opener.focus({ preventScroll: true }); }
+    }
+    root.addEventListener('click', function (e) { if (!isOpen) { openMap(); } });
+    root.addEventListener('keydown', function (e) {
+      if (!isOpen && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openMap(); }
+    });
+    el('nuc-kj-close').addEventListener('click', function (e) { e.stopPropagation(); closeMap(); });
     function press(k) { if (order.indexOf(k) < 0) { order.push(k); } keys[k] = true; }
     function release(k) { order = order.filter(function (o) { return o !== k; }); keys[k] = false; }
     var KEYS = { ArrowLeft: 'left', a: 'left', A: 'left', ArrowRight: 'right', d: 'right', D: 'right',
                  ArrowUp: 'up', w: 'up', W: 'up', ArrowDown: 'down', s: 'down', S: 'down' };
-    root.addEventListener('keydown', function (e) {
-      if (modalOpen) { return; }
-      if (KEYS[e.key]) { press(KEYS[e.key]); e.preventDefault(); play(); }
-      else if (e.key === 'e' || e.key === 'E' || e.key === ' ') { breathe(); e.preventDefault(); play(); }
-      else if (e.key === 'Enter') { play(); }
+    document.addEventListener('keydown', function (e) {
+      if (!isOpen || modalOpen || e.altKey || e.ctrlKey || e.metaKey) { return; }
+      if (e.key === 'Escape') { e.preventDefault(); closeMap(); return; }
+      if (KEYS[e.key]) { e.preventDefault(); press(KEYS[e.key]); }
+      else if (e.key === 'e' || e.key === 'E') { e.preventDefault(); breathe(); }
     });
-    root.addEventListener('keyup', function (e) { if (KEYS[e.key]) { release(KEYS[e.key]); } });
-    root.addEventListener('blur', function () { order = []; keys.up = keys.down = keys.left = keys.right = false; });
-    function play() {
-      if (!active) { active = true; cover.hidden = true; }
-      if (document.activeElement !== root) { root.focus({ preventScroll: true }); }
-    }
-    cover.addEventListener('click', play);
-    Array.prototype.forEach.call(root.querySelectorAll('[data-k]'), function (btn) {
-      var k = btn.getAttribute('data-k');
-      function down(e) {
-        e.preventDefault(); play(); btn.classList.add('is-down');
-        if (DIRS[k]) { press(k); }
-        else if (k === 'a' || k === 'b') { breathe(); }
-        else if (k === 'start') { reset(); }
-      }
-      function up() { btn.classList.remove('is-down'); if (DIRS[k]) { release(k); } }
-      btn.addEventListener('pointerdown', down);
-      btn.addEventListener('pointerup', up);
-      btn.addEventListener('pointerleave', up);
-      btn.addEventListener('pointercancel', up);
+    document.addEventListener('keyup', function (e) { if (KEYS[e.key]) { release(KEYS[e.key]); } });
+    window.addEventListener('blur', function () { order = []; keys.up = keys.down = keys.left = keys.right = false; });
+    // the wheel looks over the map while it is open
+    stage.addEventListener('wheel', function (e) {
+      if (!isOpen) { return; }
+      e.preventDefault(); follow = false;
+      camY = Math.max(0, Math.min(ROWS * T - H, camY + e.deltaY / S));
+    }, { passive: false });
+    // clicking or tapping the open map walks him there; clicking a building sends him to smash it
+    var downAt = null;
+    cv.addEventListener('pointerdown', function (e) { downAt = { x: e.clientX, y: e.clientY }; });
+    cv.addEventListener('pointerup', function (e) {
+      if (!isOpen || !downAt || Math.abs(e.clientX - downAt.x) + Math.abs(e.clientY - downAt.y) > 8) { downAt = null; return; }
+      downAt = null;
+      var r = cv.getBoundingClientRect(), wx = (e.clientX - r.left) / S, wy = (e.clientY - r.top) / S + camY;
+      var cx = Math.floor(wx / T), cy = Math.floor(wy / T), hitB = null;
+      blocks.forEach(function (b) {
+        var top = (b.y + 1) * T - (b.story ? b.h * T : 34);
+        if (!b.down && wx >= b.x * T && wx < (b.x + b.w) * T && wy >= top && wy < (b.y + 1) * T) { hitB = b; }
+      });
+      // aim for the tile in front of a building, or just below where he was sent
+      if (hitB) { cx = Math.max(0, Math.min(COLS - 2, hitB.x + Math.floor(hitB.w / 2) - 1)); cy = hitB.y + 1; }
+      goal = { x: Math.max(0, Math.min(COLS - 2, cx - (hitB ? 0 : 1))), y: Math.max(1, Math.min(ROWS - 1, cy)) };
+      if (hitB) { goal.after = hitB; }
+      follow = true;
     });
+    fire.addEventListener('click', function (e) { e.stopPropagation(); breathe(); });
+    window.addEventListener('resize', size);
 
+    size();
     step(0); draw();
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (es) {
