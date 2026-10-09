@@ -1539,11 +1539,13 @@
     hydrogen: {
       label: '',
       title: 'Gassing cleanly',
+      img: 'hydrogen-atom.jpg',
       body: 'Hydrogen is considered a clean fuel because unlike fossil fuels, its byproduct after combustion is water instead of carbon dioxide. That’s why it’s essential to Singapore’s decarbonization efforts.[^54]</p><p>Clean hydrogen requires high investment and capital costs, as it is produced through electrolysis of water using solar, wind and other renewable energy sources. It can also be made from natural gas. There is also the problem of transporting a highly combustible gas like hydrogen to Singapore. The primary issue is that even a large volume of hydrogen produces very little energy, so we have to ship an immense bulk for it to be worthwhile. Though that can be mitigated by transporting ammonia (NH<sub>3</sub>), converting it back to hydrogen is pretty expensive and offsets a significant portion of the energy it’s supposed to produce anyway. Hydrogen is also much more expensive than natural gas.[^54][^55]</p><p>Despite that, Singapore is building the foundation and infrastructure for hydrogen energy as we aim for a net-zero future.[^55]'
     },
     site: {
       label: '',
       title: 'An unwelcome gas?',
+      img: 'tekong-march.jpg',
       body: 'The Energy Market Authority is studying the feasibility of building an energy plant on Pulau Tekong that can eventually run on hydrogen, on a site of reclaimed land that’s about 200 hectares large. They are also aiming to build up to five hydrogen and natural gas energy plants—could these be located on Pulau Tekong, if the study goes well?[^56]</p><p>Unfortunately, a cluster of gas plants on Pulau Tekong will still produce a huge amount of heat when burning gases—including hydrogen—to generate electricity. This means the Urban Heat Island effect won’t be resolved even by switching to hydrogen, though placing it on an offshore island like Pulau Tekong will hopefully place some distance between the waste heat and residential areas. The poor NSFs, though…'
     }
   };

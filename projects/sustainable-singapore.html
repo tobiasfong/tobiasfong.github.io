@@ -151,11 +151,11 @@
       }
 
       /* ── Card modal ── */
-      .ss-modal { position: fixed; inset: 0; z-index: 80; }
+      .ss-modal { position: fixed; inset: 0; z-index: 80; display: flex; align-items: center; justify-content: center; }
       .ss-modal[hidden] { display: none; }
       .ss-modal-back { position: absolute; inset: 0; background: rgba(15,15,15,0.55); }
       .ss-modal-box {
-        position: relative; margin: 5vh auto; max-width: 620px;
+        position: relative; margin: 0; max-width: 620px;
         width: calc(100% - 32px); max-height: 90vh;
         background: var(--bg); border-radius: 16px;
         box-shadow: 0 24px 60px rgba(0,0,0,0.3); overflow: hidden;
@@ -2112,6 +2112,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20261009c"></script>
+    <script src="/js/sustainable-singapore.js?v=20261009d"></script>
   </body>
 </html>
