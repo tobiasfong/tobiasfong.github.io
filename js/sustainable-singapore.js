@@ -1544,7 +1544,7 @@
     site: {
       label: '',
       title: 'An unwelcome gas?',
-      body: 'The Energy Market Authority is studying the feasibility of building an energy plant on Pulau Tekong that can eventually run on hydrogen, on a site of reclaimed land that’s about 200 hectares large. They are also aiming to build up to five hydrogen and natural gas energy plants—could these be located on Pulau Tekong, if the study goes well?[^56]'
+      body: 'The Energy Market Authority is studying the feasibility of building an energy plant on Pulau Tekong that can eventually run on hydrogen, on a site of reclaimed land that’s about 200 hectares large. They are also aiming to build up to five hydrogen and natural gas energy plants—could these be located on Pulau Tekong, if the study goes well?[^56]</p><p>Unfortunately, a cluster of gas plants on Pulau Tekong will still produce a huge amount of heat when burning gases—including hydrogen—to generate electricity. This means the Urban Heat Island effect won’t be resolved even by switching to hydrogen, though placing it on an offshore island like Pulau Tekong will hopefully place some distance between the waste heat and residential areas. The poor NSFs, though…'
     }
   };
 
