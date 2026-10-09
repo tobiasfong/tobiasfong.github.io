@@ -665,15 +665,20 @@
 
       /* Tekong map: glowing cutouts over the illustration, each opening the shared modal.
          The glow follows each cutout's silhouette, as in the Hibakusha room. */
-      .ss-tekong { position: relative; margin: 1.75rem 0 0; }
+      .ss-tekong { margin: 1.75rem 0 0; }
+      .ss-tk-stage { position: relative; }
       .ss-tk-map { display: block; width: 100%; height: auto; border-radius: 14px; }
+      /* The button itself ignores the pointer; its .ss-tk-hit child is clipped to the
+         cutout's outline, so overlapping hotspots each catch clicks only on their own shape. */
       .ss-tk-hot {
         position: absolute; padding: 0; border: 0; background: none; cursor: pointer;
+        pointer-events: none;
       }
-      .ss-tk-hot::after { content: ''; position: absolute; inset: -12px; }
+      .ss-tk-hit { position: absolute; inset: 0; pointer-events: auto; }
+      .ss-tk-hot--small .ss-tk-hit { inset: -12px; }
       .ss-tk-hot img {
         display: block; width: 100%; height: 100%;
-        animation: ss-tk-glow 2.4s ease-in-out infinite;
+        animation: ss-tk-glow 1.8s ease-in-out infinite;
       }
       .ss-tk-hot:hover img, .ss-tk-hot:focus-visible img {
         animation: none;
@@ -681,9 +686,10 @@
                 drop-shadow(0 0 14px rgba(255, 196, 70, 0.85));
       }
       .ss-tk-hot:focus-visible { outline: none; }
+      /* Blinks fully off and on, so the hotspots announce themselves without a hover. */
       @keyframes ss-tk-glow {
-        0%, 100% { filter: drop-shadow(0 0 2px rgba(255, 196, 70, 0.6)) drop-shadow(0 0 5px rgba(255, 196, 70, 0.35)); }
-        50% { filter: drop-shadow(0 0 4px rgba(255, 196, 70, 0.95)) drop-shadow(0 0 12px rgba(255, 196, 70, 0.7)); }
+        0%, 100% { filter: drop-shadow(0 0 0 rgba(255, 196, 70, 0)) drop-shadow(0 0 0 rgba(255, 196, 70, 0)); }
+        50% { filter: brightness(1.1) drop-shadow(0 0 5px rgba(255, 214, 120, 1)) drop-shadow(0 0 16px rgba(255, 196, 70, 0.9)); }
       }
       @media (prefers-reduced-motion: reduce) {
         .ss-tk-hot img { animation: none; filter: drop-shadow(0 0 4px rgba(255, 196, 70, 0.9)); }
@@ -1743,16 +1749,18 @@
         <div class="section-kicker">A lucky gas</div>
         <h2>An island in its element</h2>
         <figure class="ss-tekong" id="ss-tekong">
+          <div class="ss-tk-stage">
           <img class="ss-tk-map" src="/img/sustainable/tekong-map.jpg" width="1280" height="1024" loading="lazy"
                alt="Illustrated map of Pulau Tekong: forest in the middle, reclaimed sand to the north and south, and a gas plant on the southern sand." />
-          <button type="button" class="ss-tk-hot" data-hot="hydrogen" aria-label="Gassing cleanly"
-                  style="left: 37.578%; top: 58.398%; width: 5.703%; height: 4.590%;">
-            <img src="/img/sustainable/tekong-hot-dome.png" alt="" />
+          <button type="button" class="ss-tk-hot ss-tk-hot--small" data-hot="hydrogen" aria-label="Gassing cleanly"
+                  style="left: 35.547%; top: 55.664%; width: 9.766%; height: 7.617%;">
+            <img src="/img/sustainable/tekong-hot-dome.png" alt="" /><span class="ss-tk-hit"></span>
           </button>
-          <button type="button" class="ss-tk-hot" data-hot="site" aria-label="The proposed energy site"
+          <button type="button" class="ss-tk-hot" data-hot="site" aria-label="An unwelcome gas?"
                   style="left: 51.641%; top: 68.555%; width: 22.500%; height: 18.945%;">
-            <img src="/img/sustainable/tekong-hot-site.png" alt="" />
+            <img src="/img/sustainable/tekong-hot-site.png" alt="" /><span class="ss-tk-hit" style="clip-path: polygon(98.3% 35.6%, 96.2% 30.9%, 90.3% 28.9%, 89.6% 26.3%, 86.1% 22.7%, 79.9% 22.7%, 79.5% 7.2%, 77.8% 4.1%, 72.9% 2.1%, 67.7% 6.2%, 66.0% 19.6%, 63.5% 18.6%, 59.4% 11.9%, 53.8% 11.3%, 3.8% 41.2%, 2.1% 44.3%, 1.4% 51.0%, 4.2% 56.7%, 23.6% 78.9%, 29.9% 78.9%, 36.1% 82.0%, 41.0% 86.6%, 47.2% 97.4%, 95.8% 44.8%, 97.9% 41.2%);"></span>
           </button>
+          </div>
           <figcaption>
             Map data &copy;
             <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>.
@@ -2104,6 +2112,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20261009b"></script>
+    <script src="/js/sustainable-singapore.js?v=20261009c"></script>
   </body>
 </html>
