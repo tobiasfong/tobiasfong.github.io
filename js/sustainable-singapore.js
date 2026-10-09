@@ -1531,6 +1531,31 @@
   var GRID_GEF = 0.402;       // kg CO2 per kWh
   var NUKE_EFF = [0.37, 0.33];   // best case first, so [0] is the smaller waste
 
+  /* ── Pulau Tekong map ────────────────────────────────────────
+     Each glowing cutout on the map opens the shared modal. The texts are
+     Tobias's; the site's position on the map is approximate, since EMA has
+     not published where on Tekong the 200 ha would be. */
+  var TEKONG = {
+    hydrogen: {
+      label: '',
+      title: 'Gassing cleanly',
+      body: 'Hydrogen is considered a clean fuel because unlike fossil fuels, its byproduct after combustion is water instead of carbon dioxide. That’s why it’s essential to Singapore’s decarbonization efforts.[^54]</p><p>Clean hydrogen requires high investment and capital costs, as it is produced through electrolysis of water using solar, wind and other renewable energy sources. It can also be made from natural gas. There is also the problem of transporting a highly combustible gas like hydrogen to Singapore. The primary issue is that even a large volume of hydrogen produces very little energy, so we have to ship an immense bulk for it to be worthwhile. Though that can be mitigated by transporting ammonia (NH<sub>3</sub>), converting it back to hydrogen is pretty expensive and offsets a significant portion of the energy it’s supposed to produce anyway. Hydrogen is also much more expensive than natural gas.[^54][^55]</p><p>Despite that, Singapore is building the foundation and infrastructure for hydrogen energy as we aim for a net-zero future.[^55]'
+    },
+    site: {
+      label: '',
+      title: 'An unwelcome gas?',
+      body: 'The Energy Market Authority is studying the feasibility of building an energy plant on Pulau Tekong that can eventually run on hydrogen, on a site of reclaimed land that’s about 200 hectares large. They are also aiming to build up to five hydrogen and natural gas energy plants—could these be located on Pulau Tekong, if the study goes well?[^56]'
+    }
+  };
+
+  function wireTekong() {
+    var fig = el('ss-tekong');
+    if (!fig) { return; }
+    [].forEach.call(fig.querySelectorAll('.ss-tk-hot'), function (b) {
+      b.addEventListener('click', function () { openModal(TEKONG[b.dataset.hot], b); });
+    });
+  }
+
   function wireGrid() {
     var slider = el('ss-grid-share');
     if (!slider) { return; }
@@ -2183,6 +2208,7 @@
     wireSwipeHint();
     wireSim();
     wireGrid();
+    wireTekong();
 
     function relayout() {
       var used = layoutCards(built);

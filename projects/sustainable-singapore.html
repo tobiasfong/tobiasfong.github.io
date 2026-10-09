@@ -663,6 +663,32 @@
       }
       .ss-cite a:hover { text-decoration: underline; }
 
+      /* Tekong map: glowing cutouts over the illustration, each opening the shared modal.
+         The glow follows each cutout's silhouette, as in the Hibakusha room. */
+      .ss-tekong { position: relative; margin: 1.75rem 0 0; }
+      .ss-tk-map { display: block; width: 100%; height: auto; border-radius: 14px; }
+      .ss-tk-hot {
+        position: absolute; padding: 0; border: 0; background: none; cursor: pointer;
+      }
+      .ss-tk-hot::after { content: ''; position: absolute; inset: -12px; }
+      .ss-tk-hot img {
+        display: block; width: 100%; height: 100%;
+        animation: ss-tk-glow 2.4s ease-in-out infinite;
+      }
+      .ss-tk-hot:hover img, .ss-tk-hot:focus-visible img {
+        animation: none;
+        filter: brightness(1.12) drop-shadow(0 0 5px rgba(255, 222, 150, 1))
+                drop-shadow(0 0 14px rgba(255, 196, 70, 0.85));
+      }
+      .ss-tk-hot:focus-visible { outline: none; }
+      @keyframes ss-tk-glow {
+        0%, 100% { filter: drop-shadow(0 0 2px rgba(255, 196, 70, 0.6)) drop-shadow(0 0 5px rgba(255, 196, 70, 0.35)); }
+        50% { filter: drop-shadow(0 0 4px rgba(255, 196, 70, 0.95)) drop-shadow(0 0 12px rgba(255, 196, 70, 0.7)); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .ss-tk-hot img { animation: none; filter: drop-shadow(0 0 4px rgba(255, 196, 70, 0.9)); }
+      }
+      .ss-tekong figcaption { font-size: var(--fs-caption); color: var(--text-muted); margin-top: 0.6rem; }
       .ss-refs { list-style: none; counter-reset: ssref; padding: 0; margin: 0; }
       .ss-refs > li {
         counter-increment: ssref;
@@ -804,6 +830,7 @@
           <a href="#ss-species">Species</a>
           <a href="#ss-sim">Simulation</a>
           <a href="#ss-nuclear">Nuclear</a>
+          <a href="#ss-hydrogen">Hydrogen</a>
           <a href="#ss-takeaways">Takeaways</a>
           <a href="#ss-refs-sec">References</a>
         </div>
@@ -1709,6 +1736,30 @@
         </div>
       </section>
 
+      <!-- ── Hydrogen and the Pulau Tekong energy cluster ──
+           His prose goes here; the interactive Tekong map (OpenStreetMap base,
+           glowing hotspots that open modals) sits below it. -->
+      <section id="ss-hydrogen" class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3.5rem;">
+        <div class="section-kicker">A lucky gas</div>
+        <h2>An island in its element</h2>
+        <figure class="ss-tekong" id="ss-tekong">
+          <img class="ss-tk-map" src="/img/sustainable/tekong-map.jpg" width="1280" height="1024" loading="lazy"
+               alt="Illustrated map of Pulau Tekong: forest in the middle, reclaimed sand to the north and south, and a gas plant on the southern sand." />
+          <button type="button" class="ss-tk-hot" data-hot="hydrogen" aria-label="Gassing cleanly"
+                  style="left: 37.578%; top: 58.398%; width: 5.703%; height: 4.590%;">
+            <img src="/img/sustainable/tekong-hot-dome.png" alt="" />
+          </button>
+          <button type="button" class="ss-tk-hot" data-hot="site" aria-label="The proposed energy site"
+                  style="left: 51.641%; top: 68.555%; width: 22.500%; height: 18.945%;">
+            <img src="/img/sustainable/tekong-hot-site.png" alt="" />
+          </button>
+          <figcaption>
+            Map data &copy;
+            <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>.
+          </figcaption>
+        </figure>
+      </section>
+
       <!-- ── Takeaways ── -->
       <section id="ss-takeaways" class="ss-fullwidth-prose" style="max-width: 880px; margin: 0 auto 3rem;">
         <div class="section-kicker">Takeaways</div>
@@ -2025,6 +2076,15 @@
           <li id="ref-53">
             Ihsan, F., and D. Rosleine. <a href="https://doi.org/10.1088/1755-1315/528/1/012057" target="_blank" rel="noopener noreferrer">“Cooling Effect to Mitigate Urban Heat Island by <em>Pterocarpus indicus</em>, <em>Swietenia macrophylla</em> and <em>Samanea saman</em> in Bandung, West Java Indonesia.”</a> <em>IOP Conference Series: Earth and Environmental Science</em> 528 (2020): 012057.
           </li>
+          <li id="ref-54">
+            Energy Market Authority. <a href="https://www.ema.gov.sg/news-events/news/feature-stories/2024/is-hydrogen-the-answer-to-a-sustainable-energy-future" target="_blank" rel="noopener noreferrer">“Is Hydrogen the Answer to a Sustainable Energy Future?”</a> Feature story, 2024.
+          </li>
+          <li id="ref-55">
+            Ministry of Trade and Industry. <a href="https://www.ema.gov.sg/content/dam/corporate/our-energy-story/ebrochure_HPO_Oct_26.pdf" target="_blank" rel="noopener noreferrer"><em>Singapore’s National Hydrogen Strategy</em></a>. Singapore, October 2022.
+          </li>
+          <li id="ref-56">
+            <a href="https://www.channelnewsasia.com/singapore/pulau-tekong-energy-infrastructure-hydrogen-power-ema-6434926" target="_blank" rel="noopener noreferrer">“A Pulau Tekong Site 40% the Size of Sentosa Could Become an Energy Hub, EMA to Study Feasibility.”</a> <em>CNA</em>, October 6, 2026.
+          </li>
         </ol>
 
         <p style="font-size:var(--fs-caption); color:var(--text-muted); margin-top:1.25rem;">
@@ -2044,6 +2104,6 @@
   </footer>
 
     <script src="/script.js"></script>
-    <script src="/js/sustainable-singapore.js?v=20260922a"></script>
+    <script src="/js/sustainable-singapore.js?v=20261009a"></script>
   </body>
 </html>
