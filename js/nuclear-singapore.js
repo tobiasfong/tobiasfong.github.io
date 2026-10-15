@@ -95,8 +95,13 @@
 
     modal.addEventListener('click', function (e) {
       if (e.target.hasAttribute('data-close')) { closeModal(); return; }
-      // A footnote jumps to the source list, which the open card would cover.
-      if (e.target.closest && e.target.closest('.nuc-cite a')) { closeModal(); }
+      // A footnote jumps to the source list, which the open card would cover,
+      // as would the full-screen kaiju map if the card was opened from it.
+      if (e.target.closest && e.target.closest('.nuc-cite a')) {
+        closeModal();
+        var kj = document.querySelector('.nuc-kj-stage.is-full');
+        if (kj) { el('nuc-kj-close').click(); }
+      }
     });
     document.addEventListener('keydown', function (e) {
       if (modal.hidden) { return; }
@@ -1137,7 +1142,7 @@
     { key: 'gundam', name: 'Gundam franchise', date: 'Since 1979', img: 'imagination-gundam.jpg',
       body: "The Gundam franchise, created by Tomino Yoshiyuki, has always expressed anti-military and anti-nuclear weapon sentiments. From the horrifying destruction caused by a colony drop after Zeon’s liberal use of nuclear weapons (and nerve gas) to slaughter billions of colony residents—known as Operation British—in the original <em>Mobile Suit Gundam</em> series to the Earth Alliance’s use of nuclear weapons against PLANT colonies in the 2002 <em>Gundam Seed</em> and its 2004 sequel, <em>Gundam Seed Destiny</em>, the Gundam franchise consistently demonstrates the horror of nuclear warfare." },
     { key: 'akira', name: 'Akira', date: '1982 and 1988', img: 'imagination-akira.jpg',
-      body: "The iconic scene of the 1988 animated film, <em>Akira</em>, is the enormous explosion reminiscent of a nuclear blast. Even though it’s technically a psychic nuke, the catastrophic imagery and total destruction of Tokyo (which led to its subsequent rebuilding into Neo-Tokyo) are expressions of nuclear anxieties, especially at the height of the Cold War. Created by Otomo Katsuhiro, <em>Akira</em> also depicts strong criticism of militarism and state authority, discussions of social instability and youth alienation, along with ideas about posthumanism and technology." },
+      body: "The iconic scene of the 1988 animated film, <em>Akira</em>, is the enormous explosion reminiscent of a nuclear blast. Even though it’s technically a psychic nuke, the catastrophic imagery and total destruction of Tokyo (which led to its subsequent rebuilding into Neo-Tokyo) are expressions of nuclear anxieties, especially at the height of the Cold War.[^64] Created by Otomo Katsuhiro, <em>Akira</em> also depicts strong criticism of militarism and state authority, discussions of social instability and youth alienation, along with ideas about posthumanism and technology.[^65]" },
     { key: 'day-after', name: 'The Day After', date: '1983', img: 'imagination-day-after.jpg',
       body: "A 1983 television film that focuses on residents in Kansas whose family farms were near missile silos, its central conflict is the full-scale nuclear exchange between the United States and the Soviet Union. Made during the Cold War, and watched by over 100 million people, it manifests the American anxiety over nuclear war. Kansas City was obliterated by Soviet nukes. The US descended into chaos, citizens died from radiation poisoning or were ruthlessly executed by the National Guard, and eventually, the film ended on one final note. Mutually Assured Destruction." },
     { key: 'nausicaa', name: 'Kaze no Tani no Nausicaa', date: '1982 and 1984', img: 'imagination-nausicaa.jpg',
