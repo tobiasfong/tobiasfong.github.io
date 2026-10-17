@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="A local MCP server that generates webcomic background plates from a persistent 3D city, so the same street looks like the same street in every panel. Built with ComfyUI and FLUX.1-dev, and used for my own Warhammer 40,000 webcomic." />
+    <meta name="description" content="A local MCP server that generates webcomic background plates from a persistent 3D city, so the same street looks like the same street in every panel. Built with ComfyUI and FLUX 3 Klein, and used for my own Warhammer 40,000 webcomic." />
 
     <!-- Open Graph / Twitter: controls how a shared link previews in Discord,
          Slack, Bluesky, etc. og:image must be an absolute URL. -->
@@ -11,14 +11,14 @@
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://tobiasfong.github.io/projects/mcp-background.html" />
     <meta property="og:title" content="Webcomic Background Generator (MCP Server) | Tobias Fong" />
-    <meta property="og:description" content="A local MCP server that generates webcomic background plates from a persistent 3D city, so the same street looks like the same street in every panel. Built with ComfyUI and FLUX.1-dev, and used for my own Warhammer 40,000 webcomic." />
+    <meta property="og:description" content="A local MCP server that generates webcomic background plates from a persistent 3D city, so the same street looks like the same street in every panel. Built with ComfyUI and FLUX 3 Klein, and used for my own Warhammer 40,000 webcomic." />
     <meta property="og:image" content="https://tobiasfong.github.io/img/og/og-mcp-background.jpg" />
     <meta property="og:image:alt" content="A sunlit forest clearing in manhwa style — a generated webcomic background plate with no characters in it" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Webcomic Background Generator (MCP Server) | Tobias Fong" />
-    <meta name="twitter:description" content="A local MCP server that generates webcomic background plates from a persistent 3D city, so the same street looks like the same street in every panel. Built with ComfyUI and FLUX.1-dev, and used for my own Warhammer 40,000 webcomic." />
+    <meta name="twitter:description" content="A local MCP server that generates webcomic background plates from a persistent 3D city, so the same street looks like the same street in every panel. Built with ComfyUI and FLUX 3 Klein, and used for my own Warhammer 40,000 webcomic." />
     <meta name="twitter:image" content="https://tobiasfong.github.io/img/og/og-mcp-background.jpg" />
     <meta name="twitter:image:alt" content="A sunlit forest clearing in manhwa style — a generated webcomic background plate with no characters in it" />
     <title>Webcomic Background Generator (MCP Server) | Tobias Fong</title>
@@ -64,9 +64,9 @@
           </p>
           <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
             <span class="tag" style="background: var(--text); color: var(--bg);">MCP Server</span>
-            <span class="tag">v2.1.0</span>
+            <span class="tag">v3.0.0</span>
             <span class="tag">Python</span>
-            <span class="tag">FLUX.1-dev</span>
+            <span class="tag">FLUX 3 Klein</span>
             <span class="tag">ComfyUI</span>
             <span class="tag">Built with Claude</span>
           </div>
@@ -125,7 +125,7 @@
             <ul style="color: var(--text-body); line-height: 1.8;">
               <li><strong>A perspective sketch.</strong> A rough edge map — e.g. of a reference photo — that
                 locks the composition and camera angle, so the generated structure matches what you planned.
-                (This uses ControlNet.) Hand-drawn sketches are detected and handled automatically now; they
+                (It goes in as a reference image.) Hand-drawn sketches are detected and handled automatically now; they
                 used to come out with every stroke doubled.</li>
               <li><strong>A drawn character</strong>, via <code>match_canvas_to</code>. The plate is sized to
                 your character and the response reports the exact height and feet numbers, so the background
@@ -134,8 +134,8 @@
                 language, so a reference library actually drives the palette instead of being eyeballed.</li>
             </ul>
             <p style="margin-top: 1.5rem;">
-              The <strong>aesthetic comes from the model itself.</strong> FLUX.1-dev renders every plate, with a
-              manhwa style LoRA on top. An earlier version pushed the palette with an IP-Adapter style
+              The <strong>aesthetic comes from the model itself.</strong> FLUX 3 Klein renders every plate, with
+              the look set by a style sentence in the prompt (FLUX.1 LoRAs can't load in Klein). An earlier version pushed the palette with an IP-Adapter style
               reference; in practice a model trained on the target look renders it more cleanly, so I dropped
               the IP-Adapter and decided that it's best to leave the direction to the prompt instead. The same
               lesson came back harder later: naming a <em>mood</em> in the prompt — "grimdark", "deep shadow" —
@@ -169,9 +169,9 @@
               tedious background work to the AI.
             </p>
             <p style="font-size: 14px; color: var(--text-muted);">
-              <strong>Under the hood:</strong> a Python MCP server wrapping a local ComfyUI + FLUX.1-dev
-              pipeline (GGUF unet + ControlNet + Kontext editing, with a manhwa style LoRA), running on my own
-              GPU. No cloud, no per-image cost.
+              <strong>Under the hood:</strong> a Python MCP server wrapping a local ComfyUI + FLUX 3 Klein
+              pipeline (INT8 weights, with composition sketches and registered locations passed in as reference
+              images), running on my own GPU. No cloud, no per-image cost.
             </p>
           </div>
           <div style="display:flex; flex-direction:column; gap:1rem;">
@@ -201,9 +201,10 @@
         <p style="color: var(--text-body); line-height: 1.7;">
           I tested it, and this MCP server is capable of generating backgrounds. It took me a while to
           refine and get to a point where I'm finally satisfied with the outputs, which included searching
-          for the appropriate models and LoRAs. Everything here is now rendered with FLUX.1-dev — the GGUF
+          for the appropriate models and LoRAs. Everything in this gallery was rendered with FLUX.1-dev — the GGUF
           unets for dev and Kontext, T5-XXL and CLIP-L, the FLUX VAE, ControlNet Union Pro 2.0, and a
-          <code>manwha_style</code> LoRA (plus the ComfyUI-GGUF custom node to load them). They aren't
+          <code>manwha_style</code> LoRA (plus the ComfyUI-GGUF custom node to load them) — before the
+          server moved to FLUX 3 Klein in v3.0.0. There's a side-by-side below. They aren't
           flawless, obviously, which is evidence that human artists are still necessary to manage, polish,
           and perfect the backgrounds. But for now, this demonstrates that the MCP server I built with Claude
           Code actually works.
@@ -318,6 +319,52 @@
           </div>
         </div>
         <button class="belt-btn belt-btn--next" aria-label="Next image">&#8594;</button>
+        </div>
+      </section>
+
+      <!-- FLUX.1 to Klein comparison -->
+      <section style="max-width: 900px; margin: 0 auto 3rem;">
+        <div class="section-kicker">FLUX.1 → FLUX 3 Klein</div>
+        <h2>Same place, new model</h2>
+        <p style="max-width:none;">
+          In v3.0.0 the server moved from FLUX.1-dev to FLUX 3 Klein — the model the
+          <a href="/projects/character-panel.html">Character &amp; Panel Generator</a> had just moved to, so
+          plates and the figures composited over them now come from one model. Each pair below is the same
+          registered location, rendered by each. Klein holds the inked, cel-shaded look without a style LoRA,
+          lands a composition sketch where it was drawn, and renders a plate in about 15 seconds instead of
+          about 225.
+        </p>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1.1rem 14px; margin-top: 1.5rem;">
+          <figure style="margin:0;">
+            <img src="/img/bg-klein/anhui_city-flux1.jpg" alt="Anhui canal town, rendered with FLUX.1-dev" loading="lazy" width="800" height="600"
+              style="width:100%; height:auto; border-radius:10px; display:block;" />
+            <figcaption style="font-size:var(--fs-caption); color:var(--text-muted); margin-top:0.4rem;">Anhui canal town · FLUX.1-dev</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="/img/bg-klein/anhui_city-klein.jpg" alt="Anhui canal town, rendered with FLUX 3 Klein" loading="lazy" width="800" height="600"
+              style="width:100%; height:auto; border-radius:10px; display:block;" />
+            <figcaption style="font-size:var(--fs-caption); color:var(--text-muted); margin-top:0.4rem;">Anhui canal town · FLUX 3 Klein</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="/img/bg-klein/tang_manor-flux1.jpg" alt="Tang clan manor gate, rendered with FLUX.1-dev" loading="lazy" width="800" height="600"
+              style="width:100%; height:auto; border-radius:10px; display:block;" />
+            <figcaption style="font-size:var(--fs-caption); color:var(--text-muted); margin-top:0.4rem;">Tang clan manor gate · FLUX.1-dev</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="/img/bg-klein/tang_manor-klein.jpg" alt="Tang clan manor gate, rendered with FLUX 3 Klein" loading="lazy" width="800" height="600"
+              style="width:100%; height:auto; border-radius:10px; display:block;" />
+            <figcaption style="font-size:var(--fs-caption); color:var(--text-muted); margin-top:0.4rem;">Tang clan manor gate · FLUX 3 Klein</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="/img/bg-klein/tournament_arena-flux1.jpg" alt="Tournament arena, rendered with FLUX.1-dev" loading="lazy" width="800" height="600"
+              style="width:100%; height:auto; border-radius:10px; display:block;" />
+            <figcaption style="font-size:var(--fs-caption); color:var(--text-muted); margin-top:0.4rem;">Tournament arena · FLUX.1-dev</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="/img/bg-klein/tournament_arena-klein.jpg" alt="Tournament arena, rendered with FLUX 3 Klein" loading="lazy" width="800" height="600"
+              style="width:100%; height:auto; border-radius:10px; display:block;" />
+            <figcaption style="font-size:var(--fs-caption); color:var(--text-muted); margin-top:0.4rem;">Tournament arena · FLUX 3 Klein</figcaption>
+          </figure>
         </div>
       </section>
 
@@ -445,10 +492,57 @@
 
         <div class="pill-card" style="margin-top: 1.5rem;">
           <h3 style="margin-top:0; display:flex; align-items:baseline; gap:0.6rem;">
-            <span style="font-family:var(--mono,monospace); color:var(--text);">v2.1.0</span>
-            <span style="font-size:var(--fs-body); font-weight:500; color:var(--text-muted);">Q6 weights, and a correction about what bit depth buys you</span>
+            <span style="font-family:var(--mono,monospace); color:var(--text);">v3.0.0</span>
+            <span style="font-size:var(--fs-body); font-weight:500; color:var(--text-muted);">FLUX 3 Klein — FLUX.1 removed</span>
           </h3>
-          <p style="font-size:var(--fs-body); color:var(--text-muted); margin-top:-0.4rem;">August 10, 2026</p>
+          <p style="font-size:var(--fs-body); color:var(--text-muted); margin-top:-0.4rem;">October 17, 2026</p>
+          <ul style="color: var(--text-body); line-height: 1.8;">
+            <li><strong>💥 Breaking — FLUX 3 Klein replaces FLUX.1-dev.</strong> FLUX.1 is removed, along
+              with its manhwa LoRA, ControlNet and Kontext. An install with only the old stack will no longer
+              render; re-run the setup steps to fetch Klein. The reason is the one that retired SD1.5 in
+              v2.0.0: the <a href="/projects/character-panel.html">character server</a> moved to Klein first,
+              and a plate from one model under figures from another reads as a composite.</li>
+            <li><strong>🎨 Style from a sentence, not a LoRA.</strong> FLUX.1 LoRAs can't load in Klein —
+              none of the style LoRA's 494 layers exist there. A plain style sentence held crisp inked cel
+              shading even on the mountain-summit vista, the camera that used to pull FLUX.1 photoreal.</li>
+            <li><strong>✏️ Composition sketches go in as a reference image</strong>, not through
+              ControlNet. On a 3D row of bicycles, every bike and the bollard landed where the sketch drew
+              them. Two wording traps were measured and fixed along the way: "render it as a finished scene"
+              came back photoreal, and a sketch's black areas were drawn as an empty gray void until the
+              prompt called them ground, walls and sky.</li>
+            <li><strong>🗺️ Locations keep their look from a new camera.</strong> A registered place is now a
+              reference image rather than an img2img seed, so it holds its features from an angle the canon
+              plate never showed. img2img could only nudge the original framing.</li>
+            <li><strong>🖌️ <code>edit_background</code> changes only its box.</strong> Klein redraws the
+              whole frame, so only the masked region is pasted back. Largest measured change outside it: 0.
+              Kontext never managed that — a mask ending in open sky always left a seam.</li>
+            <li><strong>⚡ About 15× faster.</strong> Roughly 15 seconds a plate on a 6 GB laptop GPU, 30–110
+              with a sketch or location, against about 225 for FLUX.1.</li>
+          </ul>
+        </div>
+
+        <p class="release-archive-label">Earlier releases</p>
+
+        <details class="release-item">
+          <summary>
+            <span class="release-ver">v2.1.1</span>
+            <span class="release-name">Location renders honor the requested size</span>
+            <span class="release-date">September 26, 2026</span>
+          </summary>
+          <ul style="color: var(--text-body); line-height: 1.8;">
+            <li><strong>🔧 Fixed — a location render came back at the wrong size.</strong> Asked for
+              1024×768, it returned the canon plate's own size while the sampler was told 1024×768 — the two
+              silently disagreed. The plate is now scaled to cover the requested frame and center-cropped,
+              never stretched.</li>
+          </ul>
+        </details>
+
+        <details class="release-item">
+          <summary>
+            <span class="release-ver">v2.1.0</span>
+            <span class="release-name">Q6 weights, and a correction about what bit depth buys you</span>
+            <span class="release-date">August 10, 2026</span>
+          </summary>
           <ul style="color: var(--text-body); line-height: 1.8;">
             <li><strong>⚠️ Changed — the default weights moved from <code>Q3_K_S</code> to
               <code>Q6_K</code>, and the Q3 files were deleted.</strong> If you installed before this
@@ -456,7 +550,8 @@
               files will fail on a missing model.</li>
             <li><strong>🧪 Don't expect better plates from it.</strong> Q6 was adopted because bit
               depth measurably matters for <em>repair</em>: fixing a damaged hand with Kontext went
-              from 0 of 6 usable frames at Q3 to 3 of 3 at Q6. I assumed generation would improve the
+              from 0 of 6 usable frames at Q3 to 3 of 3 at Q6. <em>(Corrected in October: "usable" overstated it — no machine
+              repair of a hand ever shipped, and every one was finished by hand.)</em> I assumed generation would improve the
               same way and it did not — measured at the same size, seed, prompt, LoRA and ControlNet,
               the output was identical. Quantisation error surfaces when the task is hard; rebuilding
               destroyed pixels is hard, generating from a good prompt has headroom. Plates you made at
@@ -469,9 +564,7 @@
               was. The out-of-memory troubleshooting now points at width and height, which is what
               actually fills VRAM.</li>
           </ul>
-        </div>
-
-        <p class="release-archive-label">Earlier releases</p>
+        </details>
 
         <details class="release-item">
           <summary>

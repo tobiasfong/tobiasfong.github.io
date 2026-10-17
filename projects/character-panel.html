@@ -61,7 +61,7 @@
           <span class="tag" style="background: var(--text); color: var(--bg);">MCP Server</span>
           <span class="tag">Python</span>
           <span class="tag">ComfyUI</span>
-          <span class="tag">FLUX.1 Kontext</span>
+          <span class="tag">FLUX 3 Klein</span>
           <span class="tag">Built with Claude</span>
         </div>
       </header>
@@ -210,26 +210,26 @@
         <div class="pill-card" style="margin-bottom: 1.25rem;">
           <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Identity comes from art, not from a prompt</p>
           <p style="margin-bottom:0;">
-            FLUX Kontext takes an approved reference sheet — or an already-finished panel — as a latent
-            conditioning input, so a new pose is generated <em>from</em> the existing art rather than from a
-            description of it. The registered art is the ground truth, and this is the <strong>only</strong>
-            identity mechanism: no tiers, no fallbacks. One constraint follows from it and shapes everything
-            downstream — <strong>one reference binds to one generation</strong>. Two characters in one image
-            would need two references, which the mechanism can't do; attempts produce attribute bleed. So
-            multi-character panels are generated as solo figures and composited.
+            FLUX 3 Klein takes the character's registered art as a reference image, so a new pose is
+            generated <em>from</em> the existing art rather than from a description of it. The registered art is
+            the ground truth, and the only identity mechanism: no tiers, no fallbacks. Under FLUX.1 that
+            mechanism had a hard limit — <strong>one reference per generation</strong> — so multi-character
+            panels had to be rendered as solo figures and composited, because two references in one image
+            produced attribute bleed. Klein lifts it: <code>generate_scene</code> renders several characters
+            in one image, and in testing both identities held through a pose change with no bleed on three
+            seeds out of three.
           </p>
         </div>
 
         <div class="pill-card" style="margin-bottom: 1.25rem;">
-          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">The trade-off worth naming</p>
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">The trade-off that went away</p>
           <p style="margin-bottom:0;">
-            Conditioning on art and controlling the camera are mutually exclusive in a single pass.
-            <code>edit_character_image</code> conditions on the character's real art, so the likeness holds —
-            but framing and body angle are inherited from the reference and ignore instructions.
-            <code>generate_character_pose</code> pins structure via ControlNet — but has no image identity
-            input, so the likeness drifts. You choose per generation. For finished panels the reference-driven
-            path wins, and direction is handled by generating a turnaround sheet first, then conditioning on
-            whichever view you need out of it.
+            Under FLUX.1, conditioning on art and controlling the pose were mutually exclusive.
+            <code>edit_character_image</code> kept the likeness but inherited the reference's framing, while
+            <code>generate_character_pose</code> pinned structure through ControlNet with no identity input, so
+            the face drifted. On Klein the pose tool passes the character's reference too, so a new pose keeps
+            the likeness. One catch was measured along the way: ask for the <em>same</em> pose as the reference
+            and Klein copies it, flaws included — so references are padded first.
           </p>
         </div>
 
@@ -238,17 +238,21 @@
           <p style="margin-bottom:0;">
             Reference sheets are almost always frontal, and prompting for a back view doesn't work — nothing in
             the conditioning unambiguously says <em>this is the back</em>, so results relax toward front or
-            profile. Around twelve tuning configurations confirmed that the hard way. The answer is a
-            turnaround-sheet LoRA running on Kontext: one reference image in, a multi-pose sheet out, including
-            a genuine back view <strong>with the likeness intact</strong>.
+            profile. Around twelve tuning configurations confirmed that the hard way. The fix used to be a
+            turnaround-sheet LoRA running on Kontext. On Klein, <code>generate_turnaround_sheet</code> renders
+            all four body angles in a single image, each placed by its own layout box and cut apart exactly
+            along it — a genuine profile included, in about 86 seconds.
           </p>
         </div>
 
         <div class="pill-card" style="margin-bottom: 1.25rem;">
-          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Correcting hand-drawn anatomy</p>
+          <p style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">An expression is a whole body</p>
           <p style="margin-bottom:0;">
-            Feed a rough sketch through lineart ControlNet and the model redraws it with correct anatomy while
-            keeping the composition you drew. The human decides staging; the tool fixes proportions.
+            <code>generate_expression</code> renders a new expression as its own full figure, matted, rather
+            than pasting a new face onto the old body. Posture follows mood, and a pose that shifts with the
+            face makes the change easier to read; pasted faces also lost the hair strands that crossed them.
+            It renders on a different seed from the base figure on purpose — reusing the base's own seed froze
+            the posture, which read as static.
           </p>
         </div>
 
@@ -295,7 +299,9 @@
             machinery went for a sharper reason: it fed a tool with no image identity input, so once IP-Adapter
             was gone, a structurally perfect back view was a correct pose of <em>nobody in particular</em> —
             useless as a reference for a specific character. The migration removed <strong>2,735 lines</strong>
-            and took the server from 22 tools to 17. The ones that survived are the ones that earned it.
+            and took the server from 22 tools to 17. The ones that survived are the ones that earned it. It
+            happened again in v2.0.0: FLUX 3 Klein made the rest of the FLUX.1 machinery — the LoRAs, ControlNet,
+            the hand detail pass, img2img — redundant, and it was removed rather than kept as a fallback.
           </p>
         </div>
       </section>
@@ -440,7 +446,7 @@
       <!-- Tools -->
       <section style="max-width: 720px; margin: 0 auto 3rem;">
         <div class="section-kicker">The Toolbox</div>
-        <h2>Seventeen tools</h2>
+        <h2>Nineteen tools</h2>
         <div style="overflow-x:auto; margin-bottom: 2rem;">
           <table style="width:100%; border-collapse:collapse; font-size: var(--fs-body);">
             <tbody>
@@ -462,7 +468,9 @@
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
                 <td style="padding:10px 12px 10px 0; white-space:nowrap; vertical-align:top;"><strong>Posing</strong></td>
-                <td style="padding:10px 0; color:var(--text-body);"><code>generate_character_pose</code></td>
+                <td style="padding:10px 0; color:var(--text-body);">
+                  <code>generate_character_pose</code>, <code>generate_scene</code>, <code>generate_expression</code>
+                </td>
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
                 <td style="padding:10px 12px 10px 0; white-space:nowrap; vertical-align:top;"><strong>Finishing</strong></td>
@@ -479,12 +487,12 @@
           </table>
         </div>
         <p style="font-size: 14px; color: var(--text-muted);">
-          <strong>Under the hood:</strong> Python, FastMCP over stdio. Local ComfyUI driving
-          <strong>FLUX.1-dev</strong> and <strong>FLUX.1 Kontext dev</strong>, both GGUF-quantised to fit a
-          <strong>6&nbsp;GB laptop GPU</strong>, with a manhwa style LoRA and a turnaround-sheet LoRA, plus
-          ControlNet Union Pro 2.0 for lineart and pose control. Compositing — cutout, placement, panel
-          assembly, vertical-strip layout — is deterministic CPU work: no GPU, instant to iterate. Roughly four
-          minutes per generation.
+          <strong>Under the hood:</strong> Python, FastMCP over stdio. A local ComfyUI driving
+          <strong>FLUX 3 Klein</strong> in INT8 on a <strong>6&nbsp;GB laptop GPU</strong>, taking the
+          character's art directly as reference images — no LoRAs, no ControlNet. Mattes are cut with
+          BiRefNet. Compositing — cutout, placement, panel assembly, vertical-strip layout — is deterministic
+          CPU work: no GPU, instant to iterate. About 18 seconds from text alone, 38–78 with references, and
+          86 for a four-view turnaround sheet.
         </p>
       </section>
 

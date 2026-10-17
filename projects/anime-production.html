@@ -262,10 +262,12 @@
         </p>
         <ul style="color: var(--text-body); line-height: 1.9;">
           <li>
-            <strong>Blinks and mouths come from keyframes, not motion.</strong> FLUX.1 Kontext generates the
-            closed-eye or open-mouth frame, and only that patch is composited back — Kontext regenerates the
-            whole frame and will quietly restyle your linework otherwise. It's also binary, so half-lids are
-            made by blending the open and closed frames rather than asking for one.
+            <strong>Blinks and mouths come from keyframes, not motion.</strong> An image model generates the
+            closed-eye or open-mouth frame, and only that patch is composited back — it redraws the whole frame
+            and will quietly restyle your linework otherwise. The video above used FLUX.1 Kontext, which was
+            binary, so half-lids were made by blending the open and closed frames. Since October the server
+            uses FLUX 3 Klein, which can be told exactly which box to draw in and leaves everything outside it
+            untouched. Blinks on Klein haven't been tested yet.
           </li>
           <li>
             <strong>Anything that must appear is drawn deterministically.</strong> Shooting stars with real
@@ -300,7 +302,7 @@
           <li><strong>BGM with fade-out</strong> — sync a music track, ending on a clean fade.</li>
           <li><strong>Zero watermark</strong> — the render is yours, clean, at full quality.</li>
           <li><strong>Locally generated motion</strong> — LTX-2.3 in ComfyUI turns a still into a moving shot on a 6GB GPU.</li>
-          <li><strong>Keyframe patching</strong> — blinks and mouth shapes via FLUX.1 Kontext, composited back one patch at a time.</li>
+          <li><strong>Keyframe patching</strong> — eye and mouth keyframes generated with FLUX 3 Klein (FLUX.1 Kontext before October), pasted back one region at a time.</li>
           <li><strong>Drawn effects</strong> — shooting stars with real occlusion, growing ice, pond ripples, impact speed lines.</li>
           <li><strong>Beat-driven editing</strong> — cuts land on downbeats, and each shot declares a motion kind (loop / ping-pong / once / hold) that decides its timing.</li>
           <li><strong>A hand-drawn frame</strong> — holds portrait artwork inside a 16:9 canvas, with its leaves and blossoms individually animated so a long credits card never reads as a frozen video.</li>
