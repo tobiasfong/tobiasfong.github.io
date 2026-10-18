@@ -26,10 +26,30 @@
     <link rel="stylesheet" href="/style.css" />
     <link rel="icon" type="image/jpeg" href="/img/rowlet-logo.jpg" />
     <style>
-      /* 8 storyboards as two even rows of four; 2-up on narrow screens so the
-         sketches stay legible rather than shrinking to thumbnails. */
-      .sb-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
-      @media (max-width: 700px) { .sb-grid { grid-template-columns: repeat(2, 1fr); } }
+      /* FLUX.1 -> Klein comparison. Figures are transparent cutouts, so the tile
+         supplies the backdrop; they stand on its bottom edge like a sprite. */
+      .cpk p { max-width: none; }
+      .cpk-pairs { display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem 1.5rem; margin-top: 1.5rem; }
+      .cpk-row  { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+      .cpk-row--3 { grid-template-columns: repeat(3, 1fr); }
+      .cpk-name { font-weight: 700; color: var(--text); font-size: var(--fs-body); margin: 0 0 0.5rem; }
+      .cpk figure { margin: 0; }
+      .cpk-tile {
+        background: var(--bg-alt);
+        border-radius: 10px;
+        aspect-ratio: 3 / 5;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 8px;
+        overflow: hidden;
+      }
+      /* width/height:auto override the attributes' presentational hints, which
+         would otherwise pin each figure to its pixel size inside the tile. */
+      .cpk-tile img { max-width: 100%; max-height: 100%; width: auto; height: auto; display: block; }
+      .cpk figcaption { font-size: var(--fs-caption); color: var(--text-muted); margin-top: 0.35rem; text-align: center; }
+      .cpk-exprs { display: grid; gap: 1.5rem; margin-top: 1.25rem; }
+      @media (max-width: 640px) { .cpk-pairs { grid-template-columns: 1fr; } }
     </style>
   </head>
 
@@ -157,7 +177,7 @@
       <!-- Character concepts -->
       <section style="max-width: 1000px; margin: 0 auto 3rem;">
         <div style="text-align: center; margin-bottom: 2rem;">
-          <div class="section-kicker">Step One</div>
+          <div class="section-kicker">Concept Genesis</div>
           <h2>Character concepts</h2>
           <p style="max-width: 40rem; margin: 0 auto 1rem;">
             Each character gets their reference sheet — front, back, expressions, props, an action pose — and
@@ -190,6 +210,80 @@
             crossover to see if it's possible to create a consistent webcomic based on character reference sheets.
           </figcaption>
         </figure>
+      </section>
+
+      <!-- FLUX.1 to Klein -->
+      <section class="cpk" style="max-width: 900px; margin: 0 auto 3rem;">
+        <div class="section-kicker">FLUX.1 → FLUX 3 Klein</div>
+        <h2>Same characters, new model</h2>
+        <p>
+          In v2.0.0 the server moved from FLUX.1 to FLUX 3 Klein. Each pair below is one of the visual novel's
+          cover characters, as each model drew them. Klein's linework is crisper and its embroidery finer, and
+          hands and feet keep their shape. Not every difference is the model, though: Ri Hwa's robe and Ye
+          Seol's colors were redesigned along the way.
+        </p>
+        <div class="cpk-pairs">
+          <div>
+            <p class="cpk-name">Jeon Jung Seong</p>
+            <div class="cpk-row">
+            <figure><div class="cpk-tile"><img src="/img/cp-klein/jung-seong-flux1.webp" alt="Jeon Jung Seong, drawn by FLUX.1" loading="lazy" width="524" height="900" /></div><figcaption>FLUX.1</figcaption></figure>
+            <figure><div class="cpk-tile"><img src="/img/cp-klein/jung-seong-klein.webp" alt="Jeon Jung Seong, drawn by FLUX 3 Klein" loading="lazy" width="425" height="900" /></div><figcaption>FLUX 3 Klein</figcaption></figure>
+            </div>
+          </div>
+          <div>
+            <p class="cpk-name">Namgoong Ri Hwa</p>
+            <div class="cpk-row">
+            <figure><div class="cpk-tile"><img src="/img/cp-klein/ri-hwa-flux1.webp" alt="Namgoong Ri Hwa, drawn by FLUX.1" loading="lazy" width="549" height="900" /></div><figcaption>FLUX.1</figcaption></figure>
+            <figure><div class="cpk-tile"><img src="/img/cp-klein/ri-hwa-klein.webp" alt="Namgoong Ri Hwa, drawn by FLUX 3 Klein" loading="lazy" width="559" height="900" /></div><figcaption>FLUX 3 Klein</figcaption></figure>
+            </div>
+          </div>
+          <div>
+            <p class="cpk-name">Ouyang Hong Ryeon</p>
+            <div class="cpk-row">
+            <figure><div class="cpk-tile"><img src="/img/cp-klein/hong-ryeon-flux1.webp" alt="Ouyang Hong Ryeon, drawn by FLUX.1" loading="lazy" width="552" height="900" /></div><figcaption>FLUX.1</figcaption></figure>
+            <figure><div class="cpk-tile"><img src="/img/cp-klein/hong-ryeon-klein.webp" alt="Ouyang Hong Ryeon, drawn by FLUX 3 Klein" loading="lazy" width="424" height="900" /></div><figcaption>FLUX 3 Klein</figcaption></figure>
+            </div>
+          </div>
+          <div>
+            <p class="cpk-name">Bukgoong Ye Seol</p>
+            <div class="cpk-row">
+            <figure><div class="cpk-tile"><img src="/img/cp-klein/ye-seol-flux1.webp" alt="Bukgoong Ye Seol, drawn by FLUX.1" loading="lazy" width="546" height="900" /></div><figcaption>FLUX.1</figcaption></figure>
+            <figure><div class="cpk-tile"><img src="/img/cp-klein/ye-seol-klein.webp" alt="Bukgoong Ye Seol, drawn by FLUX 3 Klein" loading="lazy" width="378" height="900" /></div><figcaption>FLUX 3 Klein</figcaption></figure>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin-top: 2.5rem;">Three moods, one character</h3>
+        <p>
+          Each expression from <code>generate_expression</code> is a new full figure, so the posture shifts with
+          the mood instead of a new face being pasted onto the same body.
+        </p>
+        <div class="cpk-exprs">
+          <div>
+            <p class="cpk-name">Namgoong Ri Hwa</p>
+            <div class="cpk-row cpk-row--3">
+            <figure><div class="cpk-tile"><img src="/img/cp-klein/expr-ri-hwa-base.webp" alt="Namgoong Ri Hwa, base pose" loading="lazy" width="379" height="900" /></div><figcaption>Base</figcaption></figure>
+            <figure><div class="cpk-tile"><img src="/img/cp-klein/expr-ri-hwa-anger.webp" alt="Namgoong Ri Hwa, anger" loading="lazy" width="334" height="900" /></div><figcaption>Anger</figcaption></figure>
+            <figure><div class="cpk-tile"><img src="/img/cp-klein/expr-ri-hwa-smile.webp" alt="Namgoong Ri Hwa, smile" loading="lazy" width="346" height="900" /></div><figcaption>Smile</figcaption></figure>
+            </div>
+          </div>
+          <div>
+            <p class="cpk-name">Tang Ho Min</p>
+            <div class="cpk-row cpk-row--3">
+            <figure><div class="cpk-tile"><img src="/img/cp-klein/expr-tang-ho-min-base.webp" alt="Tang Ho Min, base pose" loading="lazy" width="298" height="900" /></div><figcaption>Base</figcaption></figure>
+            <figure><div class="cpk-tile"><img src="/img/cp-klein/expr-tang-ho-min-anger.webp" alt="Tang Ho Min, anger" loading="lazy" width="298" height="900" /></div><figcaption>Anger</figcaption></figure>
+            <figure><div class="cpk-tile"><img src="/img/cp-klein/expr-tang-ho-min-smile.webp" alt="Tang Ho Min, smile" loading="lazy" width="297" height="900" /></div><figcaption>Smile</figcaption></figure>
+            </div>
+          </div>
+          <div>
+            <p class="cpk-name">Yu Ho Yeon</p>
+            <div class="cpk-row cpk-row--3">
+            <figure><div class="cpk-tile"><img src="/img/cp-klein/expr-yu-ho-yeon-base.webp" alt="Yu Ho Yeon, base pose" loading="lazy" width="283" height="900" /></div><figcaption>Base</figcaption></figure>
+            <figure><div class="cpk-tile"><img src="/img/cp-klein/expr-yu-ho-yeon-anger.webp" alt="Yu Ho Yeon, anger" loading="lazy" width="286" height="900" /></div><figcaption>Anger</figcaption></figure>
+            <figure><div class="cpk-tile"><img src="/img/cp-klein/expr-yu-ho-yeon-smile.webp" alt="Yu Ho Yeon, smile" loading="lazy" width="282" height="900" /></div><figcaption>Smile</figcaption></figure>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- How it works -->
@@ -304,125 +398,6 @@
             the hand detail pass, img2img — redundant, and it was removed rather than kept as a fallback.
           </p>
         </div>
-      </section>
-
-      <!-- Storyboard -->
-      <section style="max-width: 1000px; margin: 0 auto 3rem;">
-        <div style="text-align: center; margin-bottom: 2rem;">
-          <div class="section-kicker">Step Two</div>
-          <h2>Storyboard</h2>
-          <p style="max-width: 40rem; margin: 0 auto 1rem;">
-            To save yourself from pain, I highly recommend you storyboard the whole scene manually. You don't
-            need to be an artist to do this — rough sketches (even stick figures) are fine. The point is the
-            composition, the poses you want, the camera angles, perspectives, scale, and even the size of the
-            panels themselves.
-          </p>
-          <p style="max-width: 40rem; margin: 0 auto;">
-            Like I said, AI is not here to replace humans. We are the storytellers, we direct, we instruct. AI
-            assists. This is <em>your</em> story that you're adapting to a webcomic. Let's keep it that way.
-          </p>
-        </div>
-        <!-- Fixed 4-up so the 8 boards land as two even rows of four, never 5+3. -->
-        <div class="sb-grid">
-          <img src="/img/cp-storyboard-01.jpg" alt="Hand-drawn storyboard, panels 1 and 2" style="width:100%; border-radius:10px; display:block; border:1px solid var(--border);" loading="lazy" />
-          <img src="/img/cp-storyboard-02.jpg" alt="Hand-drawn storyboard, panels 3 and 4" style="width:100%; border-radius:10px; display:block; border:1px solid var(--border);" loading="lazy" />
-          <img src="/img/cp-storyboard-03.jpg" alt="Hand-drawn storyboard, panels 5 and 6" style="width:100%; border-radius:10px; display:block; border:1px solid var(--border);" loading="lazy" />
-          <img src="/img/cp-storyboard-04.jpg" alt="Hand-drawn storyboard, panels 7 and 8" style="width:100%; border-radius:10px; display:block; border:1px solid var(--border);" loading="lazy" />
-          <img src="/img/cp-storyboard-05.jpg" alt="Hand-drawn storyboard, panels 9 and 10" style="width:100%; border-radius:10px; display:block; border:1px solid var(--border);" loading="lazy" />
-          <img src="/img/cp-storyboard-06.jpg" alt="Hand-drawn storyboard, panels 11 and 12" style="width:100%; border-radius:10px; display:block; border:1px solid var(--border);" loading="lazy" />
-          <img src="/img/cp-storyboard-07.jpg" alt="Hand-drawn storyboard, panels 13 and 14" style="width:100%; border-radius:10px; display:block; border:1px solid var(--border);" loading="lazy" />
-          <img src="/img/cp-storyboard-08.jpg" alt="Hand-drawn storyboard, panel 15" style="width:100%; border-radius:10px; display:block; border:1px solid var(--border);" loading="lazy" />
-        </div>
-      </section>
-
-      <!-- Evidence -->
-      <section style="max-width: 1000px; margin: 0 auto 3rem;">
-        <div style="text-align: center; margin-bottom: 2rem;">
-          <div class="section-kicker">Step Three</div>
-          <h2>Not smooth-sailing</h2>
-          <p style="max-width: 40rem; margin: 0 auto 1rem;">
-            Through trial and error, I managed to generate the panels, but... yeah, it's not perfect. I'll be
-            honest with you. Currently, AI is still best as an assistant. You'll still need to do some manual
-            cleanup yourself — I had to erase extra fingers, add missing fingers, rotate, polish shadows,
-            resize characters, and more. And even then, it's not perfect. You'll notice that Ri Hwa's boots are
-            different in one of the panels. Sigh.
-          </p>
-          <p style="max-width: 40rem; margin: 0 auto;">
-            Worse, while Claude was able to generate solo panels successfully, the contact panels were where
-            everything went wrong. Trevor and Ri Hwa often fused, or looked weird and deformed, and in the end,
-            the solution was for Claude to generate them separately, then I manually composited the both of
-            them in a single panel.
-          </p>
-        </div>
-
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.75rem;">
-
-          <figure style="margin:0;">
-            <img src="/img/cp-panel-p04.jpg" alt="Two characters mid-action in one panel" style="width:100%; border-radius:12px; display:block;" loading="lazy" />
-            <figcaption style="font-size: var(--fs-caption); color:var(--text-muted); margin-top:0.6rem;">
-              <strong>Two characters, one panel.</strong> Reference conditioning binds one reference to one
-              generation, so generating both together fused them into a deformed mess. Each figure was
-              generated solo, then composited by hand. Looks trivial. Isn't.
-            </figcaption>
-          </figure>
-
-          <figure style="margin:0;">
-            <img src="/img/cp-panel-p15.jpg" alt="A top-down panel with one character seen from behind" style="width:100%; border-radius:12px; display:block;" loading="lazy" />
-            <figcaption style="font-size: var(--fs-caption); color:var(--text-muted); margin-top:0.6rem;">
-              <strong>A genuine back view, from a top-down camera.</strong> Reference sheets are frontal, so
-              the back view came from conditioning on the turnaround sheet — not from a pose map. Both figures
-              were generated separately and composited by hand onto a ground plate sharing their projection,
-              which is the difference between "composited" and "pasted."
-            </figcaption>
-          </figure>
-
-          <figure style="margin:0;">
-            <img src="/img/cp-panel-p12.jpg" alt="Two characters colliding, seen from above" style="width:100%; border-radius:12px; display:block;" loading="lazy" />
-            <figcaption style="font-size: var(--fs-caption); color:var(--text-muted); margin-top:0.6rem;">
-              <strong>Costume detail holding across panels.</strong> The boots, the sash embroidery, the blazer
-              trim — all still correct at a completely different angle from the sheet they came from. That's the
-              Character Bible doing its job.
-            </figcaption>
-          </figure>
-
-          <figure style="margin:0;">
-            <img src="/img/cp-panel-p09.jpg" alt="A character bound by glowing energy" style="width:100%; border-radius:12px; display:block;" loading="lazy" />
-            <figcaption style="font-size: var(--fs-caption); color:var(--text-muted); margin-top:0.6rem;">
-              <strong>VFX applied as a separate pass.</strong> Effects go on as their own overlay rather than
-              being prompted into the generation, so the character underneath stays untouched — and the effect
-              can be redone without re-rolling the figure.
-            </figcaption>
-          </figure>
-
-          <figure style="margin:0;">
-            <img src="/img/cp-panel-p08.jpg" alt="A character casting a glowing rune" style="width:100%; border-radius:12px; display:block;" loading="lazy" />
-            <figcaption style="font-size: var(--fs-caption); color:var(--text-muted); margin-top:0.6rem;">
-              <strong>Same character, twelve panels apart.</strong> Compare him to the first panel of the strip.
-              Drift is only ever visible in comparison, which is why consistency claims need a whole scene to
-              prove — not one hero image.
-            </figcaption>
-          </figure>
-
-          <figure style="margin:0;">
-            <img src="/img/cp-panel-p10.jpg" alt="A close-up of two characters' footwear tangled together" style="width:100%; border-radius:12px; display:block;" loading="lazy" />
-            <figcaption style="font-size: var(--fs-caption); color:var(--text-muted); margin-top:0.6rem;">
-              <strong>A close-up that still matches the wide shots.</strong> Cropping in is where on-model
-              usually falls apart — footwear is the classic tell, because it's small enough that a model will
-              cheerfully invent something new.
-            </figcaption>
-          </figure>
-
-        </div>
-
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; max-width: 620px; margin: 1.75rem auto 0;">
-          <img src="/img/cp-panel-p14a.jpg" alt="Close-up reaction shot of the first character" style="width:100%; border-radius:12px; display:block;" loading="lazy" />
-          <img src="/img/cp-panel-p14b.jpg" alt="Close-up reaction shot of the second character" style="width:100%; border-radius:12px; display:block;" loading="lazy" />
-        </div>
-        <p style="font-size: var(--fs-caption); color:var(--text-muted); margin-top:0.6rem; text-align:center; max-width:620px; margin-left:auto; margin-right:auto;">
-          <strong>A matched pair.</strong> Two separate generations, two different characters, cropped and lit
-          to sit side by side in the same beat — and laid out as two panels side by side, the one exception in
-          a strip where every other panel stacks vertically.
-        </p>
       </section>
 
       <!-- The deliverable -->
