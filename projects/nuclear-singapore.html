@@ -546,9 +546,10 @@
       }
       /* Fusion: the mecha builds the reactor (wireframe ghost, rising build line, beam). */
       .nuc-fz { position: relative; aspect-ratio: 1328 / 800; margin: 1.5rem 0; border-radius: 14px; overflow: hidden; background: #0d2440; user-select: none; }
-      .nuc-fz > img, .nuc-fz-fx { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .nuc-fz > img, .nuc-fz > video, .nuc-fz-fx { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .nuc-fz > video { object-fit: cover; }
       .nuc-fz-fx { pointer-events: none; }
-      .nuc-fz-reactor { position: absolute; left: 57%; top: 21.5%; width: 40%; aspect-ratio: 620 / 588; outline: none; }
+      .nuc-fz-reactor { position: absolute; left: 70%; top: 39.3%; width: 28.6%; aspect-ratio: 620 / 588; outline: none; }
       .nuc-fz-reactor img { position: absolute; inset: 0; width: 100%; height: 100%; }
       .nuc-fz-shadow { position: absolute; left: -4%; right: -4%; bottom: -3%; height: 9%; border-radius: 50%;
         background: radial-gradient(closest-side, rgba(10, 30, 60, 0.45), transparent); opacity: 0; transition: opacity .6s; }
@@ -1153,7 +1154,13 @@
 
         <!-- The build: a still hall and mecha; the reactor is built over it in code. -->
         <div class="nuc-fz" id="nuc-fz">
-          <img class="nuc-fz-hall" src="/img/nuclear/fusion-hall.jpg" alt="A blocky construction mecha in a factory hall builds a fusion reactor with a beam of light" loading="lazy" />
+          <!-- LTX-2.5 clip (Oct 2026): the mecha turns to face the reactor's spot and raises
+               its arm; the code beam fires from the fist once the arm is up. -->
+          <video class="nuc-fz-hall" id="nuc-fz-vid" muted playsinline preload="auto"
+                 poster="/img/nuclear/fusion-mecha-start.jpg?v=2"
+                 aria-label="A blocky construction mecha in a factory hall turns, raises its arm and builds a fusion reactor with a beam of light">
+            <source src="https://github.com/tobiasfong/tobiasfong.github.io/releases/download/media-v1/fusion-mecha.mp4" type="video/mp4" />
+          </video>
           <div class="nuc-fz-reactor" id="nuc-fz-reactor" role="button" tabindex="0" aria-label="The fusion reactor: how close are we?">
             <div class="nuc-fz-shadow"></div>
             <img class="nuc-fz-wire" src="/img/nuclear/fusion-reactor-wire.webp" alt="" />
@@ -1163,7 +1170,7 @@
           </div>
           <svg class="nuc-fz-fx" viewBox="0 0 1328 800" preserveAspectRatio="none" aria-hidden="true">
             <defs>
-              <linearGradient id="nuc-fz-grad" gradientUnits="userSpaceOnUse" x1="450" y1="470" x2="1000" y2="400">
+              <linearGradient id="nuc-fz-grad" gradientUnits="userSpaceOnUse" x1="895" y1="240" x2="1150" y2="500">
                 <stop offset="0" stop-color="#ffffff" stop-opacity=".95" />
                 <stop offset=".6" stop-color="#8ff0ff" stop-opacity=".55" />
                 <stop offset="1" stop-color="#59c8ff" stop-opacity=".3" />
@@ -1171,7 +1178,7 @@
               <filter id="nuc-fz-blur"><feGaussianBlur stdDeviation="4" /></filter>
             </defs>
             <polygon class="nuc-fz-beam" id="nuc-fz-beam" points="" />
-            <circle class="nuc-fz-muzzle" id="nuc-fz-muzzle" cx="452" cy="468" r="0" />
+            <circle class="nuc-fz-muzzle" id="nuc-fz-muzzle" cx="895" cy="240" r="0" />
             <g class="nuc-fz-sparks" id="nuc-fz-sparks"></g>
           </svg>
           <span class="nuc-fz-hint">Click the reactor</span>
@@ -1474,6 +1481,6 @@
       </section>
     </main>
 
-    <script src="/js/nuclear-singapore.js?v=20261015a"></script>
+    <script src="/js/nuclear-singapore.js?v=20261022c"></script>
   </body>
 </html>

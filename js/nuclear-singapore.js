@@ -778,13 +778,19 @@
     var scan = stage.querySelector('.nuc-fz-scan'), shadow = stage.querySelector('.nuc-fz-shadow');
     var beam = el('nuc-fz-beam'), muzzle = el('nuc-fz-muzzle'), sparksG = el('nuc-fz-sparks');
     var NS = 'http://www.w3.org/2000/svg';
-    var NOZ = { x: 452, y: 468 };
-    var R = { x: 0.57 * 1328, y: 0.215 * 800, w: 0.40 * 1328 };
+    var vid = el('nuc-fz-vid');
+    // The mecha clip: it turns, raises its arm and holds it, the fist settling at
+    // about 2.7 s. The wireframe ghost appears as it turns; the beam waits for the arm.
+    var NOZ = { x: 895, y: 240 };
+    var R = { x: 0.70 * 1328, y: 0.393 * 800, w: 0.286 * 1328 };
     R.h = R.w * 588 / 620;
-    var GHOST = 900, BUILD = 5200, running = false, sparks = [];
+    var GHOST = 1200, AIM = 2700, BUILD = 5200, running = false, sparks = [];
 
     function reset() {
       stage.classList.remove('built');
+      // Rewind the mecha to its first frame. load() is used rather than a seek, which
+      // can silently fail and leave the arm raised while only the reactor rebuilds.
+      if (vid && (vid.ended || vid.currentTime > 0)) { vid.pause(); vid.load(); }
       wire.style.opacity = 0; shadow.style.opacity = 0;
       solid.style.clipPath = 'inset(100% 0 0 0)';
       scan.style.opacity = 0; beam.setAttribute('points', ''); muzzle.setAttribute('r', 0);
@@ -808,13 +814,18 @@
       if (running) { return; }
       reset(); running = true;
       if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) { finish(); return; }
-      wire.style.opacity = 0.9;
-      var t0 = performance.now(), last = t0;
+      if (vid) { var pl = vid.play(); if (pl && pl.catch) { pl.catch(function () {}); } }
+      var t0 = performance.now(), last = t0, tAim = null;
       function frame(now) {
         var dt = Math.min(0.05, (now - last) / 1000); last = now;
         var t = now - t0;
-        if (running && t > GHOST) {
-          var p = Math.min(1, (t - GHOST) / BUILD);
+        // Cues follow the clip's own clock, so a slow start cannot fire the beam before
+        // the arm is up; if the clip never plays, the wall clock takes over.
+        var vt = vid && !vid.error && vid.readyState >= 2 ? vid.currentTime * 1000 : t;
+        if (running && vt > GHOST) { wire.style.opacity = 0.9; }
+        if (running && tAim === null && (vt > AIM || t > AIM + 2000)) { tAim = t; }
+        if (running && tAim !== null) {
+          var p = Math.min(1, (t - tAim) / BUILD);
           var e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;   // ease in-out
           solid.style.clipPath = 'inset(' + ((1 - e) * 100).toFixed(2) + '% 0 0 0)';
           scan.style.top = ((1 - e) * 100).toFixed(2) + '%';
