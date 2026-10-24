@@ -57,6 +57,8 @@
           <span class="tag">React</span>
           <span class="tag">Python</span>
           <span class="tag">LTX-2.3</span>
+          <span class="tag">LTX-2.5</span>
+          <span class="tag">FLUX 3 Klein</span>
           <span class="tag">ComfyUI</span>
           <span class="tag">MIT</span>
         </div>
@@ -127,7 +129,7 @@
         </p>
         <figure style="margin: 0; display:flex; justify-content:center;">
           <video
-            src="https://github.com/tobiasfong/tobiasfong.github.io/releases/download/media-v1/rxr-mv.mp4"
+            src="https://github.com/tobiasfong/tobiasfong.github.io/releases/download/media-v1/rxr-mv-ltx25.mp4"
             poster="/img/rxr-mv-poster.jpg"
             controls
             playsinline
@@ -334,7 +336,7 @@
           <p>
             The Remotion side of it didn't start from nothing either. The baseline project was
             <a href="https://github.com/nyanko3141592/remotion-voicevox-template" target="_blank" rel="noopener noreferrer">remotion-voicevox-template</a>,
-            written by nyanko3141592 and released under the MIT licence, which is where the working Remotion
+            written by nyanko3141592 and released under the MIT license, which is where the working Remotion
             setup came from before I built the slideshow engine on top of it. Its VOICEVOX pipeline isn't
             something I ended up using — Japanese TTS can't speak English and certainly can't sing — but the
             foundation saved me a great deal of time.
@@ -370,7 +372,7 @@
         </p>
         <figure style="margin: 2rem 0 0; display:flex; justify-content:center;">
           <video
-            src="https://github.com/tobiasfong/tobiasfong.github.io/releases/download/media-v1/murim-scene1-v2.mp4"
+            src="https://github.com/tobiasfong/tobiasfong.github.io/releases/download/media-v1/murim-scene1-ltx25.mp4"
             poster="/img/murim-v2-poster.jpg"
             controls
             playsinline
@@ -397,7 +399,57 @@
           complete the video you see here.
         </p>
         <p>
+          A couple of months later, I realized that there was a newer update in the form of LTX-2.5. I immediately set
+          about remaking and improving the existing videos, and now the characters are actually animated,
+          instead of me compromising with weird shots.
+        </p>
+        <p>
           You can do it too! Have fun!
+        </p>
+      </section>
+
+      <!-- Third showcase -->
+      <section style="max-width: 900px; margin: 0 auto 3rem;">
+        <div class="section-kicker">Murim Mage</div>
+        <h2>Third showcase</h2>
+        <p>
+          After I upgraded my Anime Production server with LTX-2.5, I experimented by improving my existing
+          videos — see above — and emboldened by the success, I decided to create an actual anime opening.
+          Honestly, I was inspired by the "Malfoid" (not fond of the name because of the incel associations)
+          Lumos Lumos videos created by ADayASMR on YouTube, and I wanted to try my hand at doing my own. As I
+          am currently in the midst of building my visual novel,
+          <a href="/projects/visual-novel.html"><em>A Mage Transmigrated into a Murim World</em></a>, I thought,
+          why not create an opening for it?
+        </p>
+        <figure style="margin: 2rem 0 0; display:flex; justify-content:center;">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/erUniDAfePY"
+            title="A Mage Transmigrated into a Murim World, opening 1"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+            style="width:100%; max-width:900px; aspect-ratio:16/9; border:0; border-radius:16px; box-shadow: 0 12px 40px rgba(0,0,0,0.18); display:block;"
+          ></iframe>
+        </figure>
+        <p style="margin-top: 2rem;">
+          You'll probably find out more about the workflow when you install the Anime Production MCP server
+          I've set up. Basically, I wrote the storyboard, crafting the story beats and directing shots, which
+          include camera angles and transitions.
+        </p>
+        <p>
+          Once the storyboard was decided, I proceeded to generate the images with my
+          <a href="/projects/character-panel.html">Character and Panel MCP server</a>, which is now upgraded to
+          FLUX 3 Klein, using the visual novel's existing sprites and CGs as references.
+        </p>
+        <p>
+          After generating the first frames for each shot, I then fed them to the Anime Production pipeline,
+          which is now updated to LTX-2.5, to animate each of them. Once all the shots were created to
+          satisfaction, we assembled them into a coherent sequence, complete with transitions and effects.
+        </p>
+        <p>
+          With that completed, I moved on to producing the background music, writing the lyrics and feeding
+          them to my <a href="/projects/music-generation.html">Music Generator MCP server</a>. The final
+          assembly, including the music, is this video you see now.
         </p>
       </section>
 
