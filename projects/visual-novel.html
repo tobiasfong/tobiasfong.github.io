@@ -250,11 +250,11 @@
     <!-- 1. Hero -->
     <div class="vn-hero">
       <!-- Click to play, deliberately: autoplay is only permitted muted, and the
-           theme is half the point of this video. preload="metadata" keeps the 17MB
-           off the wire until someone actually presses play. -->
+           theme is half the point of this video. preload="metadata" keeps the
+           video off the wire until someone actually presses play. -->
       <video
-        src="https://github.com/tobiasfong/tobiasfong.github.io/releases/download/media-v1/promo-murim-mage-klein.mp4"
-        poster="/img/vn-murim-poster-klein.jpg"
+        src="https://github.com/tobiasfong/tobiasfong.github.io/releases/download/media-v1/murim-mage-op1.mp4"
+        poster="/img/vn-murim-op1-poster.jpg"
         controls
         playsinline
         preload="metadata"
@@ -862,9 +862,19 @@
         </p>
 
         <figure style="margin: 2.5rem 0 0;">
-          <img src="/img/vn/murim-cover-klein.jpg"
-            alt="The cover art for A Mage Transmigrated into a Murim World — Tanaka Makoto holding an ice spell beside three women in red, lilac and white robes, with a snowy mountain and green hills behind them"
-            style="width:100%; height:auto; border-radius:12px; display:block;" loading="lazy" width="1800" height="1012" />
+          <!-- The game's cover, animated: the first promo video, moved down from
+               the hero when the opening took its place. Its poster is the still
+               cover, so the page looks the same until someone presses play. -->
+          <video
+            src="https://github.com/tobiasfong/tobiasfong.github.io/releases/download/media-v1/promo-murim-mage-klein.mp4"
+            poster="/img/vn/murim-cover-klein.jpg"
+            aria-label="The cover art for A Mage Transmigrated into a Murim World, animated — Tanaka Makoto holding an ice spell beside three women in red, lilac and white robes, with a snowy mountain and green hills behind them"
+            controls
+            playsinline
+            preload="none"
+            width="1920" height="1080"
+            style="width:100%; height:auto; border-radius:12px; display:block; background:#000;"
+          ></video>
         </figure>
       </section>
 
