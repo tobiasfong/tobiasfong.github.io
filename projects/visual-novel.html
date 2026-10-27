@@ -85,33 +85,18 @@
         margin-top: 0.25rem;
       }
 
-      /* ul.vn-dates, not .vn-dates: style.css sets padding-left:20px on
-         .project-content ul, which outranks a single class and would leave the
-         dates indented as though invisible bullets were there. */
-      .project-content ul.vn-dates {
-        list-style: none;
-        padding-left: 0;
-        margin: 0;
-        gap: 0;
-      }
-      /* > li, not li: an entry can now hold its own bullet list, and those
-         inner items must not pick up the date-row grid or its divider. */
-      .vn-dates > li {
-        display: grid;
-        grid-template-columns: 190px 1fr;
-        gap: 1rem;
-        padding: 0.55rem 0;
-        border-top: 1px solid var(--border);
-      }
-      .vn-dates > li:first-child { border-top: 0; padding-top: 0; }
-      .vn-dates strong { color: var(--text); font-weight: 700; }
+      /* Each dated update is a release-notes accordion from style.css,
+         closed by default, so the log stays short as it grows. */
+      .vn-update:first-child { margin-top: 0; }
+      .vn-update .release-name { color: var(--text); font-weight: 700; font-size: var(--fs-prose); }
+      .project-content .vn-update > p { margin: 0.75rem 0 1rem; }
 
       /* Bullets inside an entry. list-style is inherited, and the outer list
          sets none, so the disc has to be asked for explicitly. */
       .project-content .vn-dates ul {
         list-style: disc;
         padding-left: 1.15rem;
-        margin: 0;
+        margin: 0.75rem 0 1rem;
         gap: 0.2rem;
       }
 
@@ -126,19 +111,10 @@
         max-width: 560px;
         margin: 0.7rem 0 0.4rem;
       }
-      /* min-width:0 is load-bearing. A grid item defaults to min-width:auto,
-         which will not shrink below its content's minimum — and the phone
-         images' width attributes (421 and 900) set that minimum, so on a phone
-         the whole date column was pushed to ~580px and the page scrolled
-         sideways. */
-      .vn-dates > li > div { min-width: 0; }
       .vn-phones img { display: block; height: auto; min-width: 0; }
       .vn-phone-portrait  { flex: 421 1 0; }
       .vn-phone-landscape { flex: 900 1 0; }
 
-      @media (max-width: 600px) {
-        .vn-dates > li { grid-template-columns: 1fr; gap: 0.15rem; }
-      }
 
       /* Three across, so a chapter reads as two tidy rows of three. Thumbnails
          are 600px files displayed at ~290px — enough for a retina screen — and
@@ -325,43 +301,52 @@
           <span class="vn-chip vn-chip--progress">In Progress</span>
         </p>
         <div class="vn-status">
-          <ul class="vn-dates">
-            <li><strong>August 29th 2026</strong> Prologue completed, main theme added, Act 1 in progress.</li>
-            <li><strong>September 7th 2026</strong> Act 1 completed, battle theme BGM added.</li>
-            <li>
-              <strong>September 26th 2026</strong>
-              <div>
-                <ul>
-                  <li>UI improvements, including a setting to choose from three text sizes, an updated hamburger menu and navbar placement, and a new inventory icon</li>
-                  <li>Expressions added for 13 characters</li>
-                  <li>A click-to-continue marker on every line</li>
-                  <li>Improved combat mechanics and UI, changed the placement of health bar columns, adjusted the size of sprites and put them inside bounding boxes, and panels are now see-through</li>
-                  <li>Fixed bugs and crashes</li>
-                  <li>
-                    Optimized for the mobile version, in terms of screen sizes. Also optimized for touchscreens. On desktop, hovering over a move shows the description, PP and damage. For mobile with no hover, tapping the move reveals those instead, and a second tap confirms the use of that move.
-                    <div class="vn-phones">
-                      <img class="vn-phone-portrait" src="/img/vn/vn-mobile-portrait.webp"
-                        alt="The game's title screen on a phone held upright, the landscape game shown sideways"
-                        loading="lazy" width="421" height="900" />
-                      <img class="vn-phone-landscape" src="/img/vn/vn-mobile-landscape.webp"
-                        alt="The game's title screen on a phone turned sideways, with the Start, Load, Preferences and Help menu"
-                        loading="lazy" width="900" height="421" />
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </li>
-            <li>
-              <strong>October 19th 2026</strong>
-              <div>
-                <ul>
-                  <li>Upgraded asset generation from FLUX.1 to FLUX 3 Klein, and replaced all existing assets in the game</li>
-                  <li>Added a graph tool that allows users to easily map and keep track of story values (e.g. affection and stats) and routes</li>
-                  <li>Fixed the save function so that it'll allow me to load saves from earlier builds even after an update</li>
-                </ul>
-              </div>
-            </li>
-          </ul>
+          <div class="vn-dates">
+            <details class="release-item vn-update">
+              <summary><span class="release-name">August 29th 2026</span></summary>
+              <p>Prologue completed, main theme added, Act 1 in progress.</p>
+            </details>
+            <details class="release-item vn-update">
+              <summary><span class="release-name">September 7th 2026</span></summary>
+              <p>Act 1 completed, battle theme BGM added.</p>
+            </details>
+            <details class="release-item vn-update">
+              <summary><span class="release-name">September 26th 2026</span></summary>
+            <ul>
+              <li>UI improvements, including a setting to choose from three text sizes, an updated hamburger menu and navbar placement, and a new inventory icon</li>
+              <li>Expressions added for 13 characters</li>
+              <li>A click-to-continue marker on every line</li>
+              <li>Improved combat mechanics and UI, changed the placement of health bar columns, adjusted the size of sprites and put them inside bounding boxes, and panels are now see-through</li>
+              <li>Fixed bugs and crashes</li>
+              <li>
+                Optimized for the mobile version, in terms of screen sizes. Also optimized for touchscreens. On desktop, hovering over a move shows the description, PP and damage. For mobile with no hover, tapping the move reveals those instead, and a second tap confirms the use of that move.
+                <div class="vn-phones">
+                  <img class="vn-phone-portrait" src="/img/vn/vn-mobile-portrait.webp"
+                    alt="The game's title screen on a phone held upright, the landscape game shown sideways"
+                    loading="lazy" width="421" height="900" />
+                  <img class="vn-phone-landscape" src="/img/vn/vn-mobile-landscape.webp"
+                    alt="The game's title screen on a phone turned sideways, with the Start, Load, Preferences and Help menu"
+                    loading="lazy" width="900" height="421" />
+                </div>
+              </li>
+            </ul>
+            </details>
+            <details class="release-item vn-update">
+              <summary><span class="release-name">October 19th 2026</span></summary>
+            <ul>
+              <li>Upgraded asset generation from FLUX.1 to FLUX 3 Klein, and replaced all existing assets in the game</li>
+              <li>Added a graph tool that allows users to easily map and keep track of story values (e.g. affection and stats) and routes</li>
+              <li>Fixed the save function so that it'll allow me to load saves from earlier builds even after an update</li>
+            </ul>
+            </details>
+            <details class="release-item vn-update">
+              <summary><span class="release-name">October 27th 2026</span></summary>
+              <ul>
+                <li>Created an animated opening video — animated by LTX-2.5 — for the Prologue, Act 1 and Act 2, which now plays when the player clicks on Start (see the video above)</li>
+                <li>Act 2 completed</li>
+              </ul>
+            </details>
+          </div>
         </div>
 
         <!-- To add a chapter: copy one .vn-entry block, change the label, the chip
@@ -616,7 +601,7 @@
           <div class="vn-entry">
             <div class="vn-entry-head">
               <h3>Act 2: Dragon-Phoenix Tournament</h3>
-              <span class="vn-chip vn-chip--progress">In Progress</span>
+              <span class="vn-chip vn-chip--complete">Complete</span>
             </div>
             <details class="release-item vn-archive">
               <summary>
@@ -767,7 +752,48 @@
                   <a href="/img/vn/klein-act2-31.jpg" target="_blank" rel="noopener noreferrer">
                     <img src="/img/vn/klein-act2-31-thumb.jpg" alt="Jung Seong and Tang Ho Min talking in the market street" loading="lazy" width="600" height="338" />
                   </a>
+                  <a href="/img/vn/klein-act2-32.jpg" target="_blank" rel="noopener noreferrer">
+                    <img src="/img/vn/klein-act2-32-thumb.jpg" alt="Bukgoong Ye Seol and Ouyang Hong Ryeon cheering Jung Seong on before his match" loading="lazy" width="600" height="338" />
+                  </a>
+                  <a href="/img/vn/klein-act2-33.jpg" target="_blank" rel="noopener noreferrer">
+                    <img src="/img/vn/klein-act2-33-thumb.jpg" alt="Tang Se Rin teasing her brother Tang Ho Min in front of the group" loading="lazy" width="600" height="338" />
+                  </a>
+                  <a href="/img/vn/klein-act2-34.jpg" target="_blank" rel="noopener noreferrer">
+                    <img src="/img/vn/klein-act2-34-thumb.jpg" alt="A tournament battle: Jung Seong and Hyeonmu against Il Ryoon, with the spell list open" loading="lazy" width="600" height="338" />
+                  </a>
+                  <a href="/img/vn/klein-act2-35.jpg" target="_blank" rel="noopener noreferrer">
+                    <img src="/img/vn/klein-act2-35-thumb.jpg" alt="A tournament battle against Namgoong Ji Hoon before the Murim Alliance hall" loading="lazy" width="600" height="338" />
+                  </a>
+                  <a href="/img/vn/klein-act2-36.jpg" target="_blank" rel="noopener noreferrer">
+                    <img src="/img/vn/klein-act2-36-thumb.jpg" alt="Yu Ho Yeon denouncing Jung Seong to the Murim Alliance guards" loading="lazy" width="600" height="338" />
+                  </a>
+                  <a href="/img/vn/klein-act2-37.jpg" target="_blank" rel="noopener noreferrer">
+                    <img src="/img/vn/klein-act2-37-thumb.jpg" alt="Hyeonmu pointing Jung Seong to a manual in a library" loading="lazy" width="600" height="338" />
+                  </a>
+                  <a href="/img/vn/klein-act2-38.jpg" target="_blank" rel="noopener noreferrer">
+                    <img src="/img/vn/klein-act2-38-thumb.jpg" alt="Namgoong Ri Hwa, Yu Hwa and Baek Cheong Un in front of the Murim Alliance hall" loading="lazy" width="600" height="338" />
+                  </a>
+                  <a href="/img/vn/klein-act2-39.jpg" target="_blank" rel="noopener noreferrer">
+                    <img src="/img/vn/klein-act2-39-thumb.jpg" alt="A choice between traveling to Mount Hua and to the Northern Ice Palace" loading="lazy" width="600" height="338" />
+                  </a>
+                  <a href="/img/vn/klein-act2-40.jpg" target="_blank" rel="noopener noreferrer">
+                    <img src="/img/vn/klein-act2-40-thumb.jpg" alt="Bukgoong Ye Seol, Jung Seong and Ahn Ju Shi before boarding a carriage" loading="lazy" width="600" height="338" />
+                  </a>
               </div>
+            </div>
+          </div>
+
+          <div class="vn-entry">
+            <div class="vn-entry-head">
+              <h3>Act 3: Mount Hua</h3>
+              <span class="vn-chip vn-chip--progress">In Progress</span>
+            </div>
+          </div>
+
+          <div class="vn-entry">
+            <div class="vn-entry-head">
+              <h3>Act 3: Northern Ice Palace</h3>
+              <span class="vn-chip vn-chip--progress">In Progress</span>
             </div>
           </div>
 
@@ -862,17 +888,20 @@
         </p>
 
         <figure style="margin: 2.5rem 0 0;">
-          <!-- The game's cover, animated: the first promo video, moved down from
-               the hero when the opening took its place. Its poster is the still
-               cover, so the page looks the same until someone presses play. -->
+          <!-- The game's cover, animated, as a GIF-style loop: the first five
+               seconds of the cover promo, then the title menu fading in (71-77s
+               of it). A muted looping MP4, not a .gif: the same 11 seconds as a
+               GIF is over ten times the size and bands the sky. Muted is what
+               lets it autoplay. -->
           <video
-            src="https://github.com/tobiasfong/tobiasfong.github.io/releases/download/media-v1/promo-murim-mage-klein.mp4"
+            src="/img/vn/murim-cover-loop.mp4"
             poster="/img/vn/murim-cover-klein.jpg"
-            aria-label="The cover art for A Mage Transmigrated into a Murim World, animated — Tanaka Makoto holding an ice spell beside three women in red, lilac and white robes, with a snowy mountain and green hills behind them"
-            controls
+            aria-label="The cover art for A Mage Transmigrated into a Murim World, animated, ending on the title menu — Tanaka Makoto holding an ice spell beside three women in red, lilac and white robes, with a snowy mountain and green hills behind them"
+            autoplay
+            muted
+            loop
             playsinline
-            preload="none"
-            width="1920" height="1080"
+            width="1600" height="900"
             style="width:100%; height:auto; border-radius:12px; display:block; background:#000;"
           ></video>
         </figure>
