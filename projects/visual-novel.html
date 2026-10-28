@@ -234,7 +234,13 @@
         controls
         playsinline
         preload="metadata"
-      ></video>
+      >
+        <!-- The opening's lyrics, Japanese over English, converted from
+             murim_mage_op1_FINAL.srt (the file the game's lyric overlay is
+             emitted from; the game shows one language at a time). Lines sung in
+             English appear once. On by default; the CC button hides them. -->
+        <track kind="subtitles" src="/img/vn/murim-mage-op1.vtt" srclang="ja" label="Japanese / English" default />
+      </video>
     </div>
 
     <main class="container project-content">
